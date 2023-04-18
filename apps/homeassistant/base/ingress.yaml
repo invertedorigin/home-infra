@@ -10,10 +10,10 @@ metadata:
 spec:
   tls:
   - hosts:
-      - homeassistant.invertedorigin.com
+      - ha.invertedorigin.com
     secretName: homeassistant-tls-domain
   rules:
-  - host: homeassistant.invertedorigin.com
+  - host: ha.invertedorigin.com
     http:
       paths:
       - path: /
