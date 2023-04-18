@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: homeassistant-deployment
+  namespace: homeassistant
+spec:
+  selector:
+    matchLabels:
+      app: homeassistant
+  replicas: 1
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: homeassistant
+    spec:
+      nodeSelector:
+        kubernetes.io/hostname: node-0360
+      containers:
+      - name: homeassistant
+        image: homeassistant/home-assistant:latest@sha256:417433e41c056d4f0fea0a5ee1b65b542f19025052d2d260b58ccf134ac8b90e
+        imagePullPolicy: IfNotPresent
+        securityContext:
+          privileged: true
+        ports:
+        - containerPort: 8123
+          protocol: TCP
+        volumeMounts:
+        - name: homeassistant-volume
+          mountPath: /config
+        resources:
+          requests:
+            memory: "2048Mi"
+            cpu: "4000m"
+          limits:
+            memory: "2048Mi"
+            cpu: "4000m"
+      hostNetwork: true
+      volumes:
+      - name: homeassistant-volume
+        persistentVolumeClaim:
+          claimName: homeassistant-pvc
