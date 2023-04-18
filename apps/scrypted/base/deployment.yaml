@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: scrypted-deployment
+  namespace: scrypted
+spec:
+  selector:
+    matchLabels:
+      app: scrypted
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: scrypted
+    spec:
+      nodeSelector:
+        kubernetes.io/hostname: node-0360
+      containers:
+      - name: scrypted
+        image: koush/scrypted:latest@sha256:03dbfc672013d443f72b3383931d11f5c7bfec9afddedad09d41021c658cdb7c
+        imagePullPolicy: IfNotPresent
+        securityContext:
+          privileged: true
+        ports:
+        - containerPort: 10443
+          hostPort: 10443
+          protocol: TCP
+        volumeMounts:
+        - name: scrypted-volume
+          mountPath: /server/volume
+        resources:
+          requests:
+            memory: "2048Mi"
+            cpu: "4000m"
+          limits:
+            memory: "2048Mi"
+            cpu: "4000m"
+      hostNetwork: true
+      volumes:
+      - name: scrypted-volume
+        persistentVolumeClaim:
+          claimName: scrypted-pvc
