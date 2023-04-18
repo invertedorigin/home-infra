@@ -5,13 +5,12 @@ metadata:
   namespace: homeassistant
   annotations:
     kubernetes.io/ingress.class: "nginx"
-    nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
     cert-manager.io/cluster-issuer: "cloudflare-issuer"
 spec:
   tls:
   - hosts:
       - ha.invertedorigin.com
-    secretName: homeassistant-tls-domain
+    secretName: ha-tls-domain
   rules:
   - host: ha.invertedorigin.com
     http:
@@ -22,4 +21,4 @@ spec:
           service:
             name: homeassistant-service
             port:
-              number: 443
+              number: 80
