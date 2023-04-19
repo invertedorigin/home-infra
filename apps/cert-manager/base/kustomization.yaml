@@ -1,5 +1,7 @@
 resources:
 - namespace.yaml
+- cloudflare-issuer.yaml
+
 helmCharts:
 - name: cert-manager
   repo: https://charts.jetstack.io
