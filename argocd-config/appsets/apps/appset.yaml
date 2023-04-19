@@ -24,6 +24,10 @@ spec:
         path: '{{path}}'
       destination:
         server: https://kubernetes.default.svc
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
       ignoreDifferences:
       - group: apiextensions.k8s.io
         kind: CustomResourceDefinition
