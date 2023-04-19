@@ -1,10 +1,7 @@
 namespace: metallb-system
 
 resources:
-- github.com/metallb/metallb//config/manifests/metallb-native.yaml?ref=v0.13.9
-
-components:
-- ../../components/namespace
+- github.com/metallb/metallb//config/native?ref=v0.13.9
 
 patchesStrategicMerge:
 - ipaddresspool.yaml
