@@ -50,7 +50,7 @@ spec:
   source:
     repoURL: https://github.com/keatontaylor/home-infra.git
     targetRevision: HEAD
-    path: apps/argocd/overlays/infra-default
+    path: apps/argocd/overlays/core-infra
   destination:
     server: https://kubernetes.default.svc
     namespace: argocd
