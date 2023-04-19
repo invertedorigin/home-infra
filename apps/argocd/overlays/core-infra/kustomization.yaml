@@ -2,6 +2,8 @@ namespace: argocd
 
 resources:
 - github.com/argoproj/argo-cd//manifests/core-install?ref=v2.6.7
+- infra-repo.yaml
+- root-application.yaml
 
 components:
 - ../../components/namespace
