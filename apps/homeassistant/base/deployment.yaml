@@ -31,11 +31,11 @@ spec:
           mountPath: /config
         resources:
           requests:
-            memory: "2048Mi"
-            cpu: "4000m"
+            memory: "1024Mi"
+            cpu: "2"
           limits:
-            memory: "2048Mi"
-            cpu: "4000m"
+            memory: "1024Mi"
+            cpu: "2"
       hostNetwork: true
       volumes:
       - name: homeassistant-volume
