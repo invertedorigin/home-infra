@@ -6,7 +6,6 @@ metadata:
   namespace: system-upgrade
 spec:
   concurrency: 1
-  version: v0.3.0
   nodeSelector:
     matchExpressions:
       - key: kubernetes.io/hostname
@@ -21,6 +20,6 @@ spec:
     force: false
     disableEviction: true
   upgrade:
-    image: ghcr.io/jtcressy-home/edgenode
+    image: ghcr.io/jtcressy-home/edgenode:v0.3.0
     command:
     - "/usr/sbin/suc-upgrade"
