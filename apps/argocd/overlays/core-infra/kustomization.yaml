@@ -1,9 +1,10 @@
 namespace: argocd
 
 resources:
-- github.com/argoproj/argo-cd//manifests/core-install?ref=v2.6.7
+- github.com/argoproj/argo-cd//manifests/base?ref=v2.6.7
 - infra-repo.yaml
 - root-application.yaml
+- ingress.yaml
 
 components:
 - ../../components/namespace
@@ -11,3 +12,16 @@ components:
 
 patchesStrategicMerge:
 - argocd-cm.yaml
+
+patches:
+- target:
+    kind: "Service"
+    name: "argocd-server"
+  patch: |
+    apiVersion: v1
+    kind: Service
+    metadata:
+      name: argocd-server
+      annotations:
+        tailscale.com/expose: "true"
+        tailscale.com/hostname: "argocd"

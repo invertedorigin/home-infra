@@ -1,0 +1,24 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ssl-argocd-ingress
+  namespace: argocd
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+    cert-manager.io/cluster-issuer: "cloudflare-issuer"
+spec:
+  tls:
+  - hosts:
+      - argocd.invertedorigin.com
+    secretName: ha-tls-domain
+  rules:
+  - host: argocd.invertedorigin.com
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: argocd-service
+            port:
+              number: 443
