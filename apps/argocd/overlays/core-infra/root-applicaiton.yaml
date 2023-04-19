@@ -1,0 +1,61 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: infra
+spec:
+  clusterResourceWhitelist:
+  - group: '*'
+    kind: '*'
+  destinations:
+  - namespace: '*'
+    server: https://kubernetes.default.svc
+  sourceRepos:
+  - https://github.com/keatontaylor/home-infra
+  orphanedResources:
+    warn: true
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: root
+  labels:
+    name: root-application
+    environment: mgmt
+spec:
+  project: infra
+  source:
+    repoURL: https://github.com/keatontaylor/home-infra.git
+    targetRevision: HEAD
+    path: argocd-config
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: argocd
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+---
+# The following application spec configures argocd to manage itself.
+### TREAD CAREFULLY ###
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: argocd
+  labels:
+    name: argocd-application
+    environment: mgmt
+spec:
+  project: infra
+  source:
+    repoURL: https://github.com/keatontaylor/home-infra.git
+    targetRevision: HEAD
+    path: apps/argocd/overlays/infra-default
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: argocd
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+      allowEmpty: false
