@@ -1,38 +1,38 @@
-# apiVersion: argoproj.io/v1alpha1
-# kind: ApplicationSet
-# metadata:
-#   name: infra-apps-default
-# spec:
-#   generators:
-#   - git:
-#       repoURL: https://github.com/keatontaylor/home-infra.git
-#       revision: HEAD
-#       directories:
-#       # Add any application in /apps that has an overlay matching cluster's environment
-#       - path: 'apps/*/overlays/core-infra'
-#       # ArgoCD in mgmt is already handled separately
-#       - path: 'apps/argocd/overlays/core-infra'
-#         exclude: true
-#   template:
-#     metadata:
-#       name: 'infra-app-{{path[2]}}'
-#       labels:
-#         infra.keatontaylor.net/appset: core-infra
-#         infra.keatontaylor.net/appname: '{{path[2]}}'
-#     spec:
-#       project: 'infra'
-#       source:
-#         repoURL: https://github.com/keatontaylor/home-infra.git
-#         targetRevision: HEAD
-#         path: '{{path}}'
-#       destination:
-#         server: https://kubernetes.default.svc
-#       syncPolicy:
-#         automated:
-#           prune: true
-#           selfHeal: true
-#       ignoreDifferences:
-#       - group: apiextensions.k8s.io
-#         kind: CustomResourceDefinition
-#         jsonPointers:
-#         - /spec/conversion/webhook/clientConfig
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: core-infra
+spec:
+  generators:
+  - git:
+      repoURL: https://github.com/keatontaylor/home-infra.git
+      revision: HEAD
+      directories:
+      # Add any application in /apps that has an overlay matching cluster's environment
+      - path: 'apps/*/overlays/core-infra'
+      # ArgoCD in mgmt is already handled separately
+      - path: 'apps/argocd/overlays/core-infra'
+        exclude: true
+  template:
+    metadata:
+      name: 'core-infra-{{path[2]}}'
+      labels:
+        infra.keatontaylor.net/appset: core-infra
+        infra.keatontaylor.net/appname: '{{path[2]}}'
+    spec:
+      project: 'infra'
+      source:
+        repoURL: https://github.com/keatontaylor/home-infra.git
+        targetRevision: HEAD
+        path: '{{path}}'
+      destination:
+        server: https://kubernetes.default.svc
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+      ignoreDifferences:
+      - group: apiextensions.k8s.io
+        kind: CustomResourceDefinition
+        jsonPointers:
+        - /spec/conversion/webhook/clientConfig
