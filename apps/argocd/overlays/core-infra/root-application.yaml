@@ -12,8 +12,6 @@ spec:
     server: https://kubernetes.default.svc
   sourceRepos:
   - https://github.com/keatontaylor/home-infra
-  orphanedResources:
-    warn: true
 ---
 apiVersion: argoproj.io/v1alpha1
 kind: Application
