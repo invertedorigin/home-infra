@@ -1,0 +1,26 @@
+---
+apiVersion: upgrade.cattle.io/v1
+kind: Plan
+metadata:
+  name: edgenode-upgrade
+  namespace: system-upgrade
+spec:
+  concurrency: 1
+  version: v0.3.0
+  nodeSelector:
+    matchExpressions:
+      - key: kubernetes.io/hostname
+        operator: Exists
+      - key: feature.node.kubernetes.io/system-os_release.ID
+        operator: In
+        values:
+        - edgenode
+  serviceAccountName: system-upgrade
+  cordon: false
+  drain:
+    force: false
+    disableEviction: true
+  upgrade:
+    image: ghcr.io/jtcressy-home/edgenode
+    command:
+    - "/usr/sbin/suc-upgrade"
