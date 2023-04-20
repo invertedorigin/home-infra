@@ -10,10 +10,6 @@ spec:
     matchExpressions:
       - key: kubernetes.io/hostname
         operator: Exists
-      - key: feature.node.kubernetes.io/system-os_release.ID
-        operator: In
-        values:
-        - edgenode
   serviceAccountName: system-upgrade
   cordon: false
   drain:
