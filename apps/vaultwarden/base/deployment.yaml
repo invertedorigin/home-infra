@@ -38,17 +38,17 @@ spec:
         - name: DOMAIN
           valueFrom:
             secretKeyRef:
-              name: vault-warden-secret
+              name: vault-warden-secrets
               key: domain
         - name: YUBICO_CLIENT_ID
           valueFrom:
             secretKeyRef:
-              name: vault-warden-secret
+              name: vault-warden-secrets
               key: yubico-client-id
         - name: YUBICO_SECRET_KEY
           valueFrom:
             secretKeyRef:
-              name: vault-warden-secret
+              name: vault-warden-secrets
               key: yubico-secret-key
         - name: SIGNUPS_ALLOWED
           value: "false"
