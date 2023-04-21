@@ -9,7 +9,7 @@ metadata:
 spec:
   tls:
   - hosts:
-      - bw.invertedorigin.com
+    - bw.invertedorigin.com
     secretName: vaultwarden-tls-domain
   rules:
   - host: bw.invertedorigin.com

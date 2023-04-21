@@ -8,8 +8,8 @@ spec:
   concurrency: 1
   nodeSelector:
     matchExpressions:
-      - key: kubernetes.io/hostname
-        operator: Exists
+    - key: kubernetes.io/hostname
+      operator: Exists
   serviceAccountName: system-upgrade
   cordon: false
   drain:
