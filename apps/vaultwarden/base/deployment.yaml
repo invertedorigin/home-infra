@@ -53,7 +53,7 @@ spec:
         - name: SIGNUPS_ALLOWED
           value: "false"
         - name: INVITATIONS_ALLOWED
-          value: "false"   
+          value: "false"
       volumes:
       - name: vaultwarden-volume
         persistentVolumeClaim:

@@ -120,37 +120,37 @@ spec:
         secret:
           secretName: operator-oauth
       containers:
-        - name: operator
-          image: tailscale/k8s-operator:unstable@sha256:f073f5c77f58ce8509915d671601d77fff557034511b72178feea6fb3247af5c
-          resources:
-            requests:
-              cpu: 500m
-              memory: 100Mi
-            limits:
-              cpu: 500m
-              memory: 200Mi
-          env:
-            - name: OPERATOR_HOSTNAME
-              value: tailscale-operator
-            - name: OPERATOR_SECRET
-              value: operator
-            - name: OPERATOR_LOGGING
-              value: info
-            - name: OPERATOR_NAMESPACE
-              valueFrom:
-                fieldRef:
-                  fieldPath: metadata.namespace
-            - name: CLIENT_ID_FILE
-              value: /oauth/client_id
-            - name: CLIENT_SECRET_FILE
-              value: /oauth/client_secret
-            - name: PROXY_IMAGE
-              value: tailscale/tailscale:unstable
-            - name: PROXY_TAGS
-              value: tag:k8s
-            - name: AUTH_PROXY
-              value: "false"
-          volumeMounts:
-          - name: oauth
-            mountPath: /oauth
-            readOnly: true
+      - name: operator
+        image: tailscale/k8s-operator:unstable@sha256:f073f5c77f58ce8509915d671601d77fff557034511b72178feea6fb3247af5c
+        resources:
+          requests:
+            cpu: 500m
+            memory: 100Mi
+          limits:
+            cpu: 500m
+            memory: 200Mi
+        env:
+        - name: OPERATOR_HOSTNAME
+          value: tailscale-operator
+        - name: OPERATOR_SECRET
+          value: operator
+        - name: OPERATOR_LOGGING
+          value: info
+        - name: OPERATOR_NAMESPACE
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.namespace
+        - name: CLIENT_ID_FILE
+          value: /oauth/client_id
+        - name: CLIENT_SECRET_FILE
+          value: /oauth/client_secret
+        - name: PROXY_IMAGE
+          value: tailscale/tailscale:unstable
+        - name: PROXY_TAGS
+          value: tag:k8s
+        - name: AUTH_PROXY
+          value: "false"
+        volumeMounts:
+        - name: oauth
+          mountPath: /oauth
+          readOnly: true

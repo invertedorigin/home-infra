@@ -10,7 +10,7 @@ metadata:
 spec:
   tls:
   - hosts:
-      - argocd.invertedorigin.com
+    - argocd.invertedorigin.com
     secretName: ha-tls-domain
   rules:
   - host: argocd.invertedorigin.com

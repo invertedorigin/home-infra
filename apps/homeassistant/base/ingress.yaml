@@ -9,7 +9,7 @@ metadata:
 spec:
   tls:
   - hosts:
-      - ha.invertedorigin.com
+    - ha.invertedorigin.com
     secretName: ha-tls-domain
   rules:
   - host: ha.invertedorigin.com

@@ -10,7 +10,7 @@ metadata:
 spec:
   tls:
   - hosts:
-      - scrypted.invertedorigin.com
+    - scrypted.invertedorigin.com
     secretName: scrypted-tls-domain
   rules:
   - host: scrypted.invertedorigin.com

@@ -3,11 +3,10 @@ resources:
 
 helmCharts:
 - name: sealed-secrets
-  repo:  https://bitnami-labs.github.io/sealed-secrets
+  repo: https://bitnami-labs.github.io/sealed-secrets
   version: v2.8.2
   releaseName: sealed-secrets
   namespace: sealed-secrets
   includeCRDs: true
   valuesInline:
     keyrenewperiod: 0
-    
