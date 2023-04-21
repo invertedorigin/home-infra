@@ -1,0 +1,7 @@
+resources:
+- ingress.yaml
+- deployment.yaml
+- namespace.yaml
+- service.yaml
+- pvc.yaml
+- vaultwarden-sealed-secret.yaml

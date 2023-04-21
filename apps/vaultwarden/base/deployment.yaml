@@ -1,0 +1,60 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: vaultwarden-deployment
+  namespace: vaultwarden
+spec:
+  selector:
+    matchLabels:
+      app: vaultwarden
+  replicas: 1
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: vaultwarden
+    spec:
+      nodeSelector:
+        kubernetes.io/hostname: node-0360
+      containers:
+      - name: vaultwarden
+        image: vaultwarden/server:latest@sha256:04691aaf1d8531ccb796de620841c030ecfd45613388a2e6a6a9434dc5d14d9d
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 80
+          protocol: TCP
+        volumeMounts:
+        - name: vaultwarden-volume
+          mountPath: /dta
+        resources:
+          requests:
+            memory: "512Mi"
+            cpu: "1"
+          limits:
+            memory: "512Mi"
+            cpu: "1"
+        env:
+        - name: DOMAIN
+          valueFrom:
+            secretKeyRef:
+              name: vault-warden-secret
+              key: domain
+        - name: YUBICO_CLIENT_ID
+          valueFrom:
+            secretKeyRef:
+              name: vault-warden-secret
+              key: yubico-client-id
+        - name: YUBICO_SECRET_KEY
+          valueFrom:
+            secretKeyRef:
+              name: vault-warden-secret
+              key: yubico-secret-key
+        - name: SIGNUPS_ALLOWED
+          value: "false"
+        - name: INVITATIONS_ALLOWED
+          value: "false"   
+      volumes:
+      - name: vaultwarden-volume
+        persistentVolumeClaim:
+          claimName: vaultwarden-pvc
