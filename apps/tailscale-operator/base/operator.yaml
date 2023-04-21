@@ -121,7 +121,7 @@ spec:
           secretName: operator-oauth
       containers:
         - name: operator
-          image: tailscale/k8s-operator:unstable@sha256:62a51b4f204b287ce8aa0cb42592dc399d8ee151bd1543103afdf7bce2ed3ab9
+          image: tailscale/k8s-operator:unstable@sha256:f073f5c77f58ce8509915d671601d77fff557034511b72178feea6fb3247af5c
           resources:
             requests:
               cpu: 500m
