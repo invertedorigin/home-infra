@@ -19,7 +19,7 @@ spec:
         kubernetes.io/hostname: node-0360
       containers:
       - name: vaultwarden
-        image: vaultwarden/server:latest@sha256:04691aaf1d8531ccb796de620841c030ecfd45613388a2e6a6a9434dc5d14d9d
+        image: vaultwarden/server:1.28.1-alpine
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 80
