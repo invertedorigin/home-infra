@@ -1,0 +1,7 @@
+resources:
+- configmap.yaml
+- ingress.yaml
+- deployment.yaml
+- namespace.yaml
+- service.yaml
+- pvc.yaml

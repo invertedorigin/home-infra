@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: mosquitto-service
+  namespace: mosquitto
+  annotations:
+    tailscale.com/expose: "true"
+    tailscale.com/hostname: "mosquitto"
+spec:
+  type: ClusterIP
+  selector:
+    app: mosquitto
+  ports:
+  - name: http
+    port: 80
+    targetPort: 1883
