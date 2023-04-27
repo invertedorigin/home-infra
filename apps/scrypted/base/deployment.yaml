@@ -3,6 +3,8 @@ kind: Deployment
 metadata:
   name: scrypted-deployment
   namespace: scrypted
+  annotations:
+    k8s.v1.cni.cncf.io/networks: macvlan
 spec:
   selector:
     matchLabels:
@@ -37,7 +39,6 @@ spec:
           limits:
             memory: "2048Mi"
             cpu: "4000m"
-      hostNetwork: true
       volumes:
       - name: scrypted-volume
         persistentVolumeClaim:
