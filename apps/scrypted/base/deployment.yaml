@@ -19,7 +19,7 @@ spec:
         kubernetes.io/hostname: node-0360
       containers:
       - name: scrypted
-        image: koush/scrypted:18-bullseye-full.s6-v0.7.90
+        image: koush/scrypted:18-bullseye-full.s6-v0.7.91
         imagePullPolicy: IfNotPresent
         securityContext:
           privileged: true
