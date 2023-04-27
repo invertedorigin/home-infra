@@ -10,6 +10,12 @@ spec:
       "master": "eno1",
       "mode": "bridge",
       "ipam": {
-          "type": "dhcp"
+          "type": "dhcp",
+          "provide": [
+            {
+                "option": "host-name",
+                "fromArg": "K8S_POD_NAME"
+            }
+        ]
       }
     }'
