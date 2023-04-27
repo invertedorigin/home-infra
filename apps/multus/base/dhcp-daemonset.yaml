@@ -57,12 +57,12 @@ spec:
           mountPath: /host/var/run/netns
           mountPropagation: HostToContainer
       volumes:
-        - name: socketpath
-          hostPath:
-            path: /run/cni
-        - name: procpath
-          hostPath:
-            path: /proc
-        - name: netnspath
-          hostPath:
-            path: /run/netns
+      - name: socketpath
+        hostPath:
+          path: /run/cni
+      - name: procpath
+        hostPath:
+          path: /proc
+      - name: netnspath
+        hostPath:
+          path: /run/netns

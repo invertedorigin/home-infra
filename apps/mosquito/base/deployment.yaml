@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: mosquito
-  namespace: mosquito 
+  namespace: mosquito
 spec:
   replicas: 1
   selector:
@@ -25,7 +25,7 @@ spec:
           mountPath: /mosquito/log
         - name: config-file
           mountPath: /.config/mosquito/mosquito.conf
-          subPath: mosquito.conf         
+          subPath: mosquito.conf
         resources:
           requests:
             memory: "512Mi"
@@ -36,8 +36,8 @@ spec:
       volumes:
       - name: config-file
         configMap:
-          name: mosquito-config  
+          name: mosquito-config
       - name: mosquito-data
         emptyDir: {}
       - name: mosquito-log
-        emptyDir: {}   
+        emptyDir: {}
