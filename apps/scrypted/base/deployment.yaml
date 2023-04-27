@@ -13,7 +13,7 @@ spec:
   template:
     metadata:
       annotations:
-        k8s.v1.cni.cncf.io/networks: macvlan
+        k8s.v1.cni.cncf.io/networks: kube-system/macvlan
       labels:
         app: scrypted
     spec:
