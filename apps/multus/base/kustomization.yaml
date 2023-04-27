@@ -1,0 +1,5 @@
+namespace: metallb-system
+
+resources:
+- dhcp-daemonset.yaml
+- dhcp-macvlan.yaml

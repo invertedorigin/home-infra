@@ -1,0 +1,15 @@
+apiVersion: "k8s.cni.cncf.io/v1"
+kind: NetworkAttachmentDefinition
+metadata:
+  name: macvlan-conf-dhcp
+  namespace: kube-system
+spec:
+  config: '{
+      "cniVersion": "0.3.0",
+      "type": "macvlan",
+      "master": "eno1",
+      "mode": "bridge",
+      "ipam": {
+          "type": "dhcp"
+      }
+    }'
