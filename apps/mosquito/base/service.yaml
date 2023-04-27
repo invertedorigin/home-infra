@@ -1,15 +1,15 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: mosquitto-service
-  namespace: mosquitto
+  name: mosquito-service
+  namespace: mosquito
   annotations:
     tailscale.com/expose: "true"
-    tailscale.com/hostname: "mosquitto"
+    tailscale.com/hostname: "mosquito"
 spec:
   type: ClusterIP
   selector:
-    app: mosquitto
+    app: mosquito
   ports:
   - name: http
     port: 80

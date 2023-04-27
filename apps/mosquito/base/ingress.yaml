@@ -1,24 +1,24 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: ssl-mosquitto-ingress
-  namespace: mosquitto
+  name: ssl-mosquito-ingress
+  namespace: mosquito
   annotations:
     kubernetes.io/ingress.class: "nginx"
     cert-manager.io/cluster-issuer: "cloudflare-issuer"
 spec:
   tls:
   - hosts:
-    - mosquitto.invertedorigin.com
-    secretName: mosquitto-tls-domain
+    - mosquito.invertedorigin.com
+    secretName: mosquito-tls-domain
   rules:
-  - host: mosquitto.invertedorigin.com
+  - host: mosquito.invertedorigin.com
     http:
       paths:
       - path: /
         pathType: Prefix
         backend:
           service:
-            name: mosquitto-service
+            name: mosquito-service
             port:
               number: 80
