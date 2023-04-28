@@ -1,5 +1,6 @@
 namespace: cloudflared
 
 resources:
+- namespace.yaml
 - cloudflared.yaml
 - sealedsecret.yaml
