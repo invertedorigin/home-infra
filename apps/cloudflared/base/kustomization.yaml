@@ -2,3 +2,4 @@ namespace: cloudflared
 
 resources:
 - cloudflared.yaml
+- sealedsecret.yaml
