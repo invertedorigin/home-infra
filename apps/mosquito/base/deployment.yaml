@@ -1,31 +1,31 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: mosquito
-  namespace: mosquito
+  name: mosquitto
+  namespace: mosquitto
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: mosquito
+      app: mosquitto
   template:
     metadata:
       labels:
-        app: mosquito
+        app: mosquitto
     spec:
       containers:
-      - name: mosquito
-        image: eclipse-mosquito:2.0.15
+      - name: mosquitto
+        image: eclipse-mosquitto:2.0.15
         ports:
         - containerPort: 1883
         volumeMounts:
-        - name: mosquito-data
-          mountPath: /mosquito/data
-        - name: mosquito-log
-          mountPath: /mosquito/log
+        - name: mosquitto-data
+          mountPath: /mosquitto/data
+        - name: mosquitto-log
+          mountPath: /mosquitto/log
         - name: config-file
-          mountPath: /.config/mosquito/mosquito.conf
-          subPath: mosquito.conf
+          mountPath: /.config/mosquitto/mosquitto.conf
+          subPath: mosquitto.conf
         resources:
           requests:
             memory: "512Mi"
@@ -36,8 +36,8 @@ spec:
       volumes:
       - name: config-file
         configMap:
-          name: mosquito-config
-      - name: mosquito-data
+          name: mosquitto-config
+      - name: mosquitto-data
         emptyDir: {}
-      - name: mosquito-log
+      - name: mosquitto-log
         emptyDir: {}

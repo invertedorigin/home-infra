@@ -1,10 +1,10 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: mosquito-config
-  namespace: mosquito
+  name: mosquitto-config
+  namespace: mosquitto
 data:
-  mosquito.conf: |-
+  mosquitto.conf: |-
     # Ip/hostname to listen to.
     # If not given, will listen on all interfaces
     #bind_address
