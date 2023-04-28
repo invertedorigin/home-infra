@@ -1,5 +1,33 @@
 namespace: kube-system
 
 resources:
+- github.com/k8snetworkplumbingwg/multus-cni//deployments/multus-daemonset.yml?ref=v4.0.1
 - dhcp-daemonset.yaml
 - dhcp-macvlan.yaml
+
+
+patches:
+- target:
+    group: apps
+    version: v1
+    kind: DaemonSet
+    namespace: kube-system
+    name: kube-multus-ds
+  patch: |
+    apiVersion: apps/v1
+    kind: Deployment
+    metadata:
+      name: kube-multus-ds
+      namespace: kube-system
+    spec:
+      template:
+        spec:
+          volumes:
+            - hostPath:
+                path: /var/snap/microk8s/current/args/cni-network/
+                type: ""
+              name: cni
+            - hostPath:
+                path: /var/snap/microk8s/current/opt/cni/bin/
+                type: ""
+              name: cnibin
