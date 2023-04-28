@@ -1,0 +1,4 @@
+namespace: cloudflared
+
+resources:
+- cloudflared.yaml
