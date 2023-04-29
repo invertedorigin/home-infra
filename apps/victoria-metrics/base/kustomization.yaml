@@ -1,0 +1,14 @@
+resources:
+- namespace.yaml
+
+helmCharts:
+- name: victoria-metrics-cluster
+  repo: https://victoriametrics.github.io/helm-charts/
+  version: v0.9.61
+  releaseName: victoria-metrics-cluster
+  namespace: victoria-metrics
+  includeCRDs: true
+  valuesInline:
+    vmstorage:
+      persistentVolume:
+        storageClass: nfs-client
