@@ -18,4 +18,4 @@ patches:
       namespace: ingress-nginx
       annotations:
         tailscale.com/expose: "true"
-        tailscale.com/hostname: "ingress-nginx"
+        tailscale.com/hostname: "nginx-proxy"
