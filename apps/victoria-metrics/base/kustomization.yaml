@@ -12,3 +12,13 @@ helmCharts:
     vmstorage:
       persistentVolume:
         storageClass: nfs-client
+
+- name: victoria-metrics-agent
+  repo: https://victoriametrics.github.io/helm-charts/
+  version: v0.8.37
+  releaseName: victoria-metrics-agent
+  namespace: victoria-metrics
+  includeCRDs: true
+  valuesInline:
+    remoteWriteUrls:
+     - http://victoria-metrics-cluster-vminsert.victoria-metrics.svc.cluster.local:8480/insert/0/prometheus/
