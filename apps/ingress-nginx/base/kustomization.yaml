@@ -4,18 +4,18 @@ resources:
 - github.com/kubernetes/ingress-nginx//deploy/static/provider/cloud?ref=controller-v1.7.0
 
 
-patches:
-- target:
-    version: v1
-    kind: Service
-    namespace: ingress-nginx
-    name: ingress-nginx-controller
-  patch: |
-    apiVersion: v1
-    kind: Service
-    metadata:
-      name: ingress-nginx-controller
-      namespace: ingress-nginx
-      annotations:
-        tailscale.com/expose: "true"
-        tailscale.com/hostname: "nginx-proxy"
+# patches:
+# - target:
+#     version: v1
+#     kind: Service
+#     namespace: ingress-nginx
+#     name: ingress-nginx-controller
+#   patch: |
+#     apiVersion: v1
+#     kind: Service
+#     metadata:
+#       name: ingress-nginx-controller
+#       namespace: ingress-nginx
+#       annotations:
+#         tailscale.com/expose: "true"
+#         tailscale.com/hostname: "nginx-proxy"
