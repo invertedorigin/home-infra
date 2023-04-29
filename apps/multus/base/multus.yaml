@@ -127,7 +127,7 @@ spec:
           command: ["/entrypoint.sh"]
           args:
             - "--multus-conf-file=auto"
-            - "--multus-kubeconfig-file-host=$SNAP_DATA/args/cni-network/multus.d/multus.kubeconfig"
+            - "--multus-kubeconfig-file-host=/var/snap/microk8s/current/args/cni-network/multus.d/multus.kubeconfig"
             - "--cni-version=0.3.1"
           resources:
             requests:

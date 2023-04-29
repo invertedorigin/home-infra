@@ -1,6 +1,6 @@
 namespace: kube-system
 
 resources:
-# - multus.yaml
+- multus.yaml
 - dhcp-daemonset.yaml
 - dhcp-macvlan.yaml
