@@ -16,6 +16,9 @@ spec:
         app: homeassistant
       annotations:
         k8s.v1.cni.cncf.io/networks: kube-system/macvlan-conf-dhcp
+        prometheus.io/path: /api/prometheus
+        prometheus.io/port: "8123"
+        prometheus.io/scrape: "true"
     spec:
       nodeSelector:
         kubernetes.io/hostname: node-0360
