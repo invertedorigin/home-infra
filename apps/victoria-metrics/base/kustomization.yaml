@@ -21,4 +21,4 @@ helmCharts:
   includeCRDs: true
   valuesInline:
     remoteWriteUrls:
-     - http://victoria-metrics-cluster-vminsert.victoria-metrics.svc.cluster.local:8480/insert/0/prometheus/
+    - http://victoria-metrics-cluster-vminsert.victoria-metrics.svc.cluster.local:8480/insert/0/prometheus/
