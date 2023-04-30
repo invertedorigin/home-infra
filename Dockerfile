@@ -5,6 +5,6 @@ ENV NODE_VERSION=10.19.0
  # renovate: datasource=github-releases depName=composer/composer
 ENV COMPOSER_VERSION=1.9.3
 # renovate: datasource=docker depName=docker versioning=docker
-ENV DOCKER_VERSION=19.03.1
+ENV DOCKER_VERSION=19.03.15
 # renovate: datasource=npm depName=yarn
 ENV YARN_VERSION=1.19.1
