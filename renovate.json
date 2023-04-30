@@ -8,15 +8,12 @@
     {
       "fileMatch": ["^Dockerfile$"],
       "matchStrings": [
-        "datasource=(?<datasource>.*?) depName=(?<depName>.*?)( versioning=(?<versioning>.*?))?\\sENV .*?_VERSION=(?<currentValue>.*)\\s"
+        "# renovate: datasource=(?<datasource>.+?) depName=(?<depName>.+?)(?: extractVersion=(?<extractVersion>.+?))?\\s*.*?_VERSION=\"?(?<currentValue>.+?)\"?\\s",
       ],
-      "versioningTemplate": "{{#if versioning}}{{{versioning}}}{{else}}semver{{/if}}"
+      "extractVersionTemplate": "{{#if extractVersion}}{{{extractVersion}}}{{else}}^v?(?<version>.+)${{/if}}",
     }
   ],
   "packageRules": [
-    {
-      "matchPackagePatterns": ["*"]
-    },
     {
       "matchPackageNames": ["kubernetes/ingress-nginx"],
       "versioning": "regex:^controller-v?(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+)?$"
