@@ -11,7 +11,7 @@ spec:
   - namespace: '*'
     server: https://kubernetes.default.svc
   sourceRepos:
-  - https://github.com/keatontaylor/home-infra
+  - https://github.com/invertedorigin/home-infra
 ---
 apiVersion: argoproj.io/v1alpha1
 kind: Application
@@ -23,7 +23,7 @@ metadata:
 spec:
   project: infra
   source:
-    repoURL: https://github.com/keatontaylor/home-infra.git
+    repoURL: https://github.com/invertedorigin/home-infra.git
     targetRevision: HEAD
     path: argocd-config
   destination:
@@ -46,7 +46,7 @@ metadata:
 spec:
   project: infra
   source:
-    repoURL: https://github.com/keatontaylor/home-infra.git
+    repoURL: https://github.com/invertedorigin/home-infra.git
     targetRevision: HEAD
     path: apps/argocd/overlays/core-infra
   destination:
