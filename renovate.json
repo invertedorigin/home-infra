@@ -15,6 +15,10 @@
   ],
   "packageRules": [
     {
+      "matchPackageNames": ["tailscale/tailscale"],
+      "extractVersion": "^v(?<version>.*)$"
+    },
+    {
       "matchPackageNames": ["kubernetes/ingress-nginx"],
       "versioning": "regex:^controller-v?(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+)?$"
     },
