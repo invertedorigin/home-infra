@@ -3,9 +3,6 @@ kind: Service
 metadata:
   name: scrypted-service
   namespace: scrypted
-  annotations:
-    tailscale.com/expose: "true"
-    tailscale.com/hostname: "scrypted"
 spec:
   type: ClusterIP
   selector:

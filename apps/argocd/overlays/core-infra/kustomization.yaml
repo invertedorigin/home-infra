@@ -12,16 +12,3 @@ components:
 
 patchesStrategicMerge:
 - argocd-cm.yaml
-
-patches:
-- target:
-    kind: "Service"
-    name: "argocd-server"
-  patch: |
-    apiVersion: v1
-    kind: Service
-    metadata:
-      name: argocd-server
-      annotations:
-        tailscale.com/expose: "true"
-        tailscale.com/hostname: "argocd"

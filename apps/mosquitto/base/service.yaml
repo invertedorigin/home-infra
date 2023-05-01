@@ -3,9 +3,6 @@ kind: Service
 metadata:
   name: mosquitto-service
   namespace: mosquitto
-  annotations:
-    tailscale.com/expose: "true"
-    tailscale.com/hostname: "mosquitto"
 spec:
   type: ClusterIP
   selector:

@@ -3,9 +3,6 @@ kind: Service
 metadata:
   name: vaultwarden-service
   namespace: vaultwarden
-  annotations:
-    tailscale.com/expose: "true"
-    tailscale.com/hostname: "vaultwarden"
 spec:
   type: ClusterIP
   selector:

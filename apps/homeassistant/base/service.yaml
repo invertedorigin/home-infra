@@ -3,9 +3,6 @@ kind: Service
 metadata:
   name: homeassistant-service
   namespace: homeassistant
-  annotations:
-    tailscale.com/expose: "true"
-    tailscale.com/hostname: "homeassistant"
 spec:
   type: ClusterIP
   selector:
