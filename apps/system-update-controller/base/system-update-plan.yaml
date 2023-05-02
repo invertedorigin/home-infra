@@ -16,6 +16,6 @@ spec:
     force: false
     disableEviction: true
   upgrade:
-    image: ghcr.io/jtcressy-home/edgenode:v0.3.0
+    image: ghcr.io/jtcressy-home/edgenode:v0.3.1
     command:
     - "/usr/sbin/suc-upgrade"
