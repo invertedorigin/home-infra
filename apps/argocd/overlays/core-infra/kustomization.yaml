@@ -1,7 +1,7 @@
 namespace: argocd
 
 resources:
-- github.com/argoproj/argo-cd//manifests/base?ref=v2.6.7
+- github.com/argoproj/argo-cd//manifests/base?ref=v2.7.0
 - infra-repo.yaml
 - root-application.yaml
 - ingress.yaml
