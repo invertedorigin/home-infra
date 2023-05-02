@@ -11,6 +11,8 @@ spec:
     matchExpressions:
     - key: kubernetes.io/hostname
       operator: Exists
+  tolerations:
+   - {key: cloud, effect: NoSchedule, operator: Equal, value: oracle}
   serviceAccountName: system-upgrade
   cordon: false
   drain:
