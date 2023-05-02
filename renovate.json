@@ -6,7 +6,7 @@
   },
   "regexManagers": [
     {
-      "fileMatch": ["^Dockerfile.*$"],
+      "fileMatch": ["\\.yaml$"],
       "matchStrings": [
         "datasource=(?<datasource>.*?) depName=(?<depName>.*?)( versioning=(?<versioning>.*?))?\\s  version: (?<currentValue>.*)\\s"
       ],
