@@ -12,8 +12,6 @@ spec:
     matchExpressions:
     - key: kubernetes.io/hostname
       operator: Exists
-  tolerations:
-   - {key: cloud, effect: NoSchedule, operator: Equal, value: oracle}
   serviceAccountName: system-upgrade
   # Don't cordon / drain since this is a single node clsuter.
   cordon: false
