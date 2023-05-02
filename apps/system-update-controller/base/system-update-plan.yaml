@@ -6,6 +6,7 @@ metadata:
   namespace: system-upgrade
 spec:
   concurrency: 1
+  # renovate: datasource=github-releases depName=jtcressy-home/edgenode
   version: v0.3.1
   nodeSelector:
     matchExpressions:
@@ -14,11 +15,9 @@ spec:
   tolerations:
    - {key: cloud, effect: NoSchedule, operator: Equal, value: oracle}
   serviceAccountName: system-upgrade
+  # Don't cordon / drain since this is a single node clsuter.
   cordon: false
-  drain:
-    force: false
-    disableEviction: true
   upgrade:
-    image: ghcr.io/jtcressy-home/edgenode:v0.3.1
+    image: ghcr.io/jtcressy-home/edgenode
     command:
     - "/usr/sbin/suc-upgrade"
