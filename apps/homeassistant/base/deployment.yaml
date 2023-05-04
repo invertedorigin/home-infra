@@ -24,7 +24,7 @@ spec:
         kubernetes.io/hostname: node-0360
       containers:
       - name: homeassistant
-        image: homeassistant/home-assistant:2023.4.6
+        image: homeassistant/home-assistant:2023.5.0
         imagePullPolicy: IfNotPresent
         securityContext:
           privileged: true
