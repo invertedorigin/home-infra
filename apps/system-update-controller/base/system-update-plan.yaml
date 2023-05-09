@@ -7,7 +7,7 @@ metadata:
 spec:
   concurrency: 1
   # renovate: datasource=github-releases depName=jtcressy-home/edgenode
-  version: v0.3.1
+  version: v0.3.2
   nodeSelector:
     matchExpressions:
     - key: kubernetes.io/hostname
