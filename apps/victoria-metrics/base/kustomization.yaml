@@ -4,7 +4,7 @@ resources:
 helmCharts:
 - name: victoria-metrics-cluster
   repo: https://victoriametrics.github.io/helm-charts/
-  version: 0.9.62
+  version: 0.9.63
   releaseName: victoria-metrics-cluster
   namespace: victoria-metrics
   includeCRDs: true
