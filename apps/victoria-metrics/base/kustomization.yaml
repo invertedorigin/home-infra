@@ -15,7 +15,7 @@ helmCharts:
 
 - name: victoria-metrics-agent
   repo: https://victoriametrics.github.io/helm-charts/
-  version: v0.8.37
+  version: 0.8.38
   releaseName: victoria-metrics-agent
   namespace: victoria-metrics
   includeCRDs: true
