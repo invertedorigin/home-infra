@@ -9,15 +9,31 @@ helmCharts:
   namespace: longhorn-system
   includeCRDs: true
   valuesInline:
-    service:
-      ui:
-        type: ClusterIP
-        nodePort: null
-      manager:
-        type: ClusterIP
-        nodePort: ""
-        loadBalancerIP: ""
-        loadBalancerSourceRanges: ""
+    ingress:
+      enabled: true
+
+      ## Add ingressClassName to the Ingress
+      ## Can replace the kubernetes.io/ingress.class annotation on v1.18+
+      ingressClassName: nginx
+
+      host: longhorn.invertedorigin.com
+
+      ## Set this to true in order to enable TLS on the ingress record
+      tls: true
+
+      ## Enable this in order to enable that the backend service will be connected at port 443
+      secureBackends: true
+
+      ## If TLS is set to true, you must declare what secret will store the key/certificate for TLS
+      tlsSecret: longhorn-tls
+
+      ## If ingress is enabled you can set the default ingress path
+      ## then you can access the UI by using the following full path {{host}}+{{path}}
+      path: /
+
+      annotations:
+        kubernetes.io/ingress.class: "nginx"
+        cert-manager.io/cluster-issuer: "cloudflare-issuer"
 
     persistence:
       defaultClass: true
