@@ -1,0 +1,50 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+- namespace.yaml
+helmCharts:
+- name: longhorn
+  repo: https://charts.longhorn.io
+  version: "1.4.1"
+  releaseName: longhorn
+  namespace: longhorn-system
+  includeCRDs: true
+  valuesInline:
+    service:
+      ui:
+        type: ClusterIP
+        nodePort: null
+      manager:
+        type: ClusterIP
+        nodePort: ""
+        loadBalancerIP: ""
+        loadBalancerSourceRanges: ""
+
+    persistence:
+      defaultClass: true
+      defaultFsType: ext4
+      defaultMkfsParams: ""
+      defaultClassReplicaCount: 3
+      defaultDataLocality: disabled # best-effort otherwise
+      defaultReplicaAutoBalance: ignored # "disabled", "least-effort" or "best-effort" otherwise
+      reclaimPolicy: Delete
+      migratable: false
+      recurringJobSelector:
+        enable: false
+        jobList: []
+      backingImage:
+        enable: false
+        name: ~
+        dataSourceType: ~
+        dataSourceParameters: ~
+        expectedChecksum: ~
+      defaultNodeSelector:
+        enable: false # disable by default
+        selector: []
+      removeSnapshotsDuringFilesystemTrim: ignored # "enabled" or "disabled" otherwise
+
+    csi:
+      kubeletRootDir: /var/snap/microk8s/common/var/lib/kubelet
+
+    defaultSettings:
+      defaultDataPath: /opt/longhorn
