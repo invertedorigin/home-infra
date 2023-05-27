@@ -32,8 +32,8 @@ helmCharts:
       path: /
 
       annotations:
-        kubernetes.io/ingress.class: "nginx"
-        cert-manager.io/cluster-issuer: "cloudflare-issuer"
+        kubernetes.io/ingress.class: nginx
+        cert-manager.io/cluster-issuer: cloudflare-issuer
 
     persistence:
       defaultClass: true
