@@ -10,3 +10,16 @@ spec:
   resources:
     requests:
       storage: 10Gi
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: scrypted-longhorn-pvcs
+  namespace: scrypted
+spec:
+  storageClassName: longhorn-strict-local
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 10Gi

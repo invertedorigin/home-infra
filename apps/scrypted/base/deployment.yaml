@@ -7,7 +7,7 @@ spec:
   selector:
     matchLabels:
       app: scrypted
-  replicas: 1
+  replicas: 0
   strategy:
     type: Recreate
   template:
@@ -42,4 +42,4 @@ spec:
       volumes:
       - name: scrypted-volume
         persistentVolumeClaim:
-          claimName: scrypted-pvc
+          claimName: scrypted-longhorn-pvc
