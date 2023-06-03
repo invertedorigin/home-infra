@@ -21,6 +21,8 @@ helmCharts:
       defaultReplicaAutoBalance: ignored # "disabled", "least-effort" or "best-effort" otherwise
       reclaimPolicy: Delete
       migratable: false
+      guaranteedEngineManagerCPU: 0
+      guaranteedReplicaManagerCPU: 0
       recurringJobSelector:
         enable: false
         jobList: []
