@@ -14,7 +14,7 @@ spec:
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: scrypted-longhorn-pvcs
+  name: scrypted-longhorn-pvc
   namespace: scrypted
 spec:
   storageClassName: longhorn-strict-local
