@@ -7,7 +7,7 @@ spec:
   selector:
     matchLabels:
       app: vaultwarden
-  replicas: 1
+  replicas: 0
   strategy:
     type: Recreate
   template:
@@ -57,4 +57,4 @@ spec:
       volumes:
       - name: vaultwarden-volume
         persistentVolumeClaim:
-          claimName: vaultwarden-pvc
+          claimName: vaultwarden-longhorn-pvc
