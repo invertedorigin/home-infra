@@ -10,3 +10,18 @@ spec:
   resources:
     requests:
       storage: 10Gi
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: scrypted-pvc
+spec:
+  storageClassName: longhorn-sticky
+  dataSource:
+    name: scrypted-longhorn-pvc
+    kind: PersistentVolumeClaim
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 10Gi

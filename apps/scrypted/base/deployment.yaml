@@ -42,4 +42,4 @@ spec:
       volumes:
       - name: scrypted-volume
         persistentVolumeClaim:
-          claimName: scrypted-longhorn-pvc
+          claimName: scrypted-pvc
