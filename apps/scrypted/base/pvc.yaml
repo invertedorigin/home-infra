@@ -18,9 +18,6 @@ metadata:
   namespace: scrypted
 spec:
   storageClassName: longhorn-sticky
-  dataSource:
-    name: scrypted-longhorn-pvc
-    kind: PersistentVolumeClaim
   accessModes:
     - ReadWriteOnce
   resources:
