@@ -7,7 +7,7 @@ spec:
   selector:
     matchLabels:
       app: homeassistant
-  replicas: 1
+  replicas: 0
   strategy:
     type: Recreate
   template:
@@ -44,4 +44,4 @@ spec:
       volumes:
       - name: homeassistant-volume
         persistentVolumeClaim:
-          claimName: homeassistant-longhorn-pvc
+          claimName: homeassistant-pvc
