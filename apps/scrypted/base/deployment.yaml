@@ -12,6 +12,8 @@ spec:
     type: Recreate
   template:
     metadata:
+      annotations:
+        k8s.v1.cni.cncf.io/networks: kube-system/macvlan-conf-dhcp
       labels:
         app: scrypted
     spec:
