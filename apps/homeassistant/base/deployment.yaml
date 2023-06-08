@@ -15,11 +15,7 @@ spec:
       labels:
         app: homeassistant
       annotations:
-        k8s.v1.cni.cncf.io/networks: |
-                  [{
-                    "name": "macvlan-conf-dhcp",
-                    "namespace": "kube-system"
-                  }]
+        k8s.v1.cni.cncf.io/networks: kube-system/macvlan-conf-dhcp
         prometheus.io/path: /api/prometheus
         prometheus.io/port: "8123"
         prometheus.io/scrape: "true"
