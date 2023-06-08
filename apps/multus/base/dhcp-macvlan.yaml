@@ -10,6 +10,7 @@ spec:
       "mode": "bridge",
       "ipam": {
           "type": "dhcp",
+          "discardDhcpRoutes": true,
           "provide": [
             {
                 "option": "host-name",
