@@ -5,30 +5,15 @@ metadata:
   namespace: kube-system
 spec:
   config: '{
-      "cniVersion": "0.3.1",
+      "cniVersion": "0.3.0",
       "type": "macvlan",
-      "plugins": [
-        {
-          "type": "macvlan",
-          "ipam": {
-            "type": "dhcp",
-            "provide": [
-              {
+      "ipam": {
+          "type": "dhcp",
+          "provide": [
+            {
                 "option": "host-name",
                 "fromArg": "K8S_POD_NAME"
-              }
-            ]
-          }
-        },
-        {
-          "type": "route-override",
-          "flushgateway": true,
-          "addroutes": [
-            {
-              "dst": "0.0.0.0/0",
-              "gw": "169.254.1.1"
             }
-          ]
-        }
-      ]
+        ]
+      }
     }'
