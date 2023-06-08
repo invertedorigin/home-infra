@@ -9,7 +9,7 @@ spec:
       "type": "bettermacvlan",
       "plugins": [
         {
-          "type": "macvlan"
+          "type": "macvlan",
           "ipam": {
             "type": "dhcp",
             "provide": [
