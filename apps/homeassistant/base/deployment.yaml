@@ -19,7 +19,7 @@ spec:
                   [{
                     "name": "macvlan-conf-dhcp",
                     "namespace": "kube-system",
-                    "default-route": ["10.0.1.1"]
+                    "default": "false"
                   }]
         prometheus.io/path: /api/prometheus
         prometheus.io/port: "8123"
