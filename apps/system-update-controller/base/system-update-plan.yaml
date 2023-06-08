@@ -14,7 +14,10 @@ spec:
       operator: Exists
   serviceAccountName: system-upgrade
   # Don't cordon / drain since this is a single node clsuter.
-  cordon: false
+  cordon: true
+  drain:
+    force: false
+    disableEviction: false
   upgrade:
     image: ghcr.io/jtcressy-home/edgenode
     command:
