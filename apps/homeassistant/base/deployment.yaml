@@ -18,13 +18,16 @@ spec:
         k8s.v1.cni.cncf.io/networks: |
                   [{
                     "name": "macvlan-conf-dhcp",
-                    "namespace": "kube-system",
-                    "default": "false"
+                    "namespace": "kube-system"
                   }]
         prometheus.io/path: /api/prometheus
         prometheus.io/port: "8123"
         prometheus.io/scrape: "true"
     spec:
+      initContainers:
+      - name: init-remove-default
+        image: busybox:1.28
+        command: ['sh', '-c', "route del default"]
       containers:
       - name: homeassistant
         image: homeassistant/home-assistant:2023.5.4
