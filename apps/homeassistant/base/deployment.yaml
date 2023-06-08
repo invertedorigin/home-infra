@@ -17,6 +17,11 @@ spec:
       annotations:
         k8s.v1.cni.cncf.io/networks: |
                   [{
+                    "name": "k8s-pod-network",
+                    "namespace": "kube-system",
+                    "default-route": ["169.254.1.1"]
+                  },
+                  {
                     "name": "macvlan-conf-dhcp",
                     "namespace": "kube-system",
                     "default-route": []
