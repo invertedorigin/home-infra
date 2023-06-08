@@ -17,13 +17,9 @@ spec:
       annotations:
         k8s.v1.cni.cncf.io/networks: |
                   [{
-                    "name": "k8s-pod-network",
-                    "default-route": ["169.254.1.1"]
-                  },
-                  {
                     "name": "macvlan-conf-dhcp",
                     "namespace": "kube-system",
-                    "default-route": []
+                    "default-route": ["169.254.1.1"]
                   }]
         prometheus.io/path: /api/prometheus
         prometheus.io/port: "8123"
