@@ -16,7 +16,7 @@ helmCharts:
     env:
       TZ: "America/Chicago"
       DISABLE_MQTT: "false"
-      MQTT_HOST: "mosquitto-service.mosquitto.svc.cluster.local"
+      MQTT_HOST: "10.1.252.177"
       MQTT_USERNAME: "mqtt"
       DATABASE_HOST: "teslamate-db-rw.teslamate.svc.cluster.local"
     envFrom:
