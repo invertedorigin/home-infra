@@ -1,0 +1,13 @@
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: teslamate-db
+  namespace: teslamate
+spec:
+  instances: 3
+  bootstrap:
+   initdb:
+      database: teslamate
+
+  storage:
+    size: 10Gi
