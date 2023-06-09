@@ -1,4 +1,5 @@
 resources:
+- namespace.yaml
 - pg-cluster.yaml
 
 namespace: teslamate
