@@ -35,7 +35,7 @@ helmCharts:
     - grafana-worldmap-panel
     - natel-discrete-panel
     serviceMonitor:
-      enabled: true
+      enabled: false
     serviceAccount:
       autoMount: true
     dashboardProviders:
