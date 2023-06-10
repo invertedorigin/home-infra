@@ -15,6 +15,8 @@ helmCharts:
     env:
       GF_PLUGINS_ALLOW_LOADING_UNSIGNED_PLUGINS: natel-discrete-panel,pr0ps-trackmap-panel,panodata-map-panel
       GF_SERVER_ROOT_URL: https://grafana.invertedorigin.com
+    envFromSecrets:
+      - name: grafana-secret
     ingress:
       enabled: true
       annotations:
