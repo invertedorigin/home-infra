@@ -15,7 +15,8 @@ helmCharts:
       tag: 1.27.2
     env:
       TZ: "America/Chicago"
-      DISABLE_MQTT: "true"
+      DISABLE_MQTT: "false"
+      MQTT_HOSTNAME: "nats-headless.mqtt.svc.cluster.local"
       MQTT_USERNAME: "mqtt"
       DATABASE_HOST: "teslamate-db-rw.teslamate.svc.cluster.local"
     envFrom:
