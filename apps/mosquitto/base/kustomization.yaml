@@ -1,6 +1,40 @@
-resources:
-- configmap.yaml
-- ingress.yaml
-- deployment.yaml
-- namespace.yaml
-- service.yaml
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: mqtt
+helmCharts:
+- name: nats
+  repo: https://nats-io.github.io/k8s/helm/charts/
+  version: 1.0.0-beta.4
+  releaseName: nats
+  valuesInline:
+    config:
+      cluster:
+        enabled: true
+        replicas: 3
+      jetstream:
+        enabled: true
+        fileStore:
+          pvc:
+            storageClassName: longhorn-sticky
+            size: 10Gi
+      mqtt:
+        enabled: true
+    promExporter:
+      enabled: true
+      port: 7777
+      podMonitor:
+        enabled: false
+    podTemplate:
+      topologySpreadConstraints:
+        kubernetes.io/hostname:
+          maxSkew: 1
+          whenUnsatisfiable: ScheduleAnyway
+      merge:
+        metadata:
+          annotations:
+            prometheus.io/scrape: "true"
+            prometheus.io/port: "7777"
+            prometheus.io/path: "/metrics"
+    natsBox:
+      enabled: true
