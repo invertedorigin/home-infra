@@ -36,6 +36,10 @@ helmCharts:
           cpu: 25m
         limits:
           memory: 350Mi
+    annotations: 
+        prometheus.io/path: /metrics
+        prometheus.io/port: "10254"
+        prometheus.io/scrape: "true"
 
 patches:
 - target:
