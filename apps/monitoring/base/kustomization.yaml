@@ -14,6 +14,12 @@ helmCharts:
   version: 6.57.1
   releaseName: grafana
   valuesInline:
+    admin:
+      ## Name of the secret. Can be templated.
+      existingSecret: grafana-user
+      userKey: admin-user
+      passwordKey: admin-password
+
     rbac:
       pspEnabled: false
     deploymentStrategy:
