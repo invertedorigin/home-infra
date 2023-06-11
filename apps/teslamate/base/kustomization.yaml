@@ -37,10 +37,10 @@ helmCharts:
         hosts:
         - host: "teslamate.invertedorigin.com"
           paths:
-            - path: /
+          - path: /
         tls:
         - hosts:
-           - teslamate.invertedorigin.com
+          - teslamate.invertedorigin.com
           secretName: teslamate-tls-domain
     resources:
       requests:
