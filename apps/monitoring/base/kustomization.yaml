@@ -154,22 +154,22 @@ helmCharts:
       datasources.yaml:
         apiVersion: 1
         deleteDatasources:
-          - name: Loki
-            orgId: 1
+        - name: Loki
+          orgId: 1
         datasources:
-          - name: Prometheus
-            type: prometheus
-            access: proxy
-            url: http://prometheus-community-server.monitoring.svc.cluster.local
-            isDefault: true
-          - name: TeslaMate
-            type: postgres
-            access: proxy
-            url: teslamate-db-rw.teslamate.svc.cluster.local
-            database: teslamate
-            user: postgres
-            secureJsonData:
-              password: "$TESLAMATE_DB_PASSWORD"
-            jsonData:
-              postgresVersion: 1000
-              sslmode: disable
+        - name: Prometheus
+          type: prometheus
+          access: proxy
+          url: http://prometheus-community-server.monitoring.svc.cluster.local
+          isDefault: true
+        - name: TeslaMate
+          type: postgres
+          access: proxy
+          url: teslamate-db-rw.teslamate.svc.cluster.local
+          database: teslamate
+          user: postgres
+          secureJsonData:
+            password: "$TESLAMATE_DB_PASSWORD"
+          jsonData:
+            postgresVersion: 1000
+            sslmode: disable
