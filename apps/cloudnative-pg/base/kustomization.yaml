@@ -10,7 +10,7 @@ helmCharts:
   namespace: cnpg-system
   includeCRDs: true
   valuesInline:
-    podAnnotations: 
-        prometheus.io/path: /metrics
-        prometheus.io/port: "8080"
-        prometheus.io/scrape: "true"
+    podAnnotations:
+      prometheus.io/path: /metrics
+      prometheus.io/port: "8080"
+      prometheus.io/scrape: "true"
