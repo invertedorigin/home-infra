@@ -12,7 +12,7 @@ helmCharts:
   valuesInline:
     controller:
       kind: DaemonSet
-      annotations: 
+      podAnnotations: 
         prometheus.io/path: /metrics
         prometheus.io/port: "10254"
         prometheus.io/scrape: "true"
