@@ -11,7 +11,7 @@ helmCharts:
   namespace: ingress-nginx
   valuesInline:
     controller:
-      king: DaemonSet
+      kind: DaemonSet
       ingressClassResource:
         default: true
       metrics:
