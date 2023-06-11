@@ -12,14 +12,14 @@ helmCharts:
   valuesInline:
     controller:
       kind: DaemonSet
-      ingressClassResource:
-        default: true
-      metrics:
-        enabled: true
       annotations: 
         prometheus.io/path: /metrics
         prometheus.io/port: "10254"
         prometheus.io/scrape: "true"
+      ingressClassResource:
+        default: true
+      metrics:
+        enabled: true
       resources:
         requests:
           memory: 500Mi
