@@ -6,7 +6,7 @@ metadata:
 spec:
   instances: 3
   bootstrap:
-   initdb:
+    initdb:
       database: teslamate
 
   storage:
