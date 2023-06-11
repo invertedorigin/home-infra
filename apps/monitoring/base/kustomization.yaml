@@ -19,7 +19,6 @@ helmCharts:
       existingSecret: grafana-user
       userKey: admin-user
       passwordKey: admin-password
-
     rbac:
       pspEnabled: false
     deploymentStrategy:
@@ -158,6 +157,11 @@ helmCharts:
           - name: Loki
             orgId: 1
         datasources:
+          - name: Prometheus
+            type: prometheus
+            access: proxy
+            url: http://prometheus-community-server.monitoring.svc.cluster.local
+            isDefault: true
           - name: TeslaMate
             type: postgres
             access: proxy
