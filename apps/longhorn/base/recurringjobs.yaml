@@ -8,7 +8,7 @@ spec:
   cron: "*/10 */1 * * *"
   task: "snapshot"
   groups:
-  - default
+  - backups
   retain: 72
   concurrency: 3
 ---
@@ -21,7 +21,7 @@ spec:
   cron: "0 3 * * *"
   task: "snapshot-cleanup"
   groups:
-  - default
+  - backups
   retain: 0
   concurrency: 3
 ---
@@ -34,6 +34,6 @@ spec:
   cron: "0 1 * * *"
   task: "backup"
   groups:
-  - default
+  - backups
   retain: 14
   concurrency: 3
