@@ -4,6 +4,7 @@ resources:
 - namespace.yaml
 - nfd-rule.yaml
 
+namespace: zwavejs
 helmCharts:
 - name: app-template
   repo: https://bjw-s.github.io/helm-charts/
