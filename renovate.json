@@ -4,6 +4,9 @@
   "kubernetes": {
     "fileMatch": ["\\.yaml$"]
   },
+  "helm-values": {
+    "fileMatch": ["./.+\\.yaml$"]
+  },
   "regexManagers": [
     {
       "fileMatch": ["\\.yaml$"],
