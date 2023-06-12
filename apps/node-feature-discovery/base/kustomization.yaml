@@ -3,20 +3,8 @@ kind: Kustomization
 
 resources:
 - github.com/kubernetes-sigs/node-feature-discovery//deployment/overlays/master-worker-topologyupdater?ref=v0.13.0
-- namespace.yaml
 
 patches:
-- target:
-    group: ''
-    version: v1
-    kind: Namespace
-    name: node-feature-discovery
-  patch: | # We are managing the namespace separately 
-    $patch: delete
-    apiVersion: v1
-    kind: Namespace
-    metadata:
-      name: node-feature-discovery
 - target:
     group: apps
     version: v1
