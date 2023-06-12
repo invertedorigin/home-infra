@@ -1,0 +1,57 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+- https://github.com/kubernetes-sigs/node-feature-discovery/deployment/overlays/master-worker-topologyupdater?ref=v0.13.0
+
+patches:
+- target:
+    group: ''
+    version: v1
+    kind: Namespace
+    name: node-feature-discovery
+  patch: | # We are managing the namespace separately 
+    $patch: delete
+    apiVersion: v1
+    kind: Namespace
+    metadata:
+      name: node-feature-discovery
+- target:
+    group: apps
+    version: v1
+    kind: DaemonSet
+    namespace: node-feature-discovery
+    name: nfd-topology-updater
+  patch: |
+    apiVersion: apps/v1
+    kind: DaemonSet
+    metadata:
+      name: nfd-topology-updater
+      namespace: node-feature-discovery
+    spec:
+      template:
+        spec:
+          volumes:
+          - hostPath:
+              path: /var/snap/microk8s/common/var/lib/kubelet/pod-resources/kubelet.sock
+            name: kubelet-podresources-sock
+          - hostPath:
+              path: /var/snap/microk8s/common/var/lib/kubelet
+            name: kubelet-state-files
+- target:
+    group: ''
+    version: v1
+    kind: ConfigMap
+    namespace: node-feature-discovery
+    name: nfd-worker-conf
+  patch: |
+    apiVersion: v1
+    kind: ConfigMap
+    metadata:
+      name: nfd-worker-conf
+      namespace: node-feature-discovery
+    data:
+      nfd-worker.conf: |
+        core:
+          # I don't plan on running a very large cluster
+          # but want more responsiveness to hardware changes
+          sleepInterval: 10s
