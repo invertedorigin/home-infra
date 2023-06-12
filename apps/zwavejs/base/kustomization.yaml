@@ -26,7 +26,20 @@ helmCharts:
           websocket:
             enabled: true
             port: 3000
-
+    ingress:
+      main:
+        enabled: true
+        annotations:
+          kubernetes.io/ingress.class: "nginx"
+          cert-manager.io/cluster-issuer: "cloudflare-issuer"
+        hosts:
+        - host: "zwavejs.invertedorigin.com"
+          paths:
+          - path: /
+        tls:
+        - hosts:
+          - zwavejs.invertedorigin.com
+          secretName: zwavejs-tls-domain
     probes:
       liveness: &probes
         enabled: true
