@@ -1,0 +1,77 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+- namespace.yaml
+- nfd-rule.yaml
+
+helmCharts:
+- name: app-template
+  repo: https://bjw-s.github.io/helm-charts/
+  version: 1.5.0
+  releaseName: zwavejs2mqtt
+  valuesInline:
+    image:
+      repository: ghcr.io/zwave-js/zwave-js-ui
+      tag: 8.16.2
+    
+    env:
+      TZ: "America/Chicago"
+
+    service:
+      main:
+        ports:
+          http:
+            port: &port 8091
+          websocket:
+            enabled: true
+            port: 3000
+
+    probes:
+      liveness: &probes
+        enabled: true
+        custom: true
+        spec:
+          httpGet:
+            path: /health
+            port: *port
+          initialDelaySeconds: 0
+          periodSeconds: 10
+          timeoutSeconds: 1
+          failureThreshold: 3
+      readiness: *probes
+      startup:
+        enabled: false
+
+    securityContext:
+      privileged: true
+
+    persistence:
+      config:
+        enabled: true
+        storageClass: longhorn-sticky
+        accessMode: ReadWriteOnce
+        size: 1Gi
+        mountPath: /usr/src/app/store
+      usb:
+        enabled: true
+        type: hostPath
+        mountPath: /dev/zwave
+        hostPath: /dev/serial/by-id/usb-0658_0200-if00
+        hostPathType: CharDevice
+
+    affinity:
+      nodeAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+          nodeSelectorTerms:
+            - matchExpressions:
+                - key: aeotec.feature.node.kubernetes.io/zwave
+                  operator: In
+                  values:
+                    - "true"
+    
+    resources:
+      requests:
+        memory: 200Mi
+        cpu: 50m
+      limits:
+        memory: 500Mi

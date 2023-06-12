@@ -1,0 +1,16 @@
+---
+apiVersion: nfd.k8s-sigs.io/v1alpha1
+kind: NodeFeatureRule
+metadata:
+  name: aeotec-zwave-usb-dongle
+spec:
+  rules:
+    - name: match-product
+      labels:
+        "aeotec.feature.node.kubernetes.io/zwave": "true"
+      # Label is created if all of the rules below match
+      matchFeatures:
+        # Match if any USB device with serial exists in the system
+        - feature: usb.device
+          matchExpressions:
+            vendor: {op: In, value: ["0658"]}
