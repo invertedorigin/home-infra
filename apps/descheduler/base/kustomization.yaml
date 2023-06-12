@@ -1,0 +1,104 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+helmCharts:
+- name: descheduler
+  repo: https://kubernetes-sigs.github.io/descheduler
+  version: 0.27.1
+  releaseName: descheduler
+  namespace: kube-system
+  valuesInline:
+    kind: Deployment
+    deschedulingInterval: 1m
+    deschedulerPolicyAPIVersion: descheduler/v1alpha2
+    deschedulerPolicy:
+      profiles:
+      - name: Default
+        pluginConfig:
+        - name: "DefaultEvictor"
+          args:
+            nodeFit: true
+            evictLocalStoragePods: true
+        - name: "RemoveDuplicates"
+        - name: "RemovePodsViolatingInterPodAntiAffinity"
+        # - name: "LowNodeUtilization"
+        #   args:
+        #     thresholds:
+        #       "cpu": 20
+        #       "memory": 20
+        #       "pods": 20
+        #     targetThresholds:
+        #       "cpu": 50
+        #       "memory": 50
+        #       "pods": 60
+        - name: "RemovePodsHavingTooManyRestarts"
+          args:
+            podRestartThreshold: 100
+            includingInitContainers: true
+        - name: "RemovePodsViolatingTopologySpreadConstraint"
+          args:
+            includeSoftConstraints: true
+        - name: "RemovePodsViolatingNodeTaints"
+        - name: "RemovePodsViolatingNodeAffinity"
+          args:
+            nodeAffinityType:
+            - "requiredDuringSchedulingIgnoredDuringExecution"
+        plugins:
+          deschedule:
+            enabled:
+              - "RemovePodsViolatingInterPodAntiAffinity"
+              - "RemovePodsHavingTooManyRestarts"
+              - "RemovePodsViolatingNodeTaints"
+              - "RemovePodsViolatingNodeAffinity"
+          balance:
+            enabled:
+              - "RemoveDuplicates"
+              # - "LowNodeUtilization"
+              - "RemovePodsViolatingTopologySpreadConstraint"
+      strategies: null
+      # strategies:
+      #   RemoveDuplicates:
+      #     enabled: true
+      #   RemovePodsViolatingNodeTaints:
+      #     enabled: true
+      #   RemovePodsViolatingNodeAffinity:
+      #     enabled: true
+      #     params:
+      #       nodeAffinityType: ["requiredDuringSchedulingIgnoredDuringExecution"]
+      #   RemovePodsViolatingTopologySpreadConstraint:
+      #     enabled: true
+      #     params:
+      #       includeSoftConstraints: true
+      #   RemovePodsViolatingInterPodAntiAffinity:
+      #     enabled: true
+      #     params:
+      #       nodeFit: true
+      #   LowNodeUtilization:
+      #     enabled: false
+      #   RemoveFailedPods:
+      #     enabled: true
+      #     params:
+      #       failedPods:
+      #         includingInitContainers: true
+      #         excludeOwnerKinds: ["Job"]
+      #         minPodLifetimeSeconds: 3600
+      #   RemovePodsHavingTooManyRestarts:
+      #     enabled: true
+      #     params:
+      #       podsHavingTooManyRestarts:
+      #         podRestartThreshold: 100
+      #         includingInitContainers: true
+    service:
+      enabled: true
+    serviceMonitor:
+      enabled: true
+    affinity:
+      podAntiAffinity:
+        preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 100
+            podAffinityTerm:
+              labelSelector:
+                matchExpressions:
+                  - key: app.kubernetes.io/name
+                    operator: In
+                    values: ["descheduler"]
+              topologyKey: kubernetes.io/hostname
