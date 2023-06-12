@@ -14,7 +14,7 @@ helmCharts:
     image:
       repository: ghcr.io/zwave-js/zwave-js-ui
       tag: 8.16.2
-    
+
     env:
       TZ: "America/Chicago"
 
@@ -77,12 +77,12 @@ helmCharts:
       nodeAffinity:
         requiredDuringSchedulingIgnoredDuringExecution:
           nodeSelectorTerms:
-            - matchExpressions:
-                - key: aeotec.feature.node.kubernetes.io/zwave
-                  operator: In
-                  values:
-                    - "true"
-    
+          - matchExpressions:
+            - key: aeotec.feature.node.kubernetes.io/zwave
+              operator: In
+              values:
+              - "true"
+
     resources:
       requests:
         memory: 200Mi

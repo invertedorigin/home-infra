@@ -45,15 +45,15 @@ helmCharts:
         plugins:
           deschedule:
             enabled:
-              - "RemovePodsViolatingInterPodAntiAffinity"
-              - "RemovePodsHavingTooManyRestarts"
-              - "RemovePodsViolatingNodeTaints"
-              - "RemovePodsViolatingNodeAffinity"
+            - "RemovePodsViolatingInterPodAntiAffinity"
+            - "RemovePodsHavingTooManyRestarts"
+            - "RemovePodsViolatingNodeTaints"
+            - "RemovePodsViolatingNodeAffinity"
           balance:
             enabled:
-              - "RemoveDuplicates"
+            - "RemoveDuplicates"
               # - "LowNodeUtilization"
-              - "RemovePodsViolatingTopologySpreadConstraint"
+            - "RemovePodsViolatingTopologySpreadConstraint"
       strategies: null
       # strategies:
       #   RemoveDuplicates:
@@ -94,11 +94,11 @@ helmCharts:
     affinity:
       podAntiAffinity:
         preferredDuringSchedulingIgnoredDuringExecution:
-          - weight: 100
-            podAffinityTerm:
-              labelSelector:
-                matchExpressions:
-                  - key: app.kubernetes.io/name
-                    operator: In
-                    values: ["descheduler"]
-              topologyKey: kubernetes.io/hostname
+        - weight: 100
+          podAffinityTerm:
+            labelSelector:
+              matchExpressions:
+              - key: app.kubernetes.io/name
+                operator: In
+                values: ["descheduler"]
+            topologyKey: kubernetes.io/hostname
