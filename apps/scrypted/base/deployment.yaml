@@ -35,7 +35,7 @@ spec:
             memory: "2048Mi"
             cpu: "2000m"
           limits:
-            memory: "2048Mi"
+            memory: "4096Mi"
             cpu: "4000m"
       volumes:
       - name: scrypted-volume
