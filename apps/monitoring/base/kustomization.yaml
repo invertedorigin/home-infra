@@ -10,6 +10,7 @@ helmCharts:
   releaseName: kube-prometheus-stack
   includeCRDs: true
   valuesInline:
+    namespaceOverride: "monitoring"
     alertmanager:
       enabled: false
     grafana:
