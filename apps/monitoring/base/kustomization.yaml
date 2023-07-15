@@ -4,10 +4,10 @@ resources:
 namespace: monitoring
 
 helmCharts:
-- name: prometheus
-  repo: https://prometheus-community.github.io/helm-charts
-  version: 22.6.7
-  releaseName: prometheus-community
+# - name: prometheus
+#   repo: https://prometheus-community.github.io/helm-charts
+#   version: 22.6.7
+#   releaseName: prometheus-community
 
 - name: grafana
   repo: https://grafana.github.io/helm-charts
