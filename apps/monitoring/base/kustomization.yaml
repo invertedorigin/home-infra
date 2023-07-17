@@ -188,7 +188,7 @@ helmCharts:
         - name: Prometheus
           type: prometheus
           access: proxy
-          url: http://prometheus-community-server.monitoring.svc.cluster.local
+          url: http://kube-prometheus-stack-prometheus.monitoring.svc.cluster.local 
           isDefault: true
         - name: TeslaMate
           type: postgres
