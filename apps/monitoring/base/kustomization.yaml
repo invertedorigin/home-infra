@@ -32,7 +32,7 @@ helmCharts:
             spec:
               storageClassName: longhorn-sticky
               accessModes:
-                - ReadWriteOnce
+              - ReadWriteOnce
               resources:
                 requests:
                   storage: 50Gi
