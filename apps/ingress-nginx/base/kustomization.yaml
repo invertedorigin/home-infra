@@ -13,14 +13,12 @@ helmCharts:
     controller:
       kind: Deployment
       replicaCount: 3
-      podAnnotations:
-        prometheus.io/path: /metrics
-        prometheus.io/port: "10254"
-        prometheus.io/scrape: "true"
       ingressClassResource:
         default: true
       metrics:
         enabled: true
+        serviceMonitor:
+          enabled: true
       resources:
         requests:
           memory: 500Mi
