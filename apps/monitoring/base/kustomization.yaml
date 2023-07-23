@@ -23,6 +23,10 @@ helmCharts:
       #     issuerRef:
       #       name: "issuer"
       #       kind: "ClusterIssuer"
+    global:
+      rbac:
+        create: true
+        createAggregateClusterRoles: false
     prometheus:
       enabled: true
       prometheusSpec:
