@@ -19,6 +19,7 @@ helmCharts:
         enabled: true
         serviceMonitor:
           enabled: true
+          namespace: ingress-nginx
       resources:
         requests:
           memory: 500Mi
