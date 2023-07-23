@@ -90,7 +90,7 @@ helmCharts:
     service:
       enabled: true
     serviceMonitor:
-      enabled: false
+      enabled: true
     affinity:
       podAntiAffinity:
         preferredDuringSchedulingIgnoredDuringExecution:
