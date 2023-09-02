@@ -45,7 +45,10 @@ metadata:
   name: tailscale-operator
 rules:
 - apiGroups: [""]
-  resources: ["services", "services/status", "ingresses"]
+  resources: ["services", "services/status"]
+  verbs: ["*"]
+- apiGroups: ["networking.k8s.io"]
+  resources: ["ingresses", "ingresses/status"]
   verbs: ["*"]
 ---
 apiVersion: rbac.authorization.k8s.io/v1
@@ -69,9 +72,6 @@ metadata:
 rules:
 - apiGroups: [""]
   resources: ["secrets"]
-  verbs: ["*"]
-- apiGroups: [""]
-  resources: ["ingresses"]
   verbs: ["*"]
 - apiGroups: ["apps"]
   resources: ["statefulsets"]
