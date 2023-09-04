@@ -35,8 +35,6 @@ helmCharts:
             podRestartThreshold: 100
             includingInitContainers: true
         - name: "RemovePodsViolatingTopologySpreadConstraint"
-          args:
-            includeSoftConstraints: true
         - name: "RemovePodsViolatingNodeTaints"
         - name: "RemovePodsViolatingNodeAffinity"
           args:
