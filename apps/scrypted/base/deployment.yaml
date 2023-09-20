@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
       - name: scrypted
-        image: koush/scrypted:latest@sha256:a3518c220466affa3af595c1d41f08bdcfca3825686437a4c690579aba04a8b3
+        image: koush/scrypted:latest@sha256:4494852b37f96d8cbe659981165891ef6d9e6019c27034cad6cdce753d8d8e97
         imagePullPolicy: IfNotPresent
         securityContext:
           privileged: true
