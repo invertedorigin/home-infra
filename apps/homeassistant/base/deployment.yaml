@@ -22,7 +22,7 @@ spec:
     spec:
       containers:
       - name: homeassistant
-        image: homeassistant/home-assistant:2023.9.0@sha256:7ed8f051f63964276e228b55de371e0e50ee28584c0bb6f9a7d0bcd4252f5f3e
+        image: homeassistant/home-assistant:2023.10.0@sha256:cc036a3f4ba9a1940c0c9593ec56e0435e64f007eaf84bab869a7d5af02fcb9b
         imagePullPolicy: IfNotPresent
         securityContext:
           privileged: true
