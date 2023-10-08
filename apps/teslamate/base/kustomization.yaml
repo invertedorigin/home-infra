@@ -6,7 +6,7 @@ namespace: teslamate
 helmCharts:
 - name: app-template
   repo: https://bjw-s.github.io/helm-charts/
-  version: 1.5.1
+  version: 2.0.3
   releaseName: teslamate
 
   valuesInline:
