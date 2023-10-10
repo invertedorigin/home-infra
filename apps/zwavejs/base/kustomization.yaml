@@ -13,7 +13,7 @@ helmCharts:
   valuesInline:
     image:
       repository: ghcr.io/zwave-js/zwave-js-ui
-      tag: 9.1.1
+      tag: 9.1.2
 
     env:
       TZ: "America/Chicago"
