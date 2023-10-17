@@ -68,4 +68,4 @@ spec:
           path: /proc
       - name: netnspath
         hostPath:
-          path: /run/netns
+          path: /var/run/netns
