@@ -1,6 +1,7 @@
 resources:
 - namespace.yaml
 - pg-cluster.yaml
+- external-secret.yaml
 
 namespace: teslamate
 helmCharts:
