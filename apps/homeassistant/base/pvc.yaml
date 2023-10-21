@@ -4,7 +4,7 @@ metadata:
   name: homeassistant-pvc
   namespace: homeassistant
 spec:
-  storageClassName: longhorn-sticky
+  storageClassName: home-office-rack-default-strict-local
   accessModes:
     - ReadWriteOnce
   resources:

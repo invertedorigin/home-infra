@@ -30,27 +30,38 @@ nodes:
     ##  and we want to ensure we still have 3 active nodes in etcd
     controlPlane: true
     installDiskSelector:
-      size: <=257GiB
-    disableSearchDomain: true
+      model: KINGSTON OM8PGP4512Q-A0
+    disableSearchDomain: false
     nodeLabels:
       topology.kubernetes.io/region: home
   - hostname: node-2.tail7ebe0.ts.net
     ipAddress: node-3.tail7ebe0.ts.net
     controlPlane: true
     installDiskSelector:
-      size: <=257GiB
-    disableSearchDomain: true
+      model: KINGSTON OM8PGP4512Q-A0
+    disableSearchDomain: false
     nodeLabels:
       topology.kubernetes.io/region: home
   - hostname: node-3.tail7ebe0.ts.net
     ipAddress: node-3.tail7ebe0.ts.net
     controlPlane: true
     installDiskSelector:
-      size: <=257GiB
-    disableSearchDomain: true
+      model: KINGSTON OM8PGP4512Q-A0
+    disableSearchDomain: false
     nodeLabels:
       topology.kubernetes.io/region: home
 patches:
+  - |
+    machine:
+      install:
+        extensions:
+          - image: ghcr.io/siderolabs/drbd:9.2.4-v1.5.3
+      kernel:
+        modules:
+          - name: drbd
+            parameters:
+              - usermode_helper=disabled
+          - name: drbd_transport_tcp
   - |
     machine:
       install:
@@ -74,6 +85,7 @@ patches:
       network:
         nameservers:
           - 100.100.100.100
+          - 1.1.1.1
 controlPlane:
   patches:
     - |
