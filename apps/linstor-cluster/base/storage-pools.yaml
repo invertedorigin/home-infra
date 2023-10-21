@@ -4,7 +4,7 @@ metadata:
   name: home-office-rack-default-pool
 spec:
   nodeSelector:
-    topology.kubernetes.io/zone: home-office-rack
+    topology.kubernetes.io/region: home
   storagePools:
     - name: home-office-rack-default
       filePool: 
