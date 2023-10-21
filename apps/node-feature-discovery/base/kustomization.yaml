@@ -6,28 +6,6 @@ resources:
 
 patches:
 - target:
-    group: apps
-    version: v1
-    kind: DaemonSet
-    namespace: node-feature-discovery
-    name: nfd-topology-updater
-  patch: |
-    apiVersion: apps/v1
-    kind: DaemonSet
-    metadata:
-      name: nfd-topology-updater
-      namespace: node-feature-discovery
-    spec:
-      template:
-        spec:
-          volumes:
-          - hostPath:
-              path: /var/snap/microk8s/common/var/lib/kubelet/pod-resources/kubelet.sock
-            name: kubelet-podresources-sock
-          - hostPath:
-              path: /var/snap/microk8s/common/var/lib/kubelet
-            name: kubelet-state-files
-- target:
     group: ''
     version: v1
     kind: ConfigMap
