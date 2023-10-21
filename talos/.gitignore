@@ -1,0 +1,23 @@
+.local/
+.local/*
+kubeconfig
+talosconfig
+clusterconfig/
+**/clusterconfig
+**/clusterconfig/*
+
+kubernetes/**/charts/
+
+kubernetes/oldapps/**
+
+.pem
+.key
+.pub
+.agekey
+*.sops.*.tmp
+*.code-workspace
+
+# macOS files
+.DS_Store
+.AppleDouble
+.LSOverride

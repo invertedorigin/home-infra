@@ -1,0 +1,95 @@
+---
+clusterName: invertedorigin
+talosVersion: v1.5.3
+kubernetesVersion: v1.28.2
+endpoint: https://node-1.tail7ebe0.ts.net:6443
+
+allowSchedulingOnMasters: true
+allowSchedulingOnControlPlanes: true
+
+additionalApiServerCertSans: []
+
+additionalMachineCertSans: []
+
+clusterPodNets:
+  - 10.244.0.0/16
+clusterSvcNets:
+  - 10.245.0.0/16
+
+cniConfig:
+  name: none
+
+talosImageURL: ghcr.io/siderolabs/installer
+
+nodes:
+## CORE HOME OFFICE RACK (battery backup) ##
+  - hostname: node-1.tail7ebe0.ts.net
+    ipAddress: node-1.tail7ebe0.ts.net
+    ## myw is a spare node so controlPlane can be set to true 
+    ##  when performing extended maintenance on a control plane node
+    ##  and we want to ensure we still have 3 active nodes in etcd
+    controlPlane: true
+    installDiskSelector:
+      size: <=257GiB
+    disableSearchDomain: true
+    nodeLabels:
+      topology.kubernetes.io/region: home
+  - hostname: node-2.tail7ebe0.ts.net
+    ipAddress: node-3.tail7ebe0.ts.net
+    controlPlane: true
+    installDiskSelector:
+      size: <=257GiB
+    disableSearchDomain: true
+    nodeLabels:
+      topology.kubernetes.io/region: home
+  - hostname: node-3.tail7ebe0.ts.net
+    ipAddress: node-3.tail7ebe0.ts.net
+    controlPlane: true
+    installDiskSelector:
+      size: <=257GiB
+    disableSearchDomain: true
+    nodeLabels:
+      topology.kubernetes.io/region: home
+patches:
+  - |
+    machine:
+      install:
+        extensions:
+          - image: ghcr.io/siderolabs/tailscale:1.48.1
+      files:
+        - content: |
+            TS_AUTHKEY=${TAILSCALE_AUTHKEY}
+            TS_ACCEPT_DNS=true
+          permissions: 0o644
+          path: /var/etc/tailscale/auth.env
+          op: create
+      kubelet:
+        nodeIP:
+          validSubnets:
+            - 100.64.0.0/10
+      features:
+        kubePrism:
+          enabled: true
+          port: 7445
+      network:
+        nameservers:
+          - 100.100.100.100
+          - 1.1.1.1
+controlPlane:
+  patches:
+    - |
+      cluster:
+        allowSchedulingOnMasters: true
+        apiServer:
+          admissionControl: null
+        discovery:
+          enabled: true
+          registries:
+            kubernetes:
+              disabled: true
+            service: {}
+        etcd:
+          advertisedSubnets:
+            - 100.64.0.0/10 # we want etcd to talk over tailscale for stable network paths
+        proxy:
+          disabled: true

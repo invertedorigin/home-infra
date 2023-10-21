@@ -1,0 +1,34 @@
+---
+bgp:
+  announce:
+    loadbalancerIP: true
+  enabled: false
+containerRuntime:
+  integration: containerd
+endpointRoutes:
+  enabled: true
+hubble:
+  enabled: true
+ipam:
+  mode: kubernetes
+# ipv4NativeRoutingCIDR: 10.244.0.0/16
+k8sServiceHost: localhost
+k8sServicePort: 7445
+kubeProxyReplacement: strict
+kubeProxyReplacementHealthzBindAddr: 0.0.0.0:10256
+loadBalancer:
+  algorithm: maglev
+  l7:
+    algorithm: round_robin
+    backend: envoy
+nodePort:
+  enabled: true
+localRedirectPolicy: true
+operator:
+  rollOutPods: true
+rollOutCiliumPods: true
+securityContext:
+  privileged: true
+tunnel: geneve
+cni:
+  exclusive: false
