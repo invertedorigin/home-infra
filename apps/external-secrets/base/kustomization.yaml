@@ -1,6 +1,7 @@
 resources:
 - namespace.yaml
 - https://raw.githubusercontent.com/external-secrets/external-secrets/v0.8.1/deploy/crds/bundle.yaml
+- secretsstore.yaml
 helmCharts:
 - name: external-secrets
   repo: https://charts.external-secrets.io
