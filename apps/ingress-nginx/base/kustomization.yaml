@@ -15,11 +15,12 @@ helmCharts:
       replicaCount: 3
       ingressClassResource:
         default: true
+      admissionWebhooks:
+        enabled: false
       metrics:
         enabled: true
         serviceMonitor:
-          enabled: true
-          namespace: monitoring
+          enabled: false
       resources:
         requests:
           memory: 500Mi
