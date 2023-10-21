@@ -30,7 +30,7 @@ metadata:
   name: home-office-rack-default-strict-local
 provisioner: linstor.csi.linbit.com
 allowVolumeExpansion: true
-volumeBindingMode: WaitForFirstConsumer
+volumeBindingMode: Immediate
 parameters: 
   # CSI related parameters
   # csi.storage.k8s.io/fstype: xfs
