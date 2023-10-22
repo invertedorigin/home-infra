@@ -10,3 +10,19 @@ spec:
   resources:
     requests:
       storage: 10Gi
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: scrypted-pvc-replicated
+  namespace: scrypted
+spec:
+  storageClassName: home-office-rack-default-replicated
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 10Gi
+  dataSource:
+    kind: PersistentVolumeClaim
+    name: scrypted-pvc
