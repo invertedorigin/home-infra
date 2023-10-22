@@ -26,6 +26,9 @@ spec:
         - /etc/cloudflared/config/config.yaml
         - --post-quantum
         - run
+        securityContext:
+          runAsUser: 568
+          runAsGroup: 568
         livenessProbe:
           httpGet:
             # Cloudflared has a /ready endpoint which returns 200 if and only if
