@@ -5,42 +5,42 @@ resources:
 namespace: monitoring
 
 helmCharts:
-- name: kube-prometheus-stack
-  repo: https://prometheus-community.github.io/helm-charts
-  version: 51.3.0
-  releaseName: kube-prometheus-stack
-  includeCRDs: true
-  valuesInline:
-    namespaceOverride: "monitoring"
-    alertmanager:
-      enabled: false
-    grafana:
-      enabled: false
-    prometheusOperator:
-      enabled: true
-      # admissionWebhooks:
-      #   certManager:
-      #     enabled: true
-      #     issuerRef:
-      #       name: "issuer"
-      #       kind: "ClusterIssuer"
-    global:
-      rbac:
-        create: true
-        createAggregateClusterRoles: false
-    prometheus:
-      enabled: true
-      prometheusSpec:
-        retention: 30d
-        storageSpec:
-          volumeClaimTemplate:
-            spec:
-              storageClassName: longhorn-sticky
-              accessModes:
-              - ReadWriteOnce
-              resources:
-                requests:
-                  storage: 50Gi
+# - name: kube-prometheus-stack
+#   repo: https://prometheus-community.github.io/helm-charts
+#   version: 51.3.0
+#   releaseName: kube-prometheus-stack
+#   includeCRDs: true
+#   valuesInline:
+#     namespaceOverride: "monitoring"
+#     alertmanager:
+#       enabled: false
+#     grafana:
+#       enabled: false
+#     prometheusOperator:
+#       enabled: true
+#       # admissionWebhooks:
+#       #   certManager:
+#       #     enabled: true
+#       #     issuerRef:
+#       #       name: "issuer"
+#       #       kind: "ClusterIssuer"
+#     global:
+#       rbac:
+#         create: true
+#         createAggregateClusterRoles: false
+#     prometheus:
+#       enabled: true
+#       prometheusSpec:
+#         retention: 30d
+#         storageSpec:
+#           volumeClaimTemplate:
+#             spec:
+#               storageClassName: longhorn-sticky
+#               accessModes:
+#               - ReadWriteOnce
+#               resources:
+#                 requests:
+#                   storage: 50Gi
 
 - name: grafana
   repo: https://grafana.github.io/helm-charts
