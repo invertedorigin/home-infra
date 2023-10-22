@@ -3,6 +3,7 @@ kind: Kustomization
 resources:
 - namespace.yaml
 - nfd-rule.yaml
+- pvc.yaml
 
 namespace: zwavejs
 helmCharts:
@@ -62,7 +63,6 @@ helmCharts:
     persistence:
       config:
         enabled: true
-        type: persistentVolumeClaim
         existingClaim: zwavejs-pvc-replicated
         mountPath: /usr/src/app/store
       usb:
