@@ -10,3 +10,19 @@ spec:
   resources:
     requests:
       storage: 20Gi
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: homeassistant-pvc-replicated
+  namespace: homeassistant
+spec:
+  storageClassName: home-office-rack-default-replicated
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 20Gi
+  dataSource:
+    kind: PersistentVolumeClaim
+    name: homeassistant-pvc
