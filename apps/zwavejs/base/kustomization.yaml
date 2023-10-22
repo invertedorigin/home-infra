@@ -56,6 +56,9 @@ helmCharts:
       startup:
         enabled: false
 
+    securityContext:
+      privileged: true
+
     persistence:
       config:
         enabled: true
