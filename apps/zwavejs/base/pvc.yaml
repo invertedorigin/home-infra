@@ -10,6 +10,3 @@ spec:
   resources:
     requests:
       storage: 1Gi
-  dataSource:
-    kind: PersistentVolumeClaim
-    name: zwavejs-config
