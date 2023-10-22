@@ -40,8 +40,14 @@ parameters:
   linstor.csi.linbit.com/storagePool: home-office-rack-default
   linstor.csi.linbit.com/autoPlace: "1"
   linstor.csi.linbit.com/allowRemoteVolumeAccess: "false"
+
   # Linstor properties 
   # property.linstor.csi.linbit.com/DrbdOptions/auto-quorum: suspend-io
   # property.linstor.csi.linbit.com/DrbdOptions/Resource/on-no-data-accessible: suspend-io
   # property.linstor.csi.linbit.com/DrbdOptions/Resource/on-suspended-primary-outdated: force-secondary
   # property.linstor.csi.linbit.com/DrbdOptions/Net/rr-conflict: retry-connect
+
+  #DRDB Options
+  #DrbdOptions/Disk/disk-flushes: "no"
+  #DrbdOptions/Disk/md-flushes: "no"
+  #DrbdOptions/Net/max-buffers: "10000"

@@ -1,0 +1,75 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: test-volume
+  namespace: default
+spec:
+  storageClassName: home-office-rack-default-strict-local
+  resources:
+    requests:
+      storage: 20Gi
+  accessModes:
+    - ReadWriteOnce
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: volume-logger
+  namespace: default
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: volume-logger
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: volume-logger
+    spec:
+      terminationGracePeriodSeconds: 0
+      containers:
+        - name: volume-logger
+          image: alpine
+          args:
+            - sh
+            - -c
+            - |
+              apk add util-linux pciutils usbutils coreutils binutils findutils grep iproute2
+              apk add fio
+              # test volume performance
+              dd if=/dev/zero of=/volume/test.fio bs=4M count=1000 oflag=direct 2>&1 | tee /volume/$NODENAME-ddSequentialWrite-volume.log
+              dd if=/volume/test.fio of=/dev/null bs=4M iflag=direct 2>&1 | tee /volume/$NODENAME-ddSequentialRead-volume.log
+              fio --name 4krandwrite-volume --filename /volume/test.fio --size=4G --ioengine libaio --direct 1 --rw randwrite --bs 4k --runtime 30s --numjobs 4 --iodepth=32 --group_reporting --rwmixwrite=100 | tee /volume/$NODENAME-fio4krandwrite-volume.log
+              fio --name 4krandread-volume --filename /volume/test.fio --size=4G --ioengine libaio --direct 1 --rw randread --bs 4k --runtime 30s --numjobs 4 --iodepth=32 --group_reporting --rwmixread=100 | tee /volume/$NODENAME-fio4krandread-volume.log
+              # test ephemeral storage performance
+              dd if=/dev/zero of=/ephemeral/test.fio bs=4M count=1000 oflag=direct 2>&1 | tee /volume/$NODENAME-ddSequentialWrite-ephemeral.log
+              dd if=/ephemeral/test.fio of=/dev/null bs=4M iflag=direct 2>&1 | tee /volume/$NODENAME-ddSequentialRead-ephemeral.log
+              fio --name 4krandwrite-ephemeral --filename /ephemeral/test.fio --size=4G --ioengine libaio --direct 1 --rw randwrite --bs 4k --runtime 30s --numjobs 4 --iodepth=32 --group_reporting --rwmixwrite=100 | tee /volume/$NODENAME-fio4krandwrite-ephemeral.log
+              fio --name 4krandread-ephemeral --filename /ephemeral/test.fio --size=4G --ioengine libaio --direct 1 --rw randread --bs 4k --runtime 30s --numjobs 4 --iodepth=32 --group_reporting --rwmixread=100 | tee /volume/$NODENAME-fio4krandread-ephemeral.log
+
+              # We use this to keep the Pod running after tests are done
+              tail -f /dev/null
+          env:
+            - name: NODENAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: spec.nodeName
+          volumeMounts:
+            - mountPath: /volume
+              name: volume
+            - mountPath: /ephemeral
+              name: tmp
+          resources:
+            limits:
+              cpu: 2000m
+              memory: 10Gi
+            requests:
+              cpu: 100m
+              memory: 1Gi
+      volumes:
+        - name: volume
+          persistentVolumeClaim:
+            claimName: test-volume
+        - name: tmp
+          emptyDir: {}
