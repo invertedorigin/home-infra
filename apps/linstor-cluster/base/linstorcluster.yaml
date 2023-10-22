@@ -27,3 +27,5 @@ spec:
       patch: |-
         - op: remove
           path: /spec/ingress/1/ports
+        - op: remove
+          path: /spec/ingress/0/ports
