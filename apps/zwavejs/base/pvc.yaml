@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: zwavejs-pvc-replicated
+  namespace: zwavejs
+spec:
+  storageClassName: home-office-rack-default-replicated
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+  dataSource:
+    kind: PersistentVolumeClaim
+    name: zwavejs-pvc

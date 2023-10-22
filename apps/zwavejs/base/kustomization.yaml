@@ -62,9 +62,8 @@ helmCharts:
     persistence:
       config:
         enabled: true
-        storageClass: home-office-rack-default-strict-local
-        accessMode: ReadWriteOnce
-        size: 1Gi
+        type: persistentVolumeClaim
+        existingClaim: zwavejs-pvc-replicated
         mountPath: /usr/src/app/store
       usb:
         enabled: true
