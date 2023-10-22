@@ -82,7 +82,7 @@ metadata:
 data:
   config.yaml: |
     # Name of the tunnel you want to run
-    tunnel: invertedorigin-kube
+    tunnel: invertedorigin-tunnel
     credentials-file: /etc/cloudflared/creds/credentials.json
     # Serves the metrics server under /metrics and the readiness server under /ready
     metrics: 0.0.0.0:2000
@@ -97,11 +97,11 @@ data:
     # Remember, these rules route traffic from cloudflared to a local service. To route traffic
     # from the internet to cloudflared, run `cloudflared tunnel route dns <tunnel> <hostname>`.
     # E.g. `cloudflared tunnel route dns example-tunnel tunnel.example.com`.
-    ingress:
-      - hostname: "*.invertedorigin.com"
-        service: https://ingress-nginx-controller.ingress-nginx.svc.cluster.local:443
-        originRequest:
-          connectTimeout: 10s
-          originServerName: "*.invertedorigin.com"
+    # ingress:
+    #   - hostname: "*.invertedorigin.com"
+    #     service: https://ingress-nginx-controller.ingress-nginx.svc.cluster.local:443
+    #     originRequest:
+    #       connectTimeout: 10s
+    #       originServerName: "*.invertedorigin.com"
 
-      - service: http_status:404
+    #   - service: http_status:404
