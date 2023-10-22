@@ -21,8 +21,6 @@ spec:
       - name: scrypted
         image: koush/scrypted:latest@sha256:dac95d1c3525fa3b8b6718b98b52c7adcd62b4fbf30a6471b517320423442101
         imagePullPolicy: IfNotPresent
-        securityContext:
-          privileged: true
         ports:
         - containerPort: 10443
           hostPort: 10443
