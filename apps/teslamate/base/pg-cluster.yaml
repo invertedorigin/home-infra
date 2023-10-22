@@ -11,6 +11,7 @@ spec:
 
   storage:
     size: 10Gi
+    storageClass: home-office-rack-default-strict-local
 
   monitoring:
     enablePodMonitor: true
