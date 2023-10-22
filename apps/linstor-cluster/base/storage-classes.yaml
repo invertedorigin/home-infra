@@ -17,7 +17,7 @@ parameters:
   # linstor.csi.linbit.com/allowRemoteVolumeAccess: |
   #   - fromSame:
   #     - topology.kubernetes.io/zone
-  linstor.csi.linbit.com/replicasOnSame: topology.kubernetes.io/zone
+  linstor.csi.linbit.com/replicasOnSame: topology.kubernetes.io/region
   # Linstor properties 
   # property.linstor.csi.linbit.com/DrbdOptions/auto-quorum: suspend-io
   # property.linstor.csi.linbit.com/DrbdOptions/Resource/on-no-data-accessible: suspend-io
