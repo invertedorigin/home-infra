@@ -24,6 +24,7 @@ spec:
         # below.
         - --config
         - /etc/cloudflared/config/config.yaml
+        - --post-quantum
         - run
         livenessProbe:
           httpGet:
