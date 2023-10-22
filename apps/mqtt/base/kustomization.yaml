@@ -19,7 +19,7 @@ helmCharts:
         enabled: true
         fileStore:
           pvc:
-            storageClassName: longhorn-sticky
+            storageClassName: home-office-rack-default-strict-local
             size: 10Gi
       mqtt:
         enabled: true
