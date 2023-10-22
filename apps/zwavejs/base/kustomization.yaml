@@ -56,13 +56,10 @@ helmCharts:
       startup:
         enabled: false
 
-    securityContext:
-      privileged: true
-
     persistence:
       config:
         enabled: true
-        storageClass: longhorn-sticky
+        storageClass: home-office-rack-default-strict-local
         accessMode: ReadWriteOnce
         size: 1Gi
         mountPath: /usr/src/app/store
