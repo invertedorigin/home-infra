@@ -23,7 +23,6 @@ spec:
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 10443
-          hostPort: 10443
           protocol: TCP
         volumeMounts:
         - name: scrypted-volume
