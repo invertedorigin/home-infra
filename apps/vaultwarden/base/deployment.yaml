@@ -55,4 +55,4 @@ spec:
       volumes:
       - name: vaultwarden-volume
         persistentVolumeClaim:
-          claimName: vaultwarden-pvc
+          claimName: vaultwarden-pvc-replicated
