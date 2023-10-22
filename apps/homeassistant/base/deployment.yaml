@@ -47,4 +47,4 @@ spec:
       volumes:
       - name: homeassistant-volume
         persistentVolumeClaim:
-          claimName: homeassistant-pvc
+          claimName: homeassistant-pvc-replicated
