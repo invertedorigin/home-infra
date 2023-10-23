@@ -59,7 +59,8 @@ patches:
             command:
             - /thin_entrypoint
             args:
-            - --multus-conf-file=/host/etc/cni/net.d/00-multus.conf
+            - --multus-conf-file=auto
+            - --multus-autoconfig-dir=/host/etc/cni/net.d
             - --cleanup-config-on-exit=false
           initContainers:
           - name: multus-installer
