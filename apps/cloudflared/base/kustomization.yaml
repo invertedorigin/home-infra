@@ -15,7 +15,7 @@ helmCharts:
     controller:
       type: daemonset
     hostNetwork: false
-      
+
     image:
       repository: docker.io/cloudflare/cloudflared
       tag: 2023.8.2
@@ -29,10 +29,9 @@ helmCharts:
           secretKeyRef:
             name: tunnel-credentials
             key: tunnel-token
-    
     args:
-      - tunnel
-      - run
+    - tunnel
+    - run
 
     service:
       main:
@@ -43,7 +42,7 @@ helmCharts:
     #   prometheus.io/scrape: "true"
     #   prometheus.io/port: "8080"
     #   prometheus.io/path: "/metrics"
-    
+
     probes:
       liveness:
         enabled: true

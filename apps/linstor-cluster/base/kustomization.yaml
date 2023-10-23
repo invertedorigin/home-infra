@@ -9,19 +9,19 @@ resources:
 - storage-classes.yaml
 
 helmCharts:
-  - name: linstor-affinity-controller
-    repo: https://piraeus.io/helm-charts/
-    version: 1.3.0
-    releaseName: linstor-affinity-controller
-    namespace: piraeus-datastore
-    valuesInline:
-      linstor:
-        endpoint: http://linstor-controller.piraeus-datastore.svc:3370
-  - name: linstor-scheduler
-    repo: https://piraeus.io/helm-charts/
-    version: 0.2.2
-    releaseName: linstor-scheduler
-    namespace: piraeus-datastore
-    valuesInline:
-      linstor:
-        endpoint: http://linstor-controller.piraeus-datastore.svc:3370
+- name: linstor-affinity-controller
+  repo: https://piraeus.io/helm-charts/
+  version: 1.3.0
+  releaseName: linstor-affinity-controller
+  namespace: piraeus-datastore
+  valuesInline:
+    linstor:
+      endpoint: http://linstor-controller.piraeus-datastore.svc:3370
+- name: linstor-scheduler
+  repo: https://piraeus.io/helm-charts/
+  version: 0.2.2
+  releaseName: linstor-scheduler
+  namespace: piraeus-datastore
+  valuesInline:
+    linstor:
+      endpoint: http://linstor-controller.piraeus-datastore.svc:3370

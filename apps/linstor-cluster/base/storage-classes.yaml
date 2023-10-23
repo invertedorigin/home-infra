@@ -5,7 +5,7 @@ metadata:
 provisioner: linstor.csi.linbit.com
 allowVolumeExpansion: true
 volumeBindingMode: Immediate
-parameters: 
+parameters:
   # CSI related parameters
   # csi.storage.k8s.io/fstype: xfs
   csi.storage.k8s.io/fstype: ext4
@@ -18,7 +18,7 @@ parameters:
   #   - fromSame:
   #     - topology.kubernetes.io/zone
   linstor.csi.linbit.com/replicasOnSame: topology.kubernetes.io/region
-  # Linstor properties 
+  # Linstor properties
   # property.linstor.csi.linbit.com/DrbdOptions/auto-quorum: suspend-io
   # property.linstor.csi.linbit.com/DrbdOptions/Resource/on-no-data-accessible: suspend-io
   # property.linstor.csi.linbit.com/DrbdOptions/Resource/on-suspended-primary-outdated: force-secondary
@@ -31,7 +31,7 @@ metadata:
 provisioner: linstor.csi.linbit.com
 allowVolumeExpansion: true
 volumeBindingMode: Immediate
-parameters: 
+parameters:
   # CSI related parameters
   # csi.storage.k8s.io/fstype: xfs
   csi.storage.k8s.io/fstype: ext4
@@ -41,7 +41,7 @@ parameters:
   linstor.csi.linbit.com/autoPlace: "1"
   linstor.csi.linbit.com/allowRemoteVolumeAccess: "false"
 
-  # Linstor properties 
+  # Linstor properties
   # property.linstor.csi.linbit.com/DrbdOptions/auto-quorum: suspend-io
   # property.linstor.csi.linbit.com/DrbdOptions/Resource/on-no-data-accessible: suspend-io
   # property.linstor.csi.linbit.com/DrbdOptions/Resource/on-suspended-primary-outdated: force-secondary
