@@ -29,10 +29,6 @@ helmCharts:
       podMonitor:
         enabled: false
     podTemplate:
-      topologySpreadConstraints:
-        maxSkew: 1
-        kubernetes.io/hostname:
-          whenUnsatisfiable: DoNotSchedule
       merge:
         metadata:
           annotations:
