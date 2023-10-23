@@ -81,6 +81,32 @@ data:
         }
       ]
     }
+    {
+      "cniVersion": "0.3.1",
+      "name": "multus-cni-network",
+      "type": "multus",
+      "kubeconfig": "/etc/cni/net.d/multus.d/multus.kubeconfig",
+      "delegates": [
+        {
+          "cniVersion": "0.3.1",
+          "delegates": [
+            {
+              "cniVersion": "0.3.1",
+              "name": "cilium",
+              "plugins": [
+                {
+                  "enable-debug": false,
+                  "log-file": "/var/run/cilium/cilium-cni.log",
+                  "type": "cilium-cni"
+                }
+              ]
+            }
+          ],
+          "name": "multus-cni-network",
+          "type": "multus"
+        }
+      ]
+    }
 ---
 apiVersion: apps/v1
 kind: DaemonSet
@@ -160,6 +186,9 @@ spec:
           mountPath: /host/opt/cni/bin
         - name: multus-cfg
           mountPath: /tmp/multus-conf
+        - name: host-run-netns
+          mountPath: /host/var/run/netns
+          mountPropagation: HostToContainer
       initContainers:
         - name: install-multus-binary
           image: ghcr.io/k8snetworkplumbingwg/multus-cni:v4.0.2
