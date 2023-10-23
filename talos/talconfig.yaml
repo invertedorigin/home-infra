@@ -1,6 +1,6 @@
 ---
 clusterName: invertedorigin
-talosVersion: v1.5.3
+talosVersion: v1.5.4
 kubernetesVersion: v1.28.2
 endpoint: https://node-1.tail7ebe0.ts.net:6443
 
@@ -55,7 +55,7 @@ patches:
     machine:
       install:
         extensions:
-          - image: ghcr.io/siderolabs/drbd:9.2.4-v1.5.3
+          - image: ghcr.io/siderolabs/drbd:9.2.4-v1.5.4
       kernel:
         modules:
           - name: drbd
