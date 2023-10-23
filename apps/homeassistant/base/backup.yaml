@@ -23,3 +23,5 @@ spec:
       monthly: 2
       yearly: 1
     copyMethod: Clone
+    storageClassName: home-office-rack-default-strict-local
+    volumeSnapshotClassName: home-office-rack-default-strict-local
