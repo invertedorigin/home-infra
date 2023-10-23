@@ -206,9 +206,9 @@ spec:
         - name: dhcp-socketpath
           hostPath:
             path: /run/cni
+        - name: host-run-netns
+          hostPath:
+            path: /var/run/netns
         - name: procpath
           hostPath:
             path: /proc
-        - name: host-run-netns
-          hostpath:
-            path: /var/run/netns
