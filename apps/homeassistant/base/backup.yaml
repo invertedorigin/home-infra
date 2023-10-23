@@ -8,7 +8,7 @@ spec:
   # The PVC to be backed up
   sourcePVC: homeassistant-pvc-replicated
   trigger:
-    # Take a backup every 30 minutes
+    # Take a backup every 24 hours
     schedule: "0 0 * * *"
   restic:
     # Prune the repository (repack to free space) every 2 weeks
