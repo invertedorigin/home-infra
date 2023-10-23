@@ -30,8 +30,8 @@ helmCharts:
         enabled: false
     podTemplate:
       topologySpreadConstraints:
+        maxSkew: 1
         kubernetes.io/hostname:
-          maxScew: 1
           whenUnsatisfiable: DoNotSchedule
       merge:
         metadata:
