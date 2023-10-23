@@ -207,3 +207,6 @@ spec:
         - name: procpath
           hostPath:
             path: /proc
+        - name: host-run-netns
+          hostpath:
+           path: /var/run/netns
