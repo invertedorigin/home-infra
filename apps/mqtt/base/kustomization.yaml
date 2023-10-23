@@ -35,5 +35,17 @@ helmCharts:
             prometheus.io/scrape: "true"
             prometheus.io/port: "7777"
             prometheus.io/path: "/metrics"
+        spec:
+          affinity:
+            podAntiAffinity:
+              requiredDuringSchedulingIgnoredDuringExecution:
+              - labelSelector:
+                  matchExpressions:
+                  - key: app.kubernetes.io/component
+                    operator: In
+                    values:
+                    - nats
+                topologyKey: "kubernetes.io/hostname"
     natsBox:
       enabled: true
+      
