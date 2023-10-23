@@ -15,3 +15,7 @@ spec:
 
   monitoring:
     enablePodMonitor: true
+
+  affinity:
+    enablePodAntiAffinity: true
+    topologyKey: kubernetes.io/hostname
