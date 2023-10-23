@@ -5,3 +5,4 @@ resources:
 - service.yaml
 - pvc.yaml
 - vaultwarden-sealed-secret.yaml
+- backup.yaml
