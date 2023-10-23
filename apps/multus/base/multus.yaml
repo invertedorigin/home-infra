@@ -141,7 +141,7 @@ spec:
         image: ghcr.io/k8snetworkplumbingwg/multus-cni:v4.0.2
         command: ["/thin_entrypoint"]
         args:
-        - "--multus-conf-file=/tmp/multus-conf/00-multus.conf"
+        - "--multus-conf-file=auto"
         - "--multus-autoconfig-dir=/host/etc/cni/net.d"
         - "--cni-conf-dir=/host/etc/cni/net.d"
         resources:
