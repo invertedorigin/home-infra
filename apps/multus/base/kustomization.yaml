@@ -52,6 +52,8 @@ patches:
     spec:
       template:
         spec:
+          tolerations:
+          - operator: "Exists"
           containers:
           - name: multus
             command:
