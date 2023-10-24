@@ -35,7 +35,6 @@ helmCharts:
             podRestartThreshold: 100
             includingInitContainers: true
         - name: "RemovePodsViolatingTopologySpreadConstraint"
-        - name: "RemovePodsViolatingNodeTaints"
         - name: "RemovePodsViolatingNodeAffinity"
           args:
             nodeAffinityType:
@@ -45,7 +44,6 @@ helmCharts:
             enabled:
             - "RemovePodsViolatingInterPodAntiAffinity"
             - "RemovePodsHavingTooManyRestarts"
-            - "RemovePodsViolatingNodeTaints"
             - "RemovePodsViolatingNodeAffinity"
           balance:
             enabled:
