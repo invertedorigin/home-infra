@@ -24,9 +24,9 @@ helmCharts:
       mqtt:
         enabled: true
     service:
-      enabled: true
-      monitor: 
-        enabled: true  
+      ports:
+        monitor: 
+          enabled: true  
     podTemplate:
       merge:
         metadata:
