@@ -1,24 +1,24 @@
----
-apiVersion: upgrade.cattle.io/v1
-kind: Plan
-metadata:
-  name: edgenode-upgrade
-  namespace: system-upgrade
-spec:
-  concurrency: 1
-  # renovate: datasource=github-releases depName=jtcressy-home/edgenode
-  version: v0.3.7
-  nodeSelector:
-    matchExpressions:
-    - key: kubernetes.io/hostname
-      operator: Exists
-  serviceAccountName: system-upgrade
-  # Don't cordon / drain since this is a single node clsuter.
-  cordon: true
-  drain:
-    force: false
-    disableEviction: false
-  upgrade:
-    image: ghcr.io/jtcressy-home/edgenode
-    command:
-    - "/usr/sbin/suc-upgrade"
+# ---
+# apiVersion: upgrade.cattle.io/v1
+# kind: Plan
+# metadata:
+#   name: edgenode-upgrade
+#   namespace: system-upgrade
+# spec:
+#   concurrency: 1
+#   # renovate: datasource=github-releases depName=jtcressy-home/edgenode
+#   version: v0.3.7
+#   nodeSelector:
+#     matchExpressions:
+#     - key: kubernetes.io/hostname
+#       operator: Exists
+#   serviceAccountName: system-upgrade
+#   # Don't cordon / drain since this is a single node clsuter.
+#   cordon: true
+#   drain:
+#     force: false
+#     disableEviction: false
+#   upgrade:
+#     image: ghcr.io/jtcressy-home/edgenode
+#     command:
+#     - "/usr/sbin/suc-upgrade"
