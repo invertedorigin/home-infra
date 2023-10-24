@@ -24,7 +24,7 @@ patches:
               requiredDuringSchedulingIgnoredDuringExecution:
                 nodeSelectorTerms:
                 - matchExpressions:
-                  - key: node.kubernetes.io/microk8s-controlplane
+                  - key: node-role.kubernetes.io/control-plane
                     operator: Exists
           containers:
           - name: system-upgrade-controller
