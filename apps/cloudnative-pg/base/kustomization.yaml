@@ -1,6 +1,5 @@
 resources:
 - namespace.yaml
-- podmonitor.yaml
 
 namespace: cnpg-system
 helmCharts:
