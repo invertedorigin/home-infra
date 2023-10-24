@@ -20,3 +20,6 @@ helmCharts:
     global:
       leaderElection:
         namespace: cert-manager
+    prometheus:
+      servicemonitor:
+        enabled: true
