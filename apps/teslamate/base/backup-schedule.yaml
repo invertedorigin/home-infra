@@ -1,10 +1,14 @@
 apiVersion: postgresql.cnpg.io/v1
 kind: ScheduledBackup
 metadata:
-  name: teslmate-backups
+  name: teslamate-db-backup
   namespace: teslamate
 spec:
-  schedule: "0 0 0 * * *"
-  backupOwnerReference: self
+  # Note that this cron dialect has 6 places - an additional one for seconds
+  schedule: "1 0 0 * * *"
+  # Set this to true, if you want to suspend the backup for now
+  suspend: false
+  # Determines if the first backup should be done immediately
+  immediate: true
   cluster:
     name: teslamate-db
