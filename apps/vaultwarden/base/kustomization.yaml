@@ -5,4 +5,4 @@ resources:
 - service.yaml
 - pvc.yaml
 - backup.yaml
-- external-secret.yaml.yaml
+- external-secret.yaml
