@@ -23,10 +23,10 @@ helmCharts:
             size: 10Gi
       mqtt:
         enabled: true
-      service:
-        enabled: true
-        monitor: 
-          enabled: true  
+    service:
+      enabled: true
+      monitor: 
+        enabled: true  
     podTemplate:
       merge:
         metadata:
