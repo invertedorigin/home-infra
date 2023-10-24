@@ -31,6 +31,18 @@ helmCharts:
     prometheus:
       enabled: true
       prometheusSpec:
+        podMonitorNamespaceSelector:
+          any: true
+        podMonitorSelector: {}
+        podMonitorSelectorNilUsesHelmValues: false
+        ruleNamespaceSelector:
+          any: true
+        ruleSelector: {}
+        ruleSelectorNilUsesHelmValues: false
+        serviceMonitorNamespaceSelector:
+          any: true
+        serviceMonitorSelector: {}
+        serviceMonitorSelectorNilUsesHelmValues: false
         retention: 30d
         storageSpec:
           volumeClaimTemplate:
