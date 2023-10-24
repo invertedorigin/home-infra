@@ -20,7 +20,7 @@ helmCharts:
       metrics:
         enabled: true
         serviceMonitor:
-          enabled: false
+          enabled: true
       resources:
         requests:
           memory: 500Mi
