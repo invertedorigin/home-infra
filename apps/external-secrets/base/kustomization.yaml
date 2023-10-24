@@ -11,3 +11,5 @@ helmCharts:
   includeCRDs: false
   valuesInline:
     installCRDs: false
+    serviceMonitor:
+      enabled: true
