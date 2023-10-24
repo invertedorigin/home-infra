@@ -20,3 +20,15 @@ spec:
     enablePodAntiAffinity: true
     podAntiAffinityType: required
     topologyKey: kubernetes.io/hostname
+
+  backup:
+    barmanObjectStore:
+      destinationPath: s3://linstor-backups/teslamate/
+      endpointURL: https://f92cf6dd20992e652da4b54bae8dbd53.r2.cloudflarestorage.com
+      s3Credentials:
+        accessKeyId:
+          name: cloudflare-r2-secret
+          key: AWS_ACCESS_KEY_ID
+        secretAccessKey:
+          name: cloudflare-r2-secret
+          key: AWS_SECRET_ACCESS_KEY
