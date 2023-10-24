@@ -2,7 +2,7 @@ apiVersion: postgresql.cnpg.io/v1
 kind: ScheduledBackup
 metadata:
   name: teslmate-backups
-  namespace: teslamate 
+  namespace: teslamate
 spec:
   schedule: "0 0 0 * * *"
   backupOwnerReference: self

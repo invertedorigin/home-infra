@@ -48,4 +48,3 @@ helmCharts:
                 topologyKey: "kubernetes.io/hostname"
     natsBox:
       enabled: true
-      

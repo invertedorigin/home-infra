@@ -7,5 +7,5 @@ spec:
     topology.kubernetes.io/region: home
   storagePools:
     - name: home-office-rack-default
-      filePool: 
+      filePool:
         directory: /var/lib/linstor-pools/home-office-rack-default
