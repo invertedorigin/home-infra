@@ -39,5 +39,4 @@ spec:
       data:
         compression: gzip
         encryption: AES256
-        immediateCheckpoint: false
     retentionPolicy: "7d"
