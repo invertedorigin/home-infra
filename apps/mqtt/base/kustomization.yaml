@@ -24,6 +24,7 @@ helmCharts:
       mqtt:
         enabled: true
     promExporter:
+      enabled: true
       podMonitor:
         enabled: true
     podTemplate:
