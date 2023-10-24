@@ -4,6 +4,8 @@ resources:
 - namespace.yaml
 - nfd-rule.yaml
 - pvc.yaml
+- backup.yaml
+- external-secret.yaml
 
 namespace: zwavejs
 helmCharts:

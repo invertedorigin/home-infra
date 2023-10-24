@@ -4,3 +4,5 @@ resources:
 - namespace.yaml
 - service.yaml
 - pvc.yaml
+- backup.yaml
+- external-secret.yaml

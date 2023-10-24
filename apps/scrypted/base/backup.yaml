@@ -1,11 +1,11 @@
 apiVersion: volsync.backube/v1alpha1
 kind: ReplicationSource
 metadata:
-  name: vaultwarden-backup
-  namespace: vaultwarden
+  name: scrypted-backup
+  namespace: scrypted
 spec:
   # The PVC to be backed up
-  sourcePVC: vaultwarden-pvc-replicated
+  sourcePVC: scrypted-pvc-replicated
   trigger:
     # Take a backup every 24 hours
     schedule: "0 0 * * *"
