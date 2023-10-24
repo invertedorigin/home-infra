@@ -4,7 +4,7 @@ metadata:
   name: test-volume
   namespace: default
 spec:
-  storageClassName: home-office-rack-default-strict-local
+  storageClassName: home-office-rack-default-replicated
   resources:
     requests:
       storage: 20Gi

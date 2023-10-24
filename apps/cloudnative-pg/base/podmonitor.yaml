@@ -1,0 +1,11 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PodMonitor
+metadata:
+  name: teslamate-db
+  namespace: teslamate
+spec:
+  selector:
+    matchLabels:
+      postgresql: teslamate-db
+  podMetricsEndpoints:
+  - port: metrics
