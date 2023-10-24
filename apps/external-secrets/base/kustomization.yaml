@@ -13,3 +13,4 @@ helmCharts:
     installCRDs: false
     serviceMonitor:
       enabled: true
+      namespace: external-secrets
