@@ -27,7 +27,7 @@ helmCharts:
     global:
       rbac:
         create: true
-        createAggregateClusterRoles: false
+        createAggregateClusterRoles: true
     prometheus:
       enabled: true
       prometheusSpec:
