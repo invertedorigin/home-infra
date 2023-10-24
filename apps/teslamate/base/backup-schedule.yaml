@@ -4,7 +4,7 @@ metadata:
   name: teslmate-backups
   namespace: teslamate
 spec:
-  schedule: "0 0 * * *"
+  schedule: "0 0 0 * * *"
   backupOwnerReference: self
   cluster:
     name: teslamate-db
