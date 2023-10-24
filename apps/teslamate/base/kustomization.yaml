@@ -2,6 +2,7 @@ resources:
 - namespace.yaml
 - pg-cluster.yaml
 - external-secret.yaml
+- backup-schedule.yaml
 
 namespace: teslamate
 helmCharts:

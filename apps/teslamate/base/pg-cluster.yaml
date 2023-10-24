@@ -32,3 +32,4 @@ spec:
         secretAccessKey:
           name: cloudflare-r2-secret
           key: AWS_SECRET_ACCESS_KEY
+    retentionPolicy: "7d"
