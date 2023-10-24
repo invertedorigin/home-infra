@@ -23,11 +23,10 @@ helmCharts:
             size: 10Gi
       mqtt:
         enabled: true
-    promExporter:
-      enabled: true
-      port: 7777
-      podMonitor:
-        enabled: false
+      service:
+        enabled: true
+        monitor: 
+          enabled: true  
     podTemplate:
       merge:
         metadata:
