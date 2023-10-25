@@ -35,3 +35,4 @@ spec:
     repository: volsync-secret
     copyMethod: Direct
     destinationPVC: vaultwarden-pvc-replicated
+    storageClassName: home-office-rack-default-strict-local
