@@ -23,17 +23,17 @@ spec:
       yearly: 1
     copyMethod: Clone
     storageClassName: home-office-rack-default-strict-local
----
-apiVersion: volsync.backube/v1alpha1
-kind: ReplicationDestination
-metadata:
-  name: homeassistant-destination
-  namespace: homeassistant
-spec:
-  trigger:
-    manual: restore
-  restic:
-    repository: volsync-secret
-    copyMethod: Direct
-    destinationPVC: homeassistant-pvc-replicated
-    storageClassName: home-office-rack-default-strict-local
+# ---
+# apiVersion: volsync.backube/v1alpha1
+# kind: ReplicationDestination
+# metadata:
+#   name: homeassistant-destination
+#   namespace: homeassistant
+# spec:
+#   trigger:
+#     manual: restore
+#   restic:
+#     repository: volsync-secret
+#     copyMethod: Direct
+#     destinationPVC: homeassistant-pvc-replicated
+#     storageClassName: home-office-rack-default-strict-local
