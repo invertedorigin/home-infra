@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: vaultwarden-pvc-repli
+  name: vaultwarden-pvc-replicated
   namespace: vaultwarden
 spec:
   storageClassName: home-office-rack-default-replicated
@@ -10,6 +10,3 @@ spec:
   resources:
     requests:
       storage: 10Gi
-  dataSource:
-    kind: PersistentVolumeClaim
-    name: vaultwarden-pvc

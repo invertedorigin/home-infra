@@ -34,4 +34,4 @@ spec:
   restic:
     repository: volsync-secret
     copyMethod: Direct
-    destinationPVC: vaultwarden-pvc-repli
+    destinationPVC: vaultwarden-pvc-replicated
