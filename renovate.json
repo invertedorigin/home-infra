@@ -5,7 +5,7 @@
     "fileMatch": ["\\.yaml$"]
   },
   "helm-values": {
-    "fileMatch": ["./.+\\.yaml$"]
+    "fileMatch": ["\\.yaml$"]
   },
   "regexManagers": [
     {

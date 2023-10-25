@@ -1,0 +1,23 @@
+version: '3'
+
+tasks:
+  snapshots:
+    desc: Get snapshots for a specific restic repo
+    requires:
+      vars: [repo]
+    vars:
+      resticBaseRepo:
+        sh: doppler secrets get -p invertedorigin -c dev RESTIC_BASE_REPOSITORY --plain
+    cmds:
+      - doppler run -p invertedorigin -c dev -- restic snapshots --repo={{.resticBaseRepo}}/{{.repo}}
+
+  restore:
+    desc: Restores a snapshot with an id to a specified dest
+    requires:
+      vars: [repo, id, dest]
+    vars:
+      resticBaseRepo:
+        sh: doppler secrets get -p invertedorigin -c dev RESTIC_BASE_REPOSITORY --plain
+    cmds:
+      - doppler run -p invertedorigin -c dev -- restic restore --repo={{.resticBaseRepo}}/{{.repo}} {{.id}} --target {{.dest}}
+

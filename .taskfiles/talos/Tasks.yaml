@@ -1,0 +1,143 @@
+---
+version: "3"
+
+env:
+  TALOSCONFIG: "{{.PROJECT_DIR}}/talos/clusterconfig/talosconfig"
+  clusterName: "{{.cluster}}"
+
+tasks:
+  genconfig:
+    desc: Generate talos config
+    interactive: true
+    dir: "{{.PROJECT_DIR}}/talos"
+    requires:
+      vars: [cluster]
+    cmds:
+      - talhelper -v
+      - doppler -p invertedorigin -c dev -- talhelper genconfig
+
+  mergeclientconfig:
+    desc: Merge cluster talos client config into home directory default talosconfig
+    interactive: true
+    dir: "{{.PROJECT_DIR}}/talos"
+    requires:
+      vars: [cluster]
+    cmds:
+      - talosctl config merge --context={{.cluster}} --talosconfig=$HOME/.talos/config "{{.PROJECT_DIR}}/talos/clusterconfig/talosconfig"
+
+  bootstrap:
+    desc: Bootstrap talos cluster
+    interactive: true
+    dir: "{{.PROJECT_DIR}}/talos"
+    requires:
+      vars: [cluster, node]
+    cmds:
+      - talosctl bootstrap -n {{.node}}
+
+  disks:
+    desc: Get disks
+    interactive: true
+    dir: "{{.PROJECT_DIR}}/talos"
+    requires:
+      vars: [cluster, ip]
+    cmds:
+      - talosctl -n {{.ip}} disks --insecure
+
+  get-machine:
+    desc: Get machine
+    interactive: true
+    dir: "{{.PROJECT_DIR}}/talos"
+    requires:
+      vars: [cluster, node]
+    cmds:
+      - talosctl -n {{.node}} get mc
+
+  join-node:
+    desc: Apply talos config on a new node in maintenance mode
+    interactive: true
+    dir: "{{.PROJECT_DIR}}/kubernetes/clusters/{{.cluster}}/talos"
+    requires:
+      vars: [cluster, node, ip]
+    cmds:
+      - talosctl apply-config --insecure -e {{.ip}} -n {{.ip}} -f "{{.PROJECT_DIR}}/kubernetes/clusters/{{.cluster}}/talos/clusterconfig/{{.cluster}}-{{.node}}.yaml"
+    
+  launch-node-oci:
+    desc: Launch an Oracle Cloud instance and join it to the cluster
+    # dir: "{{.PROJECT_DIR}}/kubernetes/clusters/{{.cluster}}/talos"
+    interactive: true
+    requires:
+      vars: [cluster, node]
+    vars:
+      configfile: "{{.PROJECT_DIR}}/kubernetes/clusters/{{.cluster}}/talos/clusterconfig/{{.cluster}}-{{.node}}.yaml"
+      hostname: "{{.node | splitList \".\" | first}}"
+      compartmentId:
+        sh: op read op://{{.opVault}}/Oracle/compartmentId
+      region:
+        sh: yq -r '.machine.nodeLabels["topology.kubernetes.io/region"]' "{{.configfile}}"
+      vcn:
+        sh: yq -r '.machine.nodeLabels["infra.jtcressy.net/oci-vcn"]' "{{.configfile}}"
+      shape:
+        sh: yq -r '.machine.nodeLabels["infra.jtcressy.net/oci-shape"]' "{{.configfile}}"
+      image:
+        sh: yq -r '.machine.nodeLabels["infra.jtcressy.net/oci-image"]' "{{.configfile}}"
+      shapeCpu:
+        sh: yq -r '.machine.nodeLabels["infra.jtcressy.net/oci-cpus"]' "{{.configfile}}"
+      shapeMemory:
+        sh: yq -r '.machine.nodeLabels["infra.jtcressy.net/oci-memory"]' "{{.configfile}}"
+      vcnId: # use oci cli to get vcn id
+        sh: oci network vcn list --auth security_token --compartment-id={{.compartmentId | shellQuote}} --query "data[?\"display-name\"=='{{.vcn}}'].id | [0]" --raw-output
+      subnetId: # use oci cli to get 'default' subnet id
+        sh: oci network subnet list --auth security_token --compartment-id={{.compartmentId | shellQuote}} --vcn-id={{.vcnId | shellQuote}} --query "data[?\"display-name\"=='default-{{.region}}'].id | [0]" --raw-output
+      imageId: # use oci cli to get image id of a latest Talos image
+        sh: oci compute image list --compartment-id={{.compartmentId | shellQuote}} --operating-system Custom --operating-system-version Custom --auth security_token --query "data[?\"display-name\"=='{{.image}}'].id | [0]" --raw-output
+      availabilityDomain:
+        sh: oci iam availability-domain list --auth security_token --compartment-id={{.compartmentId | shellQuote}} --query data[0].name --raw-output
+    cmds:
+      - |
+        oci compute instance launch --auth security_token --shape={{.shape | shellQuote}} --shape-config='{"ocpus":{{.shapeCpu}},"memoryInGBs":{{.shapeMemory}}}' --availability-domain={{.availabilityDomain | shellQuote}} --compartment-id={{.compartmentId | shellQuote}} --image-id={{.imageId | shellQuote}} --subnet-id={{.subnetId | shellQuote}} --display-name={{.hostname | shellQuote}} --assign-public-ip=true --launch-options='{"networkType":"PARAVIRTUALIZED"}' --user-data-file={{.configfile}} --query 'data.id' --raw-output
+        echo 🚀🚀🚀
+    preconditions:
+      - oci session validate --auth security_token
+      - |
+        if [[ $(oci compute instance list --compartment-id={{.compartmentId | shellQuote}} --display-name={{.hostname | shellQuote}} --auth security_token --query "data[?\"lifecycle-state\"!='TERMINATING' && \"lifecycle-state\"!='TERMINATED'].id" --raw-output | wc -l) -gt 0 ]]; then
+          echo "Instance already exists with display-name {{.hostname}}"
+          exit 1
+        else
+          echo "Instance does not exist with display-name {{.hostname}}. Proceeding with launch. 🚀"
+          exit 0
+        fi
+
+  apply-config:
+    desc: Apply talos config on a node
+    interactive: true
+    dir: "{{.PROJECT_DIR}}/kubernetes/clusters/{{.cluster}}/talos"
+    requires:
+      vars: [cluster, node, mode]
+    vars:
+      mode: '{{ .mode | default "auto" }}'
+    cmds:
+      - talosctl apply-config -n {{.node}} -m {{.mode}} -f "{{.PROJECT_DIR}}/kubernetes/clusters/{{.cluster}}/talos/clusterconfig/{{.cluster}}-{{.node}}.yaml"
+    preconditions:
+      - talosctl -n {{.node}} get mc
+
+  upgrade-talos:
+    desc: Upgrade talos on a node
+    interactive: true
+    dir: "{{.PROJECT_DIR}}/kubernetes/clusters/{{.cluster}}/talos"
+    requires:
+      vars: [cluster, node, image]
+    cmds:
+      - talosctl -n {{.node}} upgrade --image {{.image}} --preserve=true -s
+    preconditions:
+      - talosctl -n {{.node}} get mc
+
+  upgrade-k8s:
+    desc: Upgrade k8s on a node
+    interactive: true
+    dir: "{{.PROJECT_DIR}}/kubernetes/clusters/{{.cluster}}/talos"
+    requires:
+      vars: [cluster, node, to]
+    cmds:
+      - talosctl -n {{.node}} upgrade-k8s --to {{.to}}
+    preconditions:
+      - talosctl -n {{.node}} get mc
