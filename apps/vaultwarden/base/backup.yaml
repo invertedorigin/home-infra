@@ -22,17 +22,3 @@ spec:
       yearly: 1
     copyMethod: Clone
     storageClassName: home-office-rack-default-strict-local
----
-apiVersion: volsync.backube/v1alpha1
-kind: ReplicationDestination
-metadata:
-  name: vaultwarden-destination
-  namespace: vaultwarden
-spec:
-  trigger:
-    manual: restore
-  restic:
-    repository: volsync-secret
-    copyMethod: Direct
-    destinationPVC: vaultwarden-pvc-replicated
-    storageClassName: home-office-rack-default-strict-local
