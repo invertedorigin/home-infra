@@ -8,3 +8,6 @@ helmCharts:
   version: 0.7.1
   releaseName: volsync
   namespace: kube-system
+  valuesInline:
+    metrics:
+      disableAuth: true
