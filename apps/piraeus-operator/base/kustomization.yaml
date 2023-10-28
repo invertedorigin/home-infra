@@ -1,6 +1,8 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
+
 namespace: piraeus-datastore
+
 resources:
 - github.com/piraeusdatastore/piraeus-operator//config/default?ref=v2.2.0
 - github.com/kubernetes-csi/external-snapshotter//client/config/crd?ref=v6.3.0
