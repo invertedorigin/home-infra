@@ -2,7 +2,6 @@ resources:
 - namespace.yaml
 - pvc.yaml
 - external-secret.yaml
-- external-secret.yaml
 
 namespace: homeassistant
 helmCharts:
