@@ -50,6 +50,7 @@ helmCharts:
         tls:
           - hosts:
               - *host
+            secretName: ha-tls-domain
 
     probes:
       liveness:
