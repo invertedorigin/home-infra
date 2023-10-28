@@ -1,8 +1,38 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
+
 resources:
 - github.com/rancher/system-upgrade-controller?ref=v0.13.1
 
 images:
 - name: rancher/system-upgrade-controller
   newTag: v0.13.1
+
+patches:
+- target:
+    group: apps
+    version: v1
+    kind: Deployment
+    namespace: system-upgrade
+    name: system-upgrade-controller
+  patch: |
+    apiVersion: apps/v1
+    kind: Deployment
+    metadata:
+      name: system-upgrade-controller
+      namespace: system-upgrade
+    spec:
+      template:
+        spec:
+          affinity:
+            nodeAffinity:
+              requiredDuringSchedulingIgnoredDuringExecution:
+                nodeSelectorTerms:
+                - matchExpressions:
+                  - key: node-role.kubernetes.io/control-plane
+                    operator: Exists
+          containers:
+          - name: system-upgrade-controller
+            env:
+            - name: SYSTEM_UPGRADE_JOB_ACTIVE_DEADLINE_SECONDS
+              value: "1800"
