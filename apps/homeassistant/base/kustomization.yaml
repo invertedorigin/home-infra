@@ -42,6 +42,7 @@ helmCharts:
       main:
         enabled: true
         annotations:
+          kubernetes.io/ingress.class: "nginx"
           cert-manager.io/cluster-issuer: "cloudflare-issuer"
         hosts:
           - host: &host ha.invertedorigin.com
