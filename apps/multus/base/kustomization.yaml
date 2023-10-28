@@ -5,5 +5,5 @@ namespace: kube-system
 
 resources:
 - crd.yaml
-- dhcp-networkattachment.yaml
+- dhcp-network-attachment.yaml
 - multus.yaml
