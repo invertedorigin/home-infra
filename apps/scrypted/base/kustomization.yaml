@@ -1,8 +1,76 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: scrypted
+
 resources:
-- ingress.yaml
-- deployment.yaml
 - namespace.yaml
-- service.yaml
 - pvc.yaml
-- backup.yaml
 - external-secret.yaml
+- backup.yaml
+
+helmCharts:
+- name: app-template
+  repo: https://bjw-s.github.io/helm-charts/
+  version: 1.5.1
+  releaseName: scrypted
+  valuesInline:
+    image:
+      repository: koush/scrypted:latest
+      tag: latest@sha256:dac95d1c3525fa3b8b6718b98b52c7adcd62b4fbf30a6471b517320423442101
+
+    podAnnotations:
+      k8s.v1.cni.cncf.io/networks: |-
+        [
+          {
+            "name": "macvlan-conf-dhcp",
+            "namespace": "kube-system",
+            "mac": "fa:77:a4:fe:98:91"
+          }
+        ]
+
+    env:
+      TZ: "America/Chicago"
+
+    service:
+      main:
+        ports:
+          http:
+            port: 10443
+
+    ingress:
+      main:
+        enabled: true
+        annotations:
+          nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+          cert-manager.io/cluster-issuer: "cloudflare-issuer"
+        hosts:
+          - host: &host scrypted.invertedorigin.com
+            paths:
+              - path: /
+        tls:
+          - hosts:
+              - *host
+            secretName: zwavejs-tls-domain
+
+    probes:
+      liveness:
+        enabled: false
+      readiness:
+        enabled: false 
+      startup:
+        enabled: false
+  
+    resources:
+      requests:
+        cpu: 500m
+        memory: 4Gi
+      limits:
+        cpu: 4
+        memory: 4Gi
+
+    persistence:
+      config:
+        enabled: true
+        existingClaim: scrypted-pvc-replicated
+        mountPath: /server/volume
