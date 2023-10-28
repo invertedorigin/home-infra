@@ -41,7 +41,8 @@ helmCharts:
     ingress:
       main:
         enabled: true
-        className: nginx
+        anotations:
+          cert-manager.io/cluster-issuer: "cloudflare-issuer"
         hosts:
           - host: &host ha.invertedorigin.com
             paths:
