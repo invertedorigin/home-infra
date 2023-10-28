@@ -14,7 +14,7 @@ tasks:
       vars: [cluster]
     cmds:
       - talhelper -v
-      - doppler -p invertedorigin -c dev -- talhelper genconfig
+      - doppler run -p talos -c prd -- talhelper genconfig
 
   mergeclientconfig:
     desc: Merge cluster talos client config into home directory default talosconfig

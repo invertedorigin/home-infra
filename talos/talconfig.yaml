@@ -25,9 +25,6 @@ nodes:
 ## CORE HOME OFFICE RACK (battery backup) ##
   - hostname: node-1.tail7ebe0.ts.net
     ipAddress: node-1.tail7ebe0.ts.net
-    ## myw is a spare node so controlPlane can be set to true
-    ##  when performing extended maintenance on a control plane node
-    ##  and we want to ensure we still have 3 active nodes in etcd
     controlPlane: true
     installDiskSelector:
       model: KINGSTON OM8PGP4512Q-A0
@@ -51,6 +48,11 @@ nodes:
     nodeLabels:
       topology.kubernetes.io/region: home
 patches:
+  - |
+    machine:
+      sysctls:
+        net.core.rmem_max: 2500000
+        net.core.wmem_max: 2500000
   - |
     machine:
       install:
