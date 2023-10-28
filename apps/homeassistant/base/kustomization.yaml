@@ -31,7 +31,7 @@ helmCharts:
       main:
         ports:
           http:
-            port: &port 8123
+            port: 8123
 
     ingress:
       main:
