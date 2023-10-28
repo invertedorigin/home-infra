@@ -57,10 +57,10 @@ helmCharts:
       liveness:
         enabled: false
       readiness:
-        enabled: false 
+        enabled: false
       startup:
         enabled: false
-  
+
     resources:
       requests:
         cpu: 50m
