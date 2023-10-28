@@ -1,9 +1,14 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: homeassistant
+
 resources:
 - namespace.yaml
 - pvc.yaml
 - external-secret.yaml
+- backup.yaml
 
-namespace: homeassistant
 helmCharts:
 - name: app-template
   repo: https://bjw-s.github.io/helm-charts/
