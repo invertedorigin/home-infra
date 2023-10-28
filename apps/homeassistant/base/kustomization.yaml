@@ -41,9 +41,6 @@ helmCharts:
           - host: &host ha.invertedorigin.com
             paths:
               - path: /
-                service:
-                  name: main
-                  port: *port
         tls:
           - hosts:
               - *host
