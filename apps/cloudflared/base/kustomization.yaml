@@ -9,67 +9,80 @@ namespace: cloudflared
 helmCharts:
 - name: app-template
   repo: https://bjw-s.github.io/helm-charts
-  version: 2.0.3
+  version: 1.5.1
   releaseName: cloudflared
   valuesInline:
-    controllers:
-      main:
-        replicas: 2
-        strategy: RollingUpdate
-        annotations:
-          reloader.stakater.com/auto: "true"
-        containers:
-          main:
-            image:
-              repository: docker.io/cloudflare/cloudflared
-              tag: 2023.8.2
-            env:
-              NO_AUTOUPDATE: "true"
-              TUNNEL_CRED_FILE: /etc/cloudflared/creds/credentials.json
-              TUNNEL_METRICS: 0.0.0.0:8080
-              TUNNEL_TRANSPORT_PROTOCOL: quic
-              TUNNEL_POST_QUANTUM: true
-              TUNNEL_TOKEN:
-                valueFrom:
-                  secretKeyRef:
-                    name: tunnel-credentials
-                    key: tunnel-token
-            args:
-              - tunnel
-              - --config
-              - /etc/cloudflared/config/config.yaml
-              - run
-              - "${CLUSTER_CLOUDFLARE_TUNNEL_ID}"
-            probes:
-              liveness:
-                enabled: true
-                custom: true
-                spec:
-                  httpGet:
-                    path: /ready
-                    port: 8080
-                  initialDelaySeconds: 0
-                  periodSeconds: 10
-                  timeoutSeconds: 1
-                  failureThreshold: 3
-              readiness:
-              startup:
-                enabled: false
-            resources:
-              requests:
-                cpu: 5m
-                memory: 128M
-              limits:
-                memory: 256M
-        pod:
-          securityContext:
-            runAsUser: 568
-            runAsGroup: 568
+    controller:
+      type: daemonset
+    hostNetwork: false
+
+    image:
+      repository: docker.io/cloudflare/cloudflared
+      tag: 2023.8.2
+
+    env:
+      NO_AUTOUPDATE: "true"
+      TUNNEL_METRICS: 0.0.0.0:8080
+      TUNNEL_TRANSPORT_PROTOCOL: http2
+      TUNNEL_TOKEN:
+        valueFrom:
+          secretKeyRef:
+            name: tunnel-credentials
+            key: tunnel-token
+    args:
+    - tunnel
+    - run
+
     service:
       main:
         ports:
           http:
             port: 8080
+    # podAnnotations:
+    #   prometheus.io/scrape: "true"
+    #   prometheus.io/port: "8080"
+    #   prometheus.io/path: "/metrics"
+
+    probes:
+      liveness:
+        enabled: true
+        custom: true
+        spec:
+          httpGet:
+            path: /ready
+            port: http
+          initialDelaySeconds: 0
+          periodSeconds: 10
+          timeoutSeconds: 1
+          failureThreshold: 3
+      readiness:
+        enabled: true
+        custom: true
+        spec:
+          httpGet:
+            path: /ready
+            port: http
+          initialDelaySeconds: 0
+          periodSeconds: 10
+          timeoutSeconds: 1
+          failureThreshold: 3
+      startup:
+        enabled: true
+        custom: true
+        spec:
+          httpGet:
+            path: /ready
+            port: http
+          failureThreshold: 30
+          periodSeconds: 10
+
+    resources:
+      requests:
+        cpu: 6m
+        memory: 105Mi
+      limits:
+        memory: 105Mi
+    
     serviceMonitor:
       main:
         enabled: true
