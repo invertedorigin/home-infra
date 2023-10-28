@@ -1,7 +1,7 @@
 resources:
 - namespace.yaml
 - cloudflare-issuer.yaml
-- cloudflare-sealed-secret.yaml
+- external-secret.yaml
 
 helmCharts:
 - name: cert-manager
