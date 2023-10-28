@@ -21,7 +21,7 @@ helmCharts:
       main:
         ports:
           http:
-            port: 8123
+            port: &port 8123
 
     ingress:
       main:
@@ -34,7 +34,7 @@ helmCharts:
               - path: /
                 service:
                   name: main
-                  port: http
+                  port: *port
         tls:
           - hosts:
               - *host
