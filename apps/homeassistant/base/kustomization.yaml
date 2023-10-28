@@ -41,7 +41,7 @@ helmCharts:
     ingress:
       main:
         enabled: true
-        anotations:
+        annotations:
           cert-manager.io/cluster-issuer: "cloudflare-issuer"
         hosts:
           - host: &host ha.invertedorigin.com
