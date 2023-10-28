@@ -15,4 +15,3 @@ tasks:
   default:
     cmds:
       - task -l
-

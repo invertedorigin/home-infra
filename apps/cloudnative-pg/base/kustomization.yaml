@@ -12,4 +12,3 @@ helmCharts:
   releaseName: cnpg
   namespace: cnpg-system
   includeCRDs: true
-
