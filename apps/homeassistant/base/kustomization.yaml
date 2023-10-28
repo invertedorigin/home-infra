@@ -12,7 +12,7 @@ helmCharts:
   valuesInline:
     image:
       repository: homeassistant/home-assistant
-      tag: 2023.10.5@sha256:adc375006da505d3f181561c2afbcf7d2493c5c742cf942b0544953857671b87
+      tag: 2023.10.5@sha256:3b2810093b118a77c87f3639e51930ffb0f10e8af679ba8582843e9bbfdd5fa5
 
     env:
       TZ: "America/Chicago"
