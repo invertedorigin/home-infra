@@ -1,8 +1,62 @@
 resources:
-- ingress.yaml
-- deployment.yaml
 - namespace.yaml
-- service.yaml
 - pvc.yaml
-- backup.yaml
 - external-secret.yaml
+- external-secret.yaml
+
+namespace: homeassistant
+helmCharts:
+- name: app-template
+  repo: https://bjw-s.github.io/helm-charts/
+  version: 1.5.1
+  releaseName: homeassistant
+  valuesInline:
+    image:
+      repository: homeassistant/home-assistant
+      tag: 2023.10.5@sha256:24ce89830111fe19bb2df00621dfd631fd20abe07a453ea60c2027890d5b934e
+
+    env:
+      TZ: "America/Chicago"
+
+    service:
+      main:
+        ports:
+          http:
+            port: 8123
+
+    ingress:
+      main:
+        enabled: true
+        className: nginx
+        annotations:
+        hosts:
+          - host: &host ha.invertedorigin.com
+            paths:
+              - path: /
+                service:
+                  name: main
+                  port: http
+        tls:
+          - hosts:
+              - *host
+
+    probes:
+      liveness:
+        enabled: false
+      readiness:
+        enabled: false 
+      startup:
+        enabled: false
+  
+    resources:
+      requests:
+        cpu: 50m
+        memory: 200Mi
+      limits:
+        memory: 500Mi
+
+    persistence:
+      config:
+        enabled: true
+        existingClaim: homeassistant-pvc-replicated
+        mountPath: /config
