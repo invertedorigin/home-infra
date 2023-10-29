@@ -3,6 +3,7 @@ kind: Kustomization
 
 resources:
 - github.com/rancher/system-upgrade-controller?ref=v0.13.1
+- service-account.yaml
 
 images:
 - name: rancher/system-upgrade-controller
