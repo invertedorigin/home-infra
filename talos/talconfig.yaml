@@ -37,7 +37,7 @@ nodes:
     nodeLabels:
       topology.kubernetes.io/region: home
   - hostname: node-2.tail7ebe0.ts.net
-    ipAddress: node-3.tail7ebe0.ts.net
+    ipAddress: node-2.tail7ebe0.ts.net
     controlPlane: true
     installDiskSelector:
       model: KINGSTON OM8PGP4512Q-A0
