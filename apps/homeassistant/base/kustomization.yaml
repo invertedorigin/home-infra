@@ -29,6 +29,8 @@ helmCharts:
           }
         ]
 
+      policy.cilium.io/proxy-visibility: "<Ingress/8123/TCP/HTTP>"
+
     env:
       TZ: "America/Chicago"
 
