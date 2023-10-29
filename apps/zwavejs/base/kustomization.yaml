@@ -91,4 +91,4 @@ helmCharts:
     resources:
       requests:
         memory: 250Mi
-        cpu: 10m
+        cpu: 25m
