@@ -53,6 +53,15 @@ nodes:
     nodeLabels:
       topology.kubernetes.io/region: home
 patches:
+  - |-
+    machine:
+      features:
+        kubernetesTalosAPIAccess:
+          enabled: true
+          allowedRoles:
+            - os:admin
+          allowedKubernetesNamespaces:
+            - system-upgrade
   - |
     machine:
       sysctls:
