@@ -1,7 +1,7 @@
 ---
 clusterName: invertedorigin
 talosVersion: v1.5.4
-kubernetesVersion: v1.28.2
+kubernetesVersion: v1.28.3
 endpoint: https://node-1.tail7ebe0.ts.net:6443
 
 allowSchedulingOnMasters: true
