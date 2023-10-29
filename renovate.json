@@ -26,6 +26,32 @@
     {
       "matchPackageNames": ["koush/scrypted"],
       "versioning": "regex:^18-jammy-full.s6-v?(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+)?$"
+    },
+    {
+      "matchPackageNames": [
+        "siderolabs/talos"
+      ],
+      "matchUpdateTypes": [
+        "major",
+        "minor",
+        "patch"
+      ],
+      "groupName": "all talos upgrades",
+      "groupSlug": "all-talos-upgrades"
+    },
+    {
+      "matchPackageNames": [
+        "talos/talconfig.yaml"
+      ],
+      "matchUpdateTypes": [
+        "major",
+        "minor",
+        "patch"
+      ],
+      "groupName": "all kube upgrades",
+      "groupSlug": "all-k8s-upgrades"
     }
   ]
+
+
 }
