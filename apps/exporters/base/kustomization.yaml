@@ -14,7 +14,7 @@ helmCharts:
   valuesInline:
     image:
       repository: keatontaylor/royalcaribbean-prometheus-exporter
-      tag: v0.0.2
+      tag: v0.0.3
 
     args:
     - --url
