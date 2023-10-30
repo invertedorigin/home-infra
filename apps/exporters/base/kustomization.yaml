@@ -1,0 +1,38 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+- namespace.yaml
+
+namespace: custom-prom-exporters
+
+helmCharts:
+- name: app-template
+  repo: https://bjw-s.github.io/helm-charts
+  version: 1.5.1
+  releaseName: royalcaribbean-prometheus-exporter
+  valuesInline:
+    image:
+      repository: keatontaylor/royalcaribbean-prometheus-exporter
+      tag: latest
+
+    args:
+    - --url
+    - https://www.royalcaribbean.com/graph
+
+    service:
+      main:
+        ports:
+          http:
+            port: 2112
+
+    resources:
+      requests:
+        cpu: 6m
+        memory: 105Mi
+      limits:
+        memory: 105Mi
+
+    serviceMonitor:
+      main:
+        enabled: true
