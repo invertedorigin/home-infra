@@ -19,6 +19,8 @@ helmCharts:
     args:
     - --url
     - https://www.royalcaribbean.com/graph
+    - --interval
+    - 3600s
 
     service:
       main:
