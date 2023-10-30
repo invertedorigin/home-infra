@@ -49,6 +49,8 @@ helmCharts:
       tag: v0.0.2
 
     args:
+    - --url
+    - https://powertochoose.org
     - --interval
     - 3600s
 
