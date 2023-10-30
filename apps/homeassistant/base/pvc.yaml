@@ -4,7 +4,7 @@ metadata:
   name: homeassistant-pvc-replicated
   namespace: homeassistant
 spec:
-  storageClassName: home-office-rack-sata-ssd-replicated
+  storageClassName: home-office-rack-default-replicated
   accessModes:
     - ReadWriteOnce
   resources:
