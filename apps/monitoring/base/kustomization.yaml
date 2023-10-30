@@ -133,6 +133,9 @@ helmCharts:
         linstor:
           url: https://raw.githubusercontent.com/invertedorigin/home-infra/main/apps/monitoring/linstor_dashboard.json
           datasource: Prometheus
+        royal:
+          url: https://raw.githubusercontent.com/invertedorigin/home-infra/main/apps/monitoring/royal_dashboard.json
+          datasource: Prometheus
         cloudnative-pg:
           url: https://raw.githubusercontent.com/cloudnative-pg/cloudnative-pg/main/docs/src/samples/monitoring/grafana-dashboard.json
           datasource: Prometheus
