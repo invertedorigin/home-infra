@@ -60,6 +60,14 @@ helmCharts:
           http:
             port: 2112
 
+    probes:
+      liveness:
+        enabled: false
+      readiness:
+        enabled: false
+      startup:
+        enabled: false
+
     resources:
       requests:
         cpu: 6m
