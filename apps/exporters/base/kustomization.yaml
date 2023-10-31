@@ -52,7 +52,7 @@ helmCharts:
     - --url
     - https://www.royalcaribbean.com/graph
     - --interval
-    - 21600s
+    - 3600s
 
     service:
       main:
