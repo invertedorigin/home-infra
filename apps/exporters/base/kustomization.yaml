@@ -42,17 +42,17 @@ helmCharts:
 - name: app-template
   repo: https://bjw-s.github.io/helm-charts
   version: 1.5.1
-  releaseName: powertochoose-prometheus-exporter
+  releaseName: royalcaribbean-prometheus-exporter-experimental
   valuesInline:
     image:
-      repository: keatontaylor/powertochoose-prometheus-exporter
-      tag: v0.0.2
+      repository: keatontaylor/royalcaribbean-prometheus-exporter
+      tag: experimental
 
     args:
     - --url
-    - https://powertochoose.org
+    - https://www.royalcaribbean.com/graph
     - --interval
-    - 3600s
+    - 21600s
 
     service:
       main:
