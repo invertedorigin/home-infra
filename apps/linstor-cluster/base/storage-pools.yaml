@@ -9,8 +9,8 @@ spec:
     - name: home-office-rack-default
       filePool:
         directory: /var/lib/linstor-pools/home-office-rack-default
-    - name: home-office-rack-sata-ssd
-      lvmPool: {}
-      source:
-        hostDevices:
-          - /dev/sda
+    # - name: home-office-rack-sata-ssd
+    #   lvmThinPool: {}
+    #   source:
+    #     hostDevices:
+    #       - /dev/sda
