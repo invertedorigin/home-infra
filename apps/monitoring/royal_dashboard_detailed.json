@@ -25,7 +25,7 @@
       {
         "datasource": {
           "type": "prometheus",
-          "uid": "df89da39-256a-4c3a-a54e-26becc4632fe"
+          "uid": "PBFA97CFB590B2093"
         },
         "gridPos": {
           "h": 2,
@@ -62,7 +62,7 @@
       {
         "datasource": {
           "type": "prometheus",
-          "uid": "df89da39-256a-4c3a-a54e-26becc4632fe"
+          "uid": "PBFA97CFB590B2093"
         },
         "fieldConfig": {
           "defaults": {
@@ -114,7 +114,7 @@
           {
             "datasource": {
               "type": "prometheus",
-              "uid": "df89da39-256a-4c3a-a54e-26becc4632fe"
+              "uid": "PBFA97CFB590B2093"
             },
             "editorMode": "code",
             "expr": "royal_detail_price{ship=~\"$Ship\", departureport=~\"$DeparturePort\", days=~\"$CruiseDays\", datelabel=~\"$Year-$Month-.*\", stateroomclass=\"INTERIOR\"}",
@@ -140,7 +140,7 @@
       {
         "datasource": {
           "type": "prometheus",
-          "uid": "df89da39-256a-4c3a-a54e-26becc4632fe"
+          "uid": "PBFA97CFB590B2093"
         },
         "fieldConfig": {
           "defaults": {
@@ -192,7 +192,7 @@
           {
             "datasource": {
               "type": "prometheus",
-              "uid": "df89da39-256a-4c3a-a54e-26becc4632fe"
+              "uid": "PBFA97CFB590B2093"
             },
             "editorMode": "code",
             "expr": "royal_detail_price{ship=~\"$Ship\", departureport=~\"$DeparturePort\", days=~\"$CruiseDays\", datelabel=~\"$Year-$Month-.*\", stateroomclass=\"OUTSIDE\"}",
@@ -218,7 +218,7 @@
       {
         "datasource": {
           "type": "prometheus",
-          "uid": "df89da39-256a-4c3a-a54e-26becc4632fe"
+          "uid": "PBFA97CFB590B2093"
         },
         "fieldConfig": {
           "defaults": {
@@ -270,7 +270,7 @@
           {
             "datasource": {
               "type": "prometheus",
-              "uid": "df89da39-256a-4c3a-a54e-26becc4632fe"
+              "uid": "PBFA97CFB590B2093"
             },
             "editorMode": "code",
             "expr": "royal_detail_price{ship=~\"$Ship\", departureport=~\"$DeparturePort\", days=~\"$CruiseDays\", datelabel=~\"$Year-$Month-.*\", stateroomclass=\"BALCONY\"}",
@@ -296,7 +296,7 @@
       {
         "datasource": {
           "type": "prometheus",
-          "uid": "df89da39-256a-4c3a-a54e-26becc4632fe"
+          "uid": "PBFA97CFB590B2093"
         },
         "fieldConfig": {
           "defaults": {
@@ -348,7 +348,7 @@
           {
             "datasource": {
               "type": "prometheus",
-              "uid": "df89da39-256a-4c3a-a54e-26becc4632fe"
+              "uid": "PBFA97CFB590B2093"
             },
             "editorMode": "code",
             "expr": "royal_detail_price{ship=~\"$Ship\", departureport=~\"$DeparturePort\", days=~\"$CruiseDays\", datelabel=~\"$Year-$Month-.*\", stateroomclass=\"DELUXE\"}",
@@ -374,7 +374,7 @@
       {
         "datasource": {
           "type": "prometheus",
-          "uid": "df89da39-256a-4c3a-a54e-26becc4632fe"
+          "uid": "PBFA97CFB590B2093"
         },
         "fieldConfig": {
           "defaults": {
@@ -816,7 +816,7 @@
           {
             "datasource": {
               "type": "prometheus",
-              "uid": "df89da39-256a-4c3a-a54e-26becc4632fe"
+              "uid": "PBFA97CFB590B2093"
             },
             "editorMode": "code",
             "exemplar": false,
@@ -848,7 +848,7 @@
       {
         "datasource": {
           "type": "prometheus",
-          "uid": "df89da39-256a-4c3a-a54e-26becc4632fe"
+          "uid": "PBFA97CFB590B2093"
         },
         "fieldConfig": {
           "defaults": {
@@ -931,7 +931,7 @@
           {
             "datasource": {
               "type": "prometheus",
-              "uid": "df89da39-256a-4c3a-a54e-26becc4632fe"
+              "uid": "PBFA97CFB590B2093"
             },
             "disableTextWrap": false,
             "editorMode": "code",
@@ -952,7 +952,7 @@
       {
         "datasource": {
           "type": "prometheus",
-          "uid": "df89da39-256a-4c3a-a54e-26becc4632fe"
+          "uid": "PBFA97CFB590B2093"
         },
         "fieldConfig": {
           "defaults": {
@@ -1035,7 +1035,7 @@
           {
             "datasource": {
               "type": "prometheus",
-              "uid": "df89da39-256a-4c3a-a54e-26becc4632fe"
+              "uid": "PBFA97CFB590B2093"
             },
             "disableTextWrap": false,
             "editorMode": "code",
@@ -1069,7 +1069,7 @@
       {
         "datasource": {
           "type": "prometheus",
-          "uid": "df89da39-256a-4c3a-a54e-26becc4632fe"
+          "uid": "PBFA97CFB590B2093"
         },
         "fieldConfig": {
           "defaults": {
@@ -1151,7 +1151,7 @@
           {
             "datasource": {
               "type": "prometheus",
-              "uid": "df89da39-256a-4c3a-a54e-26becc4632fe"
+              "uid": "PBFA97CFB590B2093"
             },
             "editorMode": "code",
             "exemplar": true,
@@ -1164,7 +1164,7 @@
           {
             "datasource": {
               "type": "prometheus",
-              "uid": "df89da39-256a-4c3a-a54e-26becc4632fe"
+              "uid": "PBFA97CFB590B2093"
             },
             "editorMode": "code",
             "exemplar": true,
@@ -1178,7 +1178,7 @@
           {
             "datasource": {
               "type": "prometheus",
-              "uid": "df89da39-256a-4c3a-a54e-26becc4632fe"
+              "uid": "PBFA97CFB590B2093"
             },
             "editorMode": "code",
             "exemplar": true,
@@ -1192,7 +1192,7 @@
           {
             "datasource": {
               "type": "prometheus",
-              "uid": "df89da39-256a-4c3a-a54e-26becc4632fe"
+              "uid": "PBFA97CFB590B2093"
             },
             "editorMode": "code",
             "exemplar": true,
@@ -1210,7 +1210,7 @@
       {
         "datasource": {
           "type": "prometheus",
-          "uid": "df89da39-256a-4c3a-a54e-26becc4632fe"
+          "uid": "PBFA97CFB590B2093"
         },
         "fieldConfig": {
           "defaults": {
@@ -1286,7 +1286,7 @@
           {
             "datasource": {
               "type": "prometheus",
-              "uid": "df89da39-256a-4c3a-a54e-26becc4632fe"
+              "uid": "PBFA97CFB590B2093"
             },
             "editorMode": "code",
             "exemplar": true,
@@ -1314,7 +1314,7 @@
           },
           "datasource": {
             "type": "prometheus",
-            "uid": "df89da39-256a-4c3a-a54e-26becc4632fe"
+            "uid": "PBFA97CFB590B2093"
           },
           "definition": "label_values(royal_detail_price,datelabel)",
           "hide": 0,
@@ -1340,7 +1340,7 @@
           },
           "datasource": {
             "type": "prometheus",
-            "uid": "df89da39-256a-4c3a-a54e-26becc4632fe"
+            "uid": "PBFA97CFB590B2093"
           },
           "definition": "label_values(royal_detail_price,datelabel)",
           "hide": 0,
@@ -1366,7 +1366,7 @@
           },
           "datasource": {
             "type": "prometheus",
-            "uid": "df89da39-256a-4c3a-a54e-26becc4632fe"
+            "uid": "PBFA97CFB590B2093"
           },
           "definition": "label_values(royal_detail_price,ship)",
           "hide": 0,
@@ -1392,7 +1392,7 @@
           },
           "datasource": {
             "type": "prometheus",
-            "uid": "df89da39-256a-4c3a-a54e-26becc4632fe"
+            "uid": "PBFA97CFB590B2093"
           },
           "definition": "label_values(royal_detail_price,departureport)",
           "hide": 0,
@@ -1418,7 +1418,7 @@
           },
           "datasource": {
             "type": "prometheus",
-            "uid": "df89da39-256a-4c3a-a54e-26becc4632fe"
+            "uid": "PBFA97CFB590B2093"
           },
           "definition": "label_values(royal_detail_price,days)",
           "hide": 0,
@@ -1444,7 +1444,7 @@
           },
           "datasource": {
             "type": "prometheus",
-            "uid": "df89da39-256a-4c3a-a54e-26becc4632fe"
+            "uid": "PBFA97CFB590B2093"
           },
           "definition": "label_values(royal_detail_price,stateroomclass)",
           "hide": 0,
@@ -1470,7 +1470,7 @@
           },
           "datasource": {
             "type": "prometheus",
-            "uid": "df89da39-256a-4c3a-a54e-26becc4632fe"
+            "uid": "PBFA97CFB590B2093"
           },
           "definition": "label_values(stateroomdetailclass)",
           "hide": 0,
@@ -1491,7 +1491,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "df89da39-256a-4c3a-a54e-26becc4632fe"
+            "uid": "PBFA97CFB590B2093"
           },
           "filters": [],
           "hide": 0,
