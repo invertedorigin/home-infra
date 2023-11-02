@@ -137,6 +137,95 @@ helmCharts:
                     - - cruise
                       - =
                       - cruise
+      rules.yaml:
+        apiVersion: 1
+        groups:
+            - orgId: 1
+              name: Cruise
+              folder: Kubernetes
+              interval: 5m
+              rules:
+                - uid: b990cdc2-3d0c-44cb-8d40-024fe67887e0
+                  title: test
+                  condition: C
+                  data:
+                    - refId: A
+                      relativeTimeRange:
+                        from: 600
+                        to: 0
+                      datasourceUid: PBFA97CFB590B2093
+                      model:
+                        editorMode: code
+                        expr: royal_detail_price{cruiseid="HM07GAL-3851841455", datelabel="2024-05-05", stateroomdetailclass="Ocean View with Large Balcony"}
+                        instant: true
+                        intervalMs: 1000
+                        legendFormat: __auto
+                        maxDataPoints: 43200
+                        range: false
+                        refId: A
+                    - refId: B
+                      relativeTimeRange:
+                        from: 600
+                        to: 0
+                      datasourceUid: __expr__
+                      model:
+                        conditions:
+                            - evaluator:
+                                params: []
+                                type: gt
+                              operator:
+                                type: and
+                              query:
+                                params:
+                                    - B
+                              reducer:
+                                params: []
+                                type: last
+                              type: query
+                        datasource:
+                            type: __expr__
+                            uid: __expr__
+                        expression: A
+                        intervalMs: 1000
+                        maxDataPoints: 43200
+                        reducer: last
+                        refId: B
+                        type: reduce
+                    - refId: C
+                      relativeTimeRange:
+                        from: 600
+                        to: 0
+                      datasourceUid: __expr__
+                      model:
+                        conditions:
+                            - evaluator:
+                                params:
+                                    - 2500
+                                type: lt
+                              operator:
+                                type: and
+                              query:
+                                params:
+                                    - C
+                              reducer:
+                                params: []
+                                type: last
+                              type: query
+                        datasource:
+                            type: __expr__
+                            uid: __expr__
+                        expression: B
+                        intervalMs: 1000
+                        maxDataPoints: 43200
+                        refId: C
+                        type: threshold
+                  noDataState: OK
+                  execErrState: OK
+                  for: 5m
+                  labels:
+                    cruise: cruise
+                  isPaused: false
+
 
     dashboardProviders:
       dashboardproviders.yaml:
