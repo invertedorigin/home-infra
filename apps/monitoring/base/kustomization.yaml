@@ -123,7 +123,20 @@ helmCharts:
                     - Stateroom Detail Class: {{ .Labels.stateroomdetailclass }}
                     - URL: https://www.royalcaribbean.com/booking/category?cabinClassType={{ .Labels.stateroomclass }}&destinationCode={{ .Labels.destinationcode }}&groupId={{ .Labels.cruiseid }}&packageCode={{ .Labels.itinerary }}&roomIndex=1&sailDate={{ .Labels.datelabel}}&selectedCurrencyCode=USD&shipCode={{ .Labels.shipcode}}
                   {{end}} `}}
-
+      notification-policies.yaml:
+        apiVersion: 1
+        policies:
+            - orgId: 1
+              receiver: grafana-default-email
+              group_by:
+                - grafana_folder
+                - alertname
+              routes:
+                - receiver: telegram
+                  object_matchers:
+                    - - cruise
+                      - =
+                      - cruise
 
     dashboardProviders:
       dashboardproviders.yaml:
