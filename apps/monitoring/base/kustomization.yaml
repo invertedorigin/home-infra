@@ -101,13 +101,13 @@ helmCharts:
         apiVersion: 1
         contactPoints:
         - orgId: 1
-          name: mycp
+          name: telegram
           receivers:
           - uid: telegram-chat
             type: telegram
             settings:
               bottoken: "$TELEGRAM_BOT_TOKEN"
-              chatid: "$TELEGRAM_CHAT_ID"
+              chatid:  "-4090891633"
     dashboardProviders:
       dashboardproviders.yaml:
         apiVersion: 1
