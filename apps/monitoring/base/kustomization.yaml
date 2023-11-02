@@ -111,7 +111,7 @@ helmCharts:
               message: |
                 {{ `{{ with index .Alerts 0 }}
                     - Alert Name: {{ .Labels.alertname }}
-                    - New Price: ${{ .Values.A }}
+                    - New Price: {{ .Values.A }}
                     - Cruise ID: {{ .Labels.cruiseid }}
                     - Date Label: {{ .Labels.datelabel }}
                     - Days: {{ .Labels.days }}
