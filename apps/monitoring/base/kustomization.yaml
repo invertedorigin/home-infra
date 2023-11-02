@@ -300,12 +300,10 @@ helmCharts:
                         maxDataPoints: 43200
                         refId: C
                         type: threshold
-                  noDataState: NoData
-                  execErrState: Error
+                  noDataState: OK
+                  execErrState: OK
                   for: 5m
                   isPaused: false
-
-
 
     dashboardProviders:
       dashboardproviders.yaml:
