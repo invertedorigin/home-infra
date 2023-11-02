@@ -108,7 +108,7 @@ helmCharts:
             settings:
               bottoken: "$TELEGRAM_BOT_TOKEN"
               chatid:  "-4090891633"
-              summary: |
+              message: |
                 {{ `{{ with index .Alerts 0 }}
                     - Alert Name: {{ .Labels.alertname }}
                     - New Price: ${{ .Values.A }}
