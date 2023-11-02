@@ -96,6 +96,19 @@ helmCharts:
       enabled: true
     serviceAccount:
       autoMount: true
+    alerting:
+      contactpoints.yaml:
+        secret:
+          apiVersion: 1
+          contactPoints:
+            - orgId: 1
+              name: cp_1
+              receivers:
+                - uid: telegram-chat
+                  type: telegram
+                  settings:
+                    bottoken: $TELEGRAMBOT_TOKEN
+                    chatid: $CHAT_ID
     dashboardProviders:
       dashboardproviders.yaml:
         apiVersion: 1
