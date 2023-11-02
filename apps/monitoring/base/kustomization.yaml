@@ -146,7 +146,7 @@ helmCharts:
               interval: 5m
               rules:
                 - uid: b990cdc2-3d0c-44cb-8d40-024fe67887e0
-                  title: test
+                  title: Galveston Cruise
                   condition: C
                   data:
                     - refId: A
@@ -225,6 +225,85 @@ helmCharts:
                   labels:
                     cruise: cruise
                   isPaused: false
+                - uid: ae0ca73b-d1db-4cb8-88ee-9fff2ade41fa
+                  title: New Zealand Cruise
+                  condition: C
+                  data:
+                    - refId: A
+                      relativeTimeRange:
+                        from: 600
+                        to: 0
+                      datasourceUid: PBFA97CFB590B2093
+                      model:
+                        editorMode: code
+                        expr: deriv(royal_detail_price{cruiseid="OV10SYD-3603065252", datelabel="2024-11-28", stateroomdetailclass="Ocean View Balcony"}[2h])
+                        instant: true
+                        intervalMs: 1000
+                        legendFormat: __auto
+                        maxDataPoints: 43200
+                        range: false
+                        refId: A
+                    - refId: B
+                      relativeTimeRange:
+                        from: 600
+                        to: 0
+                      datasourceUid: __expr__
+                      model:
+                        conditions:
+                            - evaluator:
+                                params: []
+                                type: gt
+                              operator:
+                                type: and
+                              query:
+                                params:
+                                    - B
+                              reducer:
+                                params: []
+                                type: last
+                              type: query
+                        datasource:
+                            type: __expr__
+                            uid: __expr__
+                        expression: A
+                        intervalMs: 1000
+                        maxDataPoints: 43200
+                        reducer: last
+                        refId: B
+                        type: reduce
+                    - refId: C
+                      relativeTimeRange:
+                        from: 600
+                        to: 0
+                      datasourceUid: __expr__
+                      model:
+                        conditions:
+                            - evaluator:
+                                params:
+                                    - 0
+                                type: lt
+                              operator:
+                                type: and
+                              query:
+                                params:
+                                    - C
+                              reducer:
+                                params: []
+                                type: last
+                              type: query
+                        datasource:
+                            type: __expr__
+                            uid: __expr__
+                        expression: B
+                        intervalMs: 1000
+                        maxDataPoints: 43200
+                        refId: C
+                        type: threshold
+                  noDataState: NoData
+                  execErrState: Error
+                  for: 5m
+                  isPaused: false
+
 
 
     dashboardProviders:
