@@ -106,8 +106,8 @@ helmCharts:
           - uid: telegram-chat
             type: telegram
             settings:
-              bottoken: "$TELEGRAMBOT_TOKEN"
-              chatid: "$CHAT_ID"
+              bottoken: "$TELEGRAM_BOT_TOKEN"
+              chatid: "$TELEGRAM_CHAT_ID"
     dashboardProviders:
       dashboardproviders.yaml:
         apiVersion: 1
