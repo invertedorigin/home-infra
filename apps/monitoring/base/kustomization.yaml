@@ -108,6 +108,23 @@ helmCharts:
             settings:
               bottoken: "$TELEGRAM_BOT_TOKEN"
               chatid:  "-4090891633"
+              summary: |
+                {{ with index .Alerts 0 }}
+                - Alert Name: {{ .Labels.alertname }}
+                - New Price: ${{ .Values.A }}
+                - Cruise ID: {{ .Labels.cruiseid }}
+                - Date Label: {{ .Labels.datelabel }}
+                - Days: {{ .Labels.days }}
+                - Departure Port: {{ .Labels.departureport }}
+                - Destination Code: {{ .Labels.destinationcode }}
+                - Itinerary: {{ .Labels.itinerary }}
+                - Ship: {{ .Labels.ship }}
+                - Stateroom Class: {{ .Labels.stateroomclass }}
+                - Stateroom Detail Class: {{ .Labels.stateroomdetailclass }}
+                - URL: https://www.royalcaribbean.com/booking/category?cabinClassType={{ .Labels.stateroomclass }}&destinationCode={{ .Labels.destinationcode }}&groupId={{ .Labels.cruiseid }}&packageCode={{ .Labels.itinerary }}&roomIndex=1&sailDate={{ .Labels.datelabel}}&selectedCurrencyCode=USD&shipCode={{ .Labels.shipcode}}
+                {{end}}
+
+
     dashboardProviders:
       dashboardproviders.yaml:
         apiVersion: 1
