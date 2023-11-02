@@ -123,6 +123,7 @@ helmCharts:
                     - Stateroom Detail Class: {{ .Labels.stateroomdetailclass }}
                     - URL: https://www.royalcaribbean.com/booking/category?cabinClassType={{ .Labels.stateroomclass }}&destinationCode={{ .Labels.destinationcode }}&groupId={{ .Labels.cruiseid }}&packageCode={{ .Labels.itinerary }}&roomIndex=1&sailDate={{ .Labels.datelabel}}&selectedCurrencyCode=USD&shipCode={{ .Labels.shipcode}}
                   {{end}} `}}
+            disableResolveMessage: true
       notification-policies.yaml:
         apiVersion: 1
         policies:
