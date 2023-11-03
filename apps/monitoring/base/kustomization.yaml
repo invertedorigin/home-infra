@@ -303,8 +303,9 @@ helmCharts:
                   noDataState: OK
                   execErrState: OK
                   for: 5m
+                  labels:
+                    cruise: cruise
                   isPaused: false
-
     dashboardProviders:
       dashboardproviders.yaml:
         apiVersion: 1
