@@ -226,11 +226,16 @@ helmCharts:
                   labels:
                     cruise: cruise
                   isPaused: false
-                - uid: ae0ca73b-d1db-4cb8-88ee-9fff2ade41fa
+            - orgId: 1
+              name: Cruise
+              folder: Kubernetes
+              interval: 5m
+              rules:
+                - uid: c348619e-5bb9-4776-9a5f-086bb0791781
                   title: New Zealand Cruise
                   condition: C
                   data:
-                    - refId: A
+                    - refId: D
                       relativeTimeRange:
                         from: 600
                         to: 0
@@ -238,6 +243,21 @@ helmCharts:
                       model:
                         editorMode: code
                         expr: deriv(royal_detail_price{cruiseid="OV10SYD-3603065252", datelabel="2024-11-28", stateroomdetailclass="Ocean View Balcony"}[2h])
+                        instant: true
+                        intervalMs: 1000
+                        legendFormat: __auto
+                        maxDataPoints: 43200
+                        range: false
+                        refId: D
+                    - refId: A
+                      relativeTimeRange:
+                        from: 600
+                        to: 0
+                      datasourceUid: PBFA97CFB590B2093
+                      model:
+                        editorMode: code
+                        expr: royal_detail_price{cruiseid="OV10SYD-3603065252", datelabel="2024-11-28", stateroomdetailclass="Ocean View Balcony"}
+                        hide: false
                         instant: true
                         intervalMs: 1000
                         legendFormat: __auto
@@ -266,7 +286,7 @@ helmCharts:
                         datasource:
                             type: __expr__
                             uid: __expr__
-                        expression: A
+                        expression: D
                         intervalMs: 1000
                         maxDataPoints: 43200
                         reducer: last
@@ -306,6 +326,7 @@ helmCharts:
                   labels:
                     cruise: cruise
                   isPaused: false
+
     dashboardProviders:
       dashboardproviders.yaml:
         apiVersion: 1
