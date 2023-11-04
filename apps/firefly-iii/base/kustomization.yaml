@@ -6,7 +6,7 @@ namespace: firefly-iii
 resources:
 - namespace.yaml
 - pg-cluster.yaml
-# - external-secret.yaml
+- external-secret.yaml
 - pod-monitor.yaml
 
 # helmCharts:
