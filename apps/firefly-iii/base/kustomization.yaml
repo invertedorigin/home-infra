@@ -1,0 +1,30 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: firefly-iii
+
+resources:
+- namespace.yaml
+- pg-cluster.yaml
+- external-secret.yaml
+- pod-monitor.yaml
+
+helmCharts:
+- name: firefly-iii
+  repo: https://firefly-iii.github.io/kubernetes/
+  version: 1.5.0
+  releaseName: firefly-iii
+  valuesInline:
+    persistence:
+      enabled: false
+
+    config:
+      existingSecret: "firefly-iii-secret"
+
+    env:
+      DB_CONNECTION: "firefly-iii-db-rw.firefly-iii.svc.cluster.local"
+      DB_PORT: "5432"
+      DEFAULT_LANGUAGE: "en_US"
+      DEFAULT_LOCALE: "equal"
+      TZ: "America/Chicago"
+      TRUSTED_PROXIES: "**"
