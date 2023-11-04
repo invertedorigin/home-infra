@@ -30,6 +30,19 @@ helmCharts:
         TZ: "America/Chicago"
         TRUSTED_PROXIES: "**"
 
+    ingress:
+      enabled: true
+      className: "nginx"
+      annotations:
+        kubernetes.io/ingress.class: nginx
+        cert-manager.io/cluster-issuer: cloudflare-issuer
+      hosts:
+        - &host firefly.invertedorigin.com
+      tls:
+       - secretName: firefly-tls-domain
+         hosts:
+           - *host
+
 - name: importer
   repo: https://firefly-iii.github.io/kubernetes/
   version: 1.3.1
@@ -39,7 +52,7 @@ helmCharts:
       enabled: false
 
     fireflyiii:
-      url: "http://localhost:8081"
+      url: "https://firefly.invertedorigin.com"
     config:
       existingSecret: "firefly-iii-secret"
 
@@ -47,3 +60,16 @@ helmCharts:
         IGNORE_DUPLICATE_ERRORS: "true"
         TZ: "America/Chicago"
         TRUSTED_PROXIES: "**"
+
+    ingress:
+      enabled: true
+      className: "nginx"
+      annotations:
+        kubernetes.io/ingress.class: nginx
+        cert-manager.io/cluster-issuer: cloudflare-issuer
+      hosts:
+        - &host firefly-import.invertedorigin.com
+      tls:
+       - secretName: firefly-import-tls-domain
+         hosts:
+           - *host
