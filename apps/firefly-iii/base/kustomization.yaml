@@ -38,6 +38,8 @@ helmCharts:
     persistence:
       enabled: false
 
+    fireflyiii:
+      url: "http://localhost:8081"
     config:
       existingSecret: "firefly-iii-secret"
 
