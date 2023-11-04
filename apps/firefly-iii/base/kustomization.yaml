@@ -21,11 +21,11 @@ helmCharts:
     config:
       existingSecret: "firefly-iii-secret"
 
-    env:
-      DB_CONNECTION: "pgsql"
-      DB_HOST: "firefly-rw.firefly.svc.cluster.local"
-      DB_PORT: "5432"
-      DEFAULT_LANGUAGE: "en_US"
-      DEFAULT_LOCALE: "equal"
-      TZ: "America/Chicago"
-      TRUSTED_PROXIES: "**"
+      env:
+        DB_CONNECTION: "pgsql"
+        DB_HOST: "firefly-rw.firefly.svc.cluster.local"
+        DB_PORT: "5432"
+        DEFAULT_LANGUAGE: "en_US"
+        DEFAULT_LOCALE: "equal"
+        TZ: "America/Chicago"
+        TRUSTED_PROXIES: "**"
