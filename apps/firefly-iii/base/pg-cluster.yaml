@@ -1,13 +1,13 @@
 apiVersion: postgresql.cnpg.io/v1
 kind: Cluster
 metadata:
-  name: firefly-iii-db
-  namespace: firefly-iii
+  name: firefly-db
+  namespace: firefly
 spec:
   instances: 3
   bootstrap:
     initdb:
-      database: firefly-iii
+      database: firefly
 
   storage:
     size: 10Gi

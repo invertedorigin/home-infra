@@ -1,11 +1,11 @@
 apiVersion: monitoring.coreos.com/v1
 kind: PodMonitor
 metadata:
-  name: firefly-iii-db
-  namespace: firefly-iii
+  name: firefly-db
+  namespace: firefly
 spec:
   selector:
     matchLabels:
-      cnpg.io/cluster: firefly-iii-db
+      cnpg.io/cluster: firefly-db
   podMetricsEndpoints:
   - port: metrics

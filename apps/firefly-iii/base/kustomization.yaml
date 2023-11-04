@@ -1,11 +1,11 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
-namespace: firefly-iii
+namespace: firefly
 
 resources:
 - namespace.yaml
-# - pg-cluster.yaml
+- pg-cluster.yaml
 - external-secret.yaml
 - pod-monitor.yaml
 
