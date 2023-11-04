@@ -22,7 +22,7 @@ helmCharts:
       existingSecret: "firefly-iii-secret"
 
     env:
-      DB_CONNECTION: "firefly-iii-db-rw.firefly-iii.svc.cluster.local"
+      DB_CONNECTION: "firefly-db-rw.fireflyi.svc.cluster.local"
       DB_PORT: "5432"
       DEFAULT_LANGUAGE: "en_US"
       DEFAULT_LOCALE: "equal"
