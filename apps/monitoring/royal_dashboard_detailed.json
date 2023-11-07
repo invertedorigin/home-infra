@@ -18,7 +18,7 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  "id": 2,
+  "id": 3,
   "links": [],
   "liveNow": false,
   "panels": [
@@ -1336,9 +1336,9 @@
       },
       {
         "current": {
-          "selected": false,
-          "text": "11",
-          "value": "11"
+          "selected": true,
+          "text": "05",
+          "value": "05"
         },
         "datasource": {
           "type": "prometheus",
@@ -1362,9 +1362,9 @@
       },
       {
         "current": {
-          "selected": false,
-          "text": "Ovation of the Seas",
-          "value": "Ovation of the Seas"
+          "selected": true,
+          "text": "Harmony of the Seas",
+          "value": "Harmony of the Seas"
         },
         "datasource": {
           "type": "prometheus",
@@ -1440,7 +1440,7 @@
       },
       {
         "current": {
-          "selected": false,
+          "selected": true,
           "text": "All",
           "value": "$__all"
         },
@@ -1466,9 +1466,9 @@
       },
       {
         "current": {
-          "selected": false,
-          "text": "All",
-          "value": "$__all"
+          "selected": true,
+          "text": "Ocean View with Large Balcony",
+          "value": "Ocean View with Large Balcony"
         },
         "datasource": {
           "type": "prometheus",
@@ -1504,13 +1504,13 @@
     ]
   },
   "time": {
-    "from": "now-24h",
+    "from": "now-7d",
     "to": "now"
   },
   "timepicker": {},
   "timezone": "",
   "title": "Royal Caribbean Detailed",
   "uid": "cdf92380-7c5d-4244-bc03-bb3a7c56852a",
-  "version": 3,
+  "version": 2,
   "weekStart": ""
 }
