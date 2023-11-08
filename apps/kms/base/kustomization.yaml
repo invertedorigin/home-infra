@@ -19,6 +19,16 @@ helmCharts:
     env:
       TZ: "America/Chicago"
 
+    podAnnotations:
+      k8s.v1.cni.cncf.io/networks: |-
+        [
+          {
+            "name": "macvlan-conf-dhcp",
+            "namespace": "kube-system",
+            "mac": "4a:c1:8d:18:f6:33"
+          }
+        ]
+
     service:
       main:
         ports:
