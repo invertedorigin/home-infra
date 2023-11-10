@@ -5,7 +5,7 @@ namespace: piraeus-datastore
 
 resources:
 - github.com/piraeusdatastore/piraeus-operator//config/default?ref=v2.2.0
-- github.com/kubernetes-csi/external-snapshotter//client/config/crd?ref=v6.3.1
+- github.com/kubernetes-csi/external-snapshotter//client/config/crd?ref=v6.3.2
 helmCharts:
 # - name: piraeus-ha-controller
 #   repo: https://piraeus.io/helm-charts/
