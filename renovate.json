@@ -29,7 +29,8 @@
     },
     {
       "matchPackageNames": [
-        "siderolabs/talos"
+        "siderolabs/talos",
+        "ghcr.io/siderolabs/talosctl"
       ],
       "matchUpdateTypes": [
         "major",
