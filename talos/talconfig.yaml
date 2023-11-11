@@ -71,7 +71,7 @@ patches:
     machine:
       install:
         extensions:
-          - image: ghcr.io/siderolabs/drbd:9.2.4-v1.5.4
+          - image: ghcr.io/siderolabs/drbd:9.2.4-v1.5.5
       kernel:
         modules:
           - name: drbd
