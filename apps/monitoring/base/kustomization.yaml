@@ -406,6 +406,8 @@ helmCharts:
           url: https://raw.githubusercontent.com/dotdc/grafana-dashboards-kubernetes/master/dashboards/k8s-views-pods.json
           token: ''
       teslamate:
+        battery-health:
+          url: https://raw.githubusercontent.com/teslamate-org/teslamate/v1.27.4/grafana/dashboards/battery-health.json
         charge-level:
           url: https://raw.githubusercontent.com/adriankumpf/teslamate/master/grafana/dashboards/charge-level.json
           # datasource: TeslaMate
