@@ -27,19 +27,19 @@ helmCharts:
       enabled: true
       podMonitor:
         enabled: true
-    podTemplate:
-      merge:
-        metadata:
-        spec:
-          affinity:
-            podAntiAffinity:
-              requiredDuringSchedulingIgnoredDuringExecution:
-              - labelSelector:
-                  matchExpressions:
-                  - key: app.kubernetes.io/component
-                    operator: In
-                    values:
-                    - nats
-                topologyKey: "kubernetes.io/hostname"
+    # podTemplate:
+    #   merge:
+    #     metadata:
+    #     spec:
+    #       affinity:
+    #         podAntiAffinity:
+    #           requiredDuringSchedulingIgnoredDuringExecution:
+    #           - labelSelector:
+    #               matchExpressions:
+    #               - key: app.kubernetes.io/component
+    #                 operator: In
+    #                 values:
+    #                 - nats
+    #             topologyKey: "kubernetes.io/hostname"
     natsBox:
       enabled: true
