@@ -201,7 +201,7 @@ helmCharts:
                         conditions:
                             - evaluator:
                                 params:
-                                    - 2500
+                                    - 2400
                                 type: lt
                               operator:
                                 type: and
