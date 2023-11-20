@@ -17,7 +17,7 @@ helmCharts:
   valuesInline:
     image:
       repository: vaultwarden/server
-      tag: 1.30.0-alpine
+      tag: 1.30.1-alpine
 
     env:
       TZ: "America/Chicago"
