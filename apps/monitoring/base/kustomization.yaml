@@ -231,9 +231,9 @@ helmCharts:
               folder: Kubernetes
               interval: 5m
               rules:
-                - uid: b83c55c0-b903-453c-8974-946337e3f511
-                  title: New Zealand Cruise
-                  condition: C
+                - uid: f8251df5-69e9-4fa2-b5a3-a349d2a0231e
+                  title: New Zealand Cruise (copy)
+                  condition: B
                   data:
                     - refId: D
                       relativeTimeRange:
@@ -256,7 +256,7 @@ helmCharts:
                       datasourceUid: PBFA97CFB590B2093
                       model:
                         disableTextWrap: false
-                        editorMode: builder
+                        editorMode: code
                         exemplar: false
                         expr: min(min_over_time(royal_detail_price{cruiseid="OV10SYD-3603065252", datelabel="2024-11-28", stateroomdetailclass="Ocean View Balcony"}[30d]))
                         format: time_series
@@ -269,40 +269,39 @@ helmCharts:
                         range: false
                         refId: A
                         useBackend: false
-                    - refId: C
-                      relativeTimeRange:
-                        from: 600
-                        to: 0
+                    - refId: B
                       datasourceUid: __expr__
                       model:
                         conditions:
                             - evaluator:
                                 params:
-                                    - null
-                                type: lt
+                                    - 0
+                                    - 0
+                                type: gt
                               operator:
                                 type: and
                               query:
-                                params:
-                                    - C
+                                params: []
                               reducer:
                                 params: []
-                                type: last
+                                type: avg
                               type: query
                         datasource:
+                            name: Expression
                             type: __expr__
                             uid: __expr__
-                        expression: D
+                        expression: $A - $D > 0
                         intervalMs: 1000
                         maxDataPoints: 43200
-                        refId: C
-                        type: threshold
+                        refId: B
+                        type: math
                   noDataState: OK
                   execErrState: OK
                   for: 5m
                   labels:
                     cruise: cruise
                   isPaused: false
+
     dashboardProviders:
       dashboardproviders.yaml:
         apiVersion: 1
