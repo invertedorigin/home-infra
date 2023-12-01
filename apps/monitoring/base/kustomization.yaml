@@ -231,7 +231,7 @@ helmCharts:
               folder: Kubernetes
               interval: 5m
               rules:
-                - uid: c348619e-5bb9-4776-9a5f-086bb0791781
+                - uid: b83c55c0-b903-453c-8974-946337e3f511
                   title: New Zealand Cruise
                   condition: C
                   data:
@@ -242,7 +242,7 @@ helmCharts:
                       datasourceUid: PBFA97CFB590B2093
                       model:
                         editorMode: code
-                        expr: deriv(royal_detail_price{cruiseid="OV10SYD-3603065252", datelabel="2024-11-28", stateroomdetailclass="Ocean View Balcony"}[2h])
+                        expr: royal_detail_price{cruiseid="OV10SYD-3603065252", datelabel="2024-11-28", stateroomdetailclass="Ocean View Balcony"}
                         instant: true
                         intervalMs: 1000
                         legendFormat: __auto
@@ -251,47 +251,24 @@ helmCharts:
                         refId: D
                     - refId: A
                       relativeTimeRange:
-                        from: 600
+                        from: 2592000
                         to: 0
                       datasourceUid: PBFA97CFB590B2093
                       model:
-                        editorMode: code
-                        expr: royal_detail_price{cruiseid="OV10SYD-3603065252", datelabel="2024-11-28", stateroomdetailclass="Ocean View Balcony"}
-                        hide: false
+                        disableTextWrap: false
+                        editorMode: builder
+                        exemplar: false
+                        expr: min(min_over_time(royal_detail_price{cruiseid="OV10SYD-3603065252", datelabel="2024-11-28", stateroomdetailclass="Ocean View Balcony"}[30d]))
+                        format: time_series
+                        fullMetaSearch: false
+                        includeNullMetadata: true
                         instant: true
                         intervalMs: 1000
                         legendFormat: __auto
                         maxDataPoints: 43200
                         range: false
                         refId: A
-                    - refId: B
-                      relativeTimeRange:
-                        from: 600
-                        to: 0
-                      datasourceUid: __expr__
-                      model:
-                        conditions:
-                            - evaluator:
-                                params: []
-                                type: gt
-                              operator:
-                                type: and
-                              query:
-                                params:
-                                    - B
-                              reducer:
-                                params: []
-                                type: last
-                              type: query
-                        datasource:
-                            type: __expr__
-                            uid: __expr__
-                        expression: D
-                        intervalMs: 1000
-                        maxDataPoints: 43200
-                        reducer: last
-                        refId: B
-                        type: reduce
+                        useBackend: false
                     - refId: C
                       relativeTimeRange:
                         from: 600
@@ -301,7 +278,7 @@ helmCharts:
                         conditions:
                             - evaluator:
                                 params:
-                                    - 0
+                                    - null
                                 type: lt
                               operator:
                                 type: and
@@ -315,7 +292,7 @@ helmCharts:
                         datasource:
                             type: __expr__
                             uid: __expr__
-                        expression: B
+                        expression: D
                         intervalMs: 1000
                         maxDataPoints: 43200
                         refId: C
@@ -326,7 +303,6 @@ helmCharts:
                   labels:
                     cruise: cruise
                   isPaused: false
-
     dashboardProviders:
       dashboardproviders.yaml:
         apiVersion: 1
