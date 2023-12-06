@@ -73,3 +73,47 @@ helmCharts:
         enabled: true
         existingClaim: homeassistant-pvc-replicated
         mountPath: /config
+
+
+- name: app-template
+  repo: https://bjw-s.github.io/helm-charts/
+  version: 1.5.1
+  releaseName: matter-server
+  valuesInline:
+    image:
+      repository: ghcr.io/home-assistant-libs/python-matter-server
+      tag: stable
+
+    podAnnotations:
+      k8s.v1.cni.cncf.io/networks: |-
+        [
+          {
+            "name": "macvlan-conf-dhcp",
+            "namespace": "kube-system",
+            "mac": "1a:c4:8d:33:f2:77"
+          }
+        ]
+
+    env:
+      TZ: "America/Chicago"
+
+    service:
+      main:
+        ports:
+          http:
+            port: 5580
+
+    probes:
+      liveness:
+        enabled: false
+      readiness:
+        enabled: false
+      startup:
+        enabled: false
+
+    resources:
+      requests:
+        cpu: 50m
+        memory: 1Gi
+      limits:
+        memory: 1Gi
