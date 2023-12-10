@@ -16,7 +16,7 @@ helmCharts:
   valuesInline:
     image:
       repository: ghcr.io/actualbudget/actual-server
-      tag: 23.11.0
+      tag: 23.12.1
 
     env:
       TZ: "America/Chicago"
