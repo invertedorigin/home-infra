@@ -72,3 +72,7 @@ helmCharts:
         enabled: true
         existingClaim: scrypted-pvc-replicated
         mountPath: /server/volume
+      recordings:
+        enabled: true
+        existingClaim: scrypted-pvc-recordings
+        mountPath: /server/recordings
