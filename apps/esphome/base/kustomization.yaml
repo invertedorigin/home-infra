@@ -15,7 +15,7 @@ helmCharts:
   valuesInline:
     image:
       repository: ghcr.io/esphome/esphome
-      tag: 2023.11.6
+      tag: 2023.12.3
 
     podAnnotations:
       k8s.v1.cni.cncf.io/networks: |-
