@@ -137,7 +137,7 @@ helmCharts:
 
     env:
       TZ: "America/Chicago"
-      GIF_WELCOME_URL: "https://i.imgur.com/qpHfyKl.png"
+      GIF_WELCOME_URL: "https://i.imgur.com/9FNpi1U.png"
       GIF_RING_URL: "https://i.imgur.com/raAl6gY.png"
       SSH_HOST:
         valueFrom:
