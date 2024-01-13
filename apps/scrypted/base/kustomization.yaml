@@ -17,7 +17,7 @@ helmCharts:
   valuesInline:
     image:
       repository: koush/scrypted
-      tag: latest@sha256:a816d08a53310f53f4aef0adb2b77e66a3eae7d4c9e1e145a5270f8926dd1681
+      tag: latest@sha256:9178ec3cc7a0a232d2fcd10b720f4204e310337f908d7922d3d77b1c606bde38
 
     podAnnotations:
       k8s.v1.cni.cncf.io/networks: |-
