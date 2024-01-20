@@ -1,0 +1,39 @@
+kind: Kustomization
+resources:
+- namespace.yaml
+- ingress.yaml
+- recurringjobs.yaml
+
+helmCharts:
+- name: longhorn
+  repo: https://charts.longhorn.io
+  version: "v1.6.0-rc2"
+  releaseName: longhorn
+  namespace: longhorn-system
+  includeCRDs: true
+  valuesInline:
+    persistence:
+      defaultClass: true
+      defaultFsType: ext4
+      defaultMkfsParams: ""
+      defaultClassReplicaCount: 3
+      defaultDataLocality: disabled # best-effort otherwise
+      defaultReplicaAutoBalance: ignored # "disabled", "least-effort" or "best-effort" otherwise
+      reclaimPolicy: Delete
+      migratable: false
+      recurringJobSelector:
+        enable: false
+        jobList: []
+      backingImage:
+        enable: false
+        name: ~
+        dataSourceType: ~
+        dataSourceParameters: ~
+        expectedChecksum: ~
+      defaultNodeSelector:
+        enable: false # disable by default
+        selector: []
+      removeSnapshotsDuringFilesystemTrim: ignored # "enabled" or "disabled" otherwise
+
+    csi:
+      kubeletRootDir: /var/lib/kubelet
