@@ -34,7 +34,7 @@ helmCharts:
 
 resources:
 - crd.yaml
-- dhcp-networkattachment.yaml
+- dhcp-network-attachment.yaml
 
 patches:
 - target:
