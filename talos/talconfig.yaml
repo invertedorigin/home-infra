@@ -24,7 +24,7 @@ clusterSvcNets:
 cniConfig:
   name: none
 
-talosImageURL: ghcr.io/siderolabs/installer
+talosImageURL: ghcr.io/jtcressy-home/installer
 
 nodes:
 ## CORE HOME OFFICE RACK (battery backup) ##
@@ -69,9 +69,6 @@ patches:
         net.core.wmem_max: 2500000
   - |
     machine:
-      install:
-        extensions:
-          - image: ghcr.io/siderolabs/drbd:9.2.4-v1.5.5
       kernel:
         modules:
           - name: drbd
@@ -80,9 +77,6 @@ patches:
           - name: drbd_transport_tcp
   - |
     machine:
-      install:
-        extensions:
-          - image: ghcr.io/siderolabs/tailscale:1.48.1
       files:
         - content: |
             TS_AUTHKEY=${TAILSCALE_AUTHKEY}
