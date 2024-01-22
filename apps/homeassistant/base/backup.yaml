@@ -22,4 +22,4 @@ spec:
       monthly: 2
       yearly: 1
     copyMethod: Clone
-    storageClassName: home-office-rack-default-strict-local
+    storageClassName: longhorn-sticky
