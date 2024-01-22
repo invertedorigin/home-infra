@@ -72,7 +72,7 @@ helmCharts:
     persistence:
       config:
         enabled: true
-        existingClaim: volsync-homeassistant-destination-dest
+        existingClaim: homeassistant-pvc-replicated
         mountPath: /config
 
 
