@@ -30,7 +30,7 @@ spec:
       terminationGracePeriodSeconds: 0
       containers:
         - name: volume-logger
-          image: alpine
+          image: alpine:latest
           args:
             - sh
             - -c
