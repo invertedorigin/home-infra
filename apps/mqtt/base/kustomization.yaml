@@ -19,7 +19,7 @@ helmCharts:
         enabled: true
         fileStore:
           pvc:
-            storageClassName: home-office-rack-default-strict-local
+            storageClassName: longhorn
             size: 10Gi
       mqtt:
         enabled: true
