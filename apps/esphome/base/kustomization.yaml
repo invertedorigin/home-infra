@@ -3,69 +3,69 @@ kind: Kustomization
 
 namespace: esphome
 
-resources:
-- namespace.yaml
-- pvc.yaml
+# resources:
+# - namespace.yaml
+# - pvc.yaml
 
-helmCharts:
-- name: app-template
-  repo: https://bjw-s.github.io/helm-charts/
-  version: 1.5.1
-  releaseName: esphome
-  valuesInline:
-    image:
-      repository: ghcr.io/esphome/esphome
-      tag: 2023.12.8
+# helmCharts:
+# - name: app-template
+#   repo: https://bjw-s.github.io/helm-charts/
+#   version: 1.5.1
+#   releaseName: esphome
+#   valuesInline:
+#     image:
+#       repository: ghcr.io/esphome/esphome
+#       tag: 2023.12.8
 
-    podAnnotations:
-      k8s.v1.cni.cncf.io/networks: |-
-        [
-          {
-            "name": "macvlan-conf-dhcp",
-            "namespace": "kube-system",
-            "mac": "4a:c1:7d:22:f2:27"
-          }
-        ]
+#     podAnnotations:
+#       k8s.v1.cni.cncf.io/networks: |-
+#         [
+#           {
+#             "name": "macvlan-conf-dhcp",
+#             "namespace": "kube-system",
+#             "mac": "4a:c1:7d:22:f2:27"
+#           }
+#         ]
 
-    env:
-      TZ: "America/Chicago"
+#     env:
+#       TZ: "America/Chicago"
 
-    service:
-      main:
-        ports:
-          http:
-            port: 6052
+#     service:
+#       main:
+#         ports:
+#           http:
+#             port: 6052
 
-    ingress:
-      main:
-        enabled: true
-        annotations:
-          kubernetes.io/ingress.class: "nginx"
-          cert-manager.io/cluster-issuer: "cloudflare-issuer"
-        hosts:
-          - host: &host esphome.invertedorigin.com
-            paths:
-              - path: /
-        tls:
-          - hosts:
-              - *host
-            secretName: esphome-tls-domain
+#     ingress:
+#       main:
+#         enabled: true
+#         annotations:
+#           kubernetes.io/ingress.class: "nginx"
+#           cert-manager.io/cluster-issuer: "cloudflare-issuer"
+#         hosts:
+#           - host: &host esphome.invertedorigin.com
+#             paths:
+#               - path: /
+#         tls:
+#           - hosts:
+#               - *host
+#             secretName: esphome-tls-domain
 
-    probes:
-      liveness:
-        enabled: false
-      readiness:
-        enabled: false
-      startup:
-        enabled: false
+#     probes:
+#       liveness:
+#         enabled: false
+#       readiness:
+#         enabled: false
+#       startup:
+#         enabled: false
 
-    resources:
-      requests:
-        cpu: 50m
-        memory: 2Gi
+#     resources:
+#       requests:
+#         cpu: 50m
+#         memory: 2Gi
 
-    persistence:
-      config:
-        enabled: true
-        existingClaim: esphome-pvc-replicated
-        mountPath: /config
+#     persistence:
+#       config:
+#         enabled: true
+#         existingClaim: esphome-pvc-replicated
+#         mountPath: /config
