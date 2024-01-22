@@ -4,9 +4,23 @@ metadata:
   name: zwavejs-pvc-replicated
   namespace: zwavejs
 spec:
-  storageClassName: home-office-rack-default-replicated
+  storageClassName: longhorn-sticky
   accessModes:
     - ReadWriteOnce
   resources:
     requests:
       storage: 1Gi
+---
+apiVersion: volsync.backube/v1alpha1
+kind: ReplicationDestination
+metadata:
+  name: zwavejs-destination
+  namespace: zwavejs
+spec:
+  trigger:
+    manual: restore
+  restic:
+    destinationPVC: zwavejs-pvc-replicated
+    repository: volsync-secret
+    copyMethod: Direct
+    storageClassName: longhorn-sticky
