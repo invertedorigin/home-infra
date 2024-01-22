@@ -4,7 +4,7 @@ metadata:
   name: homeassistant-pvc-replicated
   namespace: homeassistant
 spec:
-  storageClassName: home-office-rack-default-replicated
+  storageClassName: longhorn
   accessModes:
     - ReadWriteOnce
   resources:
@@ -20,9 +20,7 @@ spec:
   trigger:
     manual: restore
   restic:
-    accessModes:
-      - ReadWriteOnce
-    capacity: 20Gi
+    destinationPVC: homeassistant-pvc-replicated
     repository: volsync-secret
     copyMethod: Direct
     storageClassName: longhorn
