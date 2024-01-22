@@ -5,7 +5,7 @@ namespace: vaultwarden
 
 resources:
 - namespace.yaml
-#- pvc.yaml
+- pvc.yaml
 - external-secret.yaml
 #- backup.yaml
 

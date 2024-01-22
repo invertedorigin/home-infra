@@ -4,7 +4,7 @@ metadata:
   name: vaultwarden-pvc-replicated
   namespace: vaultwarden
 spec:
-  storageClassName: home-office-rack-default-replicated
+  storageClassName: longhorn-sticky
   accessModes:
     - ReadWriteOnce
   resources:
