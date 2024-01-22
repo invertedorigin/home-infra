@@ -5,7 +5,7 @@ namespace: teslamate
 
 resources:
 - namespace.yaml
-- pg-cluster.yaml
+# - pg-cluster.yaml
 - external-secret.yaml
 - backup.yaml
 - pod-monitor.yaml
