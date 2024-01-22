@@ -13,7 +13,7 @@ spec:
       - path: 'talos/cni'
   template:
     metadata:
-      name: '{{ .values.cluster }}-cni'
+      name: 'talos-cni'
     spec:
       project: 'infra'
       source:
