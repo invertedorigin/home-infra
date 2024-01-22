@@ -21,6 +21,6 @@ spec:
     manual: restore
   restic:
     repository: volsync-secret
-    copyMethod: Direct
-    destinationPVC: homeassistant-pvc-replicated
+    copyMethod: Clone
+    destinationPVC: homeassistant-pvc-replicated-longhorn
     storageClassName: longhorn
