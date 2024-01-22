@@ -7,7 +7,7 @@ resources:
 - namespace.yaml
 - external-secret.yaml
 
-# helmCharts:
+helmCharts:
 # - name: kube-prometheus-stack
 #   repo: https://prometheus-community.github.io/helm-charts
 #   version: 55.11.0
