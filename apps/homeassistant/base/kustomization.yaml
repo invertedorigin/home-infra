@@ -9,112 +9,112 @@ resources:
 - external-secret.yaml
 # - backup.yaml
 
-# helmCharts:
-# - name: app-template
-#   repo: https://bjw-s.github.io/helm-charts/
-#   version: 1.5.1
-#   releaseName: homeassistant
-#   valuesInline:
-#     image:
-#       repository: ghcr.io/home-assistant/home-assistant
-#       tag: 2024.1.3
+helmCharts:
+- name: app-template
+  repo: https://bjw-s.github.io/helm-charts/
+  version: 1.5.1
+  releaseName: homeassistant
+  valuesInline:
+    image:
+      repository: ghcr.io/home-assistant/home-assistant
+      tag: 2024.1.3
 
-#     podAnnotations:
-#       k8s.v1.cni.cncf.io/networks: |-
-#         [
-#           {
-#             "name": "macvlan-conf-dhcp",
-#             "namespace": "kube-system",
-#             "mac": "4a:c1:8d:28:f2:77"
-#           }
-#         ]
+    podAnnotations:
+      k8s.v1.cni.cncf.io/networks: |-
+        [
+          {
+            "name": "macvlan-conf-dhcp",
+            "namespace": "kube-system",
+            "mac": "4a:c1:8d:28:f2:77"
+          }
+        ]
 
-#     env:
-#       TZ: "America/Chicago"
+    env:
+      TZ: "America/Chicago"
 
-#     service:
-#       main:
-#         ports:
-#           http:
-#             port: 8123
+    service:
+      main:
+        ports:
+          http:
+            port: 8123
 
-#     ingress:
-#       main:
-#         enabled: true
-#         annotations:
-#           kubernetes.io/ingress.class: "nginx"
-#           cert-manager.io/cluster-issuer: "cloudflare-issuer"
-#           nginx.ingress.kubernetes.io/cors-allow-methods: "PUT, GET, POST, OPTIONS, HEAD"
-#         hosts:
-#           - host: &host ha.invertedorigin.com
-#             paths:
-#               - path: /
-#         tls:
-#           - hosts:
-#               - *host
-#             secretName: ha-tls-domain
+    ingress:
+      main:
+        enabled: true
+        annotations:
+          kubernetes.io/ingress.class: "nginx"
+          cert-manager.io/cluster-issuer: "cloudflare-issuer"
+          nginx.ingress.kubernetes.io/cors-allow-methods: "PUT, GET, POST, OPTIONS, HEAD"
+        hosts:
+          - host: &host ha.invertedorigin.com
+            paths:
+              - path: /
+        tls:
+          - hosts:
+              - *host
+            secretName: ha-tls-domain
 
-#     probes:
-#       liveness:
-#         enabled: false
-#       readiness:
-#         enabled: false
-#       startup:
-#         enabled: false
+    probes:
+      liveness:
+        enabled: false
+      readiness:
+        enabled: false
+      startup:
+        enabled: false
 
-#     resources:
-#       requests:
-#         cpu: 50m
-#         memory: 1Gi
-#       limits:
-#         memory: 1Gi
+    resources:
+      requests:
+        cpu: 50m
+        memory: 1Gi
+      limits:
+        memory: 1Gi
 
-#     persistence:
-#       config:
-#         enabled: true
-#         existingClaim: homeassistant-pvc-replicated
-#         mountPath: /config
+    persistence:
+      config:
+        enabled: true
+        existingClaim: homeassistant-pvc-replicated
+        mountPath: /config
 
 
-# - name: app-template
-#   repo: https://bjw-s.github.io/helm-charts/
-#   version: 1.5.1
-#   releaseName: matter-server
-#   valuesInline:
-#     image:
-#       repository: ghcr.io/home-assistant-libs/python-matter-server
-#       tag: stable
+- name: app-template
+  repo: https://bjw-s.github.io/helm-charts/
+  version: 1.5.1
+  releaseName: matter-server
+  valuesInline:
+    image:
+      repository: ghcr.io/home-assistant-libs/python-matter-server
+      tag: stable
 
-#     podAnnotations:
-#       k8s.v1.cni.cncf.io/networks: |-
-#         [
-#           {
-#             "name": "macvlan-conf-dhcp",
-#             "namespace": "kube-system",
-#             "mac": "1a:c4:8d:33:f2:77"
-#           }
-#         ]
+    podAnnotations:
+      k8s.v1.cni.cncf.io/networks: |-
+        [
+          {
+            "name": "macvlan-conf-dhcp",
+            "namespace": "kube-system",
+            "mac": "1a:c4:8d:33:f2:77"
+          }
+        ]
 
-#     env:
-#       TZ: "America/Chicago"
+    env:
+      TZ: "America/Chicago"
 
-#     service:
-#       main:
-#         ports:
-#           http:
-#             port: 5580
+    service:
+      main:
+        ports:
+          http:
+            port: 5580
 
-#     probes:
-#       liveness:
-#         enabled: false
-#       readiness:
-#         enabled: false
-#       startup:
-#         enabled: false
+    probes:
+      liveness:
+        enabled: false
+      readiness:
+        enabled: false
+      startup:
+        enabled: false
 
-#     resources:
-#       requests:
-#         cpu: 50m
-#         memory: 1Gi
-#       limits:
-#         memory: 1Gi
+    resources:
+      requests:
+        cpu: 50m
+        memory: 1Gi
+      limits:
+        memory: 1Gi
