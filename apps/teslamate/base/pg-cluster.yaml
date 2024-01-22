@@ -6,6 +6,8 @@ metadata:
 spec:
   instances: 3
 
+  imageName: ghcr.io/cloudnative-pg/postgresql:15.5
+
   bootstrap:
     recovery:
       source: clusterBackup
