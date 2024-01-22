@@ -17,6 +17,8 @@ metadata:
   name: homeassistant-destination
   namespace: homeassistant
 spec:
+  accessModes:
+    - ReadWriteOnce
   trigger:
     manual: restore
   restic:
