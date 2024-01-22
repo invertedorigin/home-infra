@@ -8,7 +8,7 @@ spec:
 
   storage:
     size: 10Gi
-    storageClass: home-office-rack-default-strict-local
+    storageClass: longhorn-strict-local-standalone
 
   monitoring:
     enablePodMonitor: true
