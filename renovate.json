@@ -20,7 +20,7 @@
   ],
   "customManagers": [
     {
-      "fileMatch": ["^\\talos-upgrade-plan.yaml$"],
+      "fileMatch": ["^\\.yaml$"],
       "matchStrings": [
         "datasource=(?<datasource>.*?) depName=(?<depName>.*?)( versioning=(?<versioning>.*?))?\\s  version: (?<currentValue>.*?)@(?<currentDigest>sha256:[a-f0-9]+)\\s"
       ],
