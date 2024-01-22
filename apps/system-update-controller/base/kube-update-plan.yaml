@@ -15,7 +15,7 @@ spec:
     matchExpressions:
       - { key: node-role.kubernetes.io/control-plane, operator: Exists }
   upgrade:
-    image: ghcr.io/siderolabs/talosctl:v1.5.5
+    image: ghcr.io/siderolabs/talosctl:v1.6.2
     envs:
       - name: NODE_IP
         valueFrom:
