@@ -13,7 +13,7 @@ spec:
   externalClusters:
     - name: clusterBackup
       barmanObjectStore:
-        destinationPath: s3://linstor-backups/teslamate/
+        destinationPath: s3://linstor-backups/teslamate/teslamate-db
         endpointURL: https://f92cf6dd20992e652da4b54bae8dbd53.r2.cloudflarestorage.com
         s3Credentials:
           accessKeyId:
