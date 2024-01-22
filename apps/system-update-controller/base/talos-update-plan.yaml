@@ -6,7 +6,7 @@ metadata:
   namespace: system-upgrade
 spec:
   # renovate: datasource=docker depName=ghcr.io/jtcressy-home/installer
-  version: v1.6.2@sha256:41d90eda13809d5012cfbd23209575f51d5b2b5a9c609bc13f2f77d0910ebee0
+  version: v1.6.2
   serviceAccountName: system-upgrade
   secrets:
     - name: talos
