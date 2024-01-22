@@ -10,3 +10,17 @@ spec:
   resources:
     requests:
       storage: 10Gi
+---
+apiVersion: volsync.backube/v1alpha1
+kind: ReplicationDestination
+metadata:
+  name: vaultwarden-destination
+  namespace: vaultwarden
+spec:
+  trigger:
+    manual: restore
+  restic:
+    destinationPVC: vaultwarden-pvc-replicated
+    repository: volsync-secret
+    copyMethod: Direct
+    storageClassName: longhorn-sticky
