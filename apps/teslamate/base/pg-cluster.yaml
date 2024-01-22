@@ -5,6 +5,9 @@ metadata:
   namespace: teslamate
 spec:
   instances: 3
+  bootstrap:
+    initdb:
+      database: teslamate
 
   storage:
     size: 10Gi
@@ -17,10 +20,6 @@ spec:
     enablePodAntiAffinity: true
     podAntiAffinityType: required
     topologyKey: kubernetes.io/hostname
-
-  bootstrap:
-    recovery:
-      source: clusterBackup
 
   backup:
     barmanObjectStore:
@@ -41,17 +40,3 @@ spec:
         compression: gzip
         encryption: AES256
     retentionPolicy: "7d"
-
-
-  externalClusters:
-    - name: clusterBackup
-      barmanObjectStore:
-        destinationPath: s3://linstor-backups/teslamate/
-        endpointURL: https://f92cf6dd20992e652da4b54bae8dbd53.r2.cloudflarestorage.com
-        s3Credentials:
-          accessKeyId:
-            name: cloudflare-r2-secret
-            key: AWS_ACCESS_KEY_ID
-          secretAccessKey:
-            name: cloudflare-r2-secret
-            key: AWS_SECRET_ACCESS_KEY
