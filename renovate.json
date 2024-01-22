@@ -18,6 +18,15 @@
       "versioningTemplate": "{{#if versioning}}{{{versioning}}}{{else}}semver{{/if}}"
     }
   ],
+  "customManagers": [
+    {
+      "fileMatch": ["^\\talos-upgrade-plan.yaml$"],
+      "matchStrings": [
+        "datasource=(?<datasource>.*?) depName=(?<depName>.*?)( versioning=(?<versioning>.*?))?\\s  version: (?<currentValue>.*?)@(?<currentDigest>sha256:[a-f0-9]+)\\s"
+      ],
+      "datasourceTemplate": "docker"
+    }
+  ],
   "packageRules": [
     {
       "matchPackageNames": ["kubernetes/ingress-nginx"],
