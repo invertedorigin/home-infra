@@ -6,7 +6,6 @@ namespace: monitoring
 resources:
 - namespace.yaml
 - external-secret.yaml
-- pvc.yaml
 
 helmCharts:
 - name: kube-prometheus-stack
