@@ -4,7 +4,7 @@ metadata:
   name: homeassistant-pvc-replicated
   namespace: homeassistant
 spec:
-  storageClassName: longhorn
+  storageClassName: longhorn-sticky
   accessModes:
     - ReadWriteOnce
   resources:
@@ -23,4 +23,4 @@ spec:
     destinationPVC: homeassistant-pvc-replicated
     repository: volsync-secret
     copyMethod: Direct
-    storageClassName: longhorn
+    storageClassName: longhorn-sticky
