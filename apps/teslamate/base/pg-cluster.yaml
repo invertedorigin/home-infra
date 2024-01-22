@@ -55,10 +55,3 @@ spec:
           secretAccessKey:
             name: cloudflare-r2-secret
             key: AWS_SECRET_ACCESS_KEY
-        wal:
-          compression: gzip
-          maxParallel: 8
-          encryption: AES256
-        data:
-          compression: gzip
-          encryption: AES256
