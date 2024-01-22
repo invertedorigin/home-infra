@@ -4,7 +4,7 @@ metadata:
   name: esphome-pvc-replicated
   namespace: esphome
 spec:
-  storageClassName: home-office-rack-default-replicated
+  storageClassName: longhorn-sticky
   accessModes:
     - ReadWriteOnce
   resources:
