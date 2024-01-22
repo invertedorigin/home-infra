@@ -1,0 +1,33 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: cluster-cni
+  namespace: argocd
+spec:
+  goTemplate: true
+  generators:
+  - git:
+      repoURL: https://github.com/invertedorigin/home-infra.git
+      revision: HEAD
+      directories:
+      - path: 'talos/cni'
+      values:
+        cluster: '{{ index .path.segments 2 }}'
+  template:
+    metadata:
+      name: '{{ .values.cluster }}-cni'
+    spec:
+      project: 'infra'
+      source:
+        repoURL: https://github.com/invertedorigin/home-infra.git
+        targetRevision: HEAD
+        path: '{{.path.path}}'
+        kustomize:
+          namespace: kube-system
+      destination:
+        namespace: kube-system
+        name: '{{ .values.cluster }}'
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
