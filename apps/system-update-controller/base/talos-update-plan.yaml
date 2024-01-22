@@ -15,7 +15,7 @@ spec:
   concurrency: 1
   exclusive: true
   drain:
-    deleteLocalData: true 
+    deleteLocalData: true
     ignoreDaemonSets: true
     disableEviction: false
   cordon: true
