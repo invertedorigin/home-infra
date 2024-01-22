@@ -11,8 +11,6 @@ spec:
       revision: HEAD
       directories:
       - path: 'talos/cni'
-      values:
-        cluster: '{{ index .path.segments 2 }}'
   template:
     metadata:
       name: '{{ .values.cluster }}-cni'
@@ -26,7 +24,7 @@ spec:
           namespace: kube-system
       destination:
         namespace: kube-system
-        name: '{{ .values.cluster }}'
+        server: https://kubernetes.default.svc
       syncPolicy:
         automated:
           prune: true
