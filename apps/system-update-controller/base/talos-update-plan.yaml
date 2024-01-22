@@ -1,20 +1,28 @@
+---
 apiVersion: upgrade.cattle.io/v1
 kind: Plan
 metadata:
   name: talos
   namespace: system-upgrade
 spec:
-  # renovate: datasource=github-releases depName=siderolabs/talos
+  # renovate: datasource=github-releases depName=jtcressy-home/talos-boot-assets
   version: v1.6.2
   serviceAccountName: system-upgrade
   secrets:
     - name: talos
       path: /var/run/secrets/talos.dev
+      ignoreUpdates: true
   concurrency: 1
+  exclusive: true
+  drain:
+    deleteLocalData: true 
+    ignoreDaemonSets: true
+    disableEviction: false
+  cordon: true
   nodeSelector:
     matchExpressions:
       - { key: kubernetes.io/os, operator: In, values: [linux] }
-  upgrade:
+  prepare: &prepare
     image: ghcr.io/siderolabs/talosctl
     envs:
       - name: NODE_IP
@@ -22,7 +30,15 @@ spec:
           fieldRef:
             fieldPath: status.hostIP
     args:
-      - "--nodes=$(NODE_IP)"
-      - "upgrade"
+      - --nodes=$(NODE_IP)
+      - health
+      - --server=false
+  upgrade:
+    <<: *prepare
+    args:
+      - --nodes=$(NODE_IP)
+      - upgrade
+      - --stage
       - "--image=ghcr.io/jtcressy-home/installer:$(SYSTEM_UPGRADE_PLAN_LATEST_VERSION)"
-      - "--preserve=true"
+      - --preserve=true
+      - --wait=false
