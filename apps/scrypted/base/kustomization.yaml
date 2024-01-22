@@ -9,66 +9,66 @@ resources:
 - external-secret.yaml
 - backup.yaml
 
-# helmCharts:
-# - name: app-template
-#   repo: https://bjw-s.github.io/helm-charts/
-#   version: 1.5.1
-#   releaseName: scrypted
-#   valuesInline:
-#     image:
-#       repository: koush/scrypted
-#       tag: latest@sha256:cfe2a014edb1c700bf08a90e4b86e1370cb057dea02520203baad160d522a38e
+helmCharts:
+- name: app-template
+  repo: https://bjw-s.github.io/helm-charts/
+  version: 1.5.1
+  releaseName: scrypted
+  valuesInline:
+    image:
+      repository: koush/scrypted
+      tag: latest@sha256:cfe2a014edb1c700bf08a90e4b86e1370cb057dea02520203baad160d522a38e
 
-#     podAnnotations:
-#       k8s.v1.cni.cncf.io/networks: |-
-#         [
-#           {
-#             "name": "macvlan-conf-dhcp",
-#             "namespace": "kube-system",
-#             "mac": "fa:77:a4:fe:98:91"
-#           }
-#         ]
+    podAnnotations:
+      k8s.v1.cni.cncf.io/networks: |-
+        [
+          {
+            "name": "macvlan-conf-dhcp",
+            "namespace": "kube-system",
+            "mac": "fa:77:a4:fe:98:91"
+          }
+        ]
 
-#     env:
-#       TZ: "America/Chicago"
+    env:
+      TZ: "America/Chicago"
 
-#     service:
-#       main:
-#         ports:
-#           http:
-#             port: 10443
+    service:
+      main:
+        ports:
+          http:
+            port: 10443
 
-#     ingress:
-#       main:
-#         enabled: true
-#         annotations:
-#           nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
-#           kubernetes.io/ingress.class: "nginx"
-#           cert-manager.io/cluster-issuer: "cloudflare-issuer"
-#         hosts:
-#           - host: &host scrypted.invertedorigin.com
-#             paths:
-#               - path: /
-#         tls:
-#           - hosts:
-#               - *host
-#             secretName: zwavejs-tls-domain
+    ingress:
+      main:
+        enabled: true
+        annotations:
+          nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+          kubernetes.io/ingress.class: "nginx"
+          cert-manager.io/cluster-issuer: "cloudflare-issuer"
+        hosts:
+          - host: &host scrypted.invertedorigin.com
+            paths:
+              - path: /
+        tls:
+          - hosts:
+              - *host
+            secretName: zwavejs-tls-domain
 
-#     probes:
-#       liveness:
-#         enabled: false
-#       readiness:
-#         enabled: false
-#       startup:
-#         enabled: false
+    probes:
+      liveness:
+        enabled: false
+      readiness:
+        enabled: false
+      startup:
+        enabled: false
 
-#     resources:
-#       requests:
-#         cpu: 450m
-#         memory: 4Gi
+    resources:
+      requests:
+        cpu: 450m
+        memory: 4Gi
 
-#     persistence:
-#       config:
-#         enabled: true
-#         existingClaim: scrypted-pvc-replicated
-#         mountPath: /server/volume
+    persistence:
+      config:
+        enabled: true
+        existingClaim: scrypted-pvc-replicated
+        mountPath: /server/volume
