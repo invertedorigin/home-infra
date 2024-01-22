@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: file-copy-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: file-copy
+  template:
+    metadata:
+      labels:
+        app: file-copy
+    spec:
+      containers:
+      - name: file-copy-container
+        image: alpine:latest
+        command: ["/bin/sh", "-c"]
+        args: ["tail -f /dev/null"]
+        volumeMounts:
+        - name: source-pvc
+          mountPath: /source
+        - name: destination-pvc
+          mountPath: /destination
+      volumes:
+      - name: source-pvc
+        persistentVolumeClaim:
+          claimName: prometheus-kube-prometheus-stack-prometheus-db-prometheus-kube-prometheus-stack-prometheus-0
+      - name: destination-pvc
+        persistentVolumeClaim:
+          claimName: file-copy-pvc-clone
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: file-copy-pvc-clone
+spec:
+  storageClassName: longhorn-sticky
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 50Gi

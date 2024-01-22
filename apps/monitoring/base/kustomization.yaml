@@ -7,52 +7,52 @@ resources:
 - namespace.yaml
 - external-secret.yaml
 
-helmCharts:
-- name: kube-prometheus-stack
-  repo: https://prometheus-community.github.io/helm-charts
-  version: 55.11.0
-  releaseName: kube-prometheus-stack
-  includeCRDs: true
-  valuesInline:
-    namespaceOverride: "monitoring"
-    alertmanager:
-      enabled: false
-    grafana:
-      enabled: false
-    prometheusOperator:
-      enabled: true
-      # admissionWebhooks:
-      #   certManager:
-      #     enabled: true
-      #     issuerRef:
-      #       name: "issuer"
-      #       kind: "ClusterIssuer"
-    global:
-      rbac:
-        create: true
-        createAggregateClusterRoles: true
-    prometheus:
-      enabled: true
-      prometheusSpec:
-        podMonitorNamespaceSelector: {}
-        podMonitorSelector: {}
-        podMonitorSelectorNilUsesHelmValues: false
-        ruleNamespaceSelector: {}
-        ruleSelector: {}
-        ruleSelectorNilUsesHelmValues: false
-        serviceMonitorNamespaceSelector: {}
-        serviceMonitorSelector: {}
-        serviceMonitorSelectorNilUsesHelmValues: false
-        retention: 30d
-        storageSpec:
-          volumeClaimTemplate:
-            spec:
-              storageClassName: home-office-rack-default-strict-local
-              accessModes:
-              - ReadWriteOnce
-              resources:
-                requests:
-                  storage: 50Gi
+# helmCharts:
+# - name: kube-prometheus-stack
+#   repo: https://prometheus-community.github.io/helm-charts
+#   version: 55.11.0
+#   releaseName: kube-prometheus-stack
+#   includeCRDs: true
+#   valuesInline:
+#     namespaceOverride: "monitoring"
+#     alertmanager:
+#       enabled: false
+#     grafana:
+#       enabled: false
+#     prometheusOperator:
+#       enabled: true
+#       # admissionWebhooks:
+#       #   certManager:
+#       #     enabled: true
+#       #     issuerRef:
+#       #       name: "issuer"
+#       #       kind: "ClusterIssuer"
+#     global:
+#       rbac:
+#         create: true
+#         createAggregateClusterRoles: true
+#     prometheus:
+#       enabled: true
+#       prometheusSpec:
+#         podMonitorNamespaceSelector: {}
+#         podMonitorSelector: {}
+#         podMonitorSelectorNilUsesHelmValues: false
+#         ruleNamespaceSelector: {}
+#         ruleSelector: {}
+#         ruleSelectorNilUsesHelmValues: false
+#         serviceMonitorNamespaceSelector: {}
+#         serviceMonitorSelector: {}
+#         serviceMonitorSelectorNilUsesHelmValues: false
+#         retention: 30d
+#         storageSpec:
+#           volumeClaimTemplate:
+#             spec:
+#               storageClassName: home-office-rack-default-strict-local
+#               accessModes:
+#               - ReadWriteOnce
+#               resources:
+#                 requests:
+#                   storage: 50Gi
 
 - name: grafana
   repo: https://grafana.github.io/helm-charts
