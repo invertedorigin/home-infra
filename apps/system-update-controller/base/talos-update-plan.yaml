@@ -5,7 +5,7 @@ metadata:
   name: talos
   namespace: system-upgrade
 spec:
-  # renovate: datasource=docker depName=ghcr.io/jtcressy-home/installer
+  # renovate: datasource=github-releases depName=jtcressy-home/talos-boot-assets
   version: v1.6.2
   serviceAccountName: system-upgrade
   secrets:
