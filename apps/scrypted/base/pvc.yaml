@@ -4,9 +4,23 @@ metadata:
   name: scrypted-pvc-replicated
   namespace: scrypted
 spec:
-  storageClassName: home-office-rack-default-replicated
+  storageClassName: longhorn-sticky
   accessModes:
     - ReadWriteOnce
   resources:
     requests:
       storage: 10Gi
+---
+apiVersion: volsync.backube/v1alpha1
+kind: ReplicationDestination
+metadata:
+  name: scrypted-destination
+  namespace: scrypted
+spec:
+  trigger:
+    manual: restore
+  restic:
+    destinationPVC: scrypted-pvc-replicated
+    repository: volsync-secret
+    copyMethod: Direct
+    storageClassName: longhorn-sticky
