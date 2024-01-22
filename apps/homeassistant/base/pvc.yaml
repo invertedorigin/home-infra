@@ -22,6 +22,7 @@ spec:
   restic:
     accessModes:
       - ReadWriteOnce
+    capacity: 20Gi
     repository: volsync-secret
     copyMethod: Direct
     storageClassName: longhorn
