@@ -5,9 +5,6 @@ metadata:
   namespace: teslamate
 spec:
   instances: 3
-  bootstrap:
-    initdb:
-      database: teslamate
 
   storage:
     size: 10Gi
