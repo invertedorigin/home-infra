@@ -13,28 +13,38 @@ resources:
 helmCharts:
 - name: app-template
   repo: https://bjw-s.github.io/helm-charts/
-  version: 1.5.1
+  version: 2.5.0
   releaseName: teslamate
 
   valuesInline:
-    image:
-      repository: teslamate/teslamate
-      tag: 1.28.2
-    env:
-      TZ: "America/Chicago"
-      DISABLE_MQTT: "false"
-      MQTT_HOST: "nats-headless.mqtt.svc.cluster.local"
-      MQTT_USERNAME: "mqtt"
-      DATABASE_HOST: "teslamate-db-rw.teslamate.svc.cluster.local"
-    envFrom:
-    - secretRef:
-        name: teslamate-secret
+    controllers:
+      main:
+        containers:
+          main:
+            image:
+              repository: teslamate/teslamate
+              tag: 1.28.2
+            env:
+              TZ: "America/Chicago"
+              DISABLE_MQTT: "false"
+              MQTT_HOST: "nats-headless.mqtt.svc.cluster.local"
+              MQTT_USERNAME: "mqtt"
+              DATABASE_HOST: "teslamate-db-rw.teslamate.svc.cluster.local"
+            envFrom:
+            - secretRef:
+                name: teslamate-secret
+            resources:
+              requests:
+                memory: 300Mi
+                cpu: 25m
+
     service:
       main:
         type: ClusterIP
         ports:
           http:
             port: 4000
+
     ingress:
       main:
         enabled: true
@@ -44,12 +54,11 @@ helmCharts:
         hosts:
         - host: &host teslamate.invertedorigin.com
           paths:
-          - path: /
+            - path: /
+              service:
+                name: main
+                port: http
         tls:
         - hosts:
           - *host
           secretName: teslamate-tls-domain
-    resources:
-      requests:
-        memory: 300Mi
-        cpu: 25m
