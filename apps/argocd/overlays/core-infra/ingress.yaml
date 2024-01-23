@@ -11,7 +11,7 @@ spec:
   tls:
   - hosts:
     - argocd.invertedorigin.com
-    secretName: ha-tls-domain
+    secretName: argocd-tls-domain
   rules:
   - host: argocd.invertedorigin.com
     http:
