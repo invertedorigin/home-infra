@@ -84,17 +84,10 @@ helmCharts:
           - *host
           secretName: zwavejs-tls-domain
 
-
-    persistence:
-      media:
-        existingClaim: esphome-pvc-replicated
-        globalMounts:
-          - path: /config
-
     persistence:
       media:
         existingClaim: zwavejs-pvc-replicated
-        globalMounts: 
+        globalMounts:
           - path: /usr/src/app/store
       usb:
         enabled: true
