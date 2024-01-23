@@ -76,5 +76,5 @@ helmCharts:
     persistence:
       config:
         existingClaim: homeassistant-pvc-replicated
-        globaMounts: 
+        globalMounts: 
           - path: /config
