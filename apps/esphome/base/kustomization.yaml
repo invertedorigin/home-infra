@@ -39,6 +39,12 @@ helmCharts:
                 enabled: false
               startup:
                 enabled: false
+            resources:
+              requests:
+                cpu: 6m
+                memory: 105Mi
+              limits:
+                memory: 105Mi
 
     service:
       main:
