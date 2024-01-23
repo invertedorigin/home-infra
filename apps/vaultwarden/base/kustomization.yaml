@@ -12,30 +12,47 @@ resources:
 helmCharts:
 - name: app-template
   repo: https://bjw-s.github.io/helm-charts/
-  version: 1.5.1
+  version: 2.5.0
   releaseName: vaultwarden
   valuesInline:
-    image:
-      repository: vaultwarden/server
-      tag: 1.30.1-alpine
-
-    env:
-      TZ: "America/Chicago"
-      DOMAIN:
-        valueFrom:
-          secretKeyRef:
-            name: vault-warden-secrets
-            key: domain
-      YUBICO_CLIENT_ID:
-        valueFrom:
-          secretKeyRef:
-            name: vault-warden-secrets
-            key: yubico-client-id
-      YUBICO_SECRET_KEY:
-        valueFrom:
-          secretKeyRef:
-            name: vault-warden-secrets
-            key: yubico-secret-key
+    controllers:
+      main:
+        containers:
+          main:
+            image:
+              repository: vaultwarden/server
+              tag: 1.30.1-alpine
+            env:
+              TZ: "America/Chicago"
+              DOMAIN:
+                valueFrom:
+                  secretKeyRef:
+                    name: vault-warden-secrets
+                    key: domain
+              YUBICO_CLIENT_ID:
+                valueFrom:
+                  secretKeyRef:
+                    name: vault-warden-secrets
+                    key: yubico-client-id
+              YUBICO_SECRET_KEY:
+                valueFrom:
+                  secretKeyRef:
+                    name: vault-warden-secrets
+                    key: yubico-secret-key
+            probes:
+              liveness:
+                enabled: false
+              readiness:
+                enabled: false
+              startup:
+                enabled: false
+            resources:
+              requests:
+                cpu: 50m
+                memory: 128Mi
+              limits:
+                cpu: 250m
+                memory: 500Mi
 
     service:
       main:
@@ -53,29 +70,16 @@ helmCharts:
           - host: &host bw.invertedorigin.com
             paths:
               - path: /
+                service:
+                  name: main
+                  port: http
         tls:
           - hosts:
               - *host
             secretName: vaultwarden-tls-domain
 
-    probes:
-      liveness:
-        enabled: false
-      readiness:
-        enabled: false
-      startup:
-        enabled: false
-
-    resources:
-      requests:
-        cpu: 50m
-        memory: 128Mi
-      limits:
-        cpu: 250m
-        memory: 500Mi
-
     persistence:
-      config:
-        enabled: true
+      media:
         existingClaim: vaultwarden-pvc-replicated
-        mountPath: /data
+        globalMounts:
+          - path: /data
