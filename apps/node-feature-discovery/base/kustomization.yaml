@@ -23,3 +23,12 @@ patches:
           # I don't plan on running a very large cluster
           # but want more responsiveness to hardware changes
           sleepInterval: 10s
+
+patchesStrategicMerge:
+- |-
+  apiVersion: v1
+  kind: Namespace
+  metadata:
+    name: node-feature-discovery
+    labels:
+      pod-security.kubernetes.io/enforce: privileged
