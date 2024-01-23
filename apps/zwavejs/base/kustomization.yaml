@@ -18,6 +18,16 @@ helmCharts:
   valuesInline:
     controllers:
       main:
+        pod:
+          affinity:
+            nodeAffinity:
+              requiredDuringSchedulingIgnoredDuringExecution:
+                nodeSelectorTerms:
+                - matchExpressions:
+                  - key: aeotec.feature.node.kubernetes.io/zwave
+                    operator: In
+                    values:
+                    - "true"
         containers:
           main:
             image:
@@ -42,15 +52,6 @@ helmCharts:
                 enabled: false
             securityContext:
               privileged: true
-            affinity:
-              nodeAffinity:
-                requiredDuringSchedulingIgnoredDuringExecution:
-                  nodeSelectorTerms:
-                  - matchExpressions:
-                    - key: aeotec.feature.node.kubernetes.io/zwave
-                      operator: In
-                      values:
-                      - "true"
             resources:
               requests:
                 memory: 250Mi
