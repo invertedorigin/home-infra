@@ -17,7 +17,6 @@ helmCharts:
   valuesInline:
     controllers:
       main:
-        type: deployment
         pod:
           annotations:
             k8s.v1.cni.cncf.io/networks: |-
@@ -33,16 +32,13 @@ helmCharts:
             image:
               repository: ghcr.io/esphome/esphome
               tag: 2023.12.8
-            ports:
-             - name: http
-               containerPort: 6052
             probes:
-            liveness:
-              enabled: false
-            readiness:
-              enabled: false
-            startup:
-              enabled: false
+              liveness:
+                enabled: false
+              readiness:
+                enabled: false
+              startup:
+                enabled: false
 
     service:
       main:
