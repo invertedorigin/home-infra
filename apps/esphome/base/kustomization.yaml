@@ -6,6 +6,8 @@ namespace: esphome
 resources:
 - namespace.yaml
 - pvc.yaml
+- external-secret.yaml
+- backup.yaml
 
 helmCharts:
 - name: app-template
