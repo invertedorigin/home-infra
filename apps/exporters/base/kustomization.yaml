@@ -9,7 +9,7 @@ namespace: custom-prom-exporters
 helmCharts:
 - name: app-template
   repo: https://bjw-s.github.io/helm-charts
-  version: 1.5.1
+  version: 2.5.0
   releaseName: royalcaribbean-prometheus-exporter
   valuesInline:
     image:
@@ -41,7 +41,7 @@ helmCharts:
 
 - name: app-template
   repo: https://bjw-s.github.io/helm-charts
-  version: 1.5.1
+  version: 2.5.0
   releaseName: royalcaribbean-prometheus-exporter-experimental
   valuesInline:
     image:
@@ -81,7 +81,7 @@ helmCharts:
 
 - name: app-template
   repo: https://bjw-s.github.io/helm-charts
-  version: 1.5.1
+  version: 2.5.0
   releaseName: powertochoose-prometheus-exporter
   valuesInline:
     image:

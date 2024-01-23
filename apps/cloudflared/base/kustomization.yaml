@@ -10,7 +10,7 @@ namespace: cloudflared
 helmCharts:
 - name: app-template
   repo: https://bjw-s.github.io/helm-charts
-  version: 1.5.1
+  version: 2.5.0
   releaseName: cloudflared
   valuesInline:
     controller:
