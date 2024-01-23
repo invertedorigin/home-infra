@@ -9,18 +9,34 @@ namespace: custom-prom-exporters
 helmCharts:
 - name: app-template
   repo: https://bjw-s.github.io/helm-charts
-  version: 1.5.1
+  version: 2.5.0
   releaseName: royalcaribbean-prometheus-exporter
   valuesInline:
-    image:
-      repository: keatontaylor/royalcaribbean-prometheus-exporter
-      tag: v0.0.4
-
-    args:
-    - --url
-    - https://www.royalcaribbean.com/graph
-    - --interval
-    - 3600s
+    controllers:
+      main:
+        containers:
+          main:
+            image:
+              repository: keatontaylor/royalcaribbean-prometheus-exporter
+              tag: v0.0.4
+            args:
+            - --url
+            - https://www.royalcaribbean.com/graph
+            - --interval
+            - 3600s
+            resources:
+              requests:
+                cpu: 6m
+                memory: 105Mi
+              limits:
+                memory: 105Mi
+            probes:
+              liveness:
+                enabled: false
+              readiness:
+                enabled: false
+              startup:
+                enabled: false
 
     service:
       main:
@@ -28,52 +44,46 @@ helmCharts:
           http:
             port: 2112
 
-    resources:
-      requests:
-        cpu: 6m
-        memory: 105Mi
-      limits:
-        memory: 105Mi
-
     serviceMonitor:
       main:
         enabled: true
 
 - name: app-template
   repo: https://bjw-s.github.io/helm-charts
-  version: 1.5.1
+  version: 2.5.0
   releaseName: royalcaribbean-prometheus-exporter-experimental
   valuesInline:
-    image:
-      repository: keatontaylor/royalcaribbean-prometheus-exporter
-      tag: experimental3
-
-    args:
-    - --url
-    - https://www.royalcaribbean.com/graph
-    - --interval
-    - 3600s
+    controllers:
+      main:
+        containers:
+          main:
+            image:
+              repository: keatontaylor/royalcaribbean-prometheus-exporter
+              tag: experimental3
+            args:
+            - --url
+            - https://www.royalcaribbean.com/graph
+            - --interval
+            - 3600s
+            resources:
+              requests:
+                cpu: 6m
+                memory: 105Mi
+              limits:
+                memory: 105Mi
+            probes:
+              liveness:
+                enabled: false
+              readiness:
+                enabled: false
+              startup:
+                enabled: false
 
     service:
       main:
         ports:
           http:
             port: 2112
-
-    probes:
-      liveness:
-        enabled: false
-      readiness:
-        enabled: false
-      startup:
-        enabled: false
-
-    resources:
-      requests:
-        cpu: 6m
-        memory: 105Mi
-      limits:
-        memory: 105Mi
 
     serviceMonitor:
       main:
@@ -81,39 +91,40 @@ helmCharts:
 
 - name: app-template
   repo: https://bjw-s.github.io/helm-charts
-  version: 1.5.1
+  version: 2.5.0
   releaseName: powertochoose-prometheus-exporter
   valuesInline:
-    image:
-      repository: keatontaylor/powertochoose-prometheus-exporter
-      tag: v0.0.3
-
-    args:
-    - --url
-    - https://powertochoose.org/
-    - --interval
-    - 3600s
+    controllers:
+      main:
+        containers:
+          main:
+            image:
+              repository: keatontaylor/powertochoose-prometheus-exporter
+              tag: v0.0.3
+            args:
+            - --url
+            - https://powertochoose.org/
+            - --interval
+            - 3600s
+            resources:
+              requests:
+                cpu: 6m
+                memory: 105Mi
+              limits:
+                memory: 105Mi
+            probes:
+              liveness:
+                enabled: false
+              readiness:
+                enabled: false
+              startup:
+                enabled: false
 
     service:
       main:
         ports:
           http:
             port: 2112
-
-    probes:
-      liveness:
-        enabled: false
-      readiness:
-        enabled: false
-      startup:
-        enabled: false
-
-    resources:
-      requests:
-        cpu: 6m
-        memory: 105Mi
-      limits:
-        memory: 105Mi
 
     serviceMonitor:
       main:
