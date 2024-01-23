@@ -74,7 +74,7 @@ helmCharts:
             secretName: ha-tls-domain
 
     persistence:
-      config:
+      media:
         existingClaim: homeassistant-pvc-replicated
-        globalMounts: 
+        globalMounts:
           - path: /config
