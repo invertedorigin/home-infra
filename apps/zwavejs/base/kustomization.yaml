@@ -13,15 +13,48 @@ resources:
 helmCharts:
 - name: app-template
   repo: https://bjw-s.github.io/helm-charts/
-  version: 1.5.1
+  version: 2.5.0
   releaseName: zwavejs
   valuesInline:
-    image:
-      repository: ghcr.io/zwave-js/zwave-js-ui
-      tag: 9.7.1
-
-    env:
-      TZ: "America/Chicago"
+    controllers:
+      main:
+        containers:
+          main:
+            image:
+              repository: ghcr.io/zwave-js/zwave-js-ui
+              tag: 9.7.1
+            env:
+              TZ: "America/Chicago"
+            probes:
+              liveness: &probes
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /health
+                    port: *port
+                  initialDelaySeconds: 0
+                  periodSeconds: 10
+                  timeoutSeconds: 1
+                  failureThreshold: 3
+              readiness: *probes
+              startup:
+                enabled: false
+            securityContext:
+              privileged: true
+            affinity:
+              nodeAffinity:
+                requiredDuringSchedulingIgnoredDuringExecution:
+                  nodeSelectorTerms:
+                  - matchExpressions:
+                    - key: aeotec.feature.node.kubernetes.io/zwave
+                      operator: In
+                      values:
+                      - "true"
+            resources:
+              requests:
+                memory: 250Mi
+                cpu: 25m
 
     service:
       main:
@@ -41,54 +74,30 @@ helmCharts:
         hosts:
         - host: &host zwavejs.invertedorigin.com
           paths:
-          - path: /
+            - path: /
+              service:
+                name: main
+                port: http
         tls:
         - hosts:
           - *host
           secretName: zwavejs-tls-domain
 
-    probes:
-      liveness: &probes
-        enabled: true
-        custom: true
-        spec:
-          httpGet:
-            path: /health
-            port: *port
-          initialDelaySeconds: 0
-          periodSeconds: 10
-          timeoutSeconds: 1
-          failureThreshold: 3
-      readiness: *probes
-      startup:
-        enabled: false
-
-    securityContext:
-      privileged: true
 
     persistence:
-      config:
-        enabled: true
+      media:
+        existingClaim: esphome-pvc-replicated
+        globalMounts:
+          - path: /config
+
+    persistence:
+      media:
         existingClaim: zwavejs-pvc-replicated
-        mountPath: /usr/src/app/store
+        globalMounts: 
+          - path: /usr/src/app/store
       usb:
         enabled: true
         type: hostPath
         mountPath: /dev/zwave
         hostPath: /dev/serial/by-id/usb-0658_0200-if00
         hostPathType: CharDevice
-
-    affinity:
-      nodeAffinity:
-        requiredDuringSchedulingIgnoredDuringExecution:
-          nodeSelectorTerms:
-          - matchExpressions:
-            - key: aeotec.feature.node.kubernetes.io/zwave
-              operator: In
-              values:
-              - "true"
-
-    resources:
-      requests:
-        memory: 250Mi
-        cpu: 25m
