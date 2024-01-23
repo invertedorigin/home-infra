@@ -52,3 +52,8 @@ helmCharts:
                 memory: 105Mi
               limits:
                 memory: 105Mi
+    service:
+      main:
+        ports:
+          http:
+            enabled: false
