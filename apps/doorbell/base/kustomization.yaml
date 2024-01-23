@@ -56,4 +56,4 @@ helmCharts:
       main:
         ports:
           http:
-            enabled: false
+            port: 8888
