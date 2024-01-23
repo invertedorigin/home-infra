@@ -12,25 +12,39 @@ resources:
 helmCharts:
 - name: app-template
   repo: https://bjw-s.github.io/helm-charts/
-  version: 1.5.1
+  version: 2.5.0
   releaseName: scrypted
   valuesInline:
-    image:
-      repository: koush/scrypted
-      tag: latest@sha256:061cc7ae60bfaa3bc303d74cc3bf92b50c18a3ebca58be5f0a5da4c932bf16ec
-
-    podAnnotations:
-      k8s.v1.cni.cncf.io/networks: |-
-        [
-          {
-            "name": "macvlan-conf-dhcp",
-            "namespace": "kube-system",
-            "mac": "fa:77:a4:fe:98:91"
-          }
-        ]
-
-    env:
-      TZ: "America/Chicago"
+    controllers:
+      main:
+        pod:
+          annotations:
+            k8s.v1.cni.cncf.io/networks: |-
+              [
+                {
+                  "name": "macvlan-conf-dhcp",
+                  "namespace": "kube-system",
+                  "mac": "fa:77:a4:fe:98:91"
+                }
+              ]
+        containers:
+          main:
+            image:
+              repository: koush/scrypted
+              tag: latest@sha256:061cc7ae60bfaa3bc303d74cc3bf92b50c18a3ebca58be5f0a5da4c932bf16ec
+            env:
+              TZ: "America/Chicago"
+            probes:
+              liveness:
+                enabled: false
+              readiness:
+                enabled: false
+              startup:
+                enabled: false
+            resources:
+              requests:
+                cpu: 450m
+                memory: 4Gi
 
     service:
       main:
@@ -49,26 +63,16 @@ helmCharts:
           - host: &host scrypted.invertedorigin.com
             paths:
               - path: /
+                service:
+                  name: main
+                  port: http
         tls:
           - hosts:
               - *host
             secretName: zwavejs-tls-domain
 
-    probes:
-      liveness:
-        enabled: false
-      readiness:
-        enabled: false
-      startup:
-        enabled: false
-
-    resources:
-      requests:
-        cpu: 450m
-        memory: 4Gi
-
     persistence:
-      config:
-        enabled: true
+      media:
         existingClaim: scrypted-pvc-replicated
-        mountPath: /server/volume
+        globalMounts:
+          - path: /server/volume
