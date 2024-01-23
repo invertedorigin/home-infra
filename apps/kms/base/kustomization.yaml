@@ -9,43 +9,44 @@ resources:
 helmCharts:
 - name: app-template
   repo: https://bjw-s.github.io/helm-charts/
-  version: 1.5.1
+  version: 2.5.0
   releaseName: kms-server
   valuesInline:
-    image:
-      repository: pykmsorg/py-kms
-      tag: latest@sha256:9bf6a754bfb750a11a7d9c20b9f858bb9799e45ec55337d034af055c6d07acf7
-
-    env:
-      TZ: "America/Chicago"
-
-    podAnnotations:
-      k8s.v1.cni.cncf.io/networks: |-
-        [
-          {
-            "name": "macvlan-conf-dhcp",
-            "namespace": "kube-system",
-            "mac": "4a:c1:8d:18:f6:33"
-          }
-        ]
+    controllers:
+      main:
+        pod:
+          annotations:
+            k8s.v1.cni.cncf.io/networks: |-
+              [
+                {
+                  "name": "macvlan-conf-dhcp",
+                  "namespace": "kube-system",
+                  "mac": "4a:c1:8d:18:f6:33"
+                }
+              ]   
+        containers:
+          main:
+            image:
+              repository: pykmsorg/py-kms
+              tag: latest@sha256:9bf6a754bfb750a11a7d9c20b9f858bb9799e45ec55337d034af055c6d07acf7
+            env:
+              TZ: "America/Chicago"
+            probes:
+              liveness:
+                enabled: false
+              readiness:
+                enabled: false
+              startup:
+                enabled: false
+            resources:
+              requests:
+                cpu: 50m
+                memory: 1Gi
+              limits:
+                memory: 1Gi
 
     service:
       main:
         ports:
           http:
             port: 1688
-
-    probes:
-      liveness:
-        enabled: false
-      readiness:
-        enabled: false
-      startup:
-        enabled: false
-
-    resources:
-      requests:
-        cpu: 50m
-        memory: 1Gi
-      limits:
-        memory: 1Gi
