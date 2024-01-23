@@ -12,25 +12,41 @@ resources:
 helmCharts:
 - name: app-template
   repo: https://bjw-s.github.io/helm-charts/
-  version: 1.5.1
+  version: 2.5.0
   releaseName: homeassistant
   valuesInline:
-    image:
-      repository: ghcr.io/home-assistant/home-assistant
-      tag: 2024.1.5
-
-    podAnnotations:
-      k8s.v1.cni.cncf.io/networks: |-
-        [
-          {
-            "name": "macvlan-conf-dhcp",
-            "namespace": "kube-system",
-            "mac": "4a:c1:8d:28:f2:77"
-          }
-        ]
-
-    env:
-      TZ: "America/Chicago"
+    controllers:
+      main:
+        pod:
+          annotations:
+            k8s.v1.cni.cncf.io/networks: |-
+              [
+                {
+                  "name": "macvlan-conf-dhcp",
+                  "namespace": "kube-system",
+                  "mac": "4a:c1:8d:28:f2:77"
+                }
+              ]
+        containers:
+          main:
+            image:
+              repository: ghcr.io/home-assistant/home-assistant
+              tag: 2024.1.5
+            env:
+              TZ: "America/Chicago"
+            probes:
+              liveness:
+                enabled: false
+              readiness:
+                enabled: false
+              startup:
+                enabled: false
+            resources:
+              requests:
+                cpu: 50m
+                memory: 1Gi
+              limits:
+                memory: 1Gi
 
     service:
       main:
@@ -49,72 +65,16 @@ helmCharts:
           - host: &host ha.invertedorigin.com
             paths:
               - path: /
+                service:
+                  name: main
+                  port: http
         tls:
           - hosts:
               - *host
             secretName: ha-tls-domain
 
-    probes:
-      liveness:
-        enabled: false
-      readiness:
-        enabled: false
-      startup:
-        enabled: false
-
-    resources:
-      requests:
-        cpu: 50m
-        memory: 1Gi
-      limits:
-        memory: 1Gi
-
     persistence:
       config:
-        enabled: true
         existingClaim: homeassistant-pvc-replicated
-        mountPath: /config
-
-
-- name: app-template
-  repo: https://bjw-s.github.io/helm-charts/
-  version: 1.5.1
-  releaseName: matter-server
-  valuesInline:
-    image:
-      repository: ghcr.io/home-assistant-libs/python-matter-server
-      tag: stable
-
-    podAnnotations:
-      k8s.v1.cni.cncf.io/networks: |-
-        [
-          {
-            "name": "macvlan-conf-dhcp",
-            "namespace": "kube-system",
-            "mac": "1a:c4:8d:33:f2:77"
-          }
-        ]
-
-    env:
-      TZ: "America/Chicago"
-
-    service:
-      main:
-        ports:
-          http:
-            port: 5580
-
-    probes:
-      liveness:
-        enabled: false
-      readiness:
-        enabled: false
-      startup:
-        enabled: false
-
-    resources:
-      requests:
-        cpu: 50m
-        memory: 1Gi
-      limits:
-        memory: 1Gi
+        globaMounts: 
+          - path: /config
