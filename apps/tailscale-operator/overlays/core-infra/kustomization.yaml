@@ -1,5 +1,2 @@
 resources:
 - ../../base
-
-components:
-- ../../components/auth-proxy
