@@ -4,7 +4,7 @@ metadata:
   name: zwavejs-pvc-replicated
   namespace: zwavejs
   annotations:
-    argocd.argoproj.io/sync-wave: "-1"
+    argocd.argoproj.io/sync-wave: "-2"
 spec:
   storageClassName: longhorn-sticky
   accessModes:
