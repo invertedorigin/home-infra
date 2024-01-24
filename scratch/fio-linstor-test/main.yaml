@@ -4,7 +4,7 @@ metadata:
   name: test-volume
   namespace: default
 spec:
-  storageClassName: home-office-rack-default-replicated
+  storageClassName: longhorn-sticky
   resources:
     requests:
       storage: 20Gi
