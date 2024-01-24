@@ -30,7 +30,8 @@
     {
       "matchPackageNames": [
         "siderolabs/talos",
-        "ghcr.io/siderolabs/talosctl"
+        "ghcr.io/siderolabs/talosctl",
+        "jtcressy-home/talos-boot-assets"
       ],
       "matchUpdateTypes": [
         "major",
