@@ -9,7 +9,7 @@ resources:
 
 
 - pvc.yaml
-# - external-secret.yaml
+- external-secret.yaml
 
 
 # helmCharts:
