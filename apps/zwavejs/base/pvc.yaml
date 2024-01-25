@@ -10,17 +10,23 @@ spec:
   resources:
     requests:
       storage: 1Gi
+  dataSourceRef:
+    apiGroup: "volsync.backube"
+    kind: "ReplicationDestination"
+    name: "zwavejs-data-bootstrap"
 ---
 apiVersion: volsync.backube/v1alpha1
 kind: ReplicationDestination
 metadata:
-  name: zwavejs-destination
-  namespace: zwavejs
+  name: "zwavejs-data-bootstrap"
+  namespace: "zwavejs"
 spec:
   trigger:
-    manual: restore
+    manual: "restore-once-bootstrap"
   restic:
-    destinationPVC: zwavejs-pvc-replicated
-    repository: volsync-secret
-    copyMethod: Direct
-    storageClassName: longhorn-sticky
+    repository: "volsync-secret"
+    copyMethod: "Snapshot"
+    storageClassName: "longhorn-sticky"
+    volumeSnapshotClassName: longhorn
+    capacity: "1Gi"
+    accessModes: ["ReadWriteOnce"]
