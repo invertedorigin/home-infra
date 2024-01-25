@@ -10,17 +10,23 @@ spec:
   resources:
     requests:
       storage: 20Gi
+  dataSourceRef:
+    apiGroup: "volsync.backube"
+    kind: "ReplicationDestination"
+    name: "homeassistant-data-bootstrap"
 ---
 apiVersion: volsync.backube/v1alpha1
 kind: ReplicationDestination
 metadata:
-  name: homeassistant-destination
-  namespace: homeassistant
+  name: "homeassistant-data-bootstrap"
+  namespace: "homeassistant"
 spec:
   trigger:
-    manual: restore
+    manual: "restore-once-bootstrap"
   restic:
-    destinationPVC: homeassistant-pvc-replicated
-    repository: volsync-secret
-    copyMethod: Direct
-    storageClassName: longhorn-sticky
+    repository: "volsync-secret"
+    copyMethod: "Snapshot"
+    storageClassName: "longhorn-sticky"
+    volumeSnapshotClassName: longhorn
+    capacity: "1Gi"
+    accessModes: ["ReadWriteOnce"]
