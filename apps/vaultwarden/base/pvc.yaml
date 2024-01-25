@@ -13,6 +13,7 @@ spec:
   dataSourceRef:
     apiGroup: "volsync.backube"
     kind: "ReplicationDestination"
+    name: "vaultwarden-data-bootstrap"
 ---
 apiVersion: volsync.backube/v1alpha1
 kind: ReplicationDestination
