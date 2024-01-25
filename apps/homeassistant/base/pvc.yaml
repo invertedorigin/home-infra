@@ -28,5 +28,5 @@ spec:
     copyMethod: "Snapshot"
     storageClassName: "longhorn-sticky"
     volumeSnapshotClassName: longhorn
-    capacity: "1Gi"
+    capacity: "20Gi"
     accessModes: ["ReadWriteOnce"]
