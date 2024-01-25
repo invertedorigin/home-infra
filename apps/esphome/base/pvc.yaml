@@ -26,7 +26,6 @@ spec:
   restic:
     repository: "volsync-secret"
     copyMethod: "Snapshot"
-    volumeSnapshotClassName: "longhorn-sticky"
     storageClassName: "longhorn-sticky"
     capacity: "20Gi"
     accessModes: ["ReadWriteOnce"]
