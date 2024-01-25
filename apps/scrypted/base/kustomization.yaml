@@ -7,72 +7,72 @@ resources:
 - namespace.yaml
 - backup.yaml
 - external-secret.yaml
-# - pvc.yaml
+- pvc.yaml
 
-# helmCharts:
-# - name: app-template
-#   repo: https://bjw-s.github.io/helm-charts/
-#   version: 2.5.0
-#   releaseName: scrypted
-#   valuesInline:
-#     controllers:
-#       main:
-#         pod:
-#           annotations:
-#             k8s.v1.cni.cncf.io/networks: |-
-#               [
-#                 {
-#                   "name": "macvlan-conf-dhcp",
-#                   "namespace": "kube-system",
-#                   "mac": "fa:77:a4:fe:98:91"
-#                 }
-#               ]
-#         containers:
-#           main:
-#             image:
-#               repository: koush/scrypted
-#               tag: latest@sha256:a5dbddc2390543d9c1a39b1278f8ba27462a8ec20ba396c9dee2320bc5a974b5
-#             env:
-#               TZ: "America/Chicago"
-#             probes:
-#               liveness:
-#                 enabled: false
-#               readiness:
-#                 enabled: false
-#               startup:
-#                 enabled: false
-#             resources:
-#               requests:
-#                 cpu: 450m
-#                 memory: 4Gi
+helmCharts:
+- name: app-template
+  repo: https://bjw-s.github.io/helm-charts/
+  version: 2.5.0
+  releaseName: scrypted
+  valuesInline:
+    controllers:
+      main:
+        pod:
+          annotations:
+            k8s.v1.cni.cncf.io/networks: |-
+              [
+                {
+                  "name": "macvlan-conf-dhcp",
+                  "namespace": "kube-system",
+                  "mac": "fa:77:a4:fe:98:91"
+                }
+              ]
+        containers:
+          main:
+            image:
+              repository: koush/scrypted
+              tag: latest@sha256:a5dbddc2390543d9c1a39b1278f8ba27462a8ec20ba396c9dee2320bc5a974b5
+            env:
+              TZ: "America/Chicago"
+            probes:
+              liveness:
+                enabled: false
+              readiness:
+                enabled: false
+              startup:
+                enabled: false
+            resources:
+              requests:
+                cpu: 450m
+                memory: 4Gi
 
-#     service:
-#       main:
-#         ports:
-#           http:
-#             port: 10443
+    service:
+      main:
+        ports:
+          http:
+            port: 10443
 
-#     ingress:
-#       main:
-#         enabled: true
-#         annotations:
-#           nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
-#           kubernetes.io/ingress.class: "nginx"
-#           cert-manager.io/cluster-issuer: "cloudflare-issuer"
-#         hosts:
-#           - host: &host scrypted.invertedorigin.com
-#             paths:
-#               - path: /
-#                 service:
-#                   name: main
-#                   port: http
-#         tls:
-#           - hosts:
-#               - *host
-#             secretName: zwavejs-tls-domain
+    ingress:
+      main:
+        enabled: true
+        annotations:
+          nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+          kubernetes.io/ingress.class: "nginx"
+          cert-manager.io/cluster-issuer: "cloudflare-issuer"
+        hosts:
+          - host: &host scrypted.invertedorigin.com
+            paths:
+              - path: /
+                service:
+                  name: main
+                  port: http
+        tls:
+          - hosts:
+              - *host
+            secretName: zwavejs-tls-domain
 
-#     persistence:
-#       media:
-#         existingClaim: scrypted-pvc-replicated
-#         globalMounts:
-#           - path: /server/volume
+    persistence:
+      media:
+        existingClaim: scrypted-pvc-replicated
+        globalMounts:
+          - path: /server/volume
