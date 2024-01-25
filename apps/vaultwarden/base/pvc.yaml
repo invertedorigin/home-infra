@@ -10,17 +10,22 @@ spec:
   resources:
     requests:
       storage: 10Gi
+  dataSourceRef:
+    apiGroup: "volsync.backube"
+    kind: "ReplicationDestination"
 ---
 apiVersion: volsync.backube/v1alpha1
 kind: ReplicationDestination
 metadata:
-  name: vaultwarden-destination
-  namespace: vaultwarden
+  name: "vaultwarden-data-bootstrap"
+  namespace: "vaultwarden"
 spec:
   trigger:
-    manual: restore
+    manual: "restore-once-bootstrap"
   restic:
-    destinationPVC: vaultwarden-pvc-replicated
-    repository: volsync-secret
-    copyMethod: Direct
-    storageClassName: longhorn-sticky
+    repository: "volsync-secret"
+    copyMethod: "Snapshot"
+    storageClassName: "longhorn-sticky"
+    volumeSnapshotClassName: longhorn
+    capacity: "10Gi"
+    accessModes: ["ReadWriteOnce"]
