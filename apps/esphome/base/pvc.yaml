@@ -37,5 +37,3 @@ metadata:
   name: longhorn-backup-vsc
 driver: driver.longhorn.io
 deletionPolicy: Delete
-parameters:
-  type: bak
