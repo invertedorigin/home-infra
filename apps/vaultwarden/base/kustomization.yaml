@@ -5,82 +5,82 @@ namespace: vaultwarden
 
 resources:
 - namespace.yaml
-#- external-secret.yaml
+- external-secret.yaml
 #- backup.yaml
-#- pvc.yaml
+- pvc.yaml
 
 
-# helmCharts:
-# - name: app-template
-#   repo: https://bjw-s.github.io/helm-charts/
-#   version: 2.5.0
-#   releaseName: vaultwarden
-#   valuesInline:
-#     controllers:
-#       main:
-#         containers:
-#           main:
-#             image:
-#               repository: vaultwarden/server
-#               tag: 1.30.1-alpine
-#             env:
-#               TZ: "America/Chicago"
-#               DOMAIN:
-#                 valueFrom:
-#                   secretKeyRef:
-#                     name: vault-warden-secrets
-#                     key: domain
-#               YUBICO_CLIENT_ID:
-#                 valueFrom:
-#                   secretKeyRef:
-#                     name: vault-warden-secrets
-#                     key: yubico-client-id
-#               YUBICO_SECRET_KEY:
-#                 valueFrom:
-#                   secretKeyRef:
-#                     name: vault-warden-secrets
-#                     key: yubico-secret-key
-#             probes:
-#               liveness:
-#                 enabled: false
-#               readiness:
-#                 enabled: false
-#               startup:
-#                 enabled: false
-#             resources:
-#               requests:
-#                 cpu: 50m
-#                 memory: 128Mi
-#               limits:
-#                 cpu: 250m
-#                 memory: 500Mi
+helmCharts:
+- name: app-template
+  repo: https://bjw-s.github.io/helm-charts/
+  version: 2.5.0
+  releaseName: vaultwarden
+  valuesInline:
+    controllers:
+      main:
+        containers:
+          main:
+            image:
+              repository: vaultwarden/server
+              tag: 1.30.1-alpine
+            env:
+              TZ: "America/Chicago"
+              DOMAIN:
+                valueFrom:
+                  secretKeyRef:
+                    name: vault-warden-secrets
+                    key: domain
+              YUBICO_CLIENT_ID:
+                valueFrom:
+                  secretKeyRef:
+                    name: vault-warden-secrets
+                    key: yubico-client-id
+              YUBICO_SECRET_KEY:
+                valueFrom:
+                  secretKeyRef:
+                    name: vault-warden-secrets
+                    key: yubico-secret-key
+            probes:
+              liveness:
+                enabled: false
+              readiness:
+                enabled: false
+              startup:
+                enabled: false
+            resources:
+              requests:
+                cpu: 50m
+                memory: 128Mi
+              limits:
+                cpu: 250m
+                memory: 500Mi
 
-#     service:
-#       main:
-#         ports:
-#           http:
-#             port: 80
+    service:
+      main:
+        ports:
+          http:
+            port: 80
 
-#     ingress:
-#       main:
-#         enabled: true
-#         annotations:
-#           kubernetes.io/ingress.class: "nginx"
-#           cert-manager.io/cluster-issuer: "cloudflare-issuer"
-#         hosts:
-#           - host: &host bw.invertedorigin.com
-#             paths:
-#               - path: /
-#                 service:
-#                   name: main
-#                   port: http
-#         tls:
-#           - hosts:
-#               - *host
-#             secretName: vaultwarden-tls-domain
+    ingress:
+      main:
+        enabled: true
+        annotations:
+          kubernetes.io/ingress.class: "nginx"
+          cert-manager.io/cluster-issuer: "cloudflare-issuer"
+        hosts:
+          - host: &host bw.invertedorigin.com
+            paths:
+              - path: /
+                service:
+                  name: main
+                  port: http
+        tls:
+          - hosts:
+              - *host
+            secretName: vaultwarden-tls-domain
 
-#     persistence:
-#       media:
-#         existingClaim: vaultwarden-pvc-replicated
-#         globalMounts:
-#           - path: /data
+    persistence:
+      media:
+        existingClaim: vaultwarden-pvc-replicated
+        globalMounts:
+          - path: /data
