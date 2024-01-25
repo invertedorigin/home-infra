@@ -27,6 +27,6 @@ spec:
     repository: "volsync-secret"
     copyMethod: "Snapshot"
     storageClassName: "longhorn-sticky"
-    volumeSnapshotClassName: "longhorn-backup-vsc"
+    volumeSnapshotClassName: longhorn
     capacity: "20Gi"
     accessModes: ["ReadWriteOnce"]
