@@ -8,8 +8,8 @@ resources:
 # - backup.yaml
 
 
-- pvc.yaml
-- external-secret.yaml
+#- pvc.yaml
+#- external-secret.yaml
 
 
 # helmCharts:
