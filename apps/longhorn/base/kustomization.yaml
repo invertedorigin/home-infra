@@ -4,3 +4,4 @@ resources:
 - ingress.yaml
 - longhorn.yaml
 - extra-storage-classes.yaml
+- volume-snapshot-class.yaml
