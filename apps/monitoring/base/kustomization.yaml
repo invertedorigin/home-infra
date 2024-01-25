@@ -107,7 +107,7 @@ helmCharts:
             type: telegram
             settings:
               bottoken: "$TELEGRAM_BOT_TOKEN"
-              chatid:  "-4090891633"
+              chatid: "-4090891633"
               message: |
                 {{ `{{ with index .Alerts 0 }}
                     - Alert Name: {{ .Labels.alertname }}

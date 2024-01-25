@@ -67,4 +67,3 @@ spec:
         compression: gzip
         encryption: AES256
     retentionPolicy: "7d"
-
