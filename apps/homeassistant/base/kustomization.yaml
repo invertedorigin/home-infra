@@ -7,75 +7,75 @@ resources:
 - namespace.yaml
 - backup.yaml
 - external-secret.yaml
-# - pvc.yaml
+- pvc.yaml
 
 
-# helmCharts:
-# - name: app-template
-#   repo: https://bjw-s.github.io/helm-charts/
-#   version: 2.5.0
-#   releaseName: homeassistant
-#   valuesInline:
-#     controllers:
-#       main:
-#         pod:
-#           annotations:
-#             k8s.v1.cni.cncf.io/networks: |-
-#               [
-#                 {
-#                   "name": "macvlan-conf-dhcp",
-#                   "namespace": "kube-system",
-#                   "mac": "4a:c1:8d:28:f2:77"
-#                 }
-#               ]
-#         containers:
-#           main:
-#             image:
-#               repository: ghcr.io/home-assistant/home-assistant
-#               tag: 2024.1.5
-#             env:
-#               TZ: "America/Chicago"
-#             probes:
-#               liveness:
-#                 enabled: false
-#               readiness:
-#                 enabled: false
-#               startup:
-#                 enabled: false
-#             resources:
-#               requests:
-#                 cpu: 50m
-#                 memory: 1Gi
-#               limits:
-#                 memory: 1Gi
+helmCharts:
+- name: app-template
+  repo: https://bjw-s.github.io/helm-charts/
+  version: 2.5.0
+  releaseName: homeassistant
+  valuesInline:
+    controllers:
+      main:
+        pod:
+          annotations:
+            k8s.v1.cni.cncf.io/networks: |-
+              [
+                {
+                  "name": "macvlan-conf-dhcp",
+                  "namespace": "kube-system",
+                  "mac": "4a:c1:8d:28:f2:77"
+                }
+              ]
+        containers:
+          main:
+            image:
+              repository: ghcr.io/home-assistant/home-assistant
+              tag: 2024.1.5
+            env:
+              TZ: "America/Chicago"
+            probes:
+              liveness:
+                enabled: false
+              readiness:
+                enabled: false
+              startup:
+                enabled: false
+            resources:
+              requests:
+                cpu: 50m
+                memory: 1Gi
+              limits:
+                memory: 1Gi
 
-#     service:
-#       main:
-#         ports:
-#           http:
-#             port: 8123
+    service:
+      main:
+        ports:
+          http:
+            port: 8123
 
-#     ingress:
-#       main:
-#         enabled: true
-#         annotations:
-#           kubernetes.io/ingress.class: "nginx"
-#           cert-manager.io/cluster-issuer: "cloudflare-issuer"
-#           nginx.ingress.kubernetes.io/cors-allow-methods: "PUT, GET, POST, OPTIONS, HEAD"
-#         hosts:
-#           - host: &host ha.invertedorigin.com
-#             paths:
-#               - path: /
-#                 service:
-#                   name: main
-#                   port: http
-#         tls:
-#           - hosts:
-#               - *host
-#             secretName: ha-tls-domain
+    ingress:
+      main:
+        enabled: true
+        annotations:
+          kubernetes.io/ingress.class: "nginx"
+          cert-manager.io/cluster-issuer: "cloudflare-issuer"
+          nginx.ingress.kubernetes.io/cors-allow-methods: "PUT, GET, POST, OPTIONS, HEAD"
+        hosts:
+          - host: &host ha.invertedorigin.com
+            paths:
+              - path: /
+                service:
+                  name: main
+                  port: http
+        tls:
+          - hosts:
+              - *host
+            secretName: ha-tls-domain
 
-#     persistence:
-#       media:
-#         existingClaim: homeassistant-pvc-replicated
-#         globalMounts:
-#           - path: /config
+    persistence:
+      media:
+        existingClaim: homeassistant-pvc-replicated
+        globalMounts:
+          - path: /config
