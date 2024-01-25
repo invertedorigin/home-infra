@@ -21,5 +21,6 @@ spec:
       weekly: 4
       monthly: 2
       yearly: 1
-    copyMethod: Clone
+    copyMethod: Snapshot
     storageClassName: longhorn-sticky
+    volumeSnapshotClassName: longhorn
