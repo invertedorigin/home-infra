@@ -10,17 +10,23 @@ spec:
   resources:
     requests:
       storage: 10Gi
+  dataSourceRef:
+    apiGroup: "volsync.backube"
+    kind: "ReplicationDestination"
+    name: "scrypted-data-bootstrap"
 ---
 apiVersion: volsync.backube/v1alpha1
 kind: ReplicationDestination
 metadata:
-  name: scrypted-destination
-  namespace: scrypted
+  name: "scrypted-data-bootstrap"
+  namespace: "scrypted"
 spec:
   trigger:
-    manual: restore
+    manual: "restore-once-bootstrap"
   restic:
-    destinationPVC: scrypted-pvc-replicated
-    repository: volsync-secret
-    copyMethod: Direct
-    storageClassName: longhorn-sticky
+    repository: "volsync-secret"
+    copyMethod: "Snapshot"
+    storageClassName: "longhorn-sticky"
+    volumeSnapshotClassName: longhorn
+    capacity: "10Gi"
+    accessModes: ["ReadWriteOnce"]
