@@ -22,3 +22,4 @@ spec:
       yearly: 1
     copyMethod: Snapshot
     storageClassName: longhorn-sticky
+    volumeSnapshotClassName: longhorn
