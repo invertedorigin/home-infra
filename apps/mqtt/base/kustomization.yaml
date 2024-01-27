@@ -35,7 +35,7 @@ helmCharts:
             requiredDuringSchedulingIgnoredDuringExecution:
             - labelSelector:
                 matchExpressions:
-                - key: "app"
+                - key: "app.kubernetes.io/component"
                   operator: In
                   values:
                   - nats
