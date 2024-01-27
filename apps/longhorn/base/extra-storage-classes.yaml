@@ -38,4 +38,4 @@ parameters:
   staleReplicaTimeout: "30"
 provisioner: driver.longhorn.io
 reclaimPolicy: Delete
-volumeBindingMode: Immediate
+volumeBindingMode: WaitForFirstConsumer
