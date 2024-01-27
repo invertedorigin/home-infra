@@ -6,41 +6,41 @@ resources:
 
 namespace: mqtt
 
-# helmCharts:
-# - name: nats
-#   repo: https://nats-io.github.io/k8s/helm/charts/
-#   version: 1.1.7
-#   releaseName: nats
-#   valuesInline:
-#     config:
-#       cluster:
-#         enabled: true
-#         replicas: 3
-#       jetstream:
-#         enabled: true
-#         fileStore:
-#           pvc:
-#             storageClassName: longhorn-strict-local-standalone
-#             size: 10Gi
-#       mqtt:
-#         enabled: true
-#     promExporter:
-#       enabled: true
-#       podMonitor:
-#         enabled: true
-#     # podTemplate:
-#     #   merge:
-#     #     metadata:
-#     #     spec:
-#     #       affinity:
-#     #         podAntiAffinity:
-#     #           requiredDuringSchedulingIgnoredDuringExecution:
-#     #           - labelSelector:
-#     #               matchExpressions:
-#     #               - key: app.kubernetes.io/component
-#     #                 operator: In
-#     #                 values:
-#     #                 - nats
-#     #             topologyKey: "kubernetes.io/hostname"
-#     natsBox:
-#       enabled: true
+helmCharts:
+- name: nats
+  repo: https://nats-io.github.io/k8s/helm/charts/
+  version: 1.1.7
+  releaseName: nats
+  valuesInline:
+    config:
+      cluster:
+        enabled: true
+        replicas: 3
+      jetstream:
+        enabled: true
+        fileStore:
+          pvc:
+            storageClassName: longhorn-strict-local-standalone
+            size: 10Gi
+      mqtt:
+        enabled: true
+    promExporter:
+      enabled: true
+      podMonitor:
+        enabled: true
+    podTemplate:
+      merge:
+        metadata:
+        spec:
+          affinity:
+            podAntiAffinity:
+              requiredDuringSchedulingIgnoredDuringExecution:
+              - labelSelector:
+                  matchExpressions:
+                  - key: app.kubernetes.io/component
+                    operator: In
+                    values:
+                    - nats
+                topologyKey: "kubernetes.io/hostname"
+    natsBox:
+      enabled: true
