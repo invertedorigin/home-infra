@@ -330,6 +330,9 @@ helmCharts:
             path: /var/lib/grafana/dashboards/grafana-dashboards-kubernetes
     dashboards:
       default:
+        nats-jetstream:
+          url: https://raw.githubusercontent.com/nats-io/prometheus-nats-exporter/main/walkthrough/grafana-jetstream-dash.json
+          datasource: Prometheus
         cert-manager:
           url: https://raw.githubusercontent.com/monitoring-mixins/website/master/assets/cert-manager/dashboards/cert-manager.json
           datasource: Prometheus
