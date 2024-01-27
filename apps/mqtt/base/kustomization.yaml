@@ -29,8 +29,16 @@ helmCharts:
       podMonitor:
         enabled: true
     podTemplate:
-      topologySpreadConstraints:
-        kubernetes.io/hostname:
-          maxSkew: 1
+      merge:
+        affinity:
+          podAntiAffinity:
+            requiredDuringSchedulingIgnoredDuringExecution:
+            - labelSelector:
+                matchExpressions:
+                - key: "app"
+                  operator: In
+                  values:
+                  - nats
+              topologyKey: "kubernetes.io/hostname"
     natsBox:
       enabled: true
