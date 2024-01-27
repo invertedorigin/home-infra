@@ -15,7 +15,7 @@ helmCharts:
     config:
       cluster:
         enabled: true
-        replicas: 3
+        replicas: 5
       jetstream:
         enabled: true
         fileStore:
