@@ -15,7 +15,7 @@ helmCharts:
     config:
       cluster:
         enabled: true
-        replicas: 3
+        replicas: 5
       jetstream:
         enabled: true
         fileStore:
@@ -29,18 +29,8 @@ helmCharts:
       podMonitor:
         enabled: true
     podTemplate:
-      merge:
-        metadata:
-        spec:
-          affinity:
-            podAntiAffinity:
-              requiredDuringSchedulingIgnoredDuringExecution:
-              - labelSelector:
-                  matchExpressions:
-                  - key: app.kubernetes.io/component
-                    operator: In
-                    values:
-                    - nats
-                topologyKey: "kubernetes.io/hostname"
+      topologySpreadConstraints:
+        kubernetes.io/hostname:
+          maxSkew: 1
     natsBox:
       enabled: true
