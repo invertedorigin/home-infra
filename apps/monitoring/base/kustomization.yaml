@@ -22,12 +22,8 @@ helmCharts:
       enabled: false
     prometheusOperator:
       enabled: true
-      # admissionWebhooks:
-      #   certManager:
-      #     enabled: true
-      #     issuerRef:
-      #       name: "issuer"
-      #       kind: "ClusterIssuer"
+      admissionWebhooks:
+        enabled: false
     global:
       rbac:
         create: true
