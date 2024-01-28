@@ -28,4 +28,4 @@ spec:
         # Match if any USB device with serial exists in the system
         - feature: usb.device
           matchExpressions:
-            vendor: {op: In, value: ["Silicon_Labs"]}
+            serial: {op: In, value: ["b4f903e24e94eb11baad32703d98b6d1"]}
