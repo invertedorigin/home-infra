@@ -92,6 +92,6 @@ helmCharts:
       usb:
         enabled: true
         type: hostPath
-        mountPath: /dev/zwave
+        advancedMounts:
+          - path: /dev/zwave
         hostPath: /dev/ttyUSB0
-        hostPathType: CharDevice
