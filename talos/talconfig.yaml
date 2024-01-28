@@ -24,8 +24,6 @@ clusterSvcNets:
 cniConfig:
   name: none
 
-
-
 nodes:
 ## CORE HOME OFFICE RACK (battery backup) ##
   - hostname: node-1.tail7ebe0.ts.net
@@ -55,7 +53,7 @@ nodes:
         partitions:
           - mountpoint: /var/mnt/sata-ssd
   - hostname: node-3.tail7ebe0.ts.net
-    talosImageURL: ghcr.io/jtcressy-home/installer  
+    talosImageURL: ghcr.io/jtcressy-home/installer
     ipAddress: node-3.tail7ebe0.ts.net
     controlPlane: true
     installDiskSelector:
