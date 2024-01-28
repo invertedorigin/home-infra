@@ -24,7 +24,7 @@ helmCharts:
               requiredDuringSchedulingIgnoredDuringExecution:
                 nodeSelectorTerms:
                 - matchExpressions:
-                  - key: siliconlabs.feature.node.kubernetes.io/zwave
+                  - key: aeotec.feature.node.kubernetes.io/zwave
                     operator: In
                     values:
                     - "true"
