@@ -51,7 +51,7 @@ helmCharts:
               startup:
                 enabled: false
             securityContext:
-              privileged: true
+              privileged: false
             resources:
               requests:
                 memory: 250Mi
