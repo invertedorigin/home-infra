@@ -92,6 +92,6 @@ helmCharts:
       usb:
         enabled: true
         type: hostPath
-        advancedMounts:
+        globalMounts:
           - path: /dev/zwave
         hostPath: /dev/ttyUSB0
