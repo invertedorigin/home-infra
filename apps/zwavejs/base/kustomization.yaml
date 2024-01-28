@@ -52,6 +52,11 @@ helmCharts:
                 enabled: false
             securityContext:
               privileged: false
+              capabilities:
+                add:
+                  - "SYS_ADMIN"
+                  - "DAC_OVERRIDE"
+                  - "DAC_READ_SEARCH"
             resources:
               requests:
                 memory: 250Mi
