@@ -24,7 +24,7 @@ helmCharts:
               requiredDuringSchedulingIgnoredDuringExecution:
                 nodeSelectorTerms:
                 - matchExpressions:
-                  - key: siliconlabs.feature.node.kubernetes.io/zwave
+                  - key: aeotec.feature.node.kubernetes.io/zwave
                     operator: In
                     values:
                     - "true"
@@ -93,5 +93,5 @@ helmCharts:
         enabled: true
         type: hostPath
         mountPath: /dev/zwave
-        hostPath: /dev/ttyUSB0
+        hostPath: /dev/serial/by-id/usb-0658_0200-if00
         hostPathType: CharDevice
