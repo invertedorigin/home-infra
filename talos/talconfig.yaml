@@ -36,6 +36,10 @@ nodes:
     disableSearchDomain: false
     nodeLabels:
       topology.kubernetes.io/region: home
+    machineDisks:
+      - device: /dev/sda
+        partitions:
+          - mountpoint: /var/mnt/sata-ssd
   - hostname: node-2.tail7ebe0.ts.net
     ipAddress: node-2.tail7ebe0.ts.net
     controlPlane: true
@@ -44,6 +48,10 @@ nodes:
     disableSearchDomain: false
     nodeLabels:
       topology.kubernetes.io/region: home
+    machineDisks:
+      - device: /dev/sda
+        partitions:
+          - mountpoint: /var/mnt/sata-ssd
   - hostname: node-3.tail7ebe0.ts.net
     ipAddress: node-3.tail7ebe0.ts.net
     controlPlane: true
@@ -52,6 +60,10 @@ nodes:
     disableSearchDomain: false
     nodeLabels:
       topology.kubernetes.io/region: home
+    machineDisks:
+      - device: /dev/sda
+        partitions:
+          - mountpoint: /var/mnt/sata-ssd
 patches:
   - |-
     machine:
