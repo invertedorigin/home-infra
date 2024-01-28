@@ -89,3 +89,9 @@ helmCharts:
         existingClaim: zwavejs-pvc-replicated
         globalMounts:
           - path: /usr/src/app/store
+      usb:
+        enabled: true
+        type: hostPath
+        globalMounts:
+          - path: /dev/zwave
+        hostPath: /dev/ttyUSB0
