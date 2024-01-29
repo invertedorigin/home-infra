@@ -19,15 +19,16 @@ helmCharts:
     controllers:
       main:
         pod:
-          affinity:
-            nodeAffinity:
-              requiredDuringSchedulingIgnoredDuringExecution:
-                nodeSelectorTerms:
-                - matchExpressions:
-                  - key: aeotec.feature.node.kubernetes.io/zwave
-                    operator: In
-                    values:
-                    - "true"
+          nodeSelector:
+            aeotec.feature.node.kubernetes.io/zwave: "true"
+          securityContext:
+            runAsUser: 568
+            runAsGroup: 568
+            runAsNonRoot: true
+            fsGroup: 568
+            fsGroupChangePolicy: OnRootMismatch
+            supplementalGroups:
+              - 20
         containers:
           main:
             image:
@@ -51,7 +52,11 @@ helmCharts:
               startup:
                 enabled: false
             securityContext:
-              privileged: true
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              capabilities:
+                drop:
+                  - ALL
             resources:
               requests:
                 memory: 250Mi
