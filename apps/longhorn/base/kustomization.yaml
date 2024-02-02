@@ -2,6 +2,14 @@ kind: Kustomization
 resources:
 - namespace.yaml
 - ingress.yaml
-- longhorn.yaml
+# - longhorn.yaml
 - extra-storage-classes.yaml
 - volume-snapshot-class.yaml
+
+helmCharts:
+- name: longhorn
+  repo: https://charts.longhorn.io
+  version: "1.6.0"
+  releaseName: longhorn
+  namespace: longhorn-system
+  includeCRDs: true
