@@ -12,5 +12,6 @@ helmCharts:
   releaseName: longhorn
   namespace: longhorn-system
   includeCRDs: true
-  defaultSettings:
-    nodeDrainPolicy: allow-if-replica-is-stopped
+  valuesInline:
+    defaultSettings:
+      nodeDrainPolicy: allow-if-replica-is-stopped
