@@ -19,7 +19,7 @@ helmCharts:
           main:
             image:
               repository: keatontaylor/customdoorbellgif
-              tag: v0.0.2
+              tag: latest
             probes:
               liveness:
                 enabled: false
