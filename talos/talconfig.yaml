@@ -82,14 +82,6 @@ patches:
         net.core.wmem_max: 2500000
   - |
     machine:
-      kernel:
-        modules:
-          - name: drbd
-            parameters:
-              - usermode_helper=disabled
-          - name: drbd_transport_tcp
-  - |
-    machine:
       files:
         - content: |
             TS_AUTHKEY=${TAILSCALE_AUTHKEY}
