@@ -27,7 +27,7 @@ cniConfig:
 nodes:
 ## CORE HOME OFFICE RACK (battery backup) ##
   - hostname: node-1.tail7ebe0.ts.net
-    talosImageURL: ghcr.io/jtcressy-home/installer
+    talosImageURL: factory.talos.dev/installer/859dd30ac3e1f9f0aa5e425e347525e0090e0d2329517ee2f52754c82e680c7f
     ipAddress: node-1.tail7ebe0.ts.net
     controlPlane: true
     installDiskSelector:
@@ -40,7 +40,7 @@ nodes:
         partitions:
           - mountpoint: /var/mnt/sata-ssd
   - hostname: node-2.tail7ebe0.ts.net
-    talosImageURL: ghcr.io/jtcressy-home/installer
+    talosImageURL: factory.talos.dev/installer/859dd30ac3e1f9f0aa5e425e347525e0090e0d2329517ee2f52754c82e680c7f
     ipAddress: node-2.tail7ebe0.ts.net
     controlPlane: true
     installDiskSelector:
@@ -53,7 +53,7 @@ nodes:
         partitions:
           - mountpoint: /var/mnt/sata-ssd
   - hostname: node-3.tail7ebe0.ts.net
-    talosImageURL: ghcr.io/jtcressy-home/installer
+    talosImageURL: factory.talos.dev/installer/859dd30ac3e1f9f0aa5e425e347525e0090e0d2329517ee2f52754c82e680c7f
     ipAddress: node-3.tail7ebe0.ts.net
     controlPlane: true
     installDiskSelector:
