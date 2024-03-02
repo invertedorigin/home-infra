@@ -22,7 +22,7 @@ helmCharts:
           main:
             image:
               repository: vaultwarden/server
-              tag: 1.30.3-alpine
+              tag: 1.30.5-alpine
             env:
               TZ: "America/Chicago"
               DOMAIN:
