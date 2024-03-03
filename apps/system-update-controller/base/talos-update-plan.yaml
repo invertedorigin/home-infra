@@ -6,7 +6,7 @@ metadata:
   namespace: system-upgrade
 spec:
   # renovate: datasource=github-releases depName=siderolabs/talos
-  version: v1.6.5
+  version: v1.6.4
   serviceAccountName: system-upgrade
   secrets:
     - name: talos
@@ -22,7 +22,7 @@ spec:
   nodeSelector:
     matchExpressions:
       - { key: kubernetes.io/os, operator: In, values: [linux] }
-  prepare:
+  prepare: &prepare
     image: ghcr.io/siderolabs/talosctl
     envs:
       - name: NODE_IP
@@ -34,16 +34,10 @@ spec:
       - health
       - --server=false
   upgrade:
-    image: ghcr.io/siderolabs/talosctl
-    command:
-    - sh
-    - -c
-    - |
-      tag_version=$(awk '/Tag:/ {gsub(/^v/, "", $2); print $2}' <<< "$(talosctl version -n $(NODE_IP))")
-      if [[ $tag_version == $(SYSTEM_UPGRADE_PLAN_LATEST_VERSION) ]]; then
-          exit 0
-      else
-          talosctl --nodes=$(NODE_IP) upgrade \
-          --image=factory.talos.dev/installer/859dd30ac3e1f9f0aa5e425e347525e0090e0d2329517ee2f52754c82e680c7f:$(SYSTEM_UPGRADE_PLAN_LATEST_VERSION)" \
-          --preserve=true
-      fi
+    <<: *prepare
+    args:
+      - --nodes=$(NODE_IP)
+      - upgrade
+      - "--image=factory.talos.dev/installer/859dd30ac3e1f9f0aa5e425e347525e0090e0d2329517ee2f52754c82e680c7f:$(SYSTEM_UPGRADE_PLAN_LATEST_VERSION)"
+      - --preserve=true
+      - --wait=false
