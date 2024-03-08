@@ -320,7 +320,7 @@ helmCharts:
               folder: Kubernetes
               interval: 5m
               rules:
-                - uid: cab32a5d-38a4-4057-bbc7-bfd5dd5a37b3
+                - uid: vaultwarden-backup-check
                   title: Vault Warden Backup Check
                   condition: C
                   data:
@@ -376,7 +376,189 @@ helmCharts:
                   labels:
                     k8s: alert
                   isPaused: false
-
+            - orgId: 1
+              name: Grafana
+              folder: Kubernetes
+              interval: 5m
+              rules:
+                - uid: ha-backup-check
+                  title: Home Assistant Backup Check
+                  condition: C
+                  data:
+                    - refId: A
+                      relativeTimeRange:
+                        from: 600
+                        to: 0
+                      datasourceUid: PBFA97CFB590B2093
+                      model:
+                        disableTextWrap: false
+                        editorMode: code
+                        expr: volsync_volume_out_of_sync{obj_name="homeassistant-backup"}
+                        fullMetaSearch: false
+                        includeNullMetadata: true
+                        instant: true
+                        intervalMs: 1000
+                        legendFormat: __auto
+                        maxDataPoints: 43200
+                        range: false
+                        refId: A
+                        useBackend: false
+                    - refId: C
+                      relativeTimeRange:
+                        from: 600
+                        to: 0
+                      datasourceUid: __expr__
+                      model:
+                        conditions:
+                            - evaluator:
+                                params:
+                                    - 0
+                                type: gt
+                              operator:
+                                type: and
+                              query:
+                                params:
+                                    - C
+                              reducer:
+                                params: []
+                                type: last
+                              type: query
+                        datasource:
+                            type: __expr__
+                            uid: __expr__
+                        expression: A
+                        intervalMs: 1000
+                        maxDataPoints: 43200
+                        refId: C
+                        type: threshold
+                  noDataState: NoData
+                  execErrState: Error
+                  for: 5m
+                  labels:
+                    k8s: alert
+                  isPaused: false
+            - orgId: 1
+              name: Grafana
+              folder: Kubernetes
+              interval: 5m
+              rules:
+                - uid: scrypted-backup-check
+                  title: Scrypted Backup Check
+                  condition: C
+                  data:
+                    - refId: A
+                      relativeTimeRange:
+                        from: 600
+                        to: 0
+                      datasourceUid: PBFA97CFB590B2093
+                      model:
+                        disableTextWrap: false
+                        editorMode: code
+                        expr: volsync_volume_out_of_sync{obj_name="scrypted-backup"}
+                        fullMetaSearch: false
+                        includeNullMetadata: true
+                        instant: true
+                        intervalMs: 1000
+                        legendFormat: __auto
+                        maxDataPoints: 43200
+                        range: false
+                        refId: A
+                        useBackend: false
+                    - refId: C
+                      relativeTimeRange:
+                        from: 600
+                        to: 0
+                      datasourceUid: __expr__
+                      model:
+                        conditions:
+                            - evaluator:
+                                params:
+                                    - 0
+                                type: gt
+                              operator:
+                                type: and
+                              query:
+                                params:
+                                    - C
+                              reducer:
+                                params: []
+                                type: last
+                              type: query
+                        datasource:
+                            type: __expr__
+                            uid: __expr__
+                        expression: A
+                        intervalMs: 1000
+                        maxDataPoints: 43200
+                        refId: C
+                        type: threshold
+                  noDataState: NoData
+                  execErrState: Error
+                  for: 5m
+                  labels:
+                    k8s: alert
+                  isPaused: false
+            - orgId: 1
+              name: Grafana
+              folder: Kubernetes
+              interval: 5m
+              rules:
+                - uid: zwavejs-backup-check
+                  title: ZWaveJS Backup Check
+                  condition: C
+                  data:
+                    - refId: A
+                      relativeTimeRange:
+                        from: 600
+                        to: 0
+                      datasourceUid: PBFA97CFB590B2093
+                      model:
+                        disableTextWrap: false
+                        editorMode: code
+                        expr: volsync_volume_out_of_sync{obj_name="zwavejs-backup"}
+                        fullMetaSearch: false
+                        includeNullMetadata: true
+                        instant: true
+                        intervalMs: 1000
+                        legendFormat: __auto
+                        maxDataPoints: 43200
+                        range: false
+                        refId: A
+                        useBackend: false
+                    - refId: C
+                      relativeTimeRange:
+                        from: 600
+                        to: 0
+                      datasourceUid: __expr__
+                      model:
+                        conditions:
+                            - evaluator:
+                                params:
+                                    - 0
+                                type: gt
+                              operator:
+                                type: and
+                              query:
+                                params:
+                                    - C
+                              reducer:
+                                params: []
+                                type: last
+                              type: query
+                        datasource:
+                            type: __expr__
+                            uid: __expr__
+                        expression: A
+                        intervalMs: 1000
+                        maxDataPoints: 43200
+                        refId: C
+                        type: threshold
+                  noDataState: NoData
+                  execErrState: Error
+                  for: 5m
+                  labels:
+                    k8s: alert
+                  isPaused: false
     dashboardProviders:
       dashboardproviders.yaml:
         apiVersion: 1
