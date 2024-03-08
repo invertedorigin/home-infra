@@ -121,6 +121,18 @@ helmCharts:
                     - URL: https://www.royalcaribbean.com/booking/category?cabinClassType={{ .Labels.stateroomclass }}&destinationCode={{ .Labels.destinationcode }}&groupId={{ .Labels.cruiseid }}&packageCode={{ .Labels.itinerary }}&roomIndex=1&sailDate={{ .Labels.datelabel}}&selectedCurrencyCode=USD&shipCode={{ .Labels.shipcode}}
                   {{end}} `}}
             disableResolveMessage: true
+        - orgId: 1
+          name: telegram-k8s-alerts
+          receivers:
+            - uid: telegram-k8s-alerts
+              type: telegram
+              settings:
+                bottoken: 5496917620:AAHvmC7pCfPY44GzlxGbK1YeOATVt8t7n_A
+                chatid: "-4117494457"
+                disable_notification: false
+                disable_web_page_preview: false
+                protect_content: false
+              disableResolveMessage: false
       notification-policies.yaml:
         apiVersion: 1
         policies:
@@ -135,6 +147,11 @@ helmCharts:
                     - - cruise
                       - =
                       - cruise
+                - receiver: telegram-k8s-alerts
+                  object_matchers:
+                    - - k8s
+                      - =
+                      - alert
       rules.yaml:
         apiVersion: 1
         groups:
