@@ -5,7 +5,7 @@ namespace: esphome
 
 resources:
 - namespace.yaml
-#- backup.yaml
+- backup.yaml
 - pvc.yaml
 - external-secret.yaml
 
