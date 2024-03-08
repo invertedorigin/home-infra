@@ -130,7 +130,7 @@ helmCharts:
                 - grafana_folder
                 - alertname
               routes:
-                - receiver: telegram-chat
+                - receiver: telegram
                   object_matchers:
                     - - cruise
                       - =
