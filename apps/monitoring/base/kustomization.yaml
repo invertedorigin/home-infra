@@ -53,7 +53,7 @@ helmCharts:
 
 - name: grafana
   repo: https://grafana.github.io/helm-charts
-  version: 7.3.4
+  version: 7.3.6
   releaseName: grafana
   valuesInline:
     admin:
