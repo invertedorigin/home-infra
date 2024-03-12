@@ -13,7 +13,7 @@ resources:
 helmCharts:
 - name: app-template
   repo: https://bjw-s.github.io/helm-charts/
-  version: 2.6.0
+  version: 3.0.2
   releaseName: esphome
   valuesInline:
     controllers:
@@ -29,7 +29,7 @@ helmCharts:
                 }
               ]
         containers:
-          main:
+          app:
             image:
               repository: ghcr.io/esphome/esphome
               tag: 2024.2.2
@@ -48,13 +48,13 @@ helmCharts:
                 memory: 105Mi
 
     service:
-      main:
+      app:
         ports:
           http:
             port: 6052
 
     ingress:
-      main:
+      app:
         enabled: true
         annotations:
           kubernetes.io/ingress.class: "nginx"
