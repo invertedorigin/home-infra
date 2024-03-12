@@ -64,8 +64,8 @@ helmCharts:
             paths:
               - path: /
                 service:
-                  name: main
-                  port: http
+                  name: app
+                  port: 6052
         tls:
           - hosts:
               - *host
