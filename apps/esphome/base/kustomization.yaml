@@ -49,6 +49,7 @@ helmCharts:
 
     service:
       app:
+        controller: esphome
         ports:
           http:
             port: 6052
