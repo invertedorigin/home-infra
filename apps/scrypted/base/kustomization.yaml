@@ -31,7 +31,7 @@ helmCharts:
           main:
             image:
               repository: koush/scrypted
-              tag: latest@sha256:7650eca8b1e277814ca1254926a7c7ee4dbd5b13314f7f8aa2e7218ca601a520
+              tag: latest@sha256:9c09792b983d554d4449428a184c82588f5e47f984e56b1bafc44b99a7599866
             env:
               TZ: "America/Chicago"
             probes:
