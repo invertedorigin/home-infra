@@ -11,6 +11,7 @@ parameters:
 provisioner: driver.longhorn.io
 reclaimPolicy: Delete
 volumeBindingMode: Immediate
+allowVolumeExpansion: true
 ---
 apiVersion: storage.k8s.io/v1
 kind: StorageClass
@@ -25,6 +26,7 @@ parameters:
 provisioner: driver.longhorn.io
 reclaimPolicy: Delete
 volumeBindingMode: Immediate
+allowVolumeExpansion: true
 ---
 apiVersion: storage.k8s.io/v1
 kind: StorageClass
@@ -39,6 +41,7 @@ parameters:
 provisioner: driver.longhorn.io
 reclaimPolicy: Delete
 volumeBindingMode: Immediate
+allowVolumeExpansion: true
 ---
 apiVersion: storage.k8s.io/v1
 kind: StorageClass
@@ -53,3 +56,4 @@ parameters:
 provisioner: driver.longhorn.io
 reclaimPolicy: Delete
 volumeBindingMode: WaitForFirstConsumer
+allowVolumeExpansion: true
