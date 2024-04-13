@@ -4,7 +4,7 @@ kind: Kustomization
 namespace: kube-system
 
 images:
-- name: ghcr.io/onedr0p/cni-plugins
+- name: ghcr.io/angelnu/cni-plugins
   newTag: 1.4.0
 - name: ghcr.io/k8snetworkplumbingwg/multus-cni
   newTag: v4.0.2
@@ -20,7 +20,7 @@ helmCharts:
       repository: ghcr.io/k8snetworkplumbingwg/multus-cni
     cni:
       image:
-        repository: ghcr.io/onedr0p/cni-plugins
+        repository: ghcr.io/angelnu/cni-plugins
       paths:
         config: /etc/cni/net.d
         bin: /opt/cni/bin
