@@ -5,7 +5,7 @@ namespace: kube-system
 
 images:
 - name: ghcr.io/angelnu/cni-plugins
-  newTag: 1.4.0
+  newTag: 1.4.1
 - name: ghcr.io/k8snetworkplumbingwg/multus-cni
   newTag: v4.0.2
 
