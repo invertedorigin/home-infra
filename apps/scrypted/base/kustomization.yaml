@@ -65,7 +65,7 @@ helmCharts:
             paths:
               - path: /
                 service:
-                  name: main
+                  name: scrypted
                   port: 10443
         tls:
           - hosts:
