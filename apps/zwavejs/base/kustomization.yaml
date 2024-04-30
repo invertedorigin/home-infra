@@ -13,7 +13,7 @@ resources:
 helmCharts:
 - name: app-template
   repo: https://bjw-s.github.io/helm-charts/
-  version: 2.6.0
+  version: 3.1.0
   releaseName: zwavejs
   valuesInline:
     controllers:
@@ -52,6 +52,7 @@ helmCharts:
 
     service:
       main:
+        controller: main
         ports:
           http:
             port: 8091
@@ -70,8 +71,8 @@ helmCharts:
           paths:
             - path: /
               service:
-                name: main
-                port: http
+                name: zwavejs
+                port: 8091
         tls:
         - hosts:
           - *host
