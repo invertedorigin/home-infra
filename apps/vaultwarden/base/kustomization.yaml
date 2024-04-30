@@ -74,7 +74,7 @@ helmCharts:
               - path: /
                 service:
                   name: vaultwarden
-                  port: http
+                  port: 80
         tls:
           - hosts:
               - *host
