@@ -13,9 +13,9 @@ helmCharts:
   releaseName: royalcaribbean-prometheus-exporter
   valuesInline:
     controllers:
-      main:
+      royalcaribbean-prometheus-exporter:
         containers:
-          main:
+          app:
             image:
               repository: keatontaylor/royalcaribbean-prometheus-exporter
               tag: v0.0.4
@@ -39,14 +39,14 @@ helmCharts:
                 enabled: false
 
     service:
-      main:
-        controller: main
+      app:
+        controller: royalcaribbean-prometheus-exporter
         ports:
           http:
             port: 2112
 
     serviceMonitor:
-      main:
+      app:
         serviceName: royalcaribbean-prometheus-exporter
         endpoints:
           - port: http
@@ -61,9 +61,9 @@ helmCharts:
   releaseName: royalcaribbean-prometheus-exporter-experimental
   valuesInline:
     controllers:
-      main:
+      royalcaribbean-prometheus-exporter-experimental:
         containers:
-          main:
+          app:
             image:
               repository: keatontaylor/royalcaribbean-prometheus-exporter
               tag: experimental3
@@ -87,14 +87,14 @@ helmCharts:
                 enabled: false
 
     service:
-      main:
-        controller: main
+      app:
+        controller: royalcaribbean-prometheus-exporter-experimental
         ports:
           http:
             port: 2112
 
     serviceMonitor:
-      main:
+      app:
         serviceName: royalcaribbean-prometheus-exporter-experimental
         endpoints:
           - port: http
@@ -109,9 +109,9 @@ helmCharts:
   releaseName: powertochoose-prometheus-exporter
   valuesInline:
     controllers:
-      main:
+      powertochoose-prometheus-exporter:
         containers:
-          main:
+          app:
             image:
               repository: keatontaylor/powertochoose-prometheus-exporter
               tag: v0.0.3
@@ -135,14 +135,14 @@ helmCharts:
                 enabled: false
 
     service:
-      main:
-        controller: main
+      app:
+        controller: powertochoose-prometheus-exporter
         ports:
           http:
             port: 2112
 
     serviceMonitor:
-      main:
+      app:
         serviceName: powertochoose-prometheus-exporter
         endpoints:
           - port: http
