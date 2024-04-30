@@ -10,11 +10,11 @@ namespace: cloudflared
 helmCharts:
 - name: app-template
   repo: https://bjw-s.github.io/helm-charts
-  version: 2.6.0
+  version: 3.1.0
   releaseName: cloudflared
   valuesInline:
     controllers:
-      main:
+      cloudflared:
         type: daemonset
         containers:
           main:
@@ -49,10 +49,17 @@ helmCharts:
 
     service:
       main:
+        controller: cloudflared
         ports:
           http:
             port: 8080
 
     serviceMonitor:
       main:
-        enabled: true
+        serviceName: cloudflared
+        endpoints:
+          - port: http
+            scheme: http
+            path: /metrics
+            interval: 1m
+            scrapeTimeout: 30s
