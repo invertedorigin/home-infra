@@ -10,7 +10,7 @@ namespace: doorbell
 helmCharts:
 - name: app-template
   repo: https://bjw-s.github.io/helm-charts
-  version: 2.6.0
+  version: 3.1.0
   releaseName: custom-doorbell-gif
   valuesInline:
     controllers:
@@ -52,8 +52,10 @@ helmCharts:
                 memory: 105Mi
               limits:
                 memory: 105Mi
+
     service:
       main:
+        controller: main
         ports:
           http:
             port: 8888
