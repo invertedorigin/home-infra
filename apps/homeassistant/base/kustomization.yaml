@@ -13,7 +13,7 @@ resources:
 helmCharts:
 - name: app-template
   repo: https://bjw-s.github.io/helm-charts/
-  version: 2.6.0
+  version: 3.1.0
   releaseName: homeassistant
   valuesInline:
     controllers:
@@ -48,6 +48,7 @@ helmCharts:
                 memory: 2Gi
     service:
       main:
+        controller: main
         ports:
           http:
             port: 8123
@@ -64,8 +65,8 @@ helmCharts:
             paths:
               - path: /
                 service:
-                  name: main
-                  port: http
+                  name: homeassistant
+                  port: 8123
         tls:
           - hosts:
               - *host
