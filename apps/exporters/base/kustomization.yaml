@@ -9,7 +9,7 @@ namespace: custom-prom-exporters
 helmCharts:
 - name: app-template
   repo: https://bjw-s.github.io/helm-charts
-  version: 2.6.0
+  version: 3.1.0
   releaseName: royalcaribbean-prometheus-exporter
   valuesInline:
     controllers:
@@ -40,17 +40,24 @@ helmCharts:
 
     service:
       main:
+        controller: main
         ports:
           http:
             port: 2112
 
     serviceMonitor:
       main:
-        enabled: true
+        serviceName: main
+        endpoints:
+          - port: http
+            scheme: http
+            path: /metrics
+            interval: 1m
+            scrapeTimeout: 30s
 
 - name: app-template
   repo: https://bjw-s.github.io/helm-charts
-  version: 2.6.0
+  version: 3.1.0
   releaseName: royalcaribbean-prometheus-exporter-experimental
   valuesInline:
     controllers:
@@ -81,17 +88,24 @@ helmCharts:
 
     service:
       main:
+        controller: main
         ports:
           http:
             port: 2112
 
     serviceMonitor:
       main:
-        enabled: true
+        serviceName: main
+        endpoints:
+          - port: http
+            scheme: http
+            path: /metrics
+            interval: 1m
+            scrapeTimeout: 30s
 
 - name: app-template
   repo: https://bjw-s.github.io/helm-charts
-  version: 2.6.0
+  version: 3.1.0
   releaseName: powertochoose-prometheus-exporter
   valuesInline:
     controllers:
@@ -122,10 +136,17 @@ helmCharts:
 
     service:
       main:
+        controller: main
         ports:
           http:
             port: 2112
 
     serviceMonitor:
       main:
-        enabled: true
+        serviceName: main
+        endpoints:
+          - port: http
+            scheme: http
+            path: /metrics
+            interval: 1m
+            scrapeTimeout: 30s
