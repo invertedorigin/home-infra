@@ -120,7 +120,7 @@ helmCharts:
             console: monitoring-s3-console.invertedorigin.com
             minio:
               - monitoring-s3-api.invertedorigin.com
-              - minio.monitoring.invertedorigin.com
+              - minio.monitoring.svc.cluster.local
           enableSFTP: false
         ###
         # Array of objects describing one or more buckets to create during tenant provisioning.
