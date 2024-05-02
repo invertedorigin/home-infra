@@ -1,0 +1,32 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+- namespace.yaml
+
+namespace: minio
+
+helmCharts:
+  - name: operator
+    version: 5.0.12
+    repo: https://operator.min.io
+    releaseName: operator
+    valuesInline:
+      operator:
+        env:
+          - name: PROMETHEUS_NAMESPACE
+            value: monitoring
+          - name: PROMETHEUS_NAME
+            value: kube-prometheus-stack-prometheus
+      console:
+        ingress:
+          enabled: true
+          annotations:
+            kubernetes.io/ingress.class: "nginx"
+            cert-manager.io/cluster-issuer: "cloudflare-issuer"
+          ingressClassName: nginx
+          host: minio-console.invertedorigin.com
+          tls:
+            - hosts:
+                - minio-console.invertedorigin.com
+        
