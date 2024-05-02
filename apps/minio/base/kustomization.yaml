@@ -24,6 +24,7 @@ helmCharts:
           annotations:
             kubernetes.io/ingress.class: "nginx"
             cert-manager.io/cluster-issuer: "cloudflare-issuer"
+            nginx.ingress.kubernetes.io/upstream-vhost: 10.245.37.162:9000
             nginx.ingress.kubernetes.io/rewrite-target: /
             nginx.ingress.kubernetes.io/proxy-body-size: "0"
             nginx.ingress.kubernetes.io/server-snippet: |
