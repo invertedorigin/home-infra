@@ -33,7 +33,7 @@ helmCharts:
 
   - name: tenant
     repo: https://operator.min.io/
-    version: 5.0.12
+    version: 5.0.14
     releaseName: monitoring
     includeCRDs: true
     valuesInline: # see more at <https://min.io/docs/minio/kubernetes/upstream/reference/operator-chart-values.html#minio-tenant-chart>
