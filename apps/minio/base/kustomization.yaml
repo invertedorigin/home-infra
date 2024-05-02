@@ -162,5 +162,3 @@ helmCharts:
             - secretName: monitoring-s3-console-tls-domain
               hosts:
                 - monitoring-s3-console.invertedorigin.com
-
-
