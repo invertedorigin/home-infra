@@ -24,6 +24,7 @@ helmCharts:
           annotations:
             kubernetes.io/ingress.class: "nginx"
             cert-manager.io/cluster-issuer: "cloudflare-issuer"
+            nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
           ingressClassName: nginx
           host: minio-console.invertedorigin.com
           tls:
