@@ -117,9 +117,10 @@ helmCharts:
         features:
           bucketDNS: false
           domains:
-            console: https://monitoring-s3-console.invertedorigin.com
+            console: monitoring-s3-console.invertedorigin.com
             minio:
-              - https://monitoring-s3-api.invertedorigin.com
+              - monitoring-s3-api.invertedorigin.com
+              - minio.monitoring.svc.cluster.local
           enableSFTP: false
         ###
         # Array of objects describing one or more buckets to create during tenant provisioning.
