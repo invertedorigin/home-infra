@@ -27,6 +27,7 @@ helmCharts:
           ingressClassName: nginx
           host: minio-console.invertedorigin.com
           tls:
-            - hosts:
+            - secretName: minio-console-tls-domain
+              hosts:
                 - minio-console.invertedorigin.com
         
