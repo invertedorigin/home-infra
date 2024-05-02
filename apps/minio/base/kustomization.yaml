@@ -143,6 +143,7 @@ helmCharts:
           annotations:
             kubernetes.io/ingress.class: "nginx"
             cert-manager.io/cluster-issuer: "cloudflare-issuer"
+            nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
           ingressClassName: nginx
           host: monitoring-s3-api.invertedorigin.com
           tls:
@@ -154,6 +155,7 @@ helmCharts:
           annotations:
             kubernetes.io/ingress.class: "nginx"
             cert-manager.io/cluster-issuer: "cloudflare-issuer"
+            nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
           ingressClassName: nginx
           host: monitoring-s3-console.invertedorigin.com
           tls:
