@@ -81,7 +81,7 @@ helmCharts:
                             - pool-0
                     topologyKey: "kubernetes.io/hostname"
             ###
-            # 
+            #
             # The `Requests or Limits <https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/>`__ for resources to associate to Tenant pods.
             #
             # These settings can control the minimum and maximum resources requested for each pod.
@@ -125,7 +125,7 @@ helmCharts:
         ###
         # Array of objects describing one or more buckets to create during tenant provisioning.
         # Example:
-        # 
+        #
         # .. code-block:: yaml
         #
         #    - name: my-minio-bucket
