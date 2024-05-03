@@ -38,146 +38,98 @@ helmCharts:
               hosts:
                 - minio-console.invertedorigin.com
 
-  # - name: tenant
-  #   repo: https://operator.min.io/
-  #   version: 5.0.14
-  #   releaseName: monitoring
-  #   includeCRDs: true
-  #   valuesInline: # see more at <https://min.io/docs/minio/kubernetes/upstream/reference/operator-chart-values.html#minio-tenant-chart>
-  #     # existingSecret:
-  #     #   name: myminio-env-configuration
-  #     tenant:
-  #       name: monitoring
-  #       ###
-  #       # The Kubernetes secret name that contains MinIO environment variable configurations.
-  #       # The secret is expected to have a key named config.env containing environment variables exports.
-  #       configuration:
-  #         name: myminio-env-configuration
-  #       env:
-  #         - name: MINIO_PROMETHEUS_AUTH_TYPE
-  #           value: "public"
-  #         - name: MINIO_PROMETHEUS_JOB_ID
-  #           value: "monitoring-minio-job"
-  #         - name: MINIO_PROMETHEUS_URL
-  #           value: "http://kube-prometheus-stack-prometheus.monitoring.svc.cluster.local:9090"
-  #         - name: CONSOLE_PROMETHEUS_URL
-  #           value: "http://kube-prometheus-stack-prometehus.monitoring.svc.cluster.local:9090"
-  #       pools:
-  #         - servers: 1
-  #           name: pool-0
-  #           volumesPerServer: 1
-  #           size: 20Gi
-  #           storageClassName: longhorn-strict-local-standalone
-  #           ###
-  #           #
-  #           # The `affinity <https://kubernetes.io/docs/tasks/configure-pod-container/assign-pods-nodes-using-node-affinity/>`__ or anti-affinity settings to apply to Tenant pods.
-  #           #
-  #           # These settings determine the distribution of pods across worker nodes and can help prevent or allow colocating pods onto the same worker nodes.
-  #           affinity:
-  #             podAntiAffinity:
-  #               requiredDuringSchedulingIgnoredDuringExecution:
-  #                 - labelSelector:
-  #                     matchExpressions:
-  #                       - key: "v1.min.io/tenant"
-  #                         operator: In
-  #                         values:
-  #                           - monitoring
-  #                       - key: "v1.min.io/pool"
-  #                         operator: In
-  #                         values:
-  #                           - pool-0
-  #                   topologyKey: "kubernetes.io/hostname"
-  #           ###
-  #           #
-  #           # The `Requests or Limits <https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/>`__ for resources to associate to Tenant pods.
-  #           #
-  #           # These settings can control the minimum and maximum resources requested for each pod.
-  #           # If no worker nodes can meet the specified requests, the Operator may fail to deploy.
-  #           resources: {}
-  #           ###
-  #           # The Kubernetes `SecurityContext <https://kubernetes.io/docs/tasks/configure-pod-container/security-context/>`__ to use for deploying Tenant resources.
-  #           #
-  #           # You may need to modify these values to meet your cluster's security and access settings.
-  #           #
-  #           # We recommend disabling recursive permission changes by setting ``fsGroupChangePolicy`` to ``OnRootMismatch`` as those operations can be expensive for certain workloads (e.g. large volumes with many small files).
-  #           securityContext:
-  #             runAsUser: 1000
-  #             runAsGroup: 1000
-  #             fsGroup: 1000
-  #             fsGroupChangePolicy: "OnRootMismatch"
-  #             runAsNonRoot: true
-  #           ###
-  #           # The Kubernetes `SecurityContext <https://kubernetes.io/docs/tasks/configure-pod-container/security-context/>`__ to use for deploying Tenant containers.
-  #           # You may need to modify these values to meet your cluster's security and access settings.
-  #           containerSecurityContext:
-  #             runAsUser: 1000
-  #             runAsGroup: 1000
-  #             runAsNonRoot: true
-  #       metrics:
-  #         enabled: true
-  #         port: 9000
-  #         protocol: http
-  #       prometheusOperator: true
-  #       ###
-  #       # MinIO features to enable or disable in the MinIO Tenant
-  #       # See `Operator CRD: Features <https://min.io/docs/minio/kubernetes/upstream/reference/operator-crd.html#features>`__.
-  #       features:
-  #         bucketDNS: false
-  #         domains:
-  #           console: monitoring-s3-console.invertedorigin.com
-  #           minio:
-  #             - monitoring-s3-api.invertedorigin.com
-  #             - minio.monitoring.svc.cluster.local
-  #         enableSFTP: false
-  #       ###
-  #       # Array of objects describing one or more buckets to create during tenant provisioning.
-  #       # Example:
-  #       #
-  #       # .. code-block:: yaml
-  #       #
-  #       #    - name: my-minio-bucket
-  #       #      objectLock: false        # optional
-  #       #      region: us-east-1        # optional
-  #       buckets: [ ]
-  #       ###
-  #       # Array of Kubernetes secrets from which the Operator generates MinIO users during tenant provisioning.
-  #       #
-  #       # Each secret should specify the ``CONSOLE_ACCESS_KEY`` and ``CONSOLE_SECRET_KEY`` as the access key and secret key for that user.
-  #       users: [ ]
-  #     ingress:
-  #       api:
-  #         enabled: true
-  #         annotations:
-  #           kubernetes.io/ingress.class: "nginx"
-  #           cert-manager.io/cluster-issuer: "cloudflare-issuer"
-  #           nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
-  #           nginx.ingress.kubernetes.io/rewrite-target: /
-  #           nginx.ingress.kubernetes.io/proxy-body-size: "0"
-  #           nginx.ingress.kubernetes.io/server-snippet: |
-  #             client_max_body_size 0;
-  #           nginx.ingress.kubernetes.io/configuration-snippet: |
-  #             chunked_transfer_encoding off;
-  #         ingressClassName: nginx
-  #         host: monitoring-s3-api.invertedorigin.com
-  #         tls:
-  #           - secretName: monitoring-s3-api-tls-domain
-  #             hosts:
-  #               - monitoring-s3-api.invertedorigin.com
-  #       console:
-  #         enabled: true
-  #         annotations:
-  #           kubernetes.io/ingress.class: "nginx"
-  #           cert-manager.io/cluster-issuer: "cloudflare-issuer"
-  #           nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
-  #           nginx.ingress.kubernetes.io/rewrite-target: /
-  #           nginx.ingress.kubernetes.io/proxy-body-size: "0"
-  #           nginx.ingress.kubernetes.io/server-snippet: |
-  #             client_max_body_size 0;
-  #           nginx.ingress.kubernetes.io/configuration-snippet: |
-  #             chunked_transfer_encoding off;
-  #         ingressClassName: nginx
-  #         host: monitoring-s3-console.invertedorigin.com
-  #         tls:
-  #           - secretName: monitoring-s3-console-tls-domain
-  #             hosts:
-  #               - monitoring-s3-console.invertedorigin.com
+  - name: tenant
+    repo: https://operator.min.io/
+    version: 5.0.14
+    releaseName: monitoring
+    includeCRDs: true
+    valuesInline: # see more at <https://min.io/docs/minio/kubernetes/upstream/reference/operator-chart-values.html#minio-tenant-chart>
+      # existingSecret:
+      #   name: myminio-env-configuration
+      tenant:
+        name: monitoring
+        ###
+        # The Kubernetes secret name that contains MinIO environment variable configurations.
+        # The secret is expected to have a key named config.env containing environment variables exports.
+        configuration:
+          name: myminio-env-configuration
+        pools:
+          - servers: 1
+            name: pool-0
+            volumesPerServer: 1
+            size: 20Gi
+            storageClassName: longhorn-strict-local-standalone
+            ###
+            #
+            # The `affinity <https://kubernetes.io/docs/tasks/configure-pod-container/assign-pods-nodes-using-node-affinity/>`__ or anti-affinity settings to apply to Tenant pods.
+            #
+            # These settings determine the distribution of pods across worker nodes and can help prevent or allow colocating pods onto the same worker nodes.
+            affinity:
+              podAntiAffinity:
+                requiredDuringSchedulingIgnoredDuringExecution:
+                  - labelSelector:
+                      matchExpressions:
+                        - key: "v1.min.io/tenant"
+                          operator: In
+                          values:
+                            - monitoring
+                        - key: "v1.min.io/pool"
+                          operator: In
+                          values:
+                            - pool-0
+                    topologyKey: "kubernetes.io/hostname"
+            ###
+            #
+            # The `Requests or Limits <https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/>`__ for resources to associate to Tenant pods.
+            #
+            # These settings can control the minimum and maximum resources requested for each pod.
+            # If no worker nodes can meet the specified requests, the Operator may fail to deploy.
+            resources: {}
+        ###
+        # MinIO features to enable or disable in the MinIO Tenant
+        # See `Operator CRD: Features <https://min.io/docs/minio/kubernetes/upstream/reference/operator-crd.html#features>`__.
+        features:
+          bucketDNS: false
+          domains:
+            console: monitoring-s3-console.invertedorigin.com
+            minio:
+              - monitoring-s3-api.invertedorigin.com
+              - minio.monitoring.svc.cluster.local
+          enableSFTP: false
+      ingress:
+        api:
+          enabled: true
+          annotations:
+            kubernetes.io/ingress.class: "nginx"
+            cert-manager.io/cluster-issuer: "cloudflare-issuer"
+            nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+            nginx.ingress.kubernetes.io/rewrite-target: /
+            nginx.ingress.kubernetes.io/proxy-body-size: "0"
+            nginx.ingress.kubernetes.io/server-snippet: |
+              client_max_body_size 0;
+            nginx.ingress.kubernetes.io/configuration-snippet: |
+              chunked_transfer_encoding off;
+          ingressClassName: nginx
+          host: monitoring-s3-api.invertedorigin.com
+          tls:
+            - secretName: monitoring-s3-api-tls-domain
+              hosts:
+                - monitoring-s3-api.invertedorigin.com
+        console:
+          enabled: true
+          annotations:
+            kubernetes.io/ingress.class: "nginx"
+            cert-manager.io/cluster-issuer: "cloudflare-issuer"
+            nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+            nginx.ingress.kubernetes.io/rewrite-target: /
+            nginx.ingress.kubernetes.io/proxy-body-size: "0"
+            nginx.ingress.kubernetes.io/server-snippet: |
+              client_max_body_size 0;
+            nginx.ingress.kubernetes.io/configuration-snippet: |
+              chunked_transfer_encoding off;
+          ingressClassName: nginx
+          host: monitoring-s3-console.invertedorigin.com
+          tls:
+            - secretName: monitoring-s3-console-tls-domain
+              hosts:
+                - monitoring-s3-console.invertedorigin.com
