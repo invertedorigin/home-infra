@@ -8,7 +8,7 @@ namespace: minio
 
 helmCharts:
   - name: operator
-    version: 5.0.14
+    version: 5.0.15
     repo: https://operator.min.io
     releaseName: operator
     valuesInline:
