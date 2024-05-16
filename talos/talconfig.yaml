@@ -5,7 +5,7 @@ clusterName: invertedorigin
 talosVersion: v1.7.1
 
 # renovate: datasource=github-releases depName=kubernetes/kubernetes
-kubernetesVersion: v1.30.0
+kubernetesVersion: v1.30.1
 
 endpoint: https://node-1.tail7ebe0.ts.net:6443
 
