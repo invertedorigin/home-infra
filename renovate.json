@@ -18,7 +18,7 @@
       "versioningTemplate": "{{#if versioning}}{{{versioning}}}{{else}}semver{{/if}}"
     },
     {
-      "fileMatch": ["^.*\\.yaml$"],
+      "fileMatch": ["\\.yaml$"],
       "matchStrings": [
         "(?<depName>cloudnative-pg/postgres):(?<currentValue>\\d+\\.\\d+\\.\\d+)"
       ],
