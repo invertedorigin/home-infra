@@ -20,7 +20,7 @@
     {
       "fileMatch": ["\\.yaml$"],
       "matchStrings": [
-        "(?<depName>ghcr.io/cloudnative-pg/postgresq):(?<currentValue>\\d+\\.\\d+\\.\\d+)"
+        "  imageName: (?<depName>ghcr\\.io/cloudnative-pg/postgresql):(?<currentValue>\\d+\\.\\d+)"
       ],
       "datasourceTemplate": "docker",
       "versioningTemplate": "docker"
