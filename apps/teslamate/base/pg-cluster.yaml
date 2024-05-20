@@ -5,9 +5,7 @@ metadata:
   namespace: teslamate
 spec:
   instances: 3
-  
   imageName: ghcr.io/cloudnative-pg/postgresql:15.7
-
   bootstrap:
     recovery:
       source: clusterBackup
