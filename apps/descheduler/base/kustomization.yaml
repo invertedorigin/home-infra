@@ -59,7 +59,6 @@ helmCharts:
                 - RemovePodsHavingTooManyRestarts
                 - RemovePodsViolatingInterPodAntiAffinity
                 - RemovePodsViolatingNodeAffinity
-                - RemovePodsViolatingNodeTaints
     service:
       enabled: true
     serviceMonitor:
