@@ -53,7 +53,7 @@ helmCharts:
           - port: http
             scheme: http
             path: /metrics
-            interval: 1m
+            interval: 6h
             scrapeTimeout: 30s
 
 - name: app-template
@@ -102,7 +102,7 @@ helmCharts:
           - port: http
             scheme: http
             path: /metrics
-            interval: 1m
+            interval: 6h
             scrapeTimeout: 30s
 
 - name: app-template
@@ -151,5 +151,5 @@ helmCharts:
           - port: http
             scheme: http
             path: /metrics
-            interval: 1m
+            interval: 6h
             scrapeTimeout: 30s
