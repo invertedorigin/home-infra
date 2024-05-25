@@ -40,7 +40,7 @@ helmCharts:
         serviceMonitorNamespaceSelector: {}
         serviceMonitorSelector: {}
         serviceMonitorSelectorNilUsesHelmValues: false
-        retention: 30d
+        retention: 90d
         storageSpec:
           volumeClaimTemplate:
             spec:
