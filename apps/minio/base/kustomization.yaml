@@ -38,53 +38,53 @@ helmCharts:
               hosts:
                 - minio-console.invertedorigin.com
 
-  - name: tenant
-    repo: https://operator.min.io/
-    version: 5.0.15
-    releaseName: monitoring
-    includeCRDs: true
-    valuesInline: # see more at <https://min.io/docs/minio/kubernetes/upstream/reference/operator-chart-values.html#minio-tenant-chart>
-      # existingSecret:
-      #   name: myminio-env-configuration
-      tenant:
-        name: monitoring
-        ###
-        # The Kubernetes secret name that contains MinIO environment variable configurations.
-        # The secret is expected to have a key named config.env containing environment variables exports.
-        configuration:
-          name: myminio-env-configuration
-        env:
-          - name: MINIO_PROMETHEUS_AUTH_TYPE
-            value: "public"
-          - name: MINIO_PROMETHEUS_JOB_ID
-            value: "monitoring-minio-job"
-          - name: MINIO_PROMETHEUS_URL
-            value: "http://kube-prometheus-stack-prometheus.monitoring.svc.cluster.local:9090"
-          - name: CONSOLE_PROMETHEUS_URL
-            value: "http://kube-prometheus-stack-prometehus.monitoring.svc.cluster.local:9090"
-        pools:
-          - servers: 3
-            name: pool-0
-            volumesPerServer: 4
-            size: 20Gi
-            storageClassName: longhorn-strict-local-standalone
-            ###
-            #
-            # The `affinity <https://kubernetes.io/docs/tasks/configure-pod-container/assign-pods-nodes-using-node-affinity/>`__ or anti-affinity settings to apply to Tenant pods.
-            #
-            # These settings determine the distribution of pods across worker nodes and can help prevent or allow colocating pods onto the same worker nodes.
-            affinity:
-              podAntiAffinity:
-                requiredDuringSchedulingIgnoredDuringExecution:
-                  - labelSelector:
-                      matchExpressions:
-                        - key: "v1.min.io/tenant"
-                          operator: In
-                          values:
-                            - monitoring
-                        - key: "v1.min.io/pool"
-                          operator: In
-                          values:
-                            - pool-0
-                    topologyKey: "kubernetes.io/hostname"
-            resources: {}
+  # - name: tenant
+  #   repo: https://operator.min.io/
+  #   version: 5.0.15
+  #   releaseName: monitoring
+  #   includeCRDs: true
+  #   valuesInline: # see more at <https://min.io/docs/minio/kubernetes/upstream/reference/operator-chart-values.html#minio-tenant-chart>
+  #     # existingSecret:
+  #     #   name: myminio-env-configuration
+  #     tenant:
+  #       name: monitoring
+  #       ###
+  #       # The Kubernetes secret name that contains MinIO environment variable configurations.
+  #       # The secret is expected to have a key named config.env containing environment variables exports.
+  #       configuration:
+  #         name: myminio-env-configuration
+  #       env:
+  #         - name: MINIO_PROMETHEUS_AUTH_TYPE
+  #           value: "public"
+  #         - name: MINIO_PROMETHEUS_JOB_ID
+  #           value: "monitoring-minio-job"
+  #         - name: MINIO_PROMETHEUS_URL
+  #           value: "http://kube-prometheus-stack-prometheus.monitoring.svc.cluster.local:9090"
+  #         - name: CONSOLE_PROMETHEUS_URL
+  #           value: "http://kube-prometheus-stack-prometehus.monitoring.svc.cluster.local:9090"
+  #       pools:
+  #         - servers: 3
+  #           name: pool-0
+  #           volumesPerServer: 4
+  #           size: 20Gi
+  #           storageClassName: longhorn-strict-local-standalone
+  #           ###
+  #           #
+  #           # The `affinity <https://kubernetes.io/docs/tasks/configure-pod-container/assign-pods-nodes-using-node-affinity/>`__ or anti-affinity settings to apply to Tenant pods.
+  #           #
+  #           # These settings determine the distribution of pods across worker nodes and can help prevent or allow colocating pods onto the same worker nodes.
+  #           affinity:
+  #             podAntiAffinity:
+  #               requiredDuringSchedulingIgnoredDuringExecution:
+  #                 - labelSelector:
+  #                     matchExpressions:
+  #                       - key: "v1.min.io/tenant"
+  #                         operator: In
+  #                         values:
+  #                           - monitoring
+  #                       - key: "v1.min.io/pool"
+  #                         operator: In
+  #                         values:
+  #                           - pool-0
+  #                   topologyKey: "kubernetes.io/hostname"
+  #           resources: {}
