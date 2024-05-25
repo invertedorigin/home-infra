@@ -49,7 +49,7 @@ helmCharts:
               - ReadWriteOnce
               resources:
                 requests:
-                  storage: 50Gi
+                  storage: 100Gi
 
 - name: grafana
   repo: https://grafana.github.io/helm-charts
