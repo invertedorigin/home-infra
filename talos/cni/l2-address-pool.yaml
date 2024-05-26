@@ -11,3 +11,7 @@ apiVersion: "cilium.io/v2alpha1"
 kind: CiliumL2AnnouncementPolicy
 metadata:
   name: l2policy
+spec:
+  loadBalancerIPs: true
+  interfaces:
+    - eno1
