@@ -24,6 +24,8 @@ loadBalancer:
   l7:
     algorithm: round_robin
     backend: envoy
+l2announcements:
+  enabled: true
 nodePort:
   enabled: true
 localRedirectPolicy: true
