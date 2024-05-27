@@ -44,20 +44,3 @@ helmCharts:
           cpu: 25m
         limits:
           memory: 350Mi
-
-
-patches:
-- target:
-    version: v1
-    kind: Service
-    namespace: ingress-nginx
-    name: ingress-nginx-controller
-  patch: |
-    apiVersion: v1
-    kind: Service
-    metadata:
-      name: ingress-nginx-controller
-      namespace: ingress-nginx
-      annotations:
-        tailscale.com/expose: "true"
-        tailscale.com/hostname: "nginx-proxy"

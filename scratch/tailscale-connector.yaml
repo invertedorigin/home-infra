@@ -1,7 +1,32 @@
 apiVersion: tailscale.com/v1alpha1
 kind: Connector
 metadata:
-  name: k8s-cluster-egress
+  name: k8s-cluster-egress-1
 spec:
-  hostname: k8s-cluster-egress
+  hostname: k8s-cluster-egress-1
   exitNode: true
+  subnetRouter:
+    advertiseRoutes:
+      - "10.0.1.0/24"
+---
+apiVersion: tailscale.com/v1alpha1
+kind: Connector
+metadata:
+  name: k8s-cluster-egress-2
+spec:
+  hostname: k8s-cluster-egress-2
+  exitNode: true
+  subnetRouter:
+    advertiseRoutes:
+      - "10.0.1.0/24"
+---
+apiVersion: tailscale.com/v1alpha1
+kind: Connector
+metadata:
+  name: k8s-cluster-egress-3
+spec:
+  hostname: k8s-cluster-egress-3
+  exitNode: true
+  subnetRouter:
+    advertiseRoutes:
+      - "10.0.1.0/24"
