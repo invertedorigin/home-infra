@@ -5,7 +5,7 @@ kind: Kustomization
 namespace: kube-system
 
 resources:
-- github.com/kubernetes-sigs/gateway-api//config/crd/kustomization.yaml?ref=v1.1.0
+- github.com/kubernetes-sigs/gateway-api//config/crd?ref=v1.1.0
 - l2-address-pool.yaml
 
 helmCharts:
