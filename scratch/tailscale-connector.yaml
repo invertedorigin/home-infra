@@ -1,0 +1,7 @@
+apiVersion: tailscale.com/v1alpha1
+kind: Connector
+metadata:
+  name: k8s-cluster-egress
+spec:
+  hostname: k8s-cluster-egress
+  exitNode: true
