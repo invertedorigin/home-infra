@@ -39,7 +39,3 @@ cni:
   exclusive: false
 gatewayAPI:
   enabled: true
-  secretsNamespace:
-    create: false
-    name: kube-system
-    sync: false
