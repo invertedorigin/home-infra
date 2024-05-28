@@ -41,4 +41,5 @@ gatewayAPI:
   enabled: true
   secretsNamespace:
     create: false
+    namespace: kube-system
     sync: false
