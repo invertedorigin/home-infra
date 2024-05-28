@@ -78,7 +78,7 @@ helmCharts:
       main:
         parentRefs:
           - namespace: kube-system
-            name: tls-default-gateway
+            name: default-gateway-test
         hostnames:
         - ha.invertedorigin.com
         rules:
