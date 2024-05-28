@@ -72,6 +72,17 @@ helmCharts:
               - *host
             secretName: ha-tls-domain
 
+    route:
+      main:
+        parentRefs:
+          - name: tls-gateway-test
+        hostnames:
+        - ha.invertedorigin.com
+        rules:
+        - backendRefs:
+          - name: homeassistant
+            port: 8123
+
     persistence:
       media:
         existingClaim: homeassistant-pvc-replicated
