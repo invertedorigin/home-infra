@@ -23,5 +23,3 @@ helmCharts:
     prometheus:
       servicemonitor:
         enabled: true
-    extraArgs:
-      - --feature-gates=ExperimentalGatewayAPISupport=true
