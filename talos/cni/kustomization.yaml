@@ -12,8 +12,6 @@ helmCharts:
     version: 1.15.5
     releaseName: cilium
     namespace: kube-system
-    apiVersions:
-      - gateway.networking.k8s.io/v1/GatewayClass
     valuesFile: values.yaml
 
 commonAnnotations:
