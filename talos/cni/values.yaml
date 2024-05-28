@@ -37,3 +37,8 @@ securityContext:
 tunnel: geneve
 cni:
   exclusive: false
+gatewayAPI:
+  enabled: true
+  secretsNamespace:
+    create: false
+    sync: false
