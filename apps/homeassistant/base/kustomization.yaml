@@ -74,19 +74,6 @@ helmCharts:
               - *host
             secretName: ha-tls-domain
 
-    route:
-      main:
-        parentRefs:
-          - namespace: kube-system
-            name: default-gateway-test
-        hostnames:
-        - ha.invertedorigin.com
-        rules:
-        - backendRefs:
-          - name: homeassistant
-            namespace: homeassistant
-            port: 8123
-
     persistence:
       media:
         existingClaim: homeassistant-pvc-replicated

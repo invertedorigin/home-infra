@@ -74,19 +74,6 @@ helmCharts:
               - *host
             secretName: esphome-tls-domain
 
-    route:
-      main:
-        parentRefs:
-          - namespace: kube-system
-            name: default-gateway-test
-        hostnames:
-        - esphome.invertedorigin.com
-        rules:
-        - backendRefs:
-          - name: esphome
-            namespace: esphome
-            port: 6052
-
     persistence:
       media:
         existingClaim: esphome-pvc-replicated
