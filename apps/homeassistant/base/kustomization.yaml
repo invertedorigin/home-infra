@@ -15,6 +15,8 @@ helmCharts:
   repo: https://bjw-s.github.io/helm-charts/
   version: 3.2.1
   releaseName: homeassistant
+  apiVersions:
+    - gateway.networking.k8s.io/v1/HTTPRoute
   valuesInline:
     controllers:
       main:
