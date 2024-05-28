@@ -83,7 +83,7 @@ helmCharts:
         - esphome.invertedorigin.com
         rules:
         - backendRefs:
-          - name: app
+          - name: esphome
             namespace: esphome
             port: 6052
 
