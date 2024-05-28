@@ -84,6 +84,7 @@ helmCharts:
         rules:
         - backendRefs:
           - name: homeassistant
+            namesspace: homeassistant
             port: 8123
 
     persistence:
