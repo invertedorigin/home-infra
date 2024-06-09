@@ -12,7 +12,7 @@ helmCharts:
 - name: app-template
   repo: https://bjw-s.github.io/helm-charts
   version: 3.2.1
-  releaseName: cloudflared
+  releaseName: paperless
   valuesInline:
     controllers:
       paperless:
@@ -104,3 +104,33 @@ helmCharts:
         existingClaim: paperless-pvc-replicated
         globalMounts:
           - path: /data/local
+
+- name: app-template
+  repo: https://bjw-s.github.io/helm-charts
+  version: 3.2.1
+  releaseName: paperless-redis
+  valuesInline:
+    controllers:
+      main:
+        containers:
+          main:
+            image:
+              repository: public.ecr.aws/docker/library/redis
+              tag: 7.2.3
+            env:
+              REDIS_REPLICATION_MODE: master
+            resources:
+              requests:
+                cpu: 5m
+                memory: 256M
+              limits:
+                memory: 256M
+
+    service:
+      main:
+        ports:
+          http:
+            enabled: false
+          redis:
+            enabled: true
+            port: 6379
