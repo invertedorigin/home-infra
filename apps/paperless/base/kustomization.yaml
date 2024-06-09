@@ -1,0 +1,106 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+- namespace.yaml
+- external-secret.yaml
+- pvc.yaml
+
+namespace: paperless
+
+helmCharts:
+- name: app-template
+  repo: https://bjw-s.github.io/helm-charts
+  version: 3.2.1
+  releaseName: cloudflared
+  valuesInline:
+    controllers:
+      paperless:
+        containers:
+          app:
+            image:
+              repository: ghcr.io/paperless-ngx/paperless-ngx
+              tag: 2.9.0
+            env:
+              # Configure application
+              PAPERLESS_SECRET_KEY:
+                valueFrom:
+                  secretKeyRef:
+                    name: paperless-secret
+                    key: PAPERLESS_SECRET_KEY
+              PAPERLESS_URL: https://paperless.invertedorigin.com
+              PAPERLESS_PORT: "8000"
+              PAPERLESS_TIME_ZONE: "America/Chicago"
+              PAPERLESS_WEBSERVER_WORKERS: "2"
+              PAPERLESS_TASK_WORKERS: "2"
+              # Configure Remote User auth
+              PAPERLESS_ACCOUNT_ALLOW_SIGNUPS: "false"
+              PAPERLESS_SOCIALACCOUNT_ALLOW_SIGNUPS: "false"
+              # Configure folders
+              PAPERLESS_DATA_DIR: /data/local/data
+              PAPERLESS_MEDIA_ROOT: /data/local/media
+              # Configure folder importer
+              PAPERLESS_CONSUMER_POLLING: "60"
+              PAPERLESS_CONSUMER_RECURSIVE: "true"
+              PAPERLESS_CONSUMER_SUBDIRS_AS_TAGS: "true"
+              # Configure OCR
+              PAPERLESS_OCR_LANGUAGES: eng
+              PAPERLESS_OCR_LANGUAGE: eng
+              # Configure admin user
+              PAPERLESS_ADMIN_USER:
+                valueFrom:
+                  secretKeyRef:
+                    name: paperless-secret
+                    key: PAPERLESS_ADMIN_USER
+              PAPERLESS_ADMIN_PASSWORD:
+                valueFrom:
+                  secretKeyRef:
+                    name: paperless-secret
+                    key: PAPERLESS_ADMIN_PASSWORD
+            probes:
+              liveness:
+                enabled: true
+              readiness:
+                enabled: true
+              startup:
+                enabled: true
+                spec:
+                  failureThreshold: 30
+                  periodSeconds: 5
+            resources:
+              requests:
+                cpu: 25m
+                memory: 2Gi
+              limits:
+                memory: 6Gi
+
+    service:
+      app:
+        controller: paperless
+        ports:
+          http:
+            port: 8000
+
+    ingress:
+      main:
+        enabled: true
+        annotations:
+          kubernetes.io/ingress.class: "nginx"
+          cert-manager.io/cluster-issuer: "cloudflare-issuer"
+        hosts:
+          - host: &host paperless.invertedorigin.com
+            paths:
+              - path: /
+                service:
+                  name: paperless
+                  port: 8080
+        tls:
+          - hosts:
+              - *host
+            secretName: paperless-tls-domain
+
+    persistence:
+      media:
+        existingClaim: paperless-pvc-replicated
+        globalMounts:
+          - path: /data/local
