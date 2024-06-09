@@ -111,9 +111,9 @@ helmCharts:
   releaseName: paperless-redis
   valuesInline:
     controllers:
-      main:
+      redis:
         containers:
-          main:
+          app:
             image:
               repository: public.ecr.aws/docker/library/redis
               tag: 7.2.3
@@ -126,11 +126,9 @@ helmCharts:
               limits:
                 memory: 256M
 
-    service:
-      main:
+   service:
+      app:
+        controller: paperless-redis
         ports:
           http:
-            enabled: false
-          redis:
-            enabled: true
-            port: 6379
+            port: 8000
