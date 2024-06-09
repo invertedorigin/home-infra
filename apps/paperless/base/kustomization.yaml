@@ -126,9 +126,9 @@ helmCharts:
               limits:
                 memory: 256M
 
-   service:
-      app:
-        controller: paperless-redis
-        ports:
-          http:
-            port: 8000
+    service:
+        app:
+          controller: paperless-redis
+          ports:
+            http:
+              port: 8000
