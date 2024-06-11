@@ -16,6 +16,16 @@ helmCharts:
   valuesInline:
     controllers:
       paperless:
+        pod:
+          annotations:
+            k8s.v1.cni.cncf.io/networks: |-
+              [
+                {
+                  "name": "macvlan-conf-dhcp",
+                  "namespace": "kube-system",
+                  "mac": "5b:c2:3d:12:f4:23"
+                }
+              ]
         containers:
           app:
             image:
@@ -39,7 +49,7 @@ helmCharts:
               # Configure folders
               PAPERLESS_DATA_DIR: /data/local/data
               PAPERLESS_MEDIA_ROOT: /data/local/media
-              PAPERLESS_CONSUMPTION_DIR: /data/nas/incoming
+              PAPERLESS_CONSUMPTION_DIR: /data/local/incoming
               # Configure folder importer
               PAPERLESS_CONSUMER_POLLING: "60"
               PAPERLESS_CONSUMER_RECURSIVE: "true"
