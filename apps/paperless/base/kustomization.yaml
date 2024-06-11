@@ -63,7 +63,7 @@ helmCharts:
             image:
               repository: ghcr.io/atmoz/sftp/alpine
               tag: latest
-            args: ["foo:pass:::/data/nas/incoming"]
+            args: ["foo:pass:::incoming"]
             probes:
               liveness:
                 enabled: true
