@@ -87,6 +87,13 @@ helmCharts:
         ports:
           http:
             port: 8000
+      sftp:
+        controller: sftp
+        type: LoadBalancer
+        ports:
+          sftp:
+            port: 22 
+      
 
     ingress:
       main:
