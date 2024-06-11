@@ -62,6 +62,7 @@ helmCharts:
             image:
               repository: ghcr.io/atmoz/sftp/alpine
               tag: latest
+            args: ["foo:pass:::upload"]
             probes:
               liveness:
                 enabled: true
