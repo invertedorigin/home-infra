@@ -126,7 +126,7 @@ helmCharts:
         advancedMounts:
           paperless: # the controller with the "main" identifier
             sftp: # the container with the "main" identifier
-              - path: /data/local/incoming
+              - path: /home/paperless
 
 - name: app-template
   repo: https://bjw-s.github.io/helm-charts
