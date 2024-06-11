@@ -60,7 +60,7 @@ helmCharts:
                     key: PAPERLESS_ADMIN_PASSWORD
           sftp:
             image:
-              repository: fghcr.io/atmoz/sftp/alpine
+              repository: ghcr.io/atmoz/sftp/alpine
               tag: latest
             probes:
               liveness:
