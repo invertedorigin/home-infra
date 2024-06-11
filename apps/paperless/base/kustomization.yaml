@@ -61,7 +61,7 @@ helmCharts:
                     key: PAPERLESS_ADMIN_PASSWORD
           sftp:
             image:
-              repository: ghcr.io/atmoz/sftp/alpine
+              repository: ghcr.io/atmoz/sftp/debian
               tag: latest
             args: ["paperless:pass:1000"]
             probes:
