@@ -58,6 +58,10 @@ helmCharts:
                   secretKeyRef:
                     name: paperless-secret
                     key: PAPERLESS_ADMIN_PASSWORD
+          sftp:
+            image:
+              repository: aghcr.io/atmoz/sftp/alpine
+              tag: latest
             probes:
               liveness:
                 enabled: true
