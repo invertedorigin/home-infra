@@ -44,7 +44,7 @@ helmCharts:
               PAPERLESS_CONSUMER_POLLING: "60"
               PAPERLESS_CONSUMER_RECURSIVE: "true"
               PAPERLESS_CONSUMER_SUBDIRS_AS_TAGS: "true"
-              PAPERLESS_FILENAME_FORMAT=: "{created}-{correspondent}-{title}-{tag_list}"
+              PAPERLESS_FILENAME_FORMAT: "{created}-{correspondent}-{title}-{tag_list}"
               PAPERLESS_FILENAME_FORMAT_REMOVE_NONE: "true"
               PAPERLESS_REDIS: redis://paperless-redis.paperless.svc.cluster.local:6379/0
               # Configure OCR
