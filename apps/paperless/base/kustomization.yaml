@@ -111,7 +111,7 @@ helmCharts:
             paths:
               - path: /
                 service:
-                  name: paperless
+                  name: paperless-app
                   port: 8000
         tls:
           - hosts:
