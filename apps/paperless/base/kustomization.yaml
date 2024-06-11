@@ -88,7 +88,7 @@ helmCharts:
           http:
             port: 8000
       sftp:
-        controller: sftp
+        controller: paperless
         type: LoadBalancer
         ports:
           sftp:
