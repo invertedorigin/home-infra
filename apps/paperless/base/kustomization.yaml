@@ -54,6 +54,7 @@ helmCharts:
               PAPERLESS_CONSUMER_POLLING: "60"
               PAPERLESS_CONSUMER_RECURSIVE: "true"
               PAPERLESS_CONSUMER_SUBDIRS_AS_TAGS: "true"
+              PAPERLESS_BIND_ADDR: "0.0.0.0"
               PAPERLESS_REDIS: redis://paperless-redis.paperless.svc.cluster.local:6379/0
               # Configure OCR
               PAPERLESS_OCR_LANGUAGES: eng
