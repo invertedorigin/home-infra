@@ -95,8 +95,7 @@ helmCharts:
         type: LoadBalancer
         ports:
           sftp:
-            port: 22 
-      
+            port: 22
 
     ingress:
       main:
