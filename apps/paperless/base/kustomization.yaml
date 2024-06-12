@@ -133,7 +133,6 @@ helmCharts:
         enabled: true
         type: secret
         name: paperless-secret
-        readOnly: true
         advancedMounts:
           paperless:
             sftp:
