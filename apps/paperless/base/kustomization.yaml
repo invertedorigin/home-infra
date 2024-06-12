@@ -130,10 +130,10 @@ helmCharts:
           paperless:
             sftp:
               - path: /home/paperless
-              # - path: /etc/ssh/ssh_host_rsa_key
-              #   subPath: ssh_host_rsa_key
-              # - path: /etc/ssh/ssh_host_rsa_key.pub
-              #   subPath: ssh_host_rsa_key.pub
+              - path: /etc/ssh/ssh_host_rsa_key
+                subPath: ssh_host_rsa_key
+              - path: /etc/ssh/ssh_host_rsa_key.pub
+                subPath: ssh_host_rsa_key.pub
 
 - name: app-template
   repo: https://bjw-s.github.io/helm-charts
