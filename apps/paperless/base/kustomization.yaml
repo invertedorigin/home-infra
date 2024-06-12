@@ -130,20 +130,10 @@ helmCharts:
           paperless:
             sftp:
               - path: /home/paperless
-      config:
-        enabled: true
-        type: secret
-        name: paperless-secret
-        advancedMounts:
-          paperless:
-            sftp:
-              - path: /etc/ssh/ssh_host_rsa_key
-                subPath: SSH_HOST_RSA_KEY
-                readOnly: true
-              - path: /etc/ssh/ssh_host_rsa_key.pub
-                subPath: SSH_HOST_RSA_KEY_PUB
-                readOnly: true
-                defaultMode: 384
+              # - path: /etc/ssh/ssh_host_rsa_key
+              #   subPath: ssh_host_rsa_key
+              # - path: /etc/ssh/ssh_host_rsa_key.pub
+              #   subPath: ssh_host_rsa_key.pub
 
 - name: app-template
   repo: https://bjw-s.github.io/helm-charts
