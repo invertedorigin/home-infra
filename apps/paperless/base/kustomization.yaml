@@ -143,8 +143,7 @@ helmCharts:
               - path: /etc/ssh/ssh_host_rsa_key.pub
                 subPath: SSH_HOST_RSA_KEY_PUB
                 readOnly: true
-                items:
-                  defaultMode: 384
+                asdefaultMode: 384
 
 - name: app-template
   repo: https://bjw-s.github.io/helm-charts
