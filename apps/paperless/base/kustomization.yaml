@@ -139,8 +139,10 @@ helmCharts:
             sftp:
               - path: /etc/ssh/ssh_host_rsa_key
                 subPath: SSH_HOST_RSA_KEY
+                readOnly: true
               - path: /etc/ssh/ssh_host_rsa_key.pub
                 subPath: SSH_HOST_RSA_KEY_PUB
+                readOnly: true
 
 - name: app-template
   repo: https://bjw-s.github.io/helm-charts
