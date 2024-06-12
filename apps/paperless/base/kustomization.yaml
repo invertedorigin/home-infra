@@ -127,8 +127,8 @@ helmCharts:
         globalMounts:
           - path: /data/local
         advancedMounts:
-          paperless: # the controller with the "main" identifier
-            sftp: # the container with the "main" identifier
+          paperless:
+            sftp:
               - path: /home/paperless
       config:
         enabled: true
