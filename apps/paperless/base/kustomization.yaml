@@ -5,6 +5,7 @@ resources:
 - namespace.yaml
 - external-secret.yaml
 - pvc.yaml
+- backup.yaml
 
 namespace: paperless
 
