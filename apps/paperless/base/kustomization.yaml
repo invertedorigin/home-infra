@@ -129,6 +129,18 @@ helmCharts:
           paperless: # the controller with the "main" identifier
             sftp: # the container with the "main" identifier
               - path: /home/paperless
+      config:
+        enabled: true
+        type: secret
+        name: paperless-secret
+        readOnly: true
+        advancedMounts:
+          paperless:
+            sftp:
+              - path: /etc/ssh/ssh_host_rsa_key
+                subPath: SSH_HOST_RSA_KEY
+              - path: /etc/ssh/ssh_host_rsa_key.pub
+                subPath: SSH_HOST_RSA_KEY_PUB
 
 - name: app-template
   repo: https://bjw-s.github.io/helm-charts
