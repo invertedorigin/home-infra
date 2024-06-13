@@ -27,4 +27,3 @@ spec:
           namespace: default
           port: 8123
           weight: 1
-
