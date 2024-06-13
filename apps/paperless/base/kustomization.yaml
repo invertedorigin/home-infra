@@ -32,6 +32,7 @@ helmCharts:
               PAPERLESS_URL: https://paperless.invertedorigin.com
               PAPERLESS_PORT: "8000"
               PAPERLESS_TIME_ZONE: "America/Chicago"
+              PAPERLESS_DATE_ORDER: MDY
               PAPERLESS_WEBSERVER_WORKERS: "2"
               PAPERLESS_TASK_WORKERS: "2"
               # Configure Remote User auth
