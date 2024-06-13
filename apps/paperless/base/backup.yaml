@@ -8,7 +8,7 @@ spec:
   sourcePVC: paperless-pvc-replicated
   trigger:
     # Take a backup every 24 hours
-    schedule: "0 0 * * *"
+    schedule: "0 */6 * * *"
   restic:
     # Prune the repository (repack to free space) every 2 weeks
     pruneIntervalDays: 14
