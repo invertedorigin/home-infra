@@ -23,7 +23,7 @@ helmCharts:
           main:
             image:
               repository: teslamate/teslamate
-              tag: 1.29.1
+              tag: 1.29.2
             env:
               TZ: "America/Chicago"
               DISABLE_MQTT: "false"
