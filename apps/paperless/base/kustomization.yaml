@@ -52,6 +52,9 @@ helmCharts:
               # Configure OCR
               PAPERLESS_OCR_LANGUAGES: eng
               PAPERLESS_OCR_LANGUAGE: eng
+              PAPERLESS_CONSUMER_ENABLE_BARCODES: "true"
+              PAPERLESS_CONSUMER_ENABLE_ASN_BARCODE: "true"
+              PAPERLESS_CONSUMER_BARCODE_SCANNER: "ZXING"
               # Configure admin user
               PAPERLESS_ADMIN_USER:
                 valueFrom:
