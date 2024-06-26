@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: zwavejs
+  name: rook-ceph
   labels:
     pod-security.kubernetes.io/enforce: privileged
   annotations:
