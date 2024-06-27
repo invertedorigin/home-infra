@@ -4,8 +4,8 @@ kind: Kustomization
 resources:
 - namespace.yaml
 
-helmCharts:
-- name: rook-ceph
-  repo: https://charts.rook.io/release
-  version: v1.14.7
-  releaseName: rook-ceph
+# helmCharts:
+# - name: rook-ceph
+#   repo: https://charts.rook.io/release
+#   version: v1.14.7
+#   releaseName: rook-ceph
