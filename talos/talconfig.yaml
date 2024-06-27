@@ -35,10 +35,6 @@ nodes:
     disableSearchDomain: false
     nodeLabels:
       topology.kubernetes.io/region: home
-    machineDisks:
-      - device: /dev/sda
-        partitions:
-          - mountpoint: /var/mnt/sata-ssd
     extensionServices:
     - name: tailscale
       environment:
@@ -53,10 +49,6 @@ nodes:
     disableSearchDomain: false
     nodeLabels:
       topology.kubernetes.io/region: home
-    machineDisks:
-      - device: /dev/sda
-        partitions:
-          - mountpoint: /var/mnt/sata-ssd
     extensionServices:
     - name: tailscale
       environment:
@@ -71,10 +63,6 @@ nodes:
     disableSearchDomain: false
     nodeLabels:
       topology.kubernetes.io/region: home
-    machineDisks:
-      - device: /dev/sda
-        partitions:
-          - mountpoint: /var/mnt/sata-ssd
     extensionServices:
     - name: tailscale
       environment:
@@ -90,6 +78,10 @@ patches:
             - os:admin
           allowedKubernetesNamespaces:
             - system-upgrade
+        hostDNS:
+          enabled: true
+          forwardKubeDNSToHost: true
+          resolveMemberNames: true
   - |
     machine:
       sysctls:
@@ -113,15 +105,11 @@ patches:
       kubelet:
         nodeIP:
           validSubnets:
-            - 100.64.0.0/10
+            - 10.0.1.0/24
       features:
         kubePrism:
           enabled: true
           port: 7445
-      network:
-        nameservers:
-          - 100.100.100.100
-          - 1.1.1.1
 controlPlane:
   patches:
     - |
@@ -137,6 +125,6 @@ controlPlane:
             service: {}
         etcd:
           advertisedSubnets:
-            - 100.64.0.0/10 # we want etcd to talk over tailscale for stable network paths
+            - 10.0.1.0/24
         proxy:
           disabled: true
