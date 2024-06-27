@@ -31,6 +31,7 @@ helmCharts:
     prometheus:
       enabled: true
       prometheusSpec:
+        replicas: 0
         podMonitorNamespaceSelector: {}
         podMonitorSelector: {}
         podMonitorSelectorNilUsesHelmValues: false
