@@ -16,3 +16,5 @@ helmCharts:
   repo: https://charts.rook.io/release
   version: v1.14.7
   releaseName: rook-ceph-cluster
+  valuesInLine:
+    operatorNamespace: rook-ceph
