@@ -4,10 +4,10 @@ metadata:
   name: test-volume
   namespace: default
 spec:
-  storageClassName: longhorn-sticky
+  storageClassName: ceph-block
   resources:
     requests:
-      storage: 20Gi
+      storage: 100Gi
   accessModes:
     - ReadWriteOnce
 ---
@@ -53,15 +53,13 @@ spec:
           volumeMounts:
             - mountPath: /volume
               name: volume
-            - mountPath: /ephemeral
-              name: tmp
           resources:
             limits:
               cpu: 2000m
               memory: 5Gi
             requests:
-              cpu: 100m
-              memory: 1Gi
+              cpu: 2000m
+              memory: 5Gi
       volumes:
         - name: volume
           persistentVolumeClaim:
