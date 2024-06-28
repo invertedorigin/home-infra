@@ -20,6 +20,7 @@ helmCharts:
   namespace: rook-ceph
   valuesInLine:
     operatorNamespace: rook-ceph
-    network:
-      connections:
-        provider: host
+    cephClusterSpec:
+      network:
+        connections:
+          provider: host
