@@ -23,4 +23,4 @@ helmCharts:
     clusterName: rook-ceph-test
     cephClusterSpec:
       network:
-        hostnetwork: true
+        HostNetwork: true
