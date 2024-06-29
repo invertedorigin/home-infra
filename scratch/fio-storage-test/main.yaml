@@ -1,21 +1,8 @@
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: test-volume
-  namespace: default
-spec:
-  storageClassName: ceph-block
-  resources:
-    requests:
-      storage: 100Gi
-  accessModes:
-    - ReadWriteOnce
----
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: volume-logger
-  namespace: default
+  namespace: kube-system
 spec:
   selector:
     matchLabels:
@@ -52,7 +39,7 @@ spec:
                   fieldPath: spec.nodeName
           volumeMounts:
             - mountPath: /volume
-              name: volume
+              name: varlib-volume
           resources:
             limits:
               cpu: 2000m
@@ -61,8 +48,7 @@ spec:
               cpu: 2000m
               memory: 5Gi
       volumes:
-        - name: volume
-          persistentVolumeClaim:
-            claimName: test-volume
-        - name: tmp
-          emptyDir: {}
+      - name: varlib-volume
+        hostPath:
+          path: /var/lib
+          type: Directory
