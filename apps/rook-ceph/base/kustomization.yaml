@@ -23,17 +23,17 @@ helmCharts:
     cephClusterSpec:
       network:
         hostNetwork: true
-      ingress:
-        dashboard:
-          annotations:
-            kubernetes.io/ingress.class: "nginx"
-            cert-manager.io/cluster-issuer: "cloudflare-issuer"
-            nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
-            nginx.ingress.kubernetes.io/server-snippet: |
-              proxy_ssl_verify off;
-          host:
-            name: &host rook-ceph.invertedorigin.com
-          tls:
-          - hosts:
-            - *host
-            secretName: rook-ceph-tls-domain
+    ingress:
+      dashboard:
+        annotations:
+          kubernetes.io/ingress.class: "nginx"
+          cert-manager.io/cluster-issuer: "cloudflare-issuer"
+          nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+          nginx.ingress.kubernetes.io/server-snippet: |
+            proxy_ssl_verify off;
+        host:
+          name: &host rook-ceph.invertedorigin.com
+        tls:
+        - hosts:
+          - *host
+          secretName: rook-ceph-tls-domain
