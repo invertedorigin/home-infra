@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: alpine-shell
+  namespace: kube-system
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: alpine-shell
+  template:
+    metadata:
+      labels:
+        app: alpine-shell
+    spec:
+      affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            - labelSelector:
+                matchExpressions:
+                  - key: app
+                    operator: In
+                    values:
+                      - alpine-shell
+              topologyKey: "kubernetes.io/hostname"
+      containers:
+        - name: alpine-shell
+          image: alpine
+          command: ["/bin/sh"]
+          args: ["-c", "while true; do sleep 3600; done"]
+          volumeMounts:
+            - name: varlib
+              mountPath: /hostvolume
+      volumes:
+        - name: varlib
+          hostPath:
+            path: /var/lib
+            type: Directory
+
