@@ -13,14 +13,14 @@ helmCharts:
   version: v1.14.7
   releaseName: rook-ceph
 
-- name: rook-ceph-cluster
-  repo: https://charts.rook.io/release
-  version: v1.14.7
-  releaseName: rook-ceph-cluster
-  namespace: rook-ceph
-  valuesInLine:
-    operatorNamespace: rook-ceph
-    clusterName: rook-ceph-cluster
-    cephClusterSpec:
-      network:
-        hostNetwork: true
+# - name: rook-ceph-cluster
+#   repo: https://charts.rook.io/release
+#   version: v1.14.7
+#   releaseName: rook-ceph-cluster
+#   namespace: rook-ceph
+#   valuesInLine:
+#     operatorNamespace: rook-ceph
+#     clusterName: rook-ceph-cluster
+#     cephClusterSpec:
+#       network:
+#         hostNetwork: true
