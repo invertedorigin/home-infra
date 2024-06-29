@@ -6,37 +6,37 @@ resources:
 
 namespace: minio
 
-helmCharts:
-  - name: operator
-    version: 5.0.15
-    repo: https://operator.min.io
-    releaseName: operator
-    valuesInline:
-      operator:
-        env:
-          - name: PROMETHEUS_NAMESPACE
-            value: monitoring
-          - name: PROMETHEUS_NAME
-            value: kube-prometheus-stack-prometheus
-      console:
-        ingress:
-          enabled: true
-          annotations:
-            kubernetes.io/ingress.class: "nginx"
-            cert-manager.io/cluster-issuer: "cloudflare-issuer"
-            nginx.ingress.kubernetes.io/upstream-vhost: 10.245.37.162:9000
-            nginx.ingress.kubernetes.io/rewrite-target: /
-            nginx.ingress.kubernetes.io/proxy-body-size: "0"
-            nginx.ingress.kubernetes.io/server-snippet: |
-              client_max_body_size 0;
-            nginx.ingress.kubernetes.io/configuration-snippet: |
-              chunked_transfer_encoding off;
-          ingressClassName: nginx
-          host: minio-console.invertedorigin.com
-          tls:
-            - secretName: minio-console-tls-domain
-              hosts:
-                - minio-console.invertedorigin.com
+# helmCharts:
+#   - name: operator
+#     version: 5.0.15
+#     repo: https://operator.min.io
+#     releaseName: operator
+#     valuesInline:
+#       operator:
+#         env:
+#           - name: PROMETHEUS_NAMESPACE
+#             value: monitoring
+#           - name: PROMETHEUS_NAME
+#             value: kube-prometheus-stack-prometheus
+#       console:
+#         ingress:
+#           enabled: true
+#           annotations:
+#             kubernetes.io/ingress.class: "nginx"
+#             cert-manager.io/cluster-issuer: "cloudflare-issuer"
+#             nginx.ingress.kubernetes.io/upstream-vhost: 10.245.37.162:9000
+#             nginx.ingress.kubernetes.io/rewrite-target: /
+#             nginx.ingress.kubernetes.io/proxy-body-size: "0"
+#             nginx.ingress.kubernetes.io/server-snippet: |
+#               client_max_body_size 0;
+#             nginx.ingress.kubernetes.io/configuration-snippet: |
+#               chunked_transfer_encoding off;
+#           ingressClassName: nginx
+#           host: minio-console.invertedorigin.com
+#           tls:
+#             - secretName: minio-console-tls-domain
+#               hosts:
+#                 - minio-console.invertedorigin.com
 
   # - name: tenant
   #   repo: https://operator.min.io/
