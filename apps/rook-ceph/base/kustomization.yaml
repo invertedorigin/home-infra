@@ -29,6 +29,16 @@ helmCharts:
             enabled: true
           - name: rook # This enables the rook module.
             enabled: true
+    cephBlockPoolsVolumeSnapshotClass:
+      enabled: true
+      name: csi-ceph-blockpool
+      isDefault: false
+      deletionPolicy: Delete
+    cephFileSystemVolumeSnapshotClass:
+      enabled: true
+      name: csi-ceph-filesystem
+      isDefault: false
+      deletionPolicy: Delete
     ingress:
       dashboard:
         annotations:
