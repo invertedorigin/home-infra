@@ -38,8 +38,8 @@ helmCharts:
       name: csi-ceph-filesystem
       isDefault: false
       deletionPolicy: Delete
-    # monitoring:
-    #   enabled: true
+    monitoring:
+      enabled: true
     ingress:
       dashboard:
         annotations:
