@@ -4,7 +4,7 @@ metadata:
   name: scrypted-pvc-replicated
   namespace: scrypted
 spec:
-  storageClassName: longhorn-sticky
+  storageClassName: ceph-block
   accessModes:
     - ReadWriteOnce
   resources:
