@@ -3,7 +3,6 @@ kind: Kustomization
 
 resources:
 - namespace.yaml
-- service-monitor.yaml
 
 namespace: rook-ceph
 
@@ -39,6 +38,8 @@ helmCharts:
       name: csi-ceph-filesystem
       isDefault: false
       deletionPolicy: Delete
+    monitoring:
+      enabled: true
     ingress:
       dashboard:
         annotations:
