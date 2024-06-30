@@ -4,9 +4,9 @@ metadata:
   name: scrypted-pvc-replicated
   namespace: scrypted
 spec:
-  storageClassName: ceph-filesystem
+  storageClassName: ceph-block
   accessModes:
-    - ReadWriteMany
+    - ReadWriteOnce
   resources:
     requests:
       storage: 10Gi
@@ -26,7 +26,7 @@ spec:
   restic:
     repository: "volsync-secret"
     copyMethod: "Snapshot"
-    storageClassName: "ceph-filesystem"
-    volumeSnapshotClassName: csi-ceph-filesystem
+    storageClassName: "ceph-block"
+    volumeSnapshotClassName: csi-ceph-blockpool
     capacity: "10Gi"
     accessModes: ["ReadWriteOnce"]
