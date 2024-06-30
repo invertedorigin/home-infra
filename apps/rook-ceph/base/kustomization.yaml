@@ -23,6 +23,9 @@ helmCharts:
   valuesInLine:
     operatorNamespace: rook-ceph
     cephClusterSpec:
+      storage:
+        config:
+          osdsPerDevice: "2"
       network:
         hostNetwork: true
       mgr:
