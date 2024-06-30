@@ -15,20 +15,18 @@ helmCharts:
   version: 3.2.1
   releaseName: scrypted
   valuesInline:
-    defaultPodOptions:
-      hostNetwork: true
     controllers:
       main:
-        # pod:
-        #   annotations:
-        #     k8s.v1.cni.cncf.io/networks: |-
-        #       [
-        #         {
-        #           "name": "macvlan-conf-dhcp",
-        #           "namespace": "kube-system",
-        #           "mac": "fa:77:a4:fe:98:91"
-        #         }
-        #       ]
+        pod:
+          annotations:
+            k8s.v1.cni.cncf.io/networks: |-
+              [
+                {
+                  "name": "macvlan-conf-dhcp",
+                  "namespace": "kube-system",
+                  "mac": "fa:77:a4:fe:98:91"
+                }
+              ]
         containers:
           main:
             image:
