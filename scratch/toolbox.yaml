@@ -36,4 +36,3 @@ spec:
           hostPath:
             path: /var/lib
             type: Directory
-
