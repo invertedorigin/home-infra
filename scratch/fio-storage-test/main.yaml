@@ -4,7 +4,7 @@ metadata:
   name: test-volume-two
   namespace: default
 spec:
-  storageClassName: ceph-block
+  storageClassName: ceph-filesystem
   resources:
     requests:
       storage: 100Gi
