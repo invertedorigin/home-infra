@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: test-volume
+  name: test-volume-two
   namespace: default
 spec:
   storageClassName: ceph-block
@@ -63,4 +63,4 @@ spec:
       volumes:
         - name: volume
           persistentVolumeClaim:
-            claimName: test-volume
+            claimName: test-volume-two
