@@ -4,3 +4,5 @@ metadata:
   name: scrypted
   annotations:
     volsync.backube/privileged-movers: "true"
+  labels:
+    pod-security.kubernetes.io/enforce: privileged
