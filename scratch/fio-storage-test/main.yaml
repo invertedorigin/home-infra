@@ -4,12 +4,25 @@ metadata:
   name: test-volume-two
   namespace: default
 spec:
-  storageClassName: ceph-filesystem
+  storageClassName: ceph-block
   resources:
     requests:
       storage: 100Gi
   accessModes:
     - ReadWriteOnce
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: test-volume-fs
+  namespace: default
+spec:
+  storageClassName: ceph-filesystem
+  resources:
+    requests:
+      storage: 100Gi
+  accessModes:
+    - ReadWriteMany
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -53,6 +66,8 @@ spec:
           volumeMounts:
             - mountPath: /volume
               name: volume
+            - mountPath: /volumefs
+              name: volume-fs
           resources:
             limits:
               cpu: 2000m
@@ -64,3 +79,6 @@ spec:
         - name: volume
           persistentVolumeClaim:
             claimName: test-volume-two
+        - name: volume-fs
+          persistentVolumeClaim:
+            claimName: test-volume-fs

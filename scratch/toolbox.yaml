@@ -1,9 +1,10 @@
 apiVersion: apps/v1
-kind: Deployment
+kind: StatefulSet
 metadata:
   name: alpine-shell
-  namespace: kube-system
+  namespace: default
 spec:
+  serviceName: "alpine-shell"
   replicas: 3
   selector:
     matchLabels:
@@ -26,13 +27,35 @@ spec:
       containers:
         - name: alpine-shell
           image: alpine
-          command: ["/bin/sh"]
-          args: ["-c", "while true; do sleep 3600; done"]
+          args:
+            - sh
+            - -c
+            - |
+              apk add util-linux pciutils usbutils coreutils binutils findutils grep iproute2
+              apk add fio
+              # test volume performance
+              dd if=/dev/zero of=/volume/test.fio bs=4M count=1000 oflag=direct 2>&1 | tee /volume/$NODENAME-ddSequentialWrite-volume.log
+              dd if=/volume/test.fio of=/dev/null bs=4M iflag=direct 2>&1 | tee /volume/$NODENAME-ddSequentialRead-volume.log
+              fio --name 4krandwrite-volume --filename /volume/test.fio --size=4G --ioengine libaio --direct 1 --rw randwrite --bs 4k --runtime 30s --numjobs 4 --iodepth=32 --group_reporting --rwmixwrite=100 | tee /volume/$NODENAME-fio4krandwrite-volume.log
+              fio --name 4krandread-volume --filename /volume/test.fio --size=4G --ioengine libaio --direct 1 --rw randread --bs 4k --runtime 30s --numjobs 4 --iodepth=32 --group_reporting --rwmixread=100 | tee /volume/$NODENAME-fio4krandread-volume.log
+
+              # We use this to keep the Pod running after tests are done
+              tail -f /dev/null
+          env:
+            - name: NODENAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: spec.nodeName
           volumeMounts:
-            - name: varlib
-              mountPath: /hostvolume
-      volumes:
-        - name: varlib
-          hostPath:
-            path: /var/lib
-            type: Directory
+            - name: volume
+              mountPath: /volume
+  volumeClaimTemplates:
+    - metadata:
+        name: volume
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        storageClassName: "ceph-block"
+        resources:
+          requests:
+            storage: 100Gi
+
