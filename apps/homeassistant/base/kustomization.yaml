@@ -8,6 +8,7 @@ resources:
 - backup.yaml
 - external-secret.yaml
 - pvc.yaml
+- service-monitor.yaml
 
 
 helmCharts:
