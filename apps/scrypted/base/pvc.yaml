@@ -4,7 +4,7 @@ metadata:
   name: scrypted-pvc-replicated
   namespace: scrypted
 spec:
-  storageClassName: onghorn-sticky
+  storageClassName: longhorn-sticky
   accessModes:
     - ReadWriteOnce
   resources:
