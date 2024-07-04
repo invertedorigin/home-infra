@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: debian-deployment
+  labels:
+    app: debian-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: debian-app
+  template:
+    metadata:
+      labels:
+        app: debian-app
+    spec:
+      containers:
+      - name: debian-container
+        image: debian:latest
+        command: ["/bin/sh", "-c", "--"]
+        args: ["while true; do sleep 30; done;"]
+        securityContext:
+          privileged: true
+        volumeMounts:
+        - name: dri
+          mountPath: /dev/dri
+      volumes:
+      - name: dri
+        hostPath:
+          path: /dev/dri
+          type: Directory
+

@@ -45,6 +45,8 @@ helmCharts:
               requests:
                 cpu: 450m
                 memory: 4Gi
+            securityContext:
+              privileged: true
 
     service:
       main:
@@ -77,3 +79,9 @@ helmCharts:
         existingClaim: scrypted-pvc-replicated
         globalMounts:
           - path: /server/volume
+      graphcs:
+        enabled: true
+        type: hostPath
+        globalMounts:
+          - path: /dev/dri
+        hostPath: /dev/dri
