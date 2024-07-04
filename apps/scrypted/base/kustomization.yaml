@@ -85,3 +85,9 @@ helmCharts:
         globalMounts:
           - path: /dev/dri
         hostPath: /dev/dri
+      video:
+        enabled: true
+        type: hostPath
+        globalMounts:
+          - path: /dev/video
+        hostPath: /dev/video
