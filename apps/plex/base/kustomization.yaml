@@ -14,6 +14,9 @@ helmCharts:
   releaseName: clusterplex
   valuesInLine:
     global:
+      plexImage:
+        repository: plexinc/pms-docker
+        tag: plexpass
       sharedStorage:
         transcode:
           storageClass: ceph-filesystem
