@@ -41,9 +41,12 @@ helmCharts:
           requests:
             cpu: 2
             memory: 3Gi
+            amd.com/gpu: 1
+          limits:
+            amd.com/gpu: 1
       worker:
         config:
-          replicas: 3
+          replicas: 0
         env:
           FFMPEG_HWACCEL: vaapi
         securityContext:
