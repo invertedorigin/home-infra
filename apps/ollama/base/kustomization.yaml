@@ -50,8 +50,7 @@ helmCharts:
         - hosts:
             - *host
           secretName: oolama-tls-domain
-    
-helmCharts:
+
 - name: open-webui
   repo: https://helm.openwebui.com/
   version: v3.0.5
