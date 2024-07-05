@@ -25,3 +25,13 @@ helmCharts:
           plexClaimToken: claim-FN8gyrYuiG4TE-eCSY_y
         configVolume:
             storageClass: ceph-block
+      worker:
+        env:
+          FFMPEG_HWACCEL: vaapi
+        securityContext:
+          privileged: true
+        resources:
+          requests:
+            cpu: 2
+            memory: 3Gi
+            amd.com/gpu: 1
