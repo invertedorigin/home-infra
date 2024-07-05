@@ -66,3 +66,25 @@ helmCharts:
           amd.com/gpu: 1
         limits:
           amd.com/gpu: 1
+
+patches:
+  - target:
+      kind: Deployment
+      name: clusterplex-pms
+    patch: |-
+      apiVersion: apps/v1
+      kind: Deployment
+      metadata:
+        name: clusterplex-pms
+      spec:
+        template:
+          metadata:
+            annotations:
+              k8s.v1.cni.cncf.io/networks: |-
+                [
+                  {
+                    "name": "macvlan-conf-dhcp",
+                    "namespace": "kube-system",
+                    "mac": "2a:c1:8d:18:f2:44"
+                  }
+                ]
