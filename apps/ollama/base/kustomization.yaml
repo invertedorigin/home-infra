@@ -35,21 +35,6 @@ helmCharts:
         enabled: true
         type: "amd"
         number: 1
-    ingress:
-      enabled: true
-      className: nginx
-      annotations:
-        kubernetes.io/ingress.class: "nginx"
-        cert-manager.io/cluster-issuer: "cloudflare-issuer"
-      hosts:
-        - host: &host ollama.invertedorigin.com
-          paths:
-            - path: /
-              pathType: Prefix
-      tls:
-        - hosts:
-            - *host
-          secretName: oolama-tls-domain
 
 - name: open-webui
   repo: https://helm.openwebui.com/
@@ -62,4 +47,12 @@ helmCharts:
       enabled: false
     ollamaUrls: ["http://ollama.ollama.svc.cluster.local:11434"]
     ingress:
-      enabled: false
+      enabled: true
+      class: "nginx"
+      # -- Use appropriate annotations for your Ingress controller, e.g., for NGINX:
+      # nginx.ingress.kubernetes.io/rewrite-target: /
+      annotations:
+        kubernetes.io/ingress.class: "nginx"
+        cert-manager.io/cluster-issuer: "cloudflare-issuer"
+      host: "ollama.invertedorigin.com"
+      tls: true
