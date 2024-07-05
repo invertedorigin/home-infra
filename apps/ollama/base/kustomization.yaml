@@ -12,7 +12,7 @@ helmCharts:
   version: v0.40.0
   releaseName: ollama
   valuesInLine:
-    replicaCount: 1
+    replicaCount: 0
     extraEnv:
       - name: HSA_OVERRIDE_GFX_VERSION
         value: "10.3.0"
