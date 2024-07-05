@@ -7,60 +7,60 @@ resources:
 
 namespace: plex
 
-helmCharts:
-- name: clusterplex
-  repo: http://pabloromeo.github.io/clusterplex
-  version: v1.1.7
-  releaseName: clusterplex
-  valuesInLine:
-    global:
-      plexImage:
-        repository: plexinc/pms-docker
-        tag: plexpass
-      sharedStorage:
-        transcode:
-          storageClass: ceph-filesystem
-        media:
-          storageClass: ceph-filesystem
-        worker:
-          storageClass: ceph-block
-        additionalMediaVolumes:
-          drivers:
-            enabled: true
-            existingClaim: plex-drivers
-            mountPath: /config/Library/Application Support/Plex Media Server/Drivers
+# helmCharts:
+# - name: clusterplex
+#   repo: http://pabloromeo.github.io/clusterplex
+#   version: v1.1.7
+#   releaseName: clusterplex
+#   valuesInLine:
+#     global:
+#       plexImage:
+#         repository: plexinc/pms-docker
+#         tag: plexpass
+#       sharedStorage:
+#         transcode:
+#           storageClass: ceph-filesystem
+#         media:
+#           storageClass: ceph-filesystem
+#         worker:
+#           storageClass: ceph-block
+#         additionalMediaVolumes:
+#           drivers:
+#             enabled: true
+#             existingClaim: plex-drivers
+#             mountPath: /config/Library/Application Support/Plex Media Server/Drivers
 
-          cache:
-            enabled: true
-            existingClaim: plex-cache
-            mountPath: /config/Library/Application Support/Plex Media Server/Cache
-    orchestrator:
-      enabled: false
-    pms:
-      config:
-        transcodeOperatingMode: local
-      configVolume:
-          storageClass: ceph-block
-      resources:
-        requests:
-          cpu: 2
-          memory: 3Gi
-          amd.com/gpu: 1
-        limits:
-          amd.com/gpu: 1
-      ingressConfig:
-          enabled: true
-          annotations:
-            kubernetes.io/ingress.class: "nginx"
-            cert-manager.io/cluster-issuer: "cloudflare-issuer"
-          hosts:
-            - host: &host plex.invertedorigin.com
-              paths:
-                - path: /
-                  pathType: Prefix
-          tls:
-            - hosts:
-                - *host
-              secretName: plexa-tls-domain
-    worker:
-      enabled: false
+#           cache:
+#             enabled: true
+#             existingClaim: plex-cache
+#             mountPath: /config/Library/Application Support/Plex Media Server/Cache
+#     orchestrator:
+#       enabled: false
+#     pms:
+#       config:
+#         transcodeOperatingMode: local
+#       configVolume:
+#           storageClass: ceph-block
+#       resources:
+#         requests:
+#           cpu: 2
+#           memory: 3Gi
+#           amd.com/gpu: 1
+#         limits:
+#           amd.com/gpu: 1
+#       ingressConfig:
+#           enabled: true
+#           annotations:
+#             kubernetes.io/ingress.class: "nginx"
+#             cert-manager.io/cluster-issuer: "cloudflare-issuer"
+#           hosts:
+#             - host: &host plex.invertedorigin.com
+#               paths:
+#                 - path: /
+#                   pathType: Prefix
+#           tls:
+#             - hosts:
+#                 - *host
+#               secretName: plexa-tls-domain
+#     worker:
+#       enabled: false
