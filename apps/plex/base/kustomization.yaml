@@ -35,3 +35,5 @@ helmCharts:
             cpu: 2
             memory: 3Gi
             amd.com/gpu: 1
+          limits:
+            amd.com/gpu: 1
