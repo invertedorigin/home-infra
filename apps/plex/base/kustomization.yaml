@@ -32,7 +32,7 @@ helmCharts:
             existingClaim: plex-cache
             mountPath: /config/Library/Application Support/Plex Media Server/Cache
     pms:
-     serviceConfig:
+      serviceConfig:
         type: LoadBalancer
       config:
         transcodeOperatingMode: local
