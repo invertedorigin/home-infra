@@ -50,3 +50,10 @@ helmCharts:
           FFMPEG_HWACCEL: vaapi
         securityContext:
           privileged: true
+        resources:
+          requests:
+            cpu: 2
+            memory: 3Gi
+            amd.com/gpu: 1
+          limits:
+            amd.com/gpu: 1
