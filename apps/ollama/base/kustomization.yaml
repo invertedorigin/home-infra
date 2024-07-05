@@ -12,11 +12,12 @@ helmCharts:
   version: v0.40.0
   releaseName: ollama
   valuesInLine:
+    replicaCount: 3
     extraEnv:
       - name: HSA_OVERRIDE_GFX_VERSION
-        value: "9.0.0"
-      - name: HSA_ENABLE_SDMA
-        value: "0"
+        value: "10.3.0"
+      - name: HCC_AMDGPU_TARGETS
+        value: "gfx1035"
     podLabels:
       app: ollama
     affinity:
