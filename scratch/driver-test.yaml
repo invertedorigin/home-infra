@@ -39,4 +39,3 @@ spec:
         hostPath:
           path: /dev/dri
           type: Directory
-
