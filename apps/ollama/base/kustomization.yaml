@@ -32,6 +32,7 @@ helmCharts:
           topologyKey: "kubernetes.io/hostname"
     ollama:
       gpu:
+        enabled: true
         type: "amd"
         number: 1
     ingress:
