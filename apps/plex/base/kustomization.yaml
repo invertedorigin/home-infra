@@ -31,6 +31,8 @@ helmCharts:
             enabled: true
             existingClaim: plex-cache
             mountPath: /config/Library/Application Support/Plex Media Server/Cache
+    orchestrator:
+      enabled: false
     pms:
       config:
         transcodeOperatingMode: local
