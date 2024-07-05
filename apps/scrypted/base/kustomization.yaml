@@ -5,7 +5,7 @@ namespace: scrypted
 
 resources:
 - namespace.yaml
-#- backup.yaml
+- backup.yaml
 - external-secret.yaml
 - pvc.yaml
 
