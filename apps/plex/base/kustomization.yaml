@@ -52,10 +52,10 @@ helmCharts:
           privileged: true
         resources:
           requests:
-            cpu: 2
+            cpu: 1
             memory: 1Gi
             amd.com/gpu: 1
           limits:
             amd.com/gpu: 1
-            cpu: 2
+            cpu: 1
             memory: 1Gi
