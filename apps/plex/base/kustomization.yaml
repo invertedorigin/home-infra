@@ -3,7 +3,7 @@ kind: Kustomization
 
 resources:
 - namespace.yaml
-#- pvc.yaml
+- pvc.yaml
 
 namespace: plex
 
@@ -21,16 +21,16 @@ helmCharts:
             storageClass: ceph-filesystem
           worker:
             storageClass: ceph-block
-          # additionalMediaVolumes:
-          #   drivers:
-          #     enabled: true
-          #     existingClaim: plex-drivers
-          #     mountPath: /config/Library/Application Support/Plex Media Server/Drivers
+          additionalMediaVolumes:
+            drivers:
+              enabled: true
+              existingClaim: plex-drivers
+              mountPath: /config/Library/Application Support/Plex Media Server/Drivers
 
-          #   cache:
-          #     enabled: true
-          #     existingClaim: plex-cache
-          #     mountPath: /config/Library/Application Support/Plex Media Server/Cache
+            cache:
+              enabled: true
+              existingClaim: plex-cache
+              mountPath: /config/Library/Application Support/Plex Media Server/Cache
       pms:
         config:
           plexClaimToken: claim-FN8gyrYuiG4TE-eCSY_y
