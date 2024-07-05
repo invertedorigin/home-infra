@@ -6,7 +6,7 @@ metadata:
 spec:
   storageClassName: ceph-filesystem
   accessModes:
-    - ReadWriteOnce
+    - ReadWriteMany
   resources:
     requests:
       storage: 5Gi
@@ -19,7 +19,7 @@ metadata:
 spec:
   storageClassName: ceph-filesystem
   accessModes:
-    - ReadWriteOnce
+    - ReadWriteMany
   resources:
     requests:
       storage: 5Gi
