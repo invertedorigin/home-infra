@@ -54,7 +54,6 @@ helmCharts:
         - hosts:
             - *host
           secretName: ollama-api-tls-domain
-    
 
 - name: open-webui
   repo: https://helm.openwebui.com/
