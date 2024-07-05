@@ -34,9 +34,16 @@ helmCharts:
       pms:
         config:
           plexClaimToken: claim-FN8gyrYuiG4TE-eCSY_y
-          transcodeOperatingMode: remote
+          transcodeOperatingMode: local
         configVolume:
             storageClass: ceph-block
+        resources:
+          requests:
+            cpu: 2
+            memory: 3Gi
+            amd.com/gpu: 1
+          limits:
+            amd.com/gpu: 1
       worker:
         env:
           FFMPEG_HWACCEL: vaapi
