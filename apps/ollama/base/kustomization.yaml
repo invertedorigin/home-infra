@@ -34,9 +34,6 @@ helmCharts:
       gpu:
         type: "amd"
         number: 1
-      models:
-        - mistral
-        - llama3
     ingress:
       enabled: true
       className: nginx
