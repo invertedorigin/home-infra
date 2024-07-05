@@ -61,6 +61,6 @@ helmCharts:
       enabled: false
     pipelines:
       enabled: false
-    ollamaUrls: ["http://ollama.ollama.svc.clusetr.local:11434"]
+    ollamaUrls: ["http://ollama.ollama.svc.cluster.local:11434"]
     ingress:
       enabled: false
