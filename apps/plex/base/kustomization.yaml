@@ -32,6 +32,17 @@ helmCharts:
             existingClaim: plex-cache
             mountPath: /config/Library/Application Support/Plex Media Server/Cache
     pms:
+      resources:
+        requests:
+          cpu: 2
+          memory: 3Gi
+          amd.com/gpu: 1
+        limits:
+          amd.com/gpu: 1
+      healthProbes:
+        startup: false
+        readiness: false
+        liveness: false
       config:
         transcodeOperatingMode: local
       configVolume:
@@ -51,8 +62,9 @@ helmCharts:
                 - *host
               secretName: plexa-tls-domain
     worker:
+      enabled: false
       config:
-        replicas: 2
+        replicas: 3
       env:
         FFMPEG_HWACCEL: vaapi
       securityContext:
