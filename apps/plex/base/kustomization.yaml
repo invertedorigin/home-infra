@@ -34,6 +34,7 @@ helmCharts:
       pms:
         config:
           plexClaimToken: claim-FN8gyrYuiG4TE-eCSY_y
+          transcodeOperatingMode: remote
         configVolume:
             storageClass: ceph-block
       worker:
