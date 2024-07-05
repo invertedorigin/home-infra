@@ -64,17 +64,4 @@ helmCharts:
     ollamaUrls:
       - [["http://ollama.ollama.svc.clusetr.local:11434"]]
     ingress:
-      enabled: true
-      className: nginx
-      annotations:
-        kubernetes.io/ingress.class: "nginx"
-        cert-manager.io/cluster-issuer: "cloudflare-issuer"
-      hosts:
-        - host: &host ollama.invertedorigin.com
-          paths:
-            - path: /
-              pathType: Prefix
-      tls:
-        - hosts:
-            - *host
-          secretName: oolama-tls-domain
+      enabled: false
