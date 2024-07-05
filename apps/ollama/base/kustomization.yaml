@@ -51,3 +51,28 @@ helmCharts:
             - *host
           secretName: oolama-tls-domain
     
+helmCharts:
+- name: open-webui
+  repo: https://helm.openwebui.com/
+  version: v3.0.5
+  releaseName: open-webui
+  valuesInLine:
+    ollama:
+      enabled: false
+    ollamaUrls:
+      - [["http://ollama.ollama.svc.clusetr.local:11434"]]
+    ingress:
+      enabled: true
+      className: nginx
+      annotations:
+        kubernetes.io/ingress.class: "nginx"
+        cert-manager.io/cluster-issuer: "cloudflare-issuer"
+      hosts:
+        - host: &host ollama.invertedorigin.com
+          paths:
+            - path: /
+              pathType: Prefix
+      tls:
+        - hosts:
+            - *host
+          secretName: oolama-tls-domain
