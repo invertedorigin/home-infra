@@ -46,7 +46,7 @@ helmCharts:
             amd.com/gpu: 1
       worker:
         config:
-          replicas: 0
+          replicas: 1
         env:
           FFMPEG_HWACCEL: vaapi
         securityContext:
