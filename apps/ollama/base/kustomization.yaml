@@ -37,6 +37,24 @@ helmCharts:
         enabled: true
         type: "amd"
         number: 1
+    ingress:
+      enabled: true
+      className: nginx
+      annotations:
+        kubernetes.io/ingress.class: "nginx"
+        cert-manager.io/cluster-issuer: "cloudflare-issuer"
+        nginx.ingress.kubernetes.io/proxy-body-size: "600m"
+        nginx.org/client-max-body-size: "600m"
+      hosts:
+        - host: &host ollama-api.invertedorigin.com
+          paths:
+            - path: /
+              pathType: Prefix
+      tls:
+        - hosts:
+            - *host
+          secretName: ollama-api-tls-domain
+    
 
 - name: open-webui
   repo: https://helm.openwebui.com/
