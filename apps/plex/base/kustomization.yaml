@@ -21,20 +21,11 @@ helmCharts:
           storageClass: ceph-filesystem
         worker:
           storageClass: ceph-block
-    orchestrator:
-      enabled: false
     pms:
       config:
-        transcodeOperatingMode: local
+        transcodeOperatingMode: remote
       configVolume:
           storageClass: ceph-block
-      resources:
-        requests:
-          cpu: 2
-          memory: 3Gi
-          amd.com/gpu: 1
-        limits:
-          amd.com/gpu: 1
       ingressConfig:
           enabled: true
           annotations:
@@ -50,4 +41,16 @@ helmCharts:
                 - *host
               secretName: plexa-tls-domain
     worker:
-      enabled: false
+      config:
+        replicas: 2
+      env:
+        FFMPEG_HWACCEL: vaapi
+      securityContext:
+        privileged: true
+      resources:
+        requests:
+          cpu: 2
+          memory: 3Gi
+          amd.com/gpu: 1
+        limits:
+          amd.com/gpu: 1
