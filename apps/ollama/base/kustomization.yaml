@@ -17,11 +17,10 @@ helmCharts:
         value: "10.3.0"
       - name: HCC_AMDGPU_TARGETS
         value: "gfx1035"
-
+    podLabels:
+      app: ollama
+    replicas: 3
     affinity:
-      replicas: 3
-      podLabels:
-        app: ollama
       podAntiAffinity:
         requiredDuringSchedulingIgnoredDuringExecution:
         - labelSelector:
@@ -31,9 +30,6 @@ helmCharts:
               values:
               - ollama
           topologyKey: "kubernetes.io/hostname"
-    persistentVolume:
-      enabled: true
-      storageClass: longhorn-sticky
     ollama:
       gpu:
         type: "amd"
