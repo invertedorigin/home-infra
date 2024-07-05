@@ -33,7 +33,6 @@ namespace: plex
 #               mountPath: /config/Library/Application Support/Plex Media Server/Cache
 #       pms:
 #         config:
-#           plexClaimToken: claim-FN8gyrYuiG4TE-eCSY_y
 #           transcodeOperatingMode: local
 #         configVolume:
 #             storageClass: ceph-block
