@@ -15,11 +15,12 @@ helmCharts:
     extraEnv:
       - name: HSA_OVERRIDE_GFX_VERSION
         value: "10.3.0"
+      - name: HSA_ENABLE_SDMA
+        value: "0"
       - name: HCC_AMDGPU_TARGETS
         value: "gfx1035"
     podLabels:
       app: ollama
-    replicas: 3
     affinity:
       podAntiAffinity:
         requiredDuringSchedulingIgnoredDuringExecution:
