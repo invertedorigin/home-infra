@@ -6,74 +6,74 @@ namespace: esphome
 resources:
 - namespace.yaml
 - backup.yaml
-- pvc.yaml
+#- pvc.yaml
 - external-secret.yaml
 
 
-helmCharts:
-- name: app-template
-  repo: https://bjw-s.github.io/helm-charts/
-  version: 3.2.1
-  releaseName: esphome
-  valuesInline:
-    controllers:
-      esphome:
-        pod:
-          annotations:
-            k8s.v1.cni.cncf.io/networks: |-
-              [
-                {
-                  "name": "macvlan-conf-dhcp",
-                  "namespace": "kube-system",
-                  "mac": "4a:c1:7d:22:f2:27"
-                }
-              ]
-        containers:
-          app:
-            image:
-              repository: ghcr.io/esphome/esphome
-              tag: 2024.6.6
-            probes:
-              liveness:
-                enabled: false
-              readiness:
-                enabled: false
-              startup:
-                enabled: false
-            resources:
-              requests:
-                cpu: 6m
-                memory: 105Mi
-              limits:
-                memory: 105Mi
+# helmCharts:
+# - name: app-template
+#   repo: https://bjw-s.github.io/helm-charts/
+#   version: 3.2.1
+#   releaseName: esphome
+#   valuesInline:
+#     controllers:
+#       esphome:
+#         pod:
+#           annotations:
+#             k8s.v1.cni.cncf.io/networks: |-
+#               [
+#                 {
+#                   "name": "macvlan-conf-dhcp",
+#                   "namespace": "kube-system",
+#                   "mac": "4a:c1:7d:22:f2:27"
+#                 }
+#               ]
+#         containers:
+#           app:
+#             image:
+#               repository: ghcr.io/esphome/esphome
+#               tag: 2024.6.6
+#             probes:
+#               liveness:
+#                 enabled: false
+#               readiness:
+#                 enabled: false
+#               startup:
+#                 enabled: false
+#             resources:
+#               requests:
+#                 cpu: 6m
+#                 memory: 105Mi
+#               limits:
+#                 memory: 105Mi
 
-    service:
-      app:
-        controller: esphome
-        ports:
-          http:
-            port: 6052
+#     service:
+#       app:
+#         controller: esphome
+#         ports:
+#           http:
+#             port: 6052
 
-    ingress:
-      app:
-        enabled: true
-        annotations:
-          kubernetes.io/ingress.class: "nginx"
-          cert-manager.io/cluster-issuer: "cloudflare-issuer"
-        hosts:
-          - host: &host esphome.invertedorigin.com
-            paths:
-              - path: /
-                service:
-                  name: app
-                  port: 6052
-        tls:
-          - hosts:
-              - *host
-            secretName: esphome-tls-domain
+#     ingress:
+#       app:
+#         enabled: true
+#         annotations:
+#           kubernetes.io/ingress.class: "nginx"
+#           cert-manager.io/cluster-issuer: "cloudflare-issuer"
+#         hosts:
+#           - host: &host esphome.invertedorigin.com
+#             paths:
+#               - path: /
+#                 service:
+#                   name: app
+#                   port: 6052
+#         tls:
+#           - hosts:
+#               - *host
+#             secretName: esphome-tls-domain
 
-    persistence:
-      media:
-        existingClaim: esphome-pvc-replicated
-        globalMounts:
-          - path: /config
+#     persistence:
+#       media:
+#         existingClaim: esphome-pvc-replicated
+#         globalMounts:
+#           - path: /config
