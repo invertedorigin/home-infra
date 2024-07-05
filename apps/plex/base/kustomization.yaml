@@ -33,7 +33,7 @@ helmCharts:
             mountPath: /config/Library/Application Support/Plex Media Server/Cache
     pms:
       config:
-        transcodeOperatingMode: remote
+        transcodeOperatingMode: both
       configVolume:
           storageClass: ceph-block
       resources:
