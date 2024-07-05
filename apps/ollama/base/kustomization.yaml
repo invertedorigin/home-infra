@@ -1,0 +1,59 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+- namespace.yaml
+
+namespace: ollama
+
+helmCharts:
+- name: ollama
+  repo: https://otwld.github.io/ollama-helm/
+  version: v0.40.0
+  releaseName: ollama
+  valuesInLine:
+    extraEnv:
+      - name: HSA_OVERRIDE_GFX_VERSION
+        value: "10.3.0"
+      - name: HCC_AMDGPU_TARGETS
+        value: "gfx1035"
+
+    affinity:
+      replicas: 3
+      podLabels:
+        app: ollama
+      podAntiAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+        - labelSelector:
+            matchExpressions:
+            - key: app
+              operator: In
+              values:
+              - ollama
+          topologyKey: "kubernetes.io/hostname"
+    persistentVolume:
+      enabled: true
+      storageClass: longhorn-sticky
+    ollama:
+      gpu:
+        type: "amd"
+        number: 1
+      models:
+        - mistral
+        - llama3
+    ingress:
+      enabled: true
+      className: nginx
+      annotations:
+        kubernetes.io/ingress.class: "nginx"
+        cert-manager.io/cluster-issuer: "cloudflare-issuer"
+      hosts:
+        - host: &host ollama.invertedorigin.com
+          paths:
+            - path: /
+              pathType: Prefix
+      tls:
+        - hosts:
+            - *host
+          secretName: oolama-tls-domain
+    
