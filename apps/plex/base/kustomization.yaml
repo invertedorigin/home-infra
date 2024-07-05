@@ -6,21 +6,22 @@ resources:
 
 namespace: plex
 
-# helmCharts:
-# - name: clusterplex
-#   repo: http://pabloromeo.github.io/clusterplex
-#   version: v1.1.7
-#   releaseName: clusterplex
-#   valuesInLine:
-#     sharedStorage:
-#       transcode:
-#         storageClass: ceph-filesystem
-#       media:
-#         storageClass: ceph-filesystem
-#       worker:
-#         storageClass: ceph-block
-#       pms:
-#         config:
-#           plexClaimToken: claim-FN8gyrYuiG4TE-eCSY_y
-#         configVolume:
-#             storageClass: ceph-block
+helmCharts:
+- name: clusterplex
+  repo: http://pabloromeo.github.io/clusterplex
+  version: v1.1.7
+  releaseName: clusterplex
+  valuesInLine:
+      global:
+        sharedStorage:
+          transcode:
+            storageClass: ceph-filesystem
+          media:
+            storageClass: ceph-filesystem
+          worker:
+            storageClass: ceph-block
+      pms:
+        config:
+          plexClaimToken: claim-FN8gyrYuiG4TE-eCSY_y
+        configVolume:
+            storageClass: ceph-block
