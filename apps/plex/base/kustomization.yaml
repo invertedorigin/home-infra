@@ -33,7 +33,7 @@ helmCharts:
             mountPath: /config/Library/Application Support/Plex Media Server/Cache
     pms:
       config:
-        transcodeOperatingMode: both
+        transcodeOperatingMode: local
       configVolume:
           storageClass: ceph-block
       resources:
@@ -58,16 +58,4 @@ helmCharts:
                 - *host
               secretName: plexa-tls-domain
     worker:
-      config:
-        replicas: 2
-      env:
-        FFMPEG_HWACCEL: vaapi
-      securityContext:
-        privileged: true
-      resources:
-        requests:
-          cpu: 2
-          memory: 3Gi
-          amd.com/gpu: 1
-        limits:
-          amd.com/gpu: 1
+      enabled: false
