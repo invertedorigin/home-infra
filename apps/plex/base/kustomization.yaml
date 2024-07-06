@@ -77,7 +77,7 @@ helmCharts:
             paths:
               - path: /
                 service:
-                  name: app
+                  name: plex
                   port: 32400
         tls:
           - hosts:
