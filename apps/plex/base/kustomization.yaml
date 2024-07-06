@@ -78,7 +78,7 @@ helmCharts:
               - path: /
                 service:
                   name: app
-                  port: http
+                  port: 32400
         tls:
           - hosts:
               - *host
