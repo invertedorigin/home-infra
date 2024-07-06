@@ -105,10 +105,3 @@ helmCharts:
         existingClaim: plex-media
         globalMounts:
           - path: /media
-      amdgpus:
-        type: configMap
-        name: amdgpu-ids
-        globalMounts:
-          - path: /home/runner/actions-runner/_work/plex-conan/plex-conan/.conan/data/libdrm/2.4.120-0/plex/main/build/73ee780ba6ea3ef381da6e7f229c475bfaf477ca/meson-install/share/libdrm/amdgpu.ids
-            subPath: amdgpu.ids
-            readOnly: true
