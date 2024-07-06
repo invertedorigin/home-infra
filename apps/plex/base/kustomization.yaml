@@ -3,98 +3,105 @@ kind: Kustomization
 
 resources:
 - namespace.yaml
-#- pvc.yaml
+- pvc.yaml
 
 namespace: plex
 
-# helmCharts:
-# - name: clusterplex
-#   repo: http://pabloromeo.github.io/clusterplex
-#   version: v1.1.7
-#   releaseName: clusterplex
-#   valuesInLine:
-#     global:
-#       sharedStorage:
-#         transcode:
-#           storageClass: ceph-filesystem
-#         media:
-#           storageClass: ceph-filesystem
-#         worker:
-#           storageClass: ceph-block
-#         additionalMediaVolumes:
-#           drivers:
-#             enabled: true
-#             existingClaim: plex-drivers
-#             mountPath: /config/Library/Application Support/Plex Media Server/Drivers
-
-#           cache:
-#             enabled: true
-#             existingClaim: plex-cache
-#             mountPath: /config/Library/Application Support/Plex Media Server/Cache
-#     pms:
-#       resources:
-#         requests:
-#           cpu: 2
-#           memory: 3Gi
-#           amd.com/gpu: 1
-#         limits:
-#           amd.com/gpu: 1
-#       healthProbes:
-#         startup: false
-#         readiness: false
-#         liveness: false
-#       config:
-#         transcodeOperatingMode: local
-#       configVolume:
-#           storageClass: ceph-block
-#       ingressConfig:
-#           enabled: true
-#           annotations:
-#             kubernetes.io/ingress.class: "nginx"
-#             cert-manager.io/cluster-issuer: "cloudflare-issuer"
-#           hosts:
-#             - host: &host plex.invertedorigin.com
-#               paths:
-#                 - path: /
-#                   pathType: Prefix
-#           tls:
-#             - hosts:
-#                 - *host
-#               secretName: plexa-tls-domain
-#     worker:
-#       enabled: false
-#       config:
-#         replicas: 3
-#       env:
-#         FFMPEG_HWACCEL: vaapi
-#       securityContext:
-#         privileged: true
-#       resources:
-#         requests:
-#           cpu: 2
-#           memory: 3Gi
-#           amd.com/gpu: 1
-#         limits:
-#           amd.com/gpu: 1
-
-# patches:
-#   - target:
-#       kind: Deployment
-#       name: clusterplex-pms
-#     patch: |-
-#       apiVersion: apps/v1
-#       kind: Deployment
-#       metadata:
-#         name: clusterplex-pms
-#       spec:
-#         template:
-#           metadata:
-#             annotations:
-#               k8s.v1.cni.cncf.io/networks: |-
-#                 [
-#                   {
-#                     "name": "macvlan-conf-dhcp",
-#                     "namespace": "kube-system",
-#                     "mac": "2a:c1:8d:18:f2:44"
-#                   }
-#                 ]
+helmCharts:
+- name: app-template
+  repo: https://bjw-s.github.io/helm-charts/
+  version: 3.2.1
+  releaseName: plex
+  valuesInline:
+    controllers:
+      plex:
+        containers:
+          app:
+            image:
+              repository: ghcr.io/onedr0p/plex
+              tag: 1.40.3.8555-fef15d30c@sha256:82353ee29f0ba3e782aad43bb2be7c1e04b071b9fc83d6c551ef853793f48ab4
+            env:
+              TZ: America/Chicago
+              PLEX_ADVERTISE_URL: https://plex.invertedorigin.com:443,http://10.0.1.7:32400
+              PLEX_NO_AUTH_NETWORKS: 10.0.1.0/24
+            probes:
+              liveness: &probes
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /identity
+                    port: 32400
+                  initialDelaySeconds: 0
+                  periodSeconds: 10
+                  timeoutSeconds: 1
+                  failureThreshold: 3
+              readiness: *probes
+              startup:
+                enabled: true
+                spec:
+                  failureThreshold: 30
+                  periodSeconds: 10
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              capabilities: { drop: ["ALL"] }
+            resources:
+              requests:
+                cpu: 100m
+              limits:
+                amd.com/gpu: 1
+    defaultPodOptions:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 568
+        runAsGroup: 568
+        fsGroup: 568
+        fsGroupChangePolicy: OnRootMismatch
+        supplementalGroups: [44, 10000]
+        seccompProfile: { type: RuntimeDefault }
+    service:
+      app:
+        controller: plex
+        type: LoadBalancer
+        ports:
+          http:
+            port: 32400
+    ingress:
+      app:
+        annotations:
+          kubernetes.io/ingress.class: "nginx"
+          cert-manager.io/cluster-issuer: "cloudflare-issuer"
+        hosts:
+          - host: &host plex.invertedorigin.com
+            paths:
+              - path: /
+                service:
+                  name: app
+                  port: http
+        tls:
+          - hosts:
+              - *host
+            secretName: plex-tls-domain
+    persistence:
+      config:
+        existingClaim: plex
+        globalMounts:
+          - path: /config/Library/Application Support/Plex Media Server
+      cache:
+        existingClaim: plex-cache
+        globalMounts:
+          - path: /config/Library/Application Support/Plex Media Server/Cache
+      logs:
+        type: emptyDir
+        globalMounts:
+          - path: /config/Library/Application Support/Plex Media Server/Logs
+      tmp:
+        type: emptyDir
+      transcode:
+        type: emptyDir
+      media:
+        existingClaim: plex-media
+        globalMounts:
+          - path: /media
+            readOnly: true
