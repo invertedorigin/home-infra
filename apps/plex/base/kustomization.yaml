@@ -104,4 +104,3 @@ helmCharts:
         existingClaim: plex-media
         globalMounts:
           - path: /media
-            readOnly: true
