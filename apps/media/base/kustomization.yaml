@@ -8,7 +8,6 @@ resources:
   - external-secret.yaml
   - pg-cluster.yaml
   - pvc.yaml
-  - external-service.yaml
 
 configMapGenerator:
   - name: recyclarr-configmap
