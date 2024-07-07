@@ -355,7 +355,7 @@ helmCharts:
             - 65536
       persistence:
         config:
-          type: emptyDir
+          existingClaim: sabnzbd
         logs:
           type: emptyDir
           globalMounts:
