@@ -619,7 +619,7 @@ helmCharts:
                 - path: /
                   service:
                     name: overseerr
-                    port: 32400
+                    port: 5055
           tls:
             - hosts:
                 - *host
