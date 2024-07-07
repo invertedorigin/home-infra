@@ -1,0 +1,99 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+  - namespace.yaml
+  - externalsecret.yaml
+
+# helmCharts:
+#   - name: app-template
+#     repo: https://bjw-s.github.io/helm-charts/
+#     version: 3.2.1
+#     releaseName: sonarr
+#     valuesInLine:
+#       controllers:
+#         sonarr:
+#           initContainers:
+#             init-db:
+#               image:
+#                 repository: ghcr.io/buroa/postgres-init
+#                 tag: 16
+#               envFrom: &envFrom
+#                 - secretRef:
+#                     name: sonarr-secret
+#           containers:
+#             app: &appcontainer
+#               image:
+#                 repository: ghcr.io/buroa/sonarr-develop
+#                 tag: 4.0.5.1801@sha256:4d87712a4b59bedb65e6414b003a3003eadb68ea84620eb81639469469123463
+#               env:
+#                 SONARR__APP__INSTANCE: Sonarr
+#                 SONARR__APP__THEME: dark
+#                 SONARR__AUTH__METHOD: External
+#                 SONARR__AUTH__REQUIRED: DisabledForLocalAddresses
+#                 SONARR__LOG__LEVEL: info
+#                 SONARR__SERVER__PORT: &port 8989
+#                 SONARR__UPDATE__BRANCH: develop
+#                 TZ: America/Chicago
+#               envFrom: *envFrom
+#               probes:
+#                 liveness: &probes
+#                   enabled: true
+#                   custom: true
+#                   spec:
+#                     httpGet:
+#                       path: /ping
+#                       port: *port
+#                     initialDelaySeconds: 0
+#                     periodSeconds: 10
+#                     timeoutSeconds: 1
+#                     failureThreshold: 3
+#                 readiness: *probes
+#               resources:
+#                 requests:
+#                   cpu: 10m
+#                 limits:
+#                   memory: 1Gi
+#               securityContext:
+#                 allowPrivilegeEscalation: false
+#                 readOnlyRootFilesystem: true
+#                 capabilities:
+#                   drop:
+#                     - ALL
+#       defaultPodOptions:
+#         securityContext:
+#           runAsNonRoot: true
+#           runAsUser: 568
+#           runAsGroup: 568
+#           fsGroup: 568
+#           fsGroupChangePolicy: OnRootMismatch
+#       persistence:
+#         config:
+#           type: emptyDir
+#         logs:
+#           type: emptyDir
+#           globalMounts:
+#             - path: /config/logs
+#         tmp:
+#           type: emptyDir
+#       ingress:
+#         app:
+#           enabled: true
+#           className: tailscale
+#           hosts:
+#             - host: *app
+#               paths:
+#                 - path: /
+#                   pathType: Prefix
+#                   service:
+#                     identifier: app
+#                     port: http
+#           tls:
+#             - hosts:
+#                 - *app
+#       service:
+#         app:
+#           controller: *app
+#           ports:
+#             http:
+#               port: *port
