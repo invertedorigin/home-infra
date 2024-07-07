@@ -8,6 +8,7 @@ resources:
   - external-secret.yaml
   - pg-cluster.yaml
   - pvc.yaml
+  - external-service.yaml
 
 helmCharts:
   - name: app-template
