@@ -2,20 +2,20 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: plex-media
-  namespace: plex
+  namespace: media
 spec:
-  storageClassName: ceph-block
+  storageClassName: ceph-filesystem
   accessModes:
-    - ReadWriteOnce
+    - ReadWriteMany
   resources:
     requests:
-      storage: 250Gi
+      storage: 750Gi
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: plex
-  namespace: plex
+  name: plex-config
+  namespace: media
 spec:
   storageClassName: ceph-block
   accessModes:
@@ -28,7 +28,7 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: plex-cache
-  namespace: plex
+  namespace: media
 spec:
   storageClassName: ceph-block
   accessModes:
