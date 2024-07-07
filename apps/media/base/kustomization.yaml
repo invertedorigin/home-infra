@@ -99,7 +99,7 @@ helmCharts:
               secretName: sonarr-tls-domain
       service:
         app:
-          controller: *app
+          controller: sonarr
           ports:
             http:
               port: *port
