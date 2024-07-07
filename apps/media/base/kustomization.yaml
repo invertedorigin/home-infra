@@ -202,6 +202,95 @@ helmCharts:
   - name: app-template
     repo: https://bjw-s.github.io/helm-charts/
     version: 3.2.1
+    releaseName: prowlarr
+    valuesInLine:
+      controllers:
+        prowlarr:
+          initContainers:
+            init-db:
+              image:
+                repository: ghcr.io/buroa/postgres-init
+                tag: 16
+              envFrom: &envFrom
+                - secretRef:
+                    name: prowlarr-secret
+          containers:
+            app: &appcontainer
+              image:
+                repository: ghcr.io/buroa/prowlarr-develop
+                tag: 1.20.0.4590@sha256:73aa0765131c3de84de8d87e258526dac9a44e6976f76fa49f46f9612c1c2b1e
+              env:
+                PROWLARR__APP__INSTANCENAME: Prowlarr
+                PROWLARR__APP__THEME: dark
+                PROWLARR__AUTH__METHOD: External
+                PROWLARR__AUTH__REQUIRED: DisabledForLocalAddresses
+                PROWLARR__LOG__LEVEL: info
+                PROWLARR__SERVER__PORT: &port 9696
+                PROWLARR__UPDATE__BRANCH: develop
+                TZ: America/Chicago
+              envFrom: *envFrom
+              probes:
+                liveness: &probes
+                  enabled: true
+                  custom: true
+                  spec:
+                    httpGet:
+                      path: /ping
+                      port: *port
+                    initialDelaySeconds: 0
+                    periodSeconds: 10
+                    timeoutSeconds: 1
+                    failureThreshold: 3
+                readiness: *probes
+              resources:
+                requests:
+                  cpu: 10m
+                limits:
+                  memory: 512Mi
+              securityContext:
+                allowPrivilegeEscalation: false
+                readOnlyRootFilesystem: true
+                capabilities:
+                  drop:
+                    - ALL
+      defaultPodOptions:
+        securityContext:
+          runAsNonRoot: true
+          runAsUser: 568
+          runAsGroup: 568
+      persistence:
+        config:
+          type: emptyDir
+        tmp:
+          type: emptyDir
+      ingress:
+        app:
+          enabled: true
+          annotations:
+            kubernetes.io/ingress.class: "nginx"
+            cert-manager.io/cluster-issuer: "cloudflare-issuer"
+          hosts:
+            - host: &host prowlarr.invertedorigin.com
+              paths:
+                - path: /
+                  pathType: Prefix
+                  service:
+                    identifier: app
+                    port: http
+          tls:
+            - hosts:
+                - *host
+              secretName: prowlarr-tls-domain
+      service:
+        app:
+          controller: prowlarr
+          ports:
+            http:
+              port: *port
+
+  - name: app-template
+    repo: https://bjw-s.github.io/helm-charts/
+    version: 3.2.1
     releaseName: sabnzbd
     valuesInLine:
       controllers:
