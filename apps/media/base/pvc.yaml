@@ -48,3 +48,15 @@ spec:
     requests:
       storage: 2Gi
   storageClassName: longhorn-sticky
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: recyclarr
+spec:
+  accessModes: 
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 2Gi
+  storageClassName: longhorn-sticky
