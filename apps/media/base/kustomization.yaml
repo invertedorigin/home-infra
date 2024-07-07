@@ -80,6 +80,8 @@ helmCharts:
             - path: /config/logs
         tmp:
           type: emptyDir
+        media:
+          existingClaim: plex-media
       ingress:
         app:
           enabled: true
@@ -175,6 +177,8 @@ helmCharts:
             - path: /config/logs
         tmp:
           type: emptyDir
+        media:
+          existingClaim: plex-media
       ingress:
         app:
           enabled: true
@@ -264,6 +268,8 @@ helmCharts:
           type: emptyDir
         tmp:
           type: emptyDir
+        media:
+          existingClaim: plex-media
       ingress:
         app:
           enabled: true
@@ -356,6 +362,8 @@ helmCharts:
             - path: /config/logs
         tmp:
           type: emptyDir
+        media:
+          existingClaim: plex-media
       ingress:
         app:
           enabled: true
@@ -475,5 +483,3 @@ helmCharts:
           type: emptyDir
         media:
           existingClaim: plex-media
-          globalMounts:
-            - path: /media
