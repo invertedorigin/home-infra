@@ -103,3 +103,98 @@ helmCharts:
           ports:
             http:
               port: *port
+
+  - name: app-template
+    repo: https://bjw-s.github.io/helm-charts/
+    version: 3.2.1
+    releaseName: radarr
+    valuesInLine:
+      controllers:
+        sonarr:
+          initContainers:
+            init-db:
+              image:
+                repository: ghcr.io/buroa/postgres-init
+                tag: 16
+              envFrom: &envFrom
+                - secretRef:
+                    name: radarr-secret
+          containers:
+            app: &appcontainer
+              image:
+                repository: ghcr.io/buroa/radarr-develop
+                tag: 5.8.0.8897@sha256:56c421b6cd5db2e06667400682132ad16815f3c124737a59dd6fcb3038f8b14b
+              env:
+                RADARR__APP__INSTANCENAME: Radarr
+                RADARR__APP__THEME: dark
+                RADARR__AUTH__METHOD: External
+                RADARR__AUTH__REQUIRED: DisabledForLocalAddresses
+                RADARR__LOG__LEVEL: info
+                RADARR__SERVER__PORT: &port 7878
+                RADARR__UPDATE__BRANCH: develop
+                TZ: America/Chicago
+              envFrom: *envFrom
+              probes:
+                liveness: &probes
+                  enabled: true
+                  custom: true
+                  spec:
+                    httpGet:
+                      path: /ping
+                      port: *port
+                    initialDelaySeconds: 0
+                    periodSeconds: 10
+                    timeoutSeconds: 1
+                    failureThreshold: 3
+                readiness: *probes
+              resources:
+                requests:
+                  cpu: 10m
+                limits:
+                  memory: 1Gi
+              securityContext:
+                allowPrivilegeEscalation: false
+                readOnlyRootFilesystem: true
+                capabilities:
+                  drop:
+                    - ALL
+      defaultPodOptions:
+        securityContext:
+          runAsNonRoot: true
+          runAsUser: 568
+          runAsGroup: 568
+          fsGroup: 568
+          fsGroupChangePolicy: OnRootMismatch
+      persistence:
+        config:
+          type: emptyDir
+        logs:
+          type: emptyDir
+          globalMounts:
+            - path: /config/logs
+        tmp:
+          type: emptyDir
+      ingress:
+        app:
+          enabled: true
+          annotations:
+            kubernetes.io/ingress.class: "nginx"
+            cert-manager.io/cluster-issuer: "cloudflare-issuer"
+          hosts:
+            - host: &host radarr.invertedorigin.com
+              paths:
+                - path: /
+                  pathType: Prefix
+                  service:
+                    identifier: app
+                    port: http
+          tls:
+            - hosts:
+                - *host
+              secretName: radarr-tls-domain
+      service:
+        app:
+          controller: radarr
+          ports:
+            http:
+              port: *port
