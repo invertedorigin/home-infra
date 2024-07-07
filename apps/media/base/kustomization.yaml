@@ -198,10 +198,11 @@ helmCharts:
           ports:
             http:
               port: *port
+
   - name: app-template
     repo: https://bjw-s.github.io/helm-charts/
     version: 3.2.1
-    releaseName: radarr
+    releaseName: sabnzbd
     valuesInLine:
       controllers:
         sabnzbd:
