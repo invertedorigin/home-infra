@@ -110,7 +110,7 @@ helmCharts:
     releaseName: radarr
     valuesInLine:
       controllers:
-        sonarr:
+        radarr:
           initContainers:
             init-db:
               image:
