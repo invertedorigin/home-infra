@@ -3,7 +3,7 @@ kind: Service
 metadata:
   annotations:
     tailscale.com/tailnet-ip: 100.73.192.49
-  name: prowlarr
+  name: prowlarr-exernal
 spec:
   externalName: placeholder
   type: ExternalName
