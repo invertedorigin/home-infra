@@ -42,7 +42,7 @@ kind: PersistentVolumeClaim
 metadata:
   name: sabnzbd
 spec:
-  accessModes: 
+  accessModes:
     - ReadWriteOnce
   resources:
     requests:
@@ -54,7 +54,7 @@ kind: PersistentVolumeClaim
 metadata:
   name: recyclarr
 spec:
-  accessModes: 
+  accessModes:
     - ReadWriteOnce
   resources:
     requests:
@@ -66,7 +66,7 @@ kind: PersistentVolumeClaim
 metadata:
   name: overseerr-cache
 spec:
-  accessModes: 
+  accessModes:
     - ReadWriteOnce
   resources:
     requests:
@@ -78,7 +78,7 @@ kind: PersistentVolumeClaim
 metadata:
   name: overseerr
 spec:
-  accessModes: 
+  accessModes:
     - ReadWriteOnce
   resources:
     requests:
