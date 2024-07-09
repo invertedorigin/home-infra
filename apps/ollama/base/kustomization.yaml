@@ -12,6 +12,9 @@ helmCharts:
   version: 0.42.0
   releaseName: ollama
   valuesInLine:
+    image:
+      repository: ollama/ollama
+      tag: "rcom"
     replicaCount: 1
     extraEnv:
       - name: HSA_OVERRIDE_GFX_VERSION
