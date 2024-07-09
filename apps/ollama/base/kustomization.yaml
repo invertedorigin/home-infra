@@ -19,7 +19,7 @@ helmCharts:
       - name: HCC_AMDGPU_TARGETS
         value: "gfx1035"
       - name: OLLAMA_NUM_PARALLEL
-        value: 2
+        value: "2"
     podLabels:
       app: ollama
     affinity:
