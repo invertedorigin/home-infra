@@ -15,7 +15,7 @@ helmCharts:
     image:
       repository: ollama/ollama
       tag: "0.2.1-rocm"
-    replicaCount: 1
+    replicaCount: 2
     extraEnv:
       - name: HSA_OVERRIDE_GFX_VERSION
         value: "10.3.0"
@@ -36,8 +36,6 @@ helmCharts:
               - ollama
           topologyKey: "kubernetes.io/hostname"
     ollama:
-      models:
-        - llama3:8b
       gpu:
         enabled: true
         type: "amd"
