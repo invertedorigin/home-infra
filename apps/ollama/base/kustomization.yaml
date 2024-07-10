@@ -72,6 +72,9 @@ helmCharts:
   valuesInLine:
     ollama:
       enabled: false
+    persistence:
+      enabled: true
+      existingClaim: open-webui
     pipelines:
       enabled: false
     ollamaUrls: ["http://ollama.ollama.svc.cluster.local:11434"]

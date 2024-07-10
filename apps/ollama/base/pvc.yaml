@@ -10,3 +10,16 @@ spec:
   resources:
     requests:
       storage: 50Gi
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: open-webui
+  namespace: ollama
+spec:
+  storageClassName: ceph-filesystem
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 50Gi
