@@ -3,6 +3,7 @@ kind: Kustomization
 
 resources:
 - namespace.yaml
+- pvc.yaml
 
 namespace: ollama
 
@@ -35,6 +36,10 @@ helmCharts:
               values:
               - ollama
           topologyKey: "kubernetes.io/hostname"
+
+    persistentVolume:
+      enabled: true
+      existingClaim: ollama
     ollama:
       gpu:
         enabled: true
