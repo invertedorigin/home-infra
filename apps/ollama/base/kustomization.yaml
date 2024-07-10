@@ -40,6 +40,8 @@ helmCharts:
     persistentVolume:
       enabled: true
       existingClaim: ollama
+    updateStrategy:
+     type: Recreate
     ollama:
       gpu:
         enabled: true
