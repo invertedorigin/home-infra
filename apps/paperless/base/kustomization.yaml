@@ -69,7 +69,7 @@ helmCharts:
           sftp:
             image:
               repository: ghcr.io/atmoz/sftp/debian
-              tag: latest@sha256:8d4b8d93f172d826b9b690a3cd34fdd5ea74e27abe2d59cdb319f6b20ff24115
+              tag: latest@sha256:4c59da1d62ccf7a21921c7bbb3ac25e0a463b341a6369299ca61ddee11df31ff
             args: ["paperless:pass:1000"]
             probes:
               liveness:
