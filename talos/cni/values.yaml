@@ -17,7 +17,7 @@ ipam:
 # ipv4NativeRoutingCIDR: 10.244.0.0/16
 k8sServiceHost: localhost
 k8sServicePort: 7445
-kubeProxyReplacement: strict
+kubeProxyReplacement: true
 kubeProxyReplacementHealthzBindAddr: 0.0.0.0:10256
 loadBalancer:
   algorithm: maglev
