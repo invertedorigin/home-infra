@@ -161,7 +161,7 @@ helmCharts:
   releaseName: rm520-prometheus-exporter
   valuesInline:
     controllers:
-      powertochoose-prometheus-exporter:
+      rm520-prometheus-exporter:
         containers:
           app:
             image:
