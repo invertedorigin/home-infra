@@ -18,7 +18,7 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  "id": 38,
+  "id": 6,
   "links": [],
   "panels": [
     {
@@ -274,7 +274,15 @@
         },
         {
           "id": "convertFieldType",
-          "options": {}
+          "options": {
+            "conversions": [
+              {
+                "destinationType": "other",
+                "targetField": "value"
+              }
+            ],
+            "fields": {}
+          }
         }
       ],
       "type": "stat"
@@ -359,7 +367,15 @@
         },
         {
           "id": "convertFieldType",
-          "options": {}
+          "options": {
+            "conversions": [
+              {
+                "destinationType": "other",
+                "targetField": "value"
+              }
+            ],
+            "fields": {}
+          }
         }
       ],
       "type": "stat"
@@ -1133,6 +1149,6 @@
   "timezone": "browser",
   "title": "Cellular Status",
   "uid": "edt6fnpjhgflsf",
-  "version": 5,
+  "version": 2,
   "weekStart": ""
 }
