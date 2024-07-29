@@ -59,7 +59,7 @@
           "calcs": [
             "lastNotNull"
           ],
-          "fields": "/^value$/",
+          "fields": "/^cellid$/",
           "values": false
         },
         "showPercentChange": false,
@@ -76,7 +76,7 @@
           "editorMode": "code",
           "expr": "pcid",
           "instant": false,
-          "legendFormat": "Cell ID: {{cellid}} ",
+          "legendFormat": "__auto",
           "range": true,
           "refId": "A"
         }
@@ -84,13 +84,32 @@
       "title": "Cell ID",
       "transformations": [
         {
+          "id": "joinByField",
+          "options": {
+            "byField": "Time",
+            "mode": "outer"
+          }
+        },
+        {
           "id": "labelsToFields",
           "options": {
             "keepLabels": [
               "cellid"
             ],
-            "mode": "rows",
-            "valueLabel": "cellid"
+            "mode": "columns",
+            "valueLabel": "__name__"
+          }
+        },
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {
+              "pcid 1": true,
+              "pcid 2": true
+            },
+            "includeByName": {},
+            "indexByName": {},
+            "renameByName": {}
           }
         }
       ],
@@ -140,7 +159,7 @@
           "calcs": [
             "lastNotNull"
           ],
-          "fields": "/^value$/",
+          "fields": "/^mode$/",
           "values": false
         },
         "showPercentChange": false,
@@ -157,7 +176,7 @@
           "editorMode": "code",
           "expr": "pcid",
           "instant": false,
-          "legendFormat": "Cell ID: {{cellid}} ",
+          "legendFormat": "__auto",
           "range": true,
           "refId": "A"
         }
@@ -165,12 +184,19 @@
       "title": "Mode",
       "transformations": [
         {
+          "id": "joinByField",
+          "options": {
+            "byField": "Time",
+            "mode": "outer"
+          }
+        },
+        {
           "id": "labelsToFields",
           "options": {
             "keepLabels": [
               "mode"
             ],
-            "mode": "rows",
+            "mode": "columns",
             "valueLabel": "cellid"
           }
         },
@@ -185,7 +211,7 @@
                     "\"TDD\""
                   ]
                 },
-                "targetField": "value"
+                "targetField": "mode"
               }
             ],
             "fields": {}
@@ -1065,7 +1091,14 @@
           ],
           "show": false
         },
-        "showHeader": true
+        "frameIndex": 0,
+        "showHeader": true,
+        "sortBy": [
+          {
+            "desc": false,
+            "displayName": "Time"
+          }
+        ]
       },
       "pluginVersion": "11.1.0",
       "targets": [
@@ -1076,6 +1109,7 @@
           },
           "editorMode": "code",
           "expr": "pcid",
+          "format": "table",
           "instant": false,
           "legendFormat": "Cell ID: {{cellid}} ",
           "range": true,
@@ -1085,15 +1119,38 @@
       "title": "Latest Cell Info Table",
       "transformations": [
         {
-          "id": "labelsToFields",
+          "id": "organize",
           "options": {
-            "keepLabels": [
-              "cellid",
-              "mode",
-              "duplexmode"
-            ],
-            "mode": "columns",
-            "valueLabel": "__name__"
+            "excludeByName": {
+              "__name__": true,
+              "endpoint": true,
+              "instance": true,
+              "job": true,
+              "namespace": true,
+              "pod": true,
+              "service": true,
+              "url": true
+            },
+            "includeByName": {},
+            "indexByName": {
+              "Time": 0,
+              "Value": 3,
+              "__name__": 1,
+              "cellid": 2,
+              "duplexmode": 4,
+              "endpoint": 5,
+              "instance": 6,
+              "job": 7,
+              "mode": 8,
+              "namespace": 9,
+              "pod": 10,
+              "service": 11,
+              "state": 12,
+              "url": 13
+            },
+            "renameByName": {
+              "Value": "pcid"
+            }
           }
         },
         {
@@ -1102,34 +1159,18 @@
             "conversions": [
               {
                 "destinationType": "other",
-                "enumConfig": {
-                  "text": [
-                    "\"TDD\""
-                  ]
-                },
                 "targetField": "duplexmode"
               },
               {
                 "destinationType": "other",
                 "targetField": "mode"
+              },
+              {
+                "destinationType": "other",
+                "targetField": "state"
               }
             ],
             "fields": {}
-          }
-        },
-        {
-          "id": "organize",
-          "options": {
-            "excludeByName": {},
-            "includeByName": {},
-            "indexByName": {
-              "Cell ID: 183C1712D ": 4,
-              "Time": 0,
-              "cellid": 1,
-              "duplexmode": 3,
-              "mode": 2
-            },
-            "renameByName": {}
           }
         }
       ],
@@ -1142,13 +1183,13 @@
     "list": []
   },
   "time": {
-    "from": "now-30m",
+    "from": "now-3h",
     "to": "now"
   },
   "timepicker": {},
   "timezone": "browser",
   "title": "Cellular Status",
   "uid": "edt6fnpjhgflsf",
-  "version": 2,
+  "version": 5,
   "weekStart": ""
 }
