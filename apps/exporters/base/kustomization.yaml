@@ -186,7 +186,7 @@ helmCharts:
         controller: rm520-prometheus-exporter
         ports:
           http:
-            port: 8080
+            port: 8000
 
     serviceMonitor:
       app:
