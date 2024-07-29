@@ -596,8 +596,8 @@ helmCharts:
         cert-manager:
           url: https://raw.githubusercontent.com/monitoring-mixins/website/master/assets/cert-manager/dashboards/cert-manager.json
           datasource: Prometheus
-        linstor:
-          url: https://raw.githubusercontent.com/invertedorigin/home-infra/main/apps/monitoring/linstor_dashboard.json
+        cellular:
+          url: https://raw.githubusercontent.com/invertedorigin/home-infra/main/apps/monitoring/cellular_dashboard.json
           datasource: Prometheus
         royal:
           url: https://raw.githubusercontent.com/invertedorigin/home-infra/main/apps/monitoring/royal_dashboard.json
