@@ -153,3 +153,47 @@ helmCharts:
             path: /metrics
             interval: 6h
             scrapeTimeout: 30s
+
+- name: app-template
+  repo: https://bjw-s.github.io/helm-charts
+  version: 3.2.1
+  namespace: custom-prom-exporters
+  releaseName: rm520-prometheus-exporter
+  valuesInline:
+    controllers:
+      powertochoose-prometheus-exporter:
+        containers:
+          app:
+            image:
+              repository: ghcr.io/invertedorigin/simple-admin-prom-exporter
+              tag: main
+            resources:
+              requests:
+                cpu: 6m
+                memory: 105Mi
+              limits:
+                memory: 105Mi
+            probes:
+              liveness:
+                enabled: false
+              readiness:
+                enabled: false
+              startup:
+                enabled: false
+
+    service:
+      app:
+        controller: rm520-prometheus-exporter
+        ports:
+          http:
+            port: 8080
+
+    serviceMonitor:
+      app:
+        serviceName: rm520-prometheus-exporter
+        endpoints:
+          - port: http
+            scheme: http
+            path: /metrics
+            interval: 60s
+            scrapeTimeout: 30s
