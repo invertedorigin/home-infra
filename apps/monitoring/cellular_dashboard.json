@@ -175,7 +175,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "code",
-          "expr": "pcid",
+          "expr": "pcid{cellid=\"$cellids\"}",
           "instant": false,
           "legendFormat": "__auto",
           "range": true,
@@ -280,7 +280,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "code",
-          "expr": "pcid",
+          "expr": "pcid{cellid=\"$cellids\"}",
           "format": "table",
           "instant": false,
           "legendFormat": "Cell ID: {{cellid}} ",
@@ -364,7 +364,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "code",
-          "expr": "pcid",
+          "expr": "pcid{cellid=\"$cellids\"}",
           "format": "table",
           "instant": false,
           "legendFormat": "Cell ID: {{cellid}} ",
@@ -448,8 +448,8 @@
             "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "code",
-          "expr": "band",
-          "format": "table",
+          "expr": "band{cellid=\"$cellids\"}",
+          "format": "time_series",
           "instant": false,
           "legendFormat": "Cell ID: {{cellid}} ",
           "range": true,
@@ -515,10 +515,10 @@
             "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "code",
-          "expr": "(nrdlbw -2)  * 10",
-          "format": "table",
+          "expr": "(nrdlbw{cellid=\"$cellids\"} -2)  * 10",
+          "format": "time_series",
           "instant": false,
-          "legendFormat": "__auto",
+          "legendFormat": "Cell ID: {{cellid}}",
           "range": true,
           "refId": "A"
         }
@@ -586,8 +586,8 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "sinr",
-          "format": "table",
+          "expr": "sinr{cellid=\"$cellids\"}",
+          "format": "time_series",
           "instant": false,
           "legendFormat": "Cell ID: {{cellid}} ",
           "range": true,
@@ -657,8 +657,8 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "rsrq",
-          "format": "table",
+          "expr": "rsrq{cellid=\"$cellids\"}",
+          "format": "time_series",
           "instant": false,
           "legendFormat": "Cell ID: {{cellid}} ",
           "range": true,
@@ -789,8 +789,8 @@
             "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "code",
-          "expr": "pcid",
-          "format": "table",
+          "expr": "pcid{cellid=\"$cellids\"}",
+          "format": "time_series",
           "instant": false,
           "legendFormat": "Cell ID: {{cellid}} ",
           "range": true,
@@ -859,8 +859,8 @@
             "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "code",
-          "expr": "txpower",
-          "format": "table",
+          "expr": "txpower{cellid=\"$cellids\"}",
+          "format": "time_series",
           "instant": false,
           "legendFormat": "Cell ID: {{cellid}} ",
           "range": true,
@@ -953,10 +953,10 @@
             "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "code",
-          "expr": "100 * (sinr - (-10)) / (25 - (-10))",
-          "format": "table",
+          "expr": "100 * (sinr{cellid=\"$cellids\"} - (-10)) / (25 - (-10))",
+          "format": "time_series",
           "instant": false,
-          "legendFormat": "Cell ID: {{cellid}} ",
+          "legendFormat": "{{cellid}}",
           "range": true,
           "refId": "A"
         }
@@ -1023,8 +1023,8 @@
             "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "code",
-          "expr": "rsrp",
-          "format": "table",
+          "expr": "rsrp{cellid=\"$cellids\"}",
+          "format": "time_series",
           "instant": false,
           "legendFormat": "Cell ID: {{cellid}} ",
           "range": true,
@@ -1102,7 +1102,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "code",
-          "expr": "pcid",
+          "expr": "pcid{cellid=\"$cellids\"}",
           "format": "table",
           "instant": false,
           "legendFormat": "Cell ID: {{cellid}} ",
@@ -1171,19 +1171,45 @@
       "type": "table"
     }
   ],
+  "refresh": "",
   "schemaVersion": 39,
   "tags": [],
   "templating": {
-    "list": []
+    "list": [
+      {
+        "current": {
+          "selected": true,
+          "text": "183C1712D",
+          "value": "183C1712D"
+        },
+        "definition": "label_values(cellid)",
+        "hide": 0,
+        "includeAll": false,
+        "label": "Cell IDs",
+        "multi": false,
+        "name": "cellids",
+        "options": [],
+        "query": {
+          "qryType": 1,
+          "query": "label_values(cellid)",
+          "refId": "PrometheusVariableQueryEditor-VariableQuery"
+        },
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "type": "query"
+      }
+    ]
   },
   "time": {
-    "from": "now-3h",
+    "from": "now-6h",
     "to": "now"
   },
   "timepicker": {},
   "timezone": "browser",
   "title": "Cellular Status",
   "uid": "edt6fnpjhgflsf",
-  "version": 7,
+  "version": 10,
   "weekStart": ""
 }
