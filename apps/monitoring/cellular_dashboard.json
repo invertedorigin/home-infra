@@ -75,6 +75,7 @@
           },
           "editorMode": "code",
           "expr": "pcid",
+          "format": "table",
           "instant": false,
           "legendFormat": "__auto",
           "range": true,
@@ -264,7 +265,7 @@
           "calcs": [
             "lastNotNull"
           ],
-          "fields": "/^value$/",
+          "fields": "/^duplexmode$/",
           "values": false
         },
         "showPercentChange": false,
@@ -280,6 +281,7 @@
           },
           "editorMode": "code",
           "expr": "pcid",
+          "format": "table",
           "instant": false,
           "legendFormat": "Cell ID: {{cellid}} ",
           "range": true,
@@ -289,22 +291,12 @@
       "title": "Duplex Mode",
       "transformations": [
         {
-          "id": "labelsToFields",
-          "options": {
-            "keepLabels": [
-              "duplexmode"
-            ],
-            "mode": "rows",
-            "valueLabel": "cellid"
-          }
-        },
-        {
           "id": "convertFieldType",
           "options": {
             "conversions": [
               {
                 "destinationType": "other",
-                "targetField": "value"
+                "targetField": "duplexmode"
               }
             ],
             "fields": {}
@@ -357,7 +349,7 @@
           "calcs": [
             "lastNotNull"
           ],
-          "fields": "/^value$/",
+          "fields": "/^state$/",
           "values": false
         },
         "showPercentChange": false,
@@ -373,6 +365,7 @@
           },
           "editorMode": "code",
           "expr": "pcid",
+          "format": "table",
           "instant": false,
           "legendFormat": "Cell ID: {{cellid}} ",
           "range": true,
@@ -382,22 +375,12 @@
       "title": "Connection",
       "transformations": [
         {
-          "id": "labelsToFields",
-          "options": {
-            "keepLabels": [
-              "state"
-            ],
-            "mode": "rows",
-            "valueLabel": "cellid"
-          }
-        },
-        {
           "id": "convertFieldType",
           "options": {
             "conversions": [
               {
                 "destinationType": "other",
-                "targetField": "value"
+                "targetField": "state"
               }
             ],
             "fields": {}
@@ -466,6 +449,7 @@
           },
           "editorMode": "code",
           "expr": "band",
+          "format": "table",
           "instant": false,
           "legendFormat": "Cell ID: {{cellid}} ",
           "range": true,
@@ -532,6 +516,7 @@
           },
           "editorMode": "code",
           "expr": "(nrdlbw -2)  * 10",
+          "format": "table",
           "instant": false,
           "legendFormat": "__auto",
           "range": true,
@@ -600,7 +585,9 @@
             "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "code",
+          "exemplar": false,
           "expr": "sinr",
+          "format": "table",
           "instant": false,
           "legendFormat": "Cell ID: {{cellid}} ",
           "range": true,
@@ -669,7 +656,9 @@
             "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "code",
+          "exemplar": false,
           "expr": "rsrq",
+          "format": "table",
           "instant": false,
           "legendFormat": "Cell ID: {{cellid}} ",
           "range": true,
@@ -735,6 +724,7 @@
           },
           "editorMode": "code",
           "expr": "arfcn",
+          "format": "table",
           "instant": false,
           "legendFormat": "Cell ID: {{cellid}} ",
           "range": true,
@@ -800,6 +790,7 @@
           },
           "editorMode": "code",
           "expr": "pcid",
+          "format": "table",
           "instant": false,
           "legendFormat": "Cell ID: {{cellid}} ",
           "range": true,
@@ -869,6 +860,7 @@
           },
           "editorMode": "code",
           "expr": "txpower",
+          "format": "table",
           "instant": false,
           "legendFormat": "Cell ID: {{cellid}} ",
           "range": true,
@@ -962,6 +954,7 @@
           },
           "editorMode": "code",
           "expr": "100 * (sinr - (-10)) / (25 - (-10))",
+          "format": "table",
           "instant": false,
           "legendFormat": "Cell ID: {{cellid}} ",
           "range": true,
@@ -1031,6 +1024,7 @@
           },
           "editorMode": "code",
           "expr": "rsrp",
+          "format": "table",
           "instant": false,
           "legendFormat": "Cell ID: {{cellid}} ",
           "range": true,
@@ -1190,6 +1184,6 @@
   "timezone": "browser",
   "title": "Cellular Status",
   "uid": "edt6fnpjhgflsf",
-  "version": 5,
+  "version": 7,
   "weekStart": ""
 }
