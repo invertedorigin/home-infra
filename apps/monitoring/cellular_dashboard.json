@@ -1178,9 +1178,13 @@
     "list": [
       {
         "current": {
-          "selected": true,
+          "selected": false,
           "text": "183C1712D",
           "value": "183C1712D"
+        },
+        "datasource": {
+          "type": "prometheus",
+          "uid": "PBFA97CFB590B2093"
         },
         "definition": "label_values(cellid)",
         "hide": 0,
@@ -1210,6 +1214,6 @@
   "timezone": "browser",
   "title": "Cellular Status",
   "uid": "edt6fnpjhgflsf",
-  "version": 10,
+  "version": 11,
   "weekStart": ""
 }
