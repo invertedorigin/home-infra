@@ -457,6 +457,14 @@
         }
       ],
       "title": "Band",
+      "transformations": [
+        {
+          "id": "joinByLabels",
+          "options": {
+            "value": "cellid"
+          }
+        }
+      ],
       "type": "stat"
     },
     {
@@ -524,6 +532,14 @@
         }
       ],
       "title": "Bandwidth",
+      "transformations": [
+        {
+          "id": "joinByLabels",
+          "options": {
+            "value": "cellid"
+          }
+        }
+      ],
       "type": "stat"
     },
     {
@@ -595,6 +611,14 @@
         }
       ],
       "title": "SINR",
+      "transformations": [
+        {
+          "id": "joinByLabels",
+          "options": {
+            "value": "cellid"
+          }
+        }
+      ],
       "type": "stat"
     },
     {
@@ -666,6 +690,14 @@
         }
       ],
       "title": "RSRQ",
+      "transformations": [
+        {
+          "id": "joinByLabels",
+          "options": {
+            "value": "cellid"
+          }
+        }
+      ],
       "type": "stat"
     },
     {
@@ -723,8 +755,8 @@
             "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "code",
-          "expr": "arfcn",
-          "format": "table",
+          "expr": "arfcn{cellid=\"$cellids\"}",
+          "format": "time_series",
           "instant": false,
           "legendFormat": "Cell ID: {{cellid}} ",
           "range": true,
@@ -732,6 +764,14 @@
         }
       ],
       "title": "ARFCN",
+      "transformations": [
+        {
+          "id": "joinByLabels",
+          "options": {
+            "value": "cellid"
+          }
+        }
+      ],
       "type": "stat"
     },
     {
@@ -798,6 +838,14 @@
         }
       ],
       "title": "PCID",
+      "transformations": [
+        {
+          "id": "joinByLabels",
+          "options": {
+            "value": "cellid"
+          }
+        }
+      ],
       "type": "stat"
     },
     {
@@ -868,6 +916,14 @@
         }
       ],
       "title": "TX Power",
+      "transformations": [
+        {
+          "id": "joinByLabels",
+          "options": {
+            "value": "cellid"
+          }
+        }
+      ],
       "type": "stat"
     },
     {
@@ -954,7 +1010,7 @@
           },
           "editorMode": "code",
           "expr": "100 * (sinr{cellid=\"$cellids\"} - (-10)) / (25 - (-10))",
-          "format": "time_series",
+          "format": "table",
           "instant": false,
           "legendFormat": "{{cellid}}",
           "range": true,
@@ -1032,6 +1088,14 @@
         }
       ],
       "title": "RSRP",
+      "transformations": [
+        {
+          "id": "joinByLabels",
+          "options": {
+            "value": "cellid"
+          }
+        }
+      ],
       "type": "stat"
     },
     {
@@ -1207,13 +1271,13 @@
     ]
   },
   "time": {
-    "from": "now-6h",
+    "from": "now-3h",
     "to": "now"
   },
   "timepicker": {},
   "timezone": "browser",
   "title": "Cellular Status",
   "uid": "edt6fnpjhgflsf",
-  "version": 11,
+  "version": 12,
   "weekStart": ""
 }
