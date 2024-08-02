@@ -84,15 +84,3 @@ spec:
     requests:
       storage: 2Gi
   storageClassName: longhorn-sticky
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: longhorn-test
-spec:
-  accessModes:
-    - ReadWriteOnce
-  resources:
-    requests:
-      storage: 50Gi
-  storageClassName: longhorn-strict-local-standalone

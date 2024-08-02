@@ -371,8 +371,6 @@ helmCharts:
           type: emptyDir
         media:
           existingClaim: plex-media
-        testing:
-          existingClaim: longhorn-test
       ingress:
         app:
           enabled: true
