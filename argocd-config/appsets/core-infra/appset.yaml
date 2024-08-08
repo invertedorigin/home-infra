@@ -16,8 +16,6 @@ spec:
   template:
     metadata:
       name: 'core-infra-{{path[1]}}'
-      annotations:
-        argocd.argoproj.io/compare-options: ServerSideDiff=true
       labels:
         infra.keatontaylor.net/appset: core-infra
         infra.keatontaylor.net/appname: '{{path[1]}}'
