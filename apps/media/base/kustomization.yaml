@@ -19,7 +19,7 @@ generatorOptions:
 helmCharts:
   - name: app-template
     repo: https://bjw-s.github.io/helm-charts/
-    version: 3.3.1
+    version: 3.3.2
     releaseName: sonarr
     valuesInLine:
       controllers:
@@ -116,7 +116,7 @@ helmCharts:
 
   - name: app-template
     repo: https://bjw-s.github.io/helm-charts/
-    version: 3.3.1
+    version: 3.3.2
     releaseName: radarr
     valuesInLine:
       controllers:
@@ -213,7 +213,7 @@ helmCharts:
 
   - name: app-template
     repo: https://bjw-s.github.io/helm-charts/
-    version: 3.3.1
+    version: 3.3.2
     releaseName: prowlarr
     valuesInLine:
       controllers:
@@ -304,7 +304,7 @@ helmCharts:
 
   - name: app-template
     repo: https://bjw-s.github.io/helm-charts/
-    version: 3.3.1
+    version: 3.3.2
     releaseName: sabnzbd
     valuesInLine:
       controllers:
@@ -398,7 +398,7 @@ helmCharts:
 
   - name: app-template
     repo: https://bjw-s.github.io/helm-charts/
-    version: 3.3.1
+    version: 3.3.2
     releaseName: plex
     valuesInline:
       controllers:
@@ -493,7 +493,7 @@ helmCharts:
 
   - name: app-template
     repo: https://bjw-s.github.io/helm-charts/
-    version: 3.3.1
+    version: 3.3.2
     releaseName: recyclarr
     valuesInline:
       controllers:
@@ -548,7 +548,7 @@ helmCharts:
 
   - name: app-template
     repo: https://bjw-s.github.io/helm-charts/
-    version: 3.3.1
+    version: 3.3.2
     releaseName: overseerr
     valuesInLine:
       controllers:
