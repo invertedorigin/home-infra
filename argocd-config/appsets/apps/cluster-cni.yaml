@@ -14,6 +14,8 @@ spec:
   template:
     metadata:
       name: 'talos-cni'
+    annotations:
+        argocd.argoproj.io/compare-options: ServerSideDiff=true
     spec:
       project: 'infra'
       source:
