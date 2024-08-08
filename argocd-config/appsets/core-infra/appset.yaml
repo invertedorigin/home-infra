@@ -2,7 +2,6 @@ apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
   name: core-infra
-  argocd.argoproj.io/compare-options: ServerSideDiff=true
 spec:
   generators:
   - git:
@@ -17,6 +16,8 @@ spec:
   template:
     metadata:
       name: 'core-infra-{{path[1]}}'
+      annotations:
+        argocd.argoproj.io/compare-options: ServerSideDiff=true
       labels:
         infra.keatontaylor.net/appset: core-infra
         infra.keatontaylor.net/appname: '{{path[1]}}'
