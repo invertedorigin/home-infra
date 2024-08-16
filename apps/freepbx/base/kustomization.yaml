@@ -74,6 +74,7 @@ helmCharts:
               tag: 20.16.16
             env:
               TZ: "America/Chicago"
+              MYSQL_SERVER: "freepbx-mysql"
             envFrom:
               - secretRef:
                   name: freepbx-secret
