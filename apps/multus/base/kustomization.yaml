@@ -46,34 +46,6 @@ patches:
     kind: DaemonSet
     name: multus
   patch: |-
-    apiVersion: apps/v1
-    kind: Daemonset
-    metadata:
-      name: multus
-    spec:
-      template:
-        spec:
-          containers:
-          - name: multus
-            command:
-            - /thin_entrypoint
-            args:
-            - --multus-conf-file=auto
-            - --multus-autoconfig-dir=/etc/cni/net.d
-            - --cleanup-config-on-exit=false
-          initContainers:
-          - name: multus-installer
-            command:
-            - /install_multus
-            args:
-            - --type
-            - thin
-- target:
-    group: apps
-    version: v1
-    kind: DaemonSet
-    name: multus
-  patch: |-
     - op: add
       path: /spec/template/spec/initContainers/-
       value:
