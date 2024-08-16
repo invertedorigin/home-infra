@@ -24,6 +24,7 @@ helmCharts:
       paths:
         config: /etc/cni/net.d
         bin: /opt/cni/bin
+
     resources:
       requests:
         cpu: 5m
@@ -58,7 +59,7 @@ patches:
             - /thin_entrypoint
             args:
             - --multus-conf-file=auto
-            - --multus-autoconfig-dir=/host/etc/cni/net.d
+            - --multus-autoconfig-dir=/etc/cni/net.d
             - --cleanup-config-on-exit=false
           initContainers:
           - name: multus-installer
