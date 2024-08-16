@@ -12,7 +12,7 @@ images:
 helmCharts:
 - name: multus
   repo: https://angelnu.github.io/helm-charts
-  version: 5.0.4
+  version: 5.0.7
   releaseName: multus
   namespace: kube-system
   valuesInline:
