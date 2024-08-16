@@ -61,6 +61,9 @@ patches:
             - --multus-conf-file=auto
             - --multus-autoconfig-dir=/etc/cni/net.d
             - --cleanup-config-on-exit=false
+            volumeMounts:
+              - name: cni
+                mountPath: /host/etc/cni/net.d
           initContainers:
           - name: multus-installer
             command:
@@ -68,6 +71,7 @@ patches:
             args:
             - --type
             - thin
+
 - target:
     group: apps
     version: v1
