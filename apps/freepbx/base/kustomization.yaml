@@ -6,6 +6,7 @@ namespace: freepbx
 resources:
 - namespace.yaml
 - pvc.yaml
+- external-secrets.yaml
 
 helmCharts:
 - name: app-template
