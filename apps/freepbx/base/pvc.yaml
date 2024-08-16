@@ -1,0 +1,25 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: freepbx-pvc-replicated
+  namespace: freepbx
+spec:
+  storageClassName: longhorn-sticky
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 20Gi
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: freepbx-mysql-pvc-replicated
+  namespace: freepbx
+spec:
+  storageClassName: longhorn-sticky
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 20Gi

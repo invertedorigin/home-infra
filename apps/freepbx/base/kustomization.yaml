@@ -1,0 +1,50 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: freepbx
+
+resources:
+- namespace.yaml
+- pvc.yaml
+
+helmCharts:
+- name: app-template
+  repo: https://bjw-s.github.io/helm-charts/
+  version: 3.3.1
+  releaseName: freepbx
+  valuesInline:
+    controllers:
+      main:
+        containers:
+          main:
+            image:
+              repository: docker.io/mariadb
+              tag: 10.11.8
+            env:
+              TZ: "America/Chicago"
+            envFrom:
+              - secretRef:
+                  name: freepbx-secret
+            probes:
+              liveness:
+                enabled: false
+              readiness:
+                enabled: false
+              startup:
+                enabled: false
+            resources:
+              requests:
+                cpu: 50m
+                memory: 2Gi
+    service:
+      main:
+        controller: main
+        ports:
+          http:
+            port: 3306
+
+    persistence:
+      media:
+        existingClaim: freepbx-mysql-pvc-replicated
+        globalMounts:
+          - path: /var/lib/mysql
