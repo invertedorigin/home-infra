@@ -75,8 +75,8 @@ helmCharts:
             env:
               TZ: "America/Chicago"
               MYSQL_SERVER: "freepbx-mysql"
-              FAIL2BAN_ENABLED: true
-              FAIL2BAN_ASTERISK_ENABLED: true
+              FAIL2BAN_ENABLED: false
+              FAIL2BAN_ASTERISK_ENABLED: false
             envFrom:
               - secretRef:
                   name: freepbx-secret
