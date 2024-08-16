@@ -19,7 +19,7 @@ helmCharts:
           main:
             image:
               repository: docker.io/mariadb
-              tag: 10.11.8
+              tag: 10.11.9
             env:
               TZ: "America/Chicago"
             envFrom:
