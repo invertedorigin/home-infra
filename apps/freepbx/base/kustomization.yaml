@@ -12,7 +12,7 @@ helmCharts:
 - name: app-template
   repo: https://bjw-s.github.io/helm-charts/
   version: 3.3.1
-  releaseName: freepbx
+  releaseName: freepbx-mysql
   valuesInline:
     controllers:
       main:
@@ -49,3 +49,73 @@ helmCharts:
         existingClaim: freepbx-mysql-pvc-replicated
         globalMounts:
           - path: /var/lib/mysql
+
+- name: app-template
+  repo: https://bjw-s.github.io/helm-charts/
+  version: 3.3.2
+  releaseName: freepbx
+  valuesInline:
+    controllers:
+      main:
+        pod:
+          annotations:
+            k8s.v1.cni.cncf.io/networks: |-
+              [
+                {
+                  "name": "macvlan-conf-dhcp",
+                  "namespace": "kube-system",
+                  "mac": "2a:c2:1d:16:f2:11"
+                }
+              ]
+        containers:
+          main:
+            image:
+              repository: docker.io/izdock/izpbx-asterisk
+              tag: 20.16.16
+            env:
+              TZ: "America/Chicago"
+            envFrom:
+              - secretRef:
+                  name: freepbx-secret
+            probes:
+              liveness:
+                enabled: false
+              readiness:
+                enabled: false
+              startup:
+                enabled: false
+            resources:
+              requests:
+                cpu: 50m
+                memory: 2Gi
+    service:
+      main:
+        controller: main
+        ports:
+          http:
+            port: 80
+
+    ingress:
+      main:
+        enabled: true
+        annotations:
+          kubernetes.io/ingress.class: "nginx"
+          cert-manager.io/cluster-issuer: "cloudflare-issuer"
+          nginx.ingress.kubernetes.io/cors-allow-methods: "PUT, GET, POST, OPTIONS, HEAD"
+        hosts:
+          - host: &host freepbx.invertedorigin.com
+            paths:
+              - path: /
+                service:
+                  name: freepbx
+                  port: 80
+        tls:
+          - hosts:
+              - *host
+            secretName: freepbx-tls-domain
+
+    persistence:
+      media:
+        existingClaim: freepbx-pvc-replicated
+        globalMounts:
+          - path: /data
