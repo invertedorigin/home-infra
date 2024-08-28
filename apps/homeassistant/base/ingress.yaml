@@ -1,0 +1,28 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    cert-manager.io/cluster-issuer: cloudflare-issuer
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/cors-allow-methods: PUT, GET, POST, OPTIONS, HEAD
+  labels:
+    app.kubernetes.io/instance: homeassistant
+    app.kubernetes.io/name: homeassistant
+  name: homeassistant
+  namespace: homeassistant
+spec:
+  rules:
+  - host: ha.invertedorigin.com
+    http:
+      paths:
+      - backend:
+          service:
+            name: homeassistant
+            port:
+              number: 8123
+        path: /
+        pathType: Prefix
+  tls:
+  - hosts:
+    - ha.invertedorigin.com
+    secretName: ha-tls-domain

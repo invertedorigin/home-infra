@@ -1,0 +1,58 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app.kubernetes.io/component: main
+    app.kubernetes.io/instance: homeassistant
+    app.kubernetes.io/name: homeassistant
+  name: homeassistant
+  namespace: homeassistant
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/component: main
+      app.kubernetes.io/instance: homeassistant
+      app.kubernetes.io/name: homeassistant
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      annotations:
+        k8s.v1.cni.cncf.io/networks: |-
+          [
+            {
+              "name": "macvlan-conf-dhcp",
+              "namespace": "kube-system",
+              "mac": "4a:c1:8d:28:f2:77"
+            }
+          ]
+      labels:
+        app.kubernetes.io/component: main
+        app.kubernetes.io/instance: homeassistant
+        app.kubernetes.io/name: homeassistant
+    spec:
+      automountServiceAccountToken: true
+      containers:
+      - env:
+        - name: TZ
+          value: America/Chicago
+        image: ghcr.io/home-assistant/home-assistant:2024.8.2
+        name: main
+        resources:
+          requests:
+            cpu: 50m
+            memory: 2Gi
+        volumeMounts:
+        - mountPath: /config
+          name: media
+      dnsPolicy: ClusterFirst
+      enableServiceLinks: false
+      hostIPC: false
+      hostNetwork: false
+      hostPID: false
+      serviceAccountName: default
+      volumes:
+      - name: media
+        persistentVolumeClaim:
+          claimName: homeassistant-pvc-replicated
