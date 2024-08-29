@@ -55,12 +55,15 @@ patches:
           - name: dhcp-cleanup
             image: busybox
             command: ["/bin/sh"]
-            args: ["-c", "rm -f /host/run/cni/dhcp.sock"]
+            args: ["-c", "rm -f /host/run/cni/dhcp.sock; rm -f /host/opt/cni/bin/multus-shim"]
             securityContext:
               privileged: true
             volumeMounts:
             - name: dhcp-socketpath
               mountPath: /host/run/cni
+            volumeMounts:
+            - name: multus-shim-bin
+              mountPath: /host/opt/cni/bin
           containers:
           - name: dhcp-daemon
             image: ghcr.io/angelnu/cni-plugins
@@ -94,3 +97,6 @@ patches:
           - name: procpath
             hostPath:
               path: /proc
+          - name: multus-shim-bin
+            hostPath:
+              path: /opt/cni/bin
