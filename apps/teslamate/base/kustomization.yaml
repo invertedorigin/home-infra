@@ -9,6 +9,6 @@ resources:
 - external-secret.yaml
 - backup.yaml
 - pod-monitor.yaml
-- serivce.yaml
+- service.yaml
 - ingress.yaml
 - deployment.yaml
