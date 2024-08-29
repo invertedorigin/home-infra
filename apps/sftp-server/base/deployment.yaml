@@ -60,6 +60,8 @@ spec:
         - name: sftp-users
           mountPath: /etc/sftp
           readOnly: true
+        - mountPath: /home/echorelay/uploads
+          name: uploads
       dnsPolicy: ClusterFirst
       enableServiceLinks: false
       hostIPC: false
@@ -73,3 +75,6 @@ spec:
           items:
             - key: users
               path: users.conf
+      - name: uploads
+        persistentVolumeClaim:
+          claimName: sftp-pvc-replicated
