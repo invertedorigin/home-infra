@@ -34,7 +34,7 @@ spec:
           initialDelaySeconds: 0
           periodSeconds: 10
           tcpSocket:
-            port: 8000
+            port: 22
           timeoutSeconds: 1
         name: sftp
         readinessProbe:
@@ -55,7 +55,7 @@ spec:
           initialDelaySeconds: 0
           periodSeconds: 5
           tcpSocket:
-            port: 8000
+            port: 22
           timeoutSeconds: 1
         volumeMounts:
         - name: sftp-users
