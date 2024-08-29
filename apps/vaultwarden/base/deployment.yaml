@@ -1,0 +1,68 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app.kubernetes.io/component: main
+    app.kubernetes.io/instance: vaultwarden
+    app.kubernetes.io/name: vaultwarden
+  name: vaultwarden
+  namespace: vaultwarden
+spec:
+  replicas: 1
+  revisionHistoryLimit: 3
+  selector:
+    matchLabels:
+      app.kubernetes.io/component: main
+      app.kubernetes.io/instance: vaultwarden
+      app.kubernetes.io/name: vaultwarden
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/component: main
+        app.kubernetes.io/instance: vaultwarden
+        app.kubernetes.io/name: vaultwarden
+    spec:
+      automountServiceAccountToken: true
+      containers:
+      - env:
+        - name: DOMAIN
+          valueFrom:
+            secretKeyRef:
+              key: domain
+              name: vault-warden-secrets
+        - name: TZ
+          value: America/Chicago
+        - name: YUBICO_CLIENT_ID
+          valueFrom:
+            secretKeyRef:
+              key: yubico-client-id
+              name: vault-warden-secrets
+        - name: YUBICO_SECRET_KEY
+          valueFrom:
+            secretKeyRef:
+              key: yubico-secret-key
+              name: vault-warden-secrets
+        image: vaultwarden/server:1.32.0-alpine
+        name: main
+        resources:
+          limits:
+            cpu: 250m
+            memory: 500Mi
+          requests:
+            cpu: 50m
+            memory: 128Mi
+        volumeMounts:
+        - mountPath: /data
+          name: media
+      dnsPolicy: ClusterFirst
+      enableServiceLinks: false
+      hostIPC: false
+      hostNetwork: false
+      hostPID: false
+      serviceAccountName: default
+      volumes:
+      - name: media
+        persistentVolumeClaim:
+          claimName: vaultwarden-pvc-replicated
