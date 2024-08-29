@@ -1,0 +1,55 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  labels:
+    app.kubernetes.io/component: cloudflared
+    app.kubernetes.io/instance: cloudflared
+    app.kubernetes.io/name: cloudflared
+  name: cloudflared
+  namespace: cloudflared
+spec:
+  revisionHistoryLimit: 3
+  selector:
+    matchLabels:
+      app.kubernetes.io/component: cloudflared
+      app.kubernetes.io/instance: cloudflared
+      app.kubernetes.io/name: cloudflared
+  template:
+    metadata:
+      annotations: null
+      labels:
+        app.kubernetes.io/component: cloudflared
+        app.kubernetes.io/instance: cloudflared
+        app.kubernetes.io/name: cloudflared
+    spec:
+      automountServiceAccountToken: true
+      containers:
+      - args:
+        - tunnel
+        - run
+        env:
+        - name: NO_AUTOUPDATE
+          value: "true"
+        - name: TUNNEL_METRICS
+          value: 0.0.0.0:8080
+        - name: TUNNEL_TOKEN
+          valueFrom:
+            secretKeyRef:
+              key: tunnel-token
+              name: tunnel-credentials
+        - name: TUNNEL_TRANSPORT_PROTOCOL
+          value: http2
+        image: docker.io/cloudflare/cloudflared:2024.8.3
+        name: main
+        resources:
+          limits:
+            memory: 105Mi
+          requests:
+            cpu: 6m
+            memory: 105Mi
+      dnsPolicy: ClusterFirst
+      enableServiceLinks: false
+      hostIPC: false
+      hostNetwork: false
+      hostPID: false
+      serviceAccountName: default

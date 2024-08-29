@@ -1,65 +1,11 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
+namespace: cloudflared
+
 resources:
 - namespace.yaml
 - external-secret.yaml
-
-namespace: cloudflared
-
-helmCharts:
-- name: app-template
-  repo: https://bjw-s.github.io/helm-charts
-  version: 3.4.0
-  releaseName: cloudflared
-  valuesInline:
-    controllers:
-      cloudflared:
-        type: daemonset
-        containers:
-          main:
-            image:
-              repository: docker.io/cloudflare/cloudflared
-              tag: 2024.8.3
-            env:
-              NO_AUTOUPDATE: "true"
-              TUNNEL_METRICS: 0.0.0.0:8080
-              TUNNEL_TRANSPORT_PROTOCOL: http2
-              TUNNEL_TOKEN:
-                valueFrom:
-                  secretKeyRef:
-                    name: tunnel-credentials
-                    key: tunnel-token
-            args:
-              - tunnel
-              - run
-            probes:
-              liveness:
-                enabled: false
-              readiness:
-                enabled: false
-              startup:
-                enabled: false
-            resources:
-              requests:
-                cpu: 6m
-                memory: 105Mi
-              limits:
-                memory: 105Mi
-
-    service:
-      main:
-        controller: cloudflared
-        ports:
-          http:
-            port: 8080
-
-    serviceMonitor:
-      main:
-        serviceName: cloudflared
-        endpoints:
-          - port: http
-            scheme: http
-            path: /metrics
-            interval: 1m
-            scrapeTimeout: 30s
+- service-monitor.yaml
+- daemonset.yaml
+- service.yaml
