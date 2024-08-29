@@ -1,0 +1,146 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app.kubernetes.io/component: paperless
+    app.kubernetes.io/instance: paperless
+    app.kubernetes.io/name: paperless
+  name: paperless
+  namespace: paperless
+spec:
+  replicas: 1
+  revisionHistoryLimit: 3
+  selector:
+    matchLabels:
+      app.kubernetes.io/component: paperless
+      app.kubernetes.io/instance: paperless
+      app.kubernetes.io/name: paperless
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/component: paperless
+        app.kubernetes.io/instance: paperless
+        app.kubernetes.io/name: paperless
+    spec:
+      automountServiceAccountToken: true
+      containers:
+      - env:
+        - name: PAPERLESS_ACCOUNT_ALLOW_SIGNUPS
+          value: "false"
+        - name: PAPERLESS_ADMIN_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              key: PAPERLESS_ADMIN_PASSWORD
+              name: paperless-secret
+        - name: PAPERLESS_ADMIN_USER
+          valueFrom:
+            secretKeyRef:
+              key: PAPERLESS_ADMIN_USER
+              name: paperless-secret
+        - name: PAPERLESS_CONSUMER_BARCODE_SCANNER
+          value: ZXING
+        - name: PAPERLESS_CONSUMER_ENABLE_ASN_BARCODE
+          value: "true"
+        - name: PAPERLESS_CONSUMER_ENABLE_BARCODES
+          value: "true"
+        - name: PAPERLESS_CONSUMER_POLLING
+          value: "60"
+        - name: PAPERLESS_CONSUMER_RECURSIVE
+          value: "true"
+        - name: PAPERLESS_CONSUMER_SUBDIRS_AS_TAGS
+          value: "true"
+        - name: PAPERLESS_CONSUMPTION_DIR
+          value: /data/local/incoming
+        - name: PAPERLESS_DATA_DIR
+          value: /data/local/data
+        - name: PAPERLESS_DATE_ORDER
+          value: MDY
+        - name: PAPERLESS_FILENAME_FORMAT
+          value: '{created}-{correspondent}-{title}-{tag_list}'
+        - name: PAPERLESS_FILENAME_FORMAT_REMOVE_NONE
+          value: "true"
+        - name: PAPERLESS_MEDIA_ROOT
+          value: /data/local/media
+        - name: PAPERLESS_OCR_LANGUAGE
+          value: eng
+        - name: PAPERLESS_OCR_LANGUAGES
+          value: eng
+        - name: PAPERLESS_PORT
+          value: "8000"
+        - name: PAPERLESS_REDIS
+          value: redis://paperless-redis.paperless.svc.cluster.local:6379/0
+        - name: PAPERLESS_SECRET_KEY
+          valueFrom:
+            secretKeyRef:
+              key: PAPERLESS_SECRET_KEY
+              name: paperless-secret
+        - name: PAPERLESS_SOCIALACCOUNT_ALLOW_SIGNUPS
+          value: "false"
+        - name: PAPERLESS_TASK_WORKERS
+          value: "2"
+        - name: PAPERLESS_TIME_ZONE
+          value: America/Chicago
+        - name: PAPERLESS_URL
+          value: https://paperless.invertedorigin.com
+        - name: PAPERLESS_WEBSERVER_WORKERS
+          value: "2"
+        image: ghcr.io/paperless-ngx/paperless-ngx:2.11.6
+        name: app
+        volumeMounts:
+        - mountPath: /data/local
+          name: media
+      - args:
+        - paperless:pass:1000
+        image: ghcr.io/atmoz/sftp/debian:latest@sha256:8d4b8d93f172d826b9b690a3cd34fdd5ea74e27abe2d59cdb319f6b20ff24115
+        livenessProbe:
+          failureThreshold: 3
+          initialDelaySeconds: 0
+          periodSeconds: 10
+          tcpSocket:
+            port: 8000
+          timeoutSeconds: 1
+        name: sftp
+        readinessProbe:
+          failureThreshold: 3
+          initialDelaySeconds: 0
+          periodSeconds: 10
+          tcpSocket:
+            port: 22
+          timeoutSeconds: 1
+        resources:
+          limits:
+            memory: 6Gi
+          requests:
+            cpu: 25m
+            memory: 2Gi
+        startupProbe:
+          failureThreshold: 30
+          initialDelaySeconds: 0
+          periodSeconds: 5
+          tcpSocket:
+            port: 8000
+          timeoutSeconds: 1
+        volumeMounts:
+        - mountPath: /data/local
+          name: media
+        - mountPath: /home/paperless
+          name: media
+        - mountPath: /etc/ssh/ssh_host_rsa_key
+          name: media
+          subPath: ssh_host_rsa_key
+        - mountPath: /etc/ssh/ssh_host_rsa_key.pub
+          name: media
+          subPath: ssh_host_rsa_key.pub
+      dnsPolicy: ClusterFirst
+      enableServiceLinks: false
+      hostIPC: false
+      hostNetwork: false
+      hostPID: false
+      serviceAccountName: default
+      volumes:
+      - name: media
+        persistentVolumeClaim:
+          claimName: paperless-pvc-replicated
+

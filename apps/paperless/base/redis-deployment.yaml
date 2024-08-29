@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app.kubernetes.io/component: redis
+    app.kubernetes.io/instance: paperless-redis
+    app.kubernetes.io/name: paperless-redis
+  name: paperless-redis
+  namespace: paperless
+spec:
+  replicas: 1
+  revisionHistoryLimit: 3
+  selector:
+    matchLabels:
+      app.kubernetes.io/component: redis
+      app.kubernetes.io/instance: paperless-redis
+      app.kubernetes.io/name: paperless-redis
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/component: redis
+        app.kubernetes.io/instance: paperless-redis
+        app.kubernetes.io/name: paperless-redis
+    spec:
+      automountServiceAccountToken: true
+      containers:
+      - env:
+        - name: REDIS_REPLICATION_MODE
+          value: master
+        image: public.ecr.aws/docker/library/redis:7.4.0
+        name: app
+        resources:
+          limits:
+            memory: 256M
+          requests:
+            cpu: 5m
+            memory: 256M
+      dnsPolicy: ClusterFirst
+      enableServiceLinks: false
+      hostIPC: false
+      hostNetwork: false
+      hostPID: false
+      serviceAccountName: default
