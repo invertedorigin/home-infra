@@ -1,0 +1,75 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app.kubernetes.io/component: main
+    app.kubernetes.io/instance: zwavejs
+    app.kubernetes.io/name: zwavejs
+  name: zwavejs
+  namespace: zwavejs-standby
+spec:
+  replicas: 1
+  revisionHistoryLimit: 3
+  selector:
+    matchLabels:
+      app.kubernetes.io/component: main
+      app.kubernetes.io/instance: zwavejs
+      app.kubernetes.io/name: zwavejs
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/component: main
+        app.kubernetes.io/instance: zwavejs
+        app.kubernetes.io/name: zwavejs
+    spec:
+      automountServiceAccountToken: true
+      containers:
+      - env:
+        - name: TZ
+          value: America/Chicago
+        image: ghcr.io/zwave-js/zwave-js-ui:9.17.0
+        livenessProbe:
+          failureThreshold: 3
+          httpGet:
+            path: /health
+            port: 8091
+          initialDelaySeconds: 0
+          periodSeconds: 10
+          timeoutSeconds: 1
+        name: main
+        readinessProbe:
+          failureThreshold: 3
+          httpGet:
+            path: /health
+            port: 8091
+          initialDelaySeconds: 0
+          periodSeconds: 10
+          timeoutSeconds: 1
+        resources:
+          requests:
+            cpu: 25m
+            memory: 250Mi
+        securityContext:
+          privileged: true
+        volumeMounts:
+        - mountPath: /usr/src/app/store
+          name: media
+        - mountPath: /dev/zwave
+          name: usb
+      dnsPolicy: ClusterFirst
+      enableServiceLinks: false
+      hostIPC: false
+      hostNetwork: false
+      hostPID: false
+      nodeSelector:
+        aeotec.feature.node.kubernetes.io/zwave-standby: "true"
+      serviceAccountName: default
+      volumes:
+      - name: media
+        persistentVolumeClaim:
+          claimName: zwavejs-pvc-replicated
+      - hostPath:
+          path: /dev/ttyUSB0
+        name: usb
