@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: stfp-pvc-replicated
+  namespace: sftp
+spec:
+  storageClassName: longhorn-sticky
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 50Gi
