@@ -61,7 +61,6 @@ patches:
             volumeMounts:
             - name: dhcp-socketpath
               mountPath: /host/run/cni
-            volumeMounts:
             - name: multus-shim-bin
               mountPath: /host/opt/cni/bin
           containers:
