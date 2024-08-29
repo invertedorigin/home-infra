@@ -1,0 +1,24 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  labels:
+    app.kubernetes.io/instance: rm520-prometheus-exporter
+    app.kubernetes.io/name: rm520-prometheus-exporter
+  name: rm520-prometheus-exporter
+  namespace: custom-prom-exporters
+spec:
+  endpoints:
+  - interval: 60s
+    path: /metrics
+    port: http
+    scheme: http
+    scrapeTimeout: 30s
+  jobLabel: rm520-prometheus-exporter
+  namespaceSelector:
+    matchNames:
+    - custom-prom-exporters
+  selector:
+    matchLabels:
+      app.kubernetes.io/instance: rm520-prometheus-exporter
+      app.kubernetes.io/name: rm520-prometheus-exporter
+      app.kubernetes.io/service: rm520-prometheus-exporter

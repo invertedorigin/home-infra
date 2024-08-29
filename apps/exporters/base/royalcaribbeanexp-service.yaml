@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app.kubernetes.io/instance: royalcaribbean-prometheus-exporter-experimental
+    app.kubernetes.io/name: royalcaribbean-prometheus-exporter-experimental
+    app.kubernetes.io/service: royalcaribbean-prometheus-exporter-experimental
+  name: royalcaribbean-prometheus-exporter-experimental
+  namespace: custom-prom-exporters
+spec:
+  ports:
+  - name: http
+    port: 2112
+    protocol: TCP
+    targetPort: 2112
+  selector:
+    app.kubernetes.io/component: royalcaribbean-prometheus-exporter-experimental
+    app.kubernetes.io/instance: royalcaribbean-prometheus-exporter-experimental
+    app.kubernetes.io/name: royalcaribbean-prometheus-exporter-experimental
+  type: ClusterIP

@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app.kubernetes.io/component: royalcaribbean-prometheus-exporter
+    app.kubernetes.io/instance: royalcaribbean-prometheus-exporter
+    app.kubernetes.io/name: royalcaribbean-prometheus-exporter
+  name: royalcaribbean-prometheus-exporter
+  namespace: custom-prom-exporters
+spec:
+  replicas: 1
+  revisionHistoryLimit: 3
+  selector:
+    matchLabels:
+      app.kubernetes.io/component: royalcaribbean-prometheus-exporter
+      app.kubernetes.io/instance: royalcaribbean-prometheus-exporter
+      app.kubernetes.io/name: royalcaribbean-prometheus-exporter
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/component: royalcaribbean-prometheus-exporter
+        app.kubernetes.io/instance: royalcaribbean-prometheus-exporter
+        app.kubernetes.io/name: royalcaribbean-prometheus-exporter
+    spec:
+      automountServiceAccountToken: true
+      containers:
+      - args:
+        - --url
+        - https://www.royalcaribbean.com/graph
+        - --interval
+        - 3600s
+        image: keatontaylor/royalcaribbean-prometheus-exporter:v0.0.4
+        name: app
+        resources:
+          limits:
+            memory: 105Mi
+          requests:
+            cpu: 6m
+            memory: 105Mi
+      dnsPolicy: ClusterFirst
+      enableServiceLinks: false
+      hostIPC: false
+      hostNetwork: false
+      hostPID: false
+      serviceAccountName: default

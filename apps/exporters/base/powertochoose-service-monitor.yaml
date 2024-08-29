@@ -1,0 +1,24 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  labels:
+    app.kubernetes.io/instance: powertochoose-prometheus-exporter
+    app.kubernetes.io/name: powertochoose-prometheus-exporter
+  name: powertochoose-prometheus-exporter
+  namespace: custom-prom-exporters
+spec:
+  endpoints:
+  - interval: 6h
+    path: /metrics
+    port: http
+    scheme: http
+    scrapeTimeout: 30s
+  jobLabel: powertochoose-prometheus-exporter
+  namespaceSelector:
+    matchNames:
+    - custom-prom-exporters
+  selector:
+    matchLabels:
+      app.kubernetes.io/instance: powertochoose-prometheus-exporter
+      app.kubernetes.io/name: powertochoose-prometheus-exporter
+      app.kubernetes.io/service: powertochoose-prometheus-exporter
