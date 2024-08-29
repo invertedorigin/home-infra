@@ -27,7 +27,6 @@ spec:
       automountServiceAccountToken: true
       containers:
       - args:
-        - echorelay:pass:1000
         image: ghcr.io/atmoz/sftp/debian:latest@sha256:8d4b8d93f172d826b9b690a3cd34fdd5ea74e27abe2d59cdb319f6b20ff24115
         livenessProbe:
           failureThreshold: 3
