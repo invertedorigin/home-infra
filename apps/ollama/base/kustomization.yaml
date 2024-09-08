@@ -15,7 +15,7 @@ helmCharts:
   valuesInLine:
     image:
       repository: ollama/ollama
-      tag: "0.3.9-rocm"
+      tag: "0.3.10-rocm"
     replicaCount: 2
     extraEnv:
       - name: HSA_OVERRIDE_GFX_VERSION
