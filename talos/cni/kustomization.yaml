@@ -13,8 +13,8 @@ helmCharts:
     namespace: kube-system
     valuesFile: values.yaml
 
-commonAnnotations:
+annotations:
   meta.helm.sh/release-name: cilium
   meta.helm.sh/release-namespace: kube-system
-commonLabels:
+labels:
   app.kubernetes.io/managed-by: Helm
