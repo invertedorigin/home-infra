@@ -32,6 +32,5 @@ operator:
 rollOutCiliumPods: true
 securityContext:
   privileged: true
-tunnel: geneve
 cni:
   exclusive: false
