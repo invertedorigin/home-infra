@@ -9,7 +9,7 @@ namespace: mqtt
 helmCharts:
 - name: nats
   repo: https://nats-io.github.io/k8s/helm/charts/
-  version: 1.2.4
+  version: 1.2.5
   releaseName: nats
   valuesInline:
     config:
