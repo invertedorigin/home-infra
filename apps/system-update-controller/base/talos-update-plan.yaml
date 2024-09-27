@@ -6,7 +6,7 @@ metadata:
   namespace: system-upgrade
 spec:
   # renovate: datasource=github-releases depName=siderolabs/talos
-  version: v1.7.6
+  version: v1.8.0
   serviceAccountName: system-upgrade
   secrets:
     - name: talos
@@ -29,7 +29,7 @@ spec:
         operator: NotIn
         values:
           # renovate: datasource=github-releases depName=siderolabs/talos
-          - v1.7.6
+          - v1.8.0
   prepare: &prepare
     image: ghcr.io/siderolabs/talosctl
     envs:
