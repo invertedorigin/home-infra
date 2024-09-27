@@ -5,6 +5,7 @@ metadata:
   namespace: kube-system
   labels:
     control-plane: volsync-controller
+    release: kube-prometheus-stack
 spec:
   endpoints:
     - interval: 30s
