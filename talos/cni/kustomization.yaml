@@ -12,9 +12,3 @@ helmCharts:
     releaseName: cilium
     namespace: kube-system
     valuesFile: values.yaml
-
-commonAnnotations:
-  meta.helm.sh/release-name: cilium
-  meta.helm.sh/release-namespace: kube-system
-labels:
-  app.kubernetes.io/managed-by: Helm
