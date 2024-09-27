@@ -4,6 +4,7 @@ metadata:
   labels:
     app.kubernetes.io/instance: powertochoose-prometheus-exporter
     app.kubernetes.io/name: powertochoose-prometheus-exporter
+    release: kube-prometheus-stack
   name: powertochoose-prometheus-exporter
   namespace: custom-prom-exporters
 spec:
