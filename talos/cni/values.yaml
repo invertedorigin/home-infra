@@ -3,8 +3,6 @@ bgp:
   announce:
     loadbalancerIP: true
   enabled: false
-containerRuntime:
-  integration: containerd
 endpointRoutes:
   enabled: true
 hubble:
