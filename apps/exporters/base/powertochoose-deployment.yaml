@@ -28,9 +28,9 @@ spec:
       containers:
       - args:
         - --url
-        - https://powertochoose.org/
+        - https://www.powertochoose.org/
         - --interval
-        - 3600s
+        - 30s
         image: keatontaylor/powertochoose-prometheus-exporter:v0.0.3
         name: app
         resources:
