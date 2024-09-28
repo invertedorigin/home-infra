@@ -14,19 +14,7 @@ spec:
     apiGroup: "volsync.backube"
     kind: "ReplicationDestination"
     name: "zwavejs-data-bootstrap"
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: zwavejs-pvc-replicated-new
-  namespace: zwavejs
-spec:
-  storageClassName: longhorn-sticky
-  accessModes:
-    - ReadWriteOnce
-  resources:
-    requests:
-      storage: 2Gi
+#---
 # apiVersion: volsync.backube/v1alpha1
 # kind: ReplicationDestination
 # metadata:
