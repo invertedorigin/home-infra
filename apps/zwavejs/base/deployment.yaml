@@ -69,7 +69,7 @@ spec:
       volumes:
       - name: media
         persistentVolumeClaim:
-          claimName: zwavejs-pvc-replicated-new
+          claimName: zwavejs-pvc-replicated
       - hostPath:
           path: /dev/ttyUSB0
         name: usb
