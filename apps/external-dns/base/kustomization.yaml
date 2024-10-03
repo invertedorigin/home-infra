@@ -1,0 +1,59 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: kube-system
+
+resources:
+- external-secret.yaml
+
+helmCharts:
+- name: external-dns
+  repo: https://kubernetes-sigs.github.io/external-dns
+  version: 1.15.0
+  releaseName: &app external-dns-unifi
+  namespace: kube-system
+  valuesInline:
+    fullnameOverride: *app
+    provider:
+      name: webhook
+      webhook:
+        image:
+          repository: ghcr.io/kashalls/external-dns-unifi-webhook
+          tag: v0.2.4
+        env:
+          - name: UNIFI_HOST
+            valueFrom:
+              secretKeyRef:
+                name: &secret external-dns-unifi-secret
+                key: EXTERNAL_DNS_UNIFI_HOST
+          - name: UNIFI_USER
+            valueFrom:
+              secretKeyRef:
+                name: *secret
+                key: EXTERNAL_DNS_UNIFI_USER
+          - name: UNIFI_PASS
+            valueFrom:
+              secretKeyRef:
+                name: *secret
+                key: EXTERNAL_DNS_UNIFI_PASS
+        livenessProbe:
+          httpGet:
+            path: /healthz
+            port: http-webhook
+          initialDelaySeconds: 10
+          timeoutSeconds: 5
+        readinessProbe:
+          httpGet:
+            path: /readyz
+            port: http-webhook
+          initialDelaySeconds: 10
+          timeoutSeconds: 5
+    extraArgs:
+      - --ignore-ingress-tls-spec
+    policy: sync
+    sources: ["ingress", "service"]
+    txtOwnerId: default
+    txtPrefix: k8s.managed
+    domainFilters: ["invertedorigin.com"]
+    serviceMonitor:
+      enabled: true
