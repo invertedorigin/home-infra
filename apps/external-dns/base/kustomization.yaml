@@ -53,7 +53,7 @@ helmCharts:
     policy: sync
     sources: ["ingress", "service"]
     txtOwnerId: default
-    txtPrefix: k8s.managed
+    txtPrefix: k8s.managed.
     domainFilters: ["invertedorigin.com"]
     serviceMonitor:
       enabled: true
