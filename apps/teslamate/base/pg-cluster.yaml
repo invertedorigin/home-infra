@@ -78,7 +78,7 @@ spec:
     recovery:
       source: clusterBackup
       recoveryTarget:
-        targetTime: "2024-10-03 00:00:00.00000+00"
+        targetTime: "2024-10-04 00:00:00.00000+00"
 
   externalClusters:
     - name: clusterBackup
