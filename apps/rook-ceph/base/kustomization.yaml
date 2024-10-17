@@ -9,7 +9,7 @@ namespace: rook-ceph
 helmCharts:
 - name: rook-ceph
   repo: https://charts.rook.io/release
-  version: v1.15.3
+  version: v1.15.4
   releaseName: rook-ceph
   valuesInLine:
     monitoring:
