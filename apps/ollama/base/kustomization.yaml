@@ -67,7 +67,7 @@ helmCharts:
 
 - name: open-webui
   repo: https://helm.openwebui.com/
-  version: 3.3.2
+  version: 3.4.0
   releaseName: open-webui
   valuesInLine:
     ollama:
