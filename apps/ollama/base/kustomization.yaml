@@ -10,7 +10,7 @@ namespace: ollama
 helmCharts:
 - name: ollama
   repo: https://otwld.github.io/ollama-helm/
-  version: 0.62.0
+  version: 0.63.0
   releaseName: ollama
   valuesInLine:
     image:
