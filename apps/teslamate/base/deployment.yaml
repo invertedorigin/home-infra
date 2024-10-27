@@ -28,7 +28,7 @@ spec:
       containers:
       - env:
         - name: DATABASE_HOST
-          value: teslamate-db-rw.teslamate.svc.cluster.local
+          value: teslamate-db-17-rw.teslamate.svc.cluster.local
         - name: DISABLE_MQTT
           value: "false"
         - name: MQTT_HOST
