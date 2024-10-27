@@ -18,6 +18,10 @@ helmCharts:
         replicas: 3
       jetstream:
         enabled: false
+        fileStore:
+          pvc:
+            storageClassName: longhorn-strict-local-standalone-wait
+            size: 10Gi
       mqtt:
         enabled: true
     promExporter:
