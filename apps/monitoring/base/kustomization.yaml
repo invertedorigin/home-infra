@@ -723,7 +723,7 @@ helmCharts:
           access: proxy
           url: teslamate-db-17-rw.teslamate.svc.cluster.local
           database: teslamate
-          user: app
+          user: teslamate
           secureJsonData:
             password: "$TESLAMATE_DB_PASSWORD"
           jsonData:
