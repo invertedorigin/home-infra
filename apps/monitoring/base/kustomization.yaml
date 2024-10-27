@@ -721,7 +721,7 @@ helmCharts:
         - name: TeslaMate
           type: postgres
           access: proxy
-          url: teslamate-db-rw.teslamate.svc.cluster.local
+          url: teslamate-db-17-rw.teslamate.svc.cluster.local
           database: teslamate
           user: app
           secureJsonData:
