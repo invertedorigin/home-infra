@@ -17,7 +17,7 @@ helmCharts:
         enabled: true
         replicas: 3
       jetstream:
-        enabled: false
+        enabled: true
         fileStore:
           pvc:
             storageClassName: longhorn-strict-local-standalone-wait
