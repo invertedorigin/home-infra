@@ -18,6 +18,8 @@ helmCharts:
       tag: "0.3.14-rocm"
     replicaCount: 3
     extraEnv:
+      - name: OLLAMA_KEEP_ALIVE
+        value "-1"
       - name: HSA_OVERRIDE_GFX_VERSION
         value: "10.3.0"
       - name: HCC_AMDGPU_TARGETS
