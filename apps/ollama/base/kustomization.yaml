@@ -7,86 +7,86 @@ resources:
 
 namespace: ollama
 
-# helmCharts:
-# - name: ollama
-#   repo: https://otwld.github.io/ollama-helm/
-#   version: 0.63.0
-#   releaseName: ollama
-#   valuesInLine:
-#     image:
-#       repository: ollama/ollama
-#       tag: "0.3.14-rocm"
-#     replicaCount: 3
-#     extraEnv:
-#       - name: OLLAMA_KEEP_ALIVE
-#         value: "-1"
-#       - name: HSA_OVERRIDE_GFX_VERSION
-#         value: "10.3.0"
-#       - name: HCC_AMDGPU_TARGETS
-#         value: "gfx1035"
-#       - name: OLLAMA_NUM_PARALLEL
-#         value: "2"
-#     podLabels:
-#       app: ollama
-#     affinity:
-#       podAntiAffinity:
-#         requiredDuringSchedulingIgnoredDuringExecution:
-#         - labelSelector:
-#             matchExpressions:
-#             - key: app
-#               operator: In
-#               values:
-#               - ollama
-#           topologyKey: "kubernetes.io/hostname"
+helmCharts:
+- name: ollama
+  repo: https://otwld.github.io/ollama-helm/
+  version: 0.63.0
+  releaseName: ollama
+  valuesInLine:
+    image:
+      repository: ollama/ollama
+      tag: "0.3.14-rocm"
+    replicaCount: 3
+    extraEnv:
+      - name: OLLAMA_KEEP_ALIVE
+        value: "-1"
+      - name: HSA_OVERRIDE_GFX_VERSION
+        value: "10.3.0"
+      - name: HCC_AMDGPU_TARGETS
+        value: "gfx1035"
+      - name: OLLAMA_NUM_PARALLEL
+        value: "2"
+    podLabels:
+      app: ollama
+    affinity:
+      podAntiAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+        - labelSelector:
+            matchExpressions:
+            - key: app
+              operator: In
+              values:
+              - ollama
+          topologyKey: "kubernetes.io/hostname"
 
-#     persistentVolume:
-#       enabled: true
-#       existingClaim: ollama
-#     updateStrategy:
-#      type: Recreate
-#     ollama:
-#       gpu:
-#         enabled: true
-#         type: "amd"
-#         number: 1
-#     ingress:
-#       enabled: true
-#       className: nginx
-#       annotations:
-#         kubernetes.io/ingress.class: "nginx"
-#         cert-manager.io/cluster-issuer: "cloudflare-issuer"
-#         nginx.ingress.kubernetes.io/proxy-body-size: "600m"
-#         nginx.org/client-max-body-size: "600m"
-#       hosts:
-#         - host: &host ollama-api.invertedorigin.com
-#           paths:
-#             - path: /
-#               pathType: Prefix
-#       tls:
-#         - hosts:
-#             - *host
-#           secretName: ollama-api-tls-domain
+    persistentVolume:
+      enabled: true
+      existingClaim: ollama
+    updateStrategy:
+     type: Recreate
+    ollama:
+      gpu:
+        enabled: true
+        type: "amd"
+        number: 1
+    ingress:
+      enabled: true
+      className: nginx
+      annotations:
+        kubernetes.io/ingress.class: "nginx"
+        cert-manager.io/cluster-issuer: "cloudflare-issuer"
+        nginx.ingress.kubernetes.io/proxy-body-size: "600m"
+        nginx.org/client-max-body-size: "600m"
+      hosts:
+        - host: &host ollama-api.invertedorigin.com
+          paths:
+            - path: /
+              pathType: Prefix
+      tls:
+        - hosts:
+            - *host
+          secretName: ollama-api-tls-domain
 
-# - name: open-webui
-#   repo: https://helm.openwebui.com/
-#   version: 3.4.3
-#   releaseName: open-webui
-#   valuesInLine:
-#     ollama:
-#       enabled: false
-#     persistence:
-#       enabled: true
-#       existingClaim: open-webui
-#     pipelines:
-#       enabled: false
-#     ollamaUrls: ["http://ollama.ollama.svc.cluster.local:11434"]
-#     ingress:
-#       enabled: true
-#       class: "nginx"
-#       annotations:
-#         kubernetes.io/ingress.class: "nginx"
-#         cert-manager.io/cluster-issuer: "cloudflare-issuer"
-#         nginx.ingress.kubernetes.io/proxy-body-size: "600m"
-#         nginx.org/client-max-body-size: "600m"
-#       host: "ollama.invertedorigin.com"
-#       tls: true
+- name: open-webui
+  repo: https://helm.openwebui.com/
+  version: 3.4.3
+  releaseName: open-webui
+  valuesInLine:
+    ollama:
+      enabled: false
+    persistence:
+      enabled: true
+      existingClaim: open-webui
+    pipelines:
+      enabled: false
+    ollamaUrls: ["http://ollama.ollama.svc.cluster.local:11434"]
+    ingress:
+      enabled: true
+      class: "nginx"
+      annotations:
+        kubernetes.io/ingress.class: "nginx"
+        cert-manager.io/cluster-issuer: "cloudflare-issuer"
+        nginx.ingress.kubernetes.io/proxy-body-size: "600m"
+        nginx.org/client-max-body-size: "600m"
+      host: "ollama.invertedorigin.com"
+      tls: true
