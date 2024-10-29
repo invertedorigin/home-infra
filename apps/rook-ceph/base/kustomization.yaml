@@ -32,7 +32,7 @@ helmCharts:
           - name: rook # This enables the rook module.
             enabled: true
       storage:
-        useAllNodes: true
+        useAllNodes: false
         useAllDevices: false
         nodes:
           - name: node-1
