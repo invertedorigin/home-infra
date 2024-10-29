@@ -34,7 +34,7 @@ helmCharts:
       resources:
         osd:
           limits:
-            memory: "1Gi"
+            memory: "4Gi"
           requests:
             memory: "1Gi"
       storage:
