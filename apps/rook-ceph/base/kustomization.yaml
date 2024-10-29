@@ -38,21 +38,21 @@ helmCharts:
           - name: node-1
             config:
               osdsPerDevice: "1"
-            devices:
+            directories:
               - name: "/dev/disk/by-id/nvme-WD_BLACK_SN850X_2000GB_24163X803861-part1"
               - name: "/dev/disk/by-id/nvme-WD_BLACK_SN850X_2000GB_24163X803861-part2"
               - name: "/dev/disk/by-id/nvme-WD_BLACK_SN850X_2000GB_24163X803861-part3"
           - name: node-2
             config:
               osdsPerDevice: "1"
-            devices:
+            directories:
               - name: "/dev/disk/by-id/nvme-WD_BLACK_SN850X_2000GB_24163X803862-part1"
               - name: "/dev/disk/by-id/nvme-WD_BLACK_SN850X_2000GB_24163X803862-part2"
               - name: "/dev/disk/by-id/nvme-WD_BLACK_SN850X_2000GB_24163X803862-part3"
           - name: node-3
             config:
               osdsPerDevice: "1"
-            devices:
+            directories:
               - name: "/dev/disk/by-id/nvme-WD_BLACK_SN850X_2000GB_24163X803932-part1"
               - name: "/dev/disk/by-id/nvme-WD_BLACK_SN850X_2000GB_24163X803932-part2"
               - name: "/dev/disk/by-id/nvme-WD_BLACK_SN850X_2000GB_24163X803932-part3"
