@@ -6,14 +6,14 @@ resources:
 
 namespace: rook-ceph
 
-# helmCharts:
-# - name: rook-ceph
-#   repo: https://charts.rook.io/release
-#   version: v1.15.4
-#   releaseName: rook-ceph
-#   valuesInLine:
-#     monitoring:
-#       enabled: true
+helmCharts:
+- name: rook-ceph
+  repo: https://charts.rook.io/release
+  version: v1.15.4
+  releaseName: rook-ceph
+  valuesInLine:
+    monitoring:
+      enabled: true
 
 # - name: rook-ceph-cluster
 #   repo: https://charts.rook.io/release
