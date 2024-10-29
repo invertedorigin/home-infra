@@ -6,54 +6,54 @@ resources:
 
 namespace: rook-ceph
 
-helmCharts:
-- name: rook-ceph
-  repo: https://charts.rook.io/release
-  version: v1.15.4
-  releaseName: rook-ceph
-  valuesInLine:
-    monitoring:
-      enabled: true
+# helmCharts:
+# - name: rook-ceph
+#   repo: https://charts.rook.io/release
+#   version: v1.15.4
+#   releaseName: rook-ceph
+#   valuesInLine:
+#     monitoring:
+#       enabled: true
 
-- name: rook-ceph-cluster
-  repo: https://charts.rook.io/release
-  version: v1.15.4
-  releaseName: rook-ceph-cluster
-  namespace: rook-ceph
-  valuesInLine:
-    operatorNamespace: rook-ceph
-    cephClusterSpec:
-      network:
-        hostNetwork: true
-      mgr:
-        modules:
-          - name: pg_autoscaler # This is already enabled by default, but needs to be here so that we don't override the default behavior.
-            enabled: true
-          - name: rook # This enables the rook module.
-            enabled: true
-    cephBlockPoolsVolumeSnapshotClass:
-      enabled: true
-      name: csi-ceph-blockpool
-      isDefault: false
-      deletionPolicy: Delete
-    cephFileSystemVolumeSnapshotClass:
-      enabled: true
-      name: csi-ceph-filesystem
-      isDefault: false
-      deletionPolicy: Delete
-    monitoring:
-      enabled: true
-    ingress:
-      dashboard:
-        annotations:
-          kubernetes.io/ingress.class: "nginx"
-          cert-manager.io/cluster-issuer: "cloudflare-issuer"
-          nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
-          nginx.ingress.kubernetes.io/server-snippet: |
-            proxy_ssl_verify off;
-        host:
-          name: &host rook-ceph.invertedorigin.com
-        tls:
-        - hosts:
-          - *host
-          secretName: rook-ceph-tls-domain
+# - name: rook-ceph-cluster
+#   repo: https://charts.rook.io/release
+#   version: v1.15.4
+#   releaseName: rook-ceph-cluster
+#   namespace: rook-ceph
+#   valuesInLine:
+#     operatorNamespace: rook-ceph
+#     cephClusterSpec:
+#       network:
+#         hostNetwork: true
+#       mgr:
+#         modules:
+#           - name: pg_autoscaler # This is already enabled by default, but needs to be here so that we don't override the default behavior.
+#             enabled: true
+#           - name: rook # This enables the rook module.
+#             enabled: true
+#     cephBlockPoolsVolumeSnapshotClass:
+#       enabled: true
+#       name: csi-ceph-blockpool
+#       isDefault: false
+#       deletionPolicy: Delete
+#     cephFileSystemVolumeSnapshotClass:
+#       enabled: true
+#       name: csi-ceph-filesystem
+#       isDefault: false
+#       deletionPolicy: Delete
+#     monitoring:
+#       enabled: true
+#     ingress:
+#       dashboard:
+#         annotations:
+#           kubernetes.io/ingress.class: "nginx"
+#           cert-manager.io/cluster-issuer: "cloudflare-issuer"
+#           nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+#           nginx.ingress.kubernetes.io/server-snippet: |
+#             proxy_ssl_verify off;
+#         host:
+#           name: &host rook-ceph.invertedorigin.com
+#         tls:
+#         - hosts:
+#           - *host
+#           secretName: rook-ceph-tls-domain
