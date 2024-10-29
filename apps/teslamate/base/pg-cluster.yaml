@@ -7,37 +7,37 @@ spec:
   instances: 3
   imageName: ghcr.io/cloudnative-pg/postgresql:17.0
 
-  # bootstrap:
-  #   initdb:
-  #     database: teslamate
-  #     owner: teslamate
-
   bootstrap:
-    recovery:
-      source: clusterBackup
-      recoveryTarget:
-        targetTime: "2024-10-27 00:00:00.00000+00"
+    initdb:
+      database: teslamate
+      owner: teslamate
 
-  externalClusters:
-    - name: clusterBackup
-      barmanObjectStore:
-        destinationPath: s3://k8s-backups/teslamate
-        endpointURL: https://f92cf6dd20992e652da4b54bae8dbd53.r2.cloudflarestorage.com
-        serverName: "teslamate-postgres-17"
-        s3Credentials:
-          accessKeyId:
-            name: cloudflare-r2-secret
-            key: AWS_ACCESS_KEY_ID
-          secretAccessKey:
-            name: cloudflare-r2-secret
-            key: AWS_SECRET_ACCESS_KEY
-        wal:
-          compression: gzip
-          maxParallel: 8
-          encryption: AES256
-        data:
-          compression: gzip
+  # bootstrap:
+  #   recovery:
+  #     source: clusterBackup
+  #     recoveryTarget:
+  #       targetTime: "2024-10-27 00:00:00.00000+00"
+
+  # externalClusters:
+  #   - name: clusterBackup
+  #     barmanObjectStore:
+  #       destinationPath: s3://linstor-backups/teslamate/
+  #       endpointURL: https://f92cf6dd20992e652da4b54bae8dbd53.r2.cloudflarestorage.com
+  #       serverName: "teslamate-postgres-17"
+  #       s3Credentials:
+  #         accessKeyId:
+  #           name: cloudflare-r2-secret
+  #           key: AWS_ACCESS_KEY_ID
+  #         secretAccessKey:
+  #           name: cloudflare-r2-secret
+  #           key: AWS_SECRET_ACCESS_KEY
+  #       wal:
+  #         compression: gzip
+  #         maxParallel: 8
   #         encryption: AES256
+  #       data:
+  #         compression: gzip
+  # #         encryption: AES256
 
   storage:
     size: 20Gi
