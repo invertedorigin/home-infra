@@ -15,45 +15,70 @@ helmCharts:
     monitoring:
       enabled: true
 
-# - name: rook-ceph-cluster
-#   repo: https://charts.rook.io/release
-#   version: v1.15.4
-#   releaseName: rook-ceph-cluster
-#   namespace: rook-ceph
-#   valuesInLine:
-#     operatorNamespace: rook-ceph
-#     cephClusterSpec:
-#       network:
-#         hostNetwork: true
-#       mgr:
-#         modules:
-#           - name: pg_autoscaler # This is already enabled by default, but needs to be here so that we don't override the default behavior.
-#             enabled: true
-#           - name: rook # This enables the rook module.
-#             enabled: true
-#     cephBlockPoolsVolumeSnapshotClass:
-#       enabled: true
-#       name: csi-ceph-blockpool
-#       isDefault: false
-#       deletionPolicy: Delete
-#     cephFileSystemVolumeSnapshotClass:
-#       enabled: true
-#       name: csi-ceph-filesystem
-#       isDefault: false
-#       deletionPolicy: Delete
-#     monitoring:
-#       enabled: true
-#     ingress:
-#       dashboard:
-#         annotations:
-#           kubernetes.io/ingress.class: "nginx"
-#           cert-manager.io/cluster-issuer: "cloudflare-issuer"
-#           nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
-#           nginx.ingress.kubernetes.io/server-snippet: |
-#             proxy_ssl_verify off;
-#         host:
-#           name: &host rook-ceph.invertedorigin.com
-#         tls:
-#         - hosts:
-#           - *host
-#           secretName: rook-ceph-tls-domain
+- name: rook-ceph-cluster
+  repo: https://charts.rook.io/release
+  version: v1.15.4
+  releaseName: rook-ceph-cluster
+  namespace: rook-ceph
+  valuesInLine:
+    operatorNamespace: rook-ceph
+    cephClusterSpec:
+      network:
+        hostNetwork: true
+      mgr:
+        modules:
+          - name: pg_autoscaler # This is already enabled by default, but needs to be here so that we don't override the default behavior.
+            enabled: true
+          - name: rook # This enables the rook module.
+            enabled: true
+      storage:
+        useAllNodes: true
+        useAllDevices: false
+        nodes:
+          - name: node-1
+            config:
+              osdsPerDevice: "1"
+            devices:
+              - name: "/dev/disk/by-id/nvme-WD_BLACK_SN850X_2000GB_24163X803861-part1"
+              - name: "/dev/disk/by-id/nvme-WD_BLACK_SN850X_2000GB_24163X803861-part2"
+              - name: "/dev/disk/by-id/nvme-WD_BLACK_SN850X_2000GB_24163X803861-part3"
+          - name: node-2
+            config:
+              osdsPerDevice: "1"
+            devices:
+              - name: "/dev/disk/by-id/nvme-WD_BLACK_SN850X_2000GB_24163X803862-part1"
+              - name: "/dev/disk/by-id/nvme-WD_BLACK_SN850X_2000GB_24163X803862-part2"
+              - name: "/dev/disk/by-id/nvme-WD_BLACK_SN850X_2000GB_24163X803862-part3"
+          - name: node-3
+            config:
+              osdsPerDevice: "1"
+            devices:
+              - name: "/dev/disk/by-id/nvme-WD_BLACK_SN850X_2000GB_24163X803932-part1"
+              - name: "/dev/disk/by-id/nvme-WD_BLACK_SN850X_2000GB_24163X803932-part2"
+              - name: "/dev/disk/by-id/nvme-WD_BLACK_SN850X_2000GB_24163X803932-part3"
+    cephBlockPoolsVolumeSnapshotClass:
+      enabled: true
+      name: csi-ceph-blockpool
+      isDefault: false
+      deletionPolicy: Delete
+    cephFileSystemVolumeSnapshotClass:
+      enabled: true
+      name: csi-ceph-filesystem
+      isDefault: false
+      deletionPolicy: Delete
+    monitoring:
+      enabled: true
+    ingress:
+      dashboard:
+        annotations:
+          kubernetes.io/ingress.class: "nginx"
+          cert-manager.io/cluster-issuer: "cloudflare-issuer"
+          nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+          nginx.ingress.kubernetes.io/server-snippet: |
+            proxy_ssl_verify off;
+        host:
+          name: &host rook-ceph.invertedorigin.com
+        tls:
+        - hosts:
+          - *host
+          secretName: rook-ceph-tls-domain
