@@ -31,6 +31,12 @@ helmCharts:
             enabled: true
           - name: rook # This enables the rook module.
             enabled: true
+      resources:
+        osd:
+          limits:
+            memory: "1Gi"
+          requests:
+            memory: "1Gi"
       storage:
         useAllNodes: false
         useAllDevices: false
