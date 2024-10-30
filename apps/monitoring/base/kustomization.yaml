@@ -44,7 +44,7 @@ helmCharts:
         storageSpec:
           volumeClaimTemplate:
             spec:
-              storageClassName: longhorn-sticky
+              storageClassName: ceph-block
               accessModes:
               - ReadWriteOnce
               resources:
