@@ -5,13 +5,13 @@ resources:
 #- extra-storage-classes.yaml
 #- volume-snapshot-class.yaml
 
-# helmCharts:
-# - name: longhorn
-#   repo: https://charts.longhorn.io
-#   version: "1.7.2"
-#   releaseName: longhorn
-#   namespace: longhorn-system
-#   includeCRDs: true
-#   valuesInline:
-#     defaultSettings:
-#       nodeDrainPolicy: allow-if-replica-is-stopped
+helmCharts:
+- name: longhorn
+  repo: https://charts.longhorn.io
+  version: "1.7.2"
+  releaseName: longhorn
+  namespace: longhorn-system-new
+  includeCRDs: true
+  valuesInline:
+    defaultSettings:
+      nodeDrainPolicy: allow-if-replica-is-stopped
