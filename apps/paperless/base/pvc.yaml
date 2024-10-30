@@ -4,9 +4,29 @@ metadata:
   name: paperless-pvc-replicated
   namespace: paperless
 spec:
-  storageClassName: longhorn-sticky
+  storageClassName: ceph-block
   accessModes:
     - ReadWriteOnce
   resources:
     requests:
       storage: 50Gi
+  dataSourceRef:
+    apiGroup: "volsync.backube"
+    kind: "ReplicationDestination"
+    name: "paperless-data-bootstrap"
+---
+apiVersion: volsync.backube/v1alpha1
+kind: ReplicationDestination
+metadata:
+  name: "paperless-data-bootstrap"
+  namespace: "paperless"
+spec:
+  trigger:
+    manual: "restore-once-bootstrap"
+  restic:
+    repository: "volsync-secret"
+    copyMethod: "Snapshot"
+    storageClassName: "ceph-block"
+    volumeSnapshotClassName: csi-ceph-blockpool
+    capacity: "50Gi"
+    accessModes: ["ReadWriteOnce"]
