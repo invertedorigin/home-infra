@@ -1,7 +1,7 @@
 apiVersion: postgresql.cnpg.io/v1
 kind: ScheduledBackup
 metadata:
-  name: teslamate-db-backup
+  name: teslamate-db-17
   namespace: teslamate
 spec:
   # Note that this cron dialect has 6 places - an additional one for seconds
