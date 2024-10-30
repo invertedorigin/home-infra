@@ -4,12 +4,16 @@ metadata:
   name: zwavejs-pvc-replicated
   namespace: zwavejs-standby
 spec:
-  storageClassName: longhorn-sticky
+  storageClassName: ceph-block
   accessModes:
     - ReadWriteOnce
   resources:
     requests:
       storage: 1Gi
+  dataSourceRef:
+    apiGroup: "volsync.backube"
+    kind: "ReplicationDestination"
+    name: "zwavejs-data-bootstrap"
 ---
 apiVersion: volsync.backube/v1alpha1
 kind: ReplicationDestination
