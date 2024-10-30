@@ -20,7 +20,7 @@ helmCharts:
         enabled: true
         fileStore:
           pvc:
-            storageClassName: longhorn-strict-local-standalone-wait
+            storageClassName: ceph-block
             size: 10Gi
       mqtt:
         enabled: true
