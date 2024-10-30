@@ -11,4 +11,4 @@ spec:
   # Determines if the first backup should be done immediately
   immediate: true
   cluster:
-    name: teslamate-db
+    name: teslamate-db-17
