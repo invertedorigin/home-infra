@@ -8,7 +8,7 @@ metadata:
   name: teslamate
   namespace: teslamate
 spec:
-  replicas: 1
+  replicas: 0
   revisionHistoryLimit: 3
   selector:
     matchLabels:
