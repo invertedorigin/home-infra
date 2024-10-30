@@ -37,7 +37,7 @@ spec:
           encryption: AES256
         data:
           compression: gzip
-  #         encryption: AES256
+          encryption: AES256
 
   storage:
     size: 20Gi

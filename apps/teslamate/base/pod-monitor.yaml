@@ -6,6 +6,6 @@ metadata:
 spec:
   selector:
     matchLabels:
-      cnpg.io/cluster: teslamate-db
+      cnpg.io/cluster: teslamate-db-17
   podMetricsEndpoints:
   - port: metrics
