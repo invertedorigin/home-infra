@@ -27,6 +27,6 @@ spec:
     repository: "volsync-secret"
     copyMethod: "Snapshot"
     storageClassName: "ceph-block"
-    volumeSnapshotClassName: longhorn
+    volumeSnapshotClassName: csi-ceph-blockpool
     capacity: "20Gi"
     accessModes: ["ReadWriteOnce"]
