@@ -8,7 +8,7 @@ metadata:
   name: zwavejs
   namespace: zwavejs-standby
 spec:
-  replicas: 0
+  replicas: 1
   revisionHistoryLimit: 3
   selector:
     matchLabels:
