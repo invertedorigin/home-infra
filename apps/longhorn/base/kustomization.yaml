@@ -1,7 +1,7 @@
 kind: Kustomization
 resources:
 - namespace.yaml
-#- ingress.yaml
+- ingress.yaml
 #- extra-storage-classes.yaml
 #- volume-snapshot-class.yaml
 
