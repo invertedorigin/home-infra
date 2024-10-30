@@ -2,8 +2,8 @@ kind: Kustomization
 resources:
 - namespace.yaml
 - ingress.yaml
-- extra-storage-classes.yaml
-- volume-snapshot-class.yaml
+#- extra-storage-classes.yaml
+#- volume-snapshot-class.yaml
 
 helmCharts:
 - name: longhorn
