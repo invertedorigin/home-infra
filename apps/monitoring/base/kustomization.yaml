@@ -9,8 +9,8 @@ resources:
 #- backup.yaml
 
 helmCharts:
-- name: victora-metrics-operator
-  repo: https://victoriametrics.github.io/helm-charts/vm
+- name: victoria-metrics-operator
+  repo: https://victoriametrics.github.io/helm-charts
   version: 0.36.0
   releaseName: victoria-metrics-operator
   includeCRDs: true
