@@ -46,7 +46,7 @@ helmCharts:
   includeCRDs: true
   valuesInline:
     crds:
-      enabled: false
+      enabled: true
     fullnameOverride: "kps"
     cleanPrometheusOperatorObjectNames: true
     namespaceOverride: monitoring
