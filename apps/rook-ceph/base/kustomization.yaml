@@ -23,9 +23,10 @@ helmCharts:
   namespace: rook-ceph
   valuesInLine:
     operatorNamespace: rook-ceph
+    configOverride: |
+      [global]
+      mon_allow_pool_size_one = true
     cephClusterSpec:
-      config:
-        mon_allow_pool_size_one: "true"
       network:
         hostNetwork: true
       mgr:
