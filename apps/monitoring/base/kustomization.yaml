@@ -6,51 +6,8 @@ namespace: monitoring
 resources:
 - namespace.yaml
 - external-secret.yaml
-#- backup.yaml
 
 helmCharts:
-- name: kube-prometheus-stack
-  repo: https://prometheus-community.github.io/helm-charts
-  version: 65.5.1
-  releaseName: kube-prometheus-stack
-  includeCRDs: true
-  valuesInline:
-    namespaceOverride: "monitoring"
-    alertmanager:
-      enabled: false
-    grafana:
-      enabled: false
-    prometheusOperator:
-      enabled: true
-      admissionWebhooks:
-        enabled: false
-    global:
-      rbac:
-        create: true
-        createAggregateClusterRoles: true
-    prometheus:
-      enabled: true
-      prometheusSpec:
-        podMonitorNamespaceSelector: {}
-        podMonitorSelector: {}
-        podMonitorSelectorNilUsesHelmValues: false
-        ruleNamespaceSelector: {}
-        ruleSelector: {}
-        ruleSelectorNilUsesHelmValues: false
-        serviceMonitorNamespaceSelector: {}
-        serviceMonitorSelector: {}
-        serviceMonitorSelectorNilUsesHelmValues: false
-        retention: 90d
-        storageSpec:
-          volumeClaimTemplate:
-            spec:
-              storageClassName: ceph-block
-              accessModes:
-              - ReadWriteOnce
-              resources:
-                requests:
-                  storage: 100Gi
-
 - name: grafana
   repo: https://grafana.github.io/helm-charts
   version: 8.5.11
