@@ -54,7 +54,7 @@ helmCharts:
       enabled: false
     grafana:
       enabled: false
-      forceDeployDashboards: true
+      forceDeployDashboards: false
     prometheusOperator:
       enabled: false
 
