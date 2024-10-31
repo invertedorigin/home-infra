@@ -24,6 +24,8 @@ helmCharts:
   valuesInLine:
     operatorNamespace: rook-ceph
     cephClusterSpec:
+      config:
+        mon_allow_pool_size_one: "true"
       network:
         hostNetwork: true
       mgr:
