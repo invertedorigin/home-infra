@@ -37,6 +37,11 @@ helmCharts:
             memory: "4Gi"
           requests:
             memory: "1Gi"
+        mds:
+          requests:
+            memory: "1Gi"
+          limits:
+            memory: "4Gi"
       storage:
         useAllNodes: false
         useAllDevices: false
