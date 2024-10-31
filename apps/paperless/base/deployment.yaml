@@ -91,7 +91,7 @@ spec:
         resources:
           requests:
             cpu: 25m
-            memory: 2Gi
+            memory: 1Gi
         volumeMounts:
         - mountPath: /data/local
           name: media
