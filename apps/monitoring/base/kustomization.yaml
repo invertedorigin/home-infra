@@ -12,7 +12,7 @@ helmCharts:
 - name: victora-metrics-operator
   repo: https://victoriametrics.github.io/helm-charts/
   version: 0.36.0
-  releaseName: victoria-metrics-operato
+  releaseName: victoria-metrics-operator
   includeCRDs: true
   valuesInline:
     operator:
