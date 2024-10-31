@@ -6,8 +6,18 @@ namespace: monitoring
 resources:
 - namespace.yaml
 - external-secret.yaml
+#- backup.yaml
 
 helmCharts:
+- name: victora-metrics-operator
+  repo: https://victoriametrics.github.io/helm-charts/
+  version: 0.36.0
+  releaseName: victoria-metrics-operato
+  includeCRDs: true
+  valuesInline:
+    operator:
+      disable_prometheus_converter: true
+
 - name: grafana
   repo: https://grafana.github.io/helm-charts
   version: 8.5.11
