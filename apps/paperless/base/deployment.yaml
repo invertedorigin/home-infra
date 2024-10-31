@@ -88,6 +88,10 @@ spec:
           value: "2"
         image: ghcr.io/paperless-ngx/paperless-ngx:2.13.2
         name: app
+        resources:
+          requests:
+            cpu: 25m
+            memory: 2Gi
         volumeMounts:
         - mountPath: /data/local
           name: media
@@ -109,12 +113,6 @@ spec:
           tcpSocket:
             port: 22
           timeoutSeconds: 1
-        resources:
-          limits:
-            memory: 6Gi
-          requests:
-            cpu: 25m
-            memory: 2Gi
         startupProbe:
           failureThreshold: 30
           initialDelaySeconds: 0
