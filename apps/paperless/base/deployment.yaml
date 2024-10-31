@@ -99,7 +99,6 @@ spec:
           tcpSocket:
             port: 8000
           timeoutSeconds: 1
-        name: sftp
         readinessProbe:
           failureThreshold: 3
           initialDelaySeconds: 0
@@ -120,6 +119,7 @@ spec:
       - args:
         - paperless:pass:1000
         image: ghcr.io/atmoz/sftp/debian:latest@sha256:8d4b8d93f172d826b9b690a3cd34fdd5ea74e27abe2d59cdb319f6b20ff24115
+        name: sftp
         volumeMounts:
         - mountPath: /data/local
           name: media
