@@ -6,7 +6,7 @@ namespace: monitoring
 resources:
 - namespace.yaml
 - external-secret.yaml
-#- backup.yaml
+- kube-prometheus-stack.yaml
 
 helmCharts:
 - name: victoria-metrics-operator
