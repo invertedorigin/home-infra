@@ -42,7 +42,7 @@ spec:
         resources:
           requests:
             cpu: 50m
-            memory: 2Gi
+            memory: 1Gi
         volumeMounts:
         - mountPath: /config
           name: media
