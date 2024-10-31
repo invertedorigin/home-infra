@@ -49,7 +49,7 @@ helmCharts:
       enabled: false
     fullnameOverride: "kps"
     cleanPrometheusOperatorObjectNames: true
-    namespaceOverride: kube-system
+    namespaceOverride: monitoring
     alertmanager:
       enabled: false
     grafana:
