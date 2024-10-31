@@ -22,6 +22,7 @@ helmCharts:
   namespace: rook-ceph
   valuesInLine:
     operatorNamespace: rook-ceph
+
     cephClusterSpec:
       network:
         hostNetwork: true
@@ -64,6 +65,27 @@ helmCharts:
             devices:
               - name: "/dev/disk/by-id/nvme-WD_BLACK_SN850X_2000GB_24163X803932-part1"
               - name: "/dev/disk/by-id/nvme-WD_BLACK_SN850X_2000GB_24163X803932-part2"
+    cephFileSystems:
+      - name: ceph-filesystem
+        spec:
+          metadataPool:
+            replicated:
+              size: 3
+          dataPools:
+            - failureDomain: host
+              replicated:
+                size: 3
+              name: data0
+          metadataServer:
+            activeCount: 1
+            activeStandby: true
+            resources:
+              limits:
+                memory: "4Gi"
+              requests:
+                cpu: "1000m"
+                memory: "1Gi"
+            priorityClassName: system-cluster-critical
     cephBlockPoolsVolumeSnapshotClass:
       enabled: true
       name: csi-ceph-blockpool
