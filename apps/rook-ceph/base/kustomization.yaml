@@ -56,12 +56,11 @@ helmCharts:
               osdsPerDevice: "1"
             devices:
               - name: "/dev/disk/by-id/nvme-WD_BLACK_SN850X_2000GB_24163X803862"
-          # - name: node-3
-          #   config:
-          #     osdsPerDevice: "1"
-          #   devices:
-          #     - name: "/dev/disk/by-id/nvme-WD_BLACK_SN850X_2000GB_24163X803932-part1"
-          #     - name: "/dev/disk/by-id/nvme-WD_BLACK_SN850X_2000GB_24163X803932-part2"
+          - name: node-3
+            config:
+              osdsPerDevice: "1"
+            devices:
+              - name: "/dev/disk/by-id/nvme-WD_BLACK_SN850X_2000GB_24163X803932"
     cephFileSystems:
       - name: ceph-filesystem
         # see https://github.com/rook/rook/blob/master/Documentation/CRDs/Shared-Filesystem/ceph-filesystem-crd.md#filesystem-settings for available configuration
