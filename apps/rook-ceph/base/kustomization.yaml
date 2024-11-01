@@ -22,6 +22,8 @@ helmCharts:
   namespace: rook-ceph
   valuesInLine:
     operatorNamespace: rook-ceph
+    toolbox:
+      enabled: true
     cephClusterSpec:
       network:
         hostNetwork: true
