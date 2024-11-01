@@ -6,7 +6,7 @@ namespace: monitoring
 resources:
 - namespace.yaml
 - external-secret.yaml
-- victoria-metrics-cluster.yaml
+- victoria-metrics.yaml
 
 patches:
 - target:
