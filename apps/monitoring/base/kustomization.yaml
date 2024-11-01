@@ -836,7 +836,7 @@ helmCharts:
         - name: Prometheus
           type: prometheus
           access: proxy
-          url: http://kube-prometheus-stack-prometheus.monitoring.svc.cluster.local:9090
+          url: http://vmsingle-victoria.monitoring.svc.cluster.local:8429
           isDefault: true
         - name: TeslaMate
           type: postgres
