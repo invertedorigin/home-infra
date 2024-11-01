@@ -11,7 +11,6 @@ spec:
   selectAllByDefault: true
   remoteWrite:
     - url: "http://vmsingle-victoria.monitoring.svc:8429/api/v1/write"
-    - url: "http://vmsingle-alerts.monitoring.svc:8429/api/v1/write"
   scrapeInterval: 60s
   vmAgentExternalLabelName: prometheus
   externalLabels:
