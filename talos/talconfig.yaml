@@ -106,14 +106,6 @@ patches:
         nodeIP:
           validSubnets:
             - 10.0.1.0/24
-        extraMounts:
-          - destination: /var/lib/longhorn
-            type: bind
-            source: /var/lib/longhorn
-            options:
-              - bind
-              - rshared
-              - rw
       features:
         kubePrism:
           enabled: true
