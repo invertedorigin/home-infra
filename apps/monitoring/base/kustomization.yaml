@@ -167,7 +167,7 @@ helmCharts:
         syslog.listenAddr.tcp: ":9514"
       ingress:
         enabled: true
-        ingressClassName: tailscale
+        ingressClassName: nginx
         pathType: Prefix
         hosts:
           - name: &host vmlogs.invertedorigin.com
