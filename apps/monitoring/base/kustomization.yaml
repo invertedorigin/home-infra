@@ -156,7 +156,7 @@ helmCharts:
       enabled: true
       image:
         repository: docker.io/victoriametrics/victoria-logs
-        tag: "v0.32.0-victorialogs@sha256:b9b4658691c5e4b1db6b1006b0dc9209c691d5b918d29428b4b936c1689aeec1"
+        tag: "v0.40.0-victorialogs@sha256:e4c9d2e1b987161f32018f84a30131a0c84614a034e19a90b33b21a22ec69148"
         pullPolicy: IfNotPresent
       retentionPeriod: 1 # months
       persistentVolume:
