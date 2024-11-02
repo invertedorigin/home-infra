@@ -145,6 +145,57 @@ helmCharts:
         limits:
           memory: 500Mi
 
+  - name: victoria-logs-single
+    repo: https://victoriametrics.github.io/helm-charts/
+    version: 0.6.4
+    releaseName: &app victoria-logs
+    namespace: monitoring
+    includeCRDs: true
+    valuesInline:
+      server:
+        enabled: true
+        image:
+          repository: docker.io/victoriametrics/victoria-logs
+          tag: "v0.32.0-victorialogs@sha256:b9b4658691c5e4b1db6b1006b0dc9209c691d5b918d29428b4b936c1689aeec1"
+          pullPolicy: IfNotPresent
+        retentionPeriod: 1 # months
+        persistentVolume:
+          enabled: true
+          storageClassName: "ceph-block"
+          size: 30Gi
+        extraArgs:
+          syslog.listenAddr.tcp: ":9514"
+        ingress:
+          enabled: true
+          ingressClassName: tailscale
+          pathType: Prefix
+          hosts:
+            - name: &host vmlogs.invertedorigin.com
+              path: /
+              port: http
+          tls:
+            - hosts: [*host]
+        resources: # TODO: tune
+          requests:
+            cpu: 10m
+            memory: 512Mi
+          limits:
+            cpu: 3000m
+            memory: 4Gi
+        statefulSet:
+          enabled: false
+        serviceMonitor:
+          enabled: true
+        affinity: {}
+      fluent-bit:
+        enabled: false
+      extraObjects: []
+      global:
+        nameOverride: *app
+        victoriaLogs:
+          server:
+            fullnameOverride: *app
+
 - name: victoria-metrics-operator
   repo: https://victoriametrics.github.io/helm-charts/
   version: 0.36.0
