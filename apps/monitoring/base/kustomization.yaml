@@ -168,6 +168,8 @@ helmCharts:
       ingress:
         enabled: true
         ingressClassName: nginx
+        annotations:
+          cert-manager.io/cluster-issuer: cloudflare-issuer
         pathType: Prefix
         hosts:
           - name: &host vmlogs.invertedorigin.com
