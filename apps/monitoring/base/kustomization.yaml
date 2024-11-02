@@ -197,31 +197,31 @@ helmCharts:
           fullnameOverride: *app
 
 - name: victoria-metrics-operator
-repo: https://victoriametrics.github.io/helm-charts/
-version: 0.36.0
-releaseName: victoria-metrics-operator
-namespace: monitoring
-includeCRDs: true
-valuesInline:
-  crd:
-    create: true
-  operator:
-    enable_converter_ownership: true
-    useCustomConfigReloader: true
-    psp_auto_creation_enabled: false
-  env:
-    - name: VM_VMALERTDEFAULT_CONFIGRELOADERCPU
-      value: 10m
-    - name: VM_VMAGENTDEFAULT_CONFIGRELOADERCPU
-      value: 10m
-  rbac:
-    pspEnabled: false
-  resources:
-    requests:
-      cpu: 20m
-    limits:
-      cpu: 1000m
-      memory: 200Mi
+  repo: https://victoriametrics.github.io/helm-charts/
+  version: 0.36.0
+  releaseName: victoria-metrics-operator
+  namespace: monitoring
+  includeCRDs: true
+  valuesInline:
+    crd:
+      create: true
+    operator:
+      enable_converter_ownership: true
+      useCustomConfigReloader: true
+      psp_auto_creation_enabled: false
+    env:
+      - name: VM_VMALERTDEFAULT_CONFIGRELOADERCPU
+        value: 10m
+      - name: VM_VMAGENTDEFAULT_CONFIGRELOADERCPU
+        value: 10m
+    rbac:
+      pspEnabled: false
+    resources:
+      requests:
+        cpu: 20m
+      limits:
+        cpu: 1000m
+        memory: 200Mi
 
 - name: grafana
   repo: https://grafana.github.io/helm-charts
