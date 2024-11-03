@@ -59,7 +59,7 @@ helmCharts:
       enabled: false
       forceDeployDashboards: false
     prometheusOperator:
-      enabled: false
+      enabled: true
 
     prometheus:
       enabled: false
