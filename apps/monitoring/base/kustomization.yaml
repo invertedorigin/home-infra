@@ -45,21 +45,20 @@ helmCharts:
   repo: https://prometheus-community.github.io/helm-charts
   version: 65.5.1
   releaseName: kps
-  namespace: kube-system
   includeCRDs: true
   valuesInline:
     crds:
       enabled: true
     fullnameOverride: "kps"
     cleanPrometheusOperatorObjectNames: true
-    namespaceOverride: kube-system
+    namespaceOverride: monitoring
     alertmanager:
       enabled: false
     grafana:
       enabled: false
       forceDeployDashboards: false
     prometheusOperator:
-      enabled: true
+      enabled: false
 
     prometheus:
       enabled: false
