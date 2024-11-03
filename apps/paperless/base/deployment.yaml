@@ -86,7 +86,7 @@ spec:
           value: https://paperless.invertedorigin.com
         - name: PAPERLESS_WEBSERVER_WORKERS
           value: "2"
-        image: ghcr.io/paperless-ngx/paperless-ngx:2.13.3
+        image: ghcr.io/paperless-ngx/paperless-ngx:2.13.4
         name: app
         resources:
           requests:
