@@ -177,6 +177,7 @@ helmCharts:
             port: http
         tls:
           - hosts: [*host]
+            secretName: vmlogs-tls-domain
       resources: # TODO: tune
         requests:
           cpu: 10m
