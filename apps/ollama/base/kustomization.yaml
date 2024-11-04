@@ -22,6 +22,8 @@ helmCharts:
         value: "-1"
       - name: HSA_OVERRIDE_GFX_VERSION
         value: "11.0.0"
+      - name: OLLAMA_MAX_VRAM
+        value: 16106127360
       - name: HCC_AMDGPU_TARGETS
         value: "gfx1035"
       - name: OLLAMA_NUM_PARALLEL
