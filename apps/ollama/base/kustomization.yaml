@@ -16,6 +16,7 @@ helmCharts:
     image:
       repository: keatontaylor/ollama
       tag: "0.3.14-rocm"
+      pullPolicy: Always
     replicaCount: 3
     extraEnv:
       - name: OLLAMA_KEEP_ALIVE
@@ -42,7 +43,6 @@ helmCharts:
               values:
               - ollama
           topologyKey: "kubernetes.io/hostname"
-    imagePullPolicy: Always
     persistentVolume:
       enabled: true
       existingClaim: ollama
