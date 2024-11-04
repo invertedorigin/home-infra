@@ -4,7 +4,6 @@ metadata:
   name: prod
 spec:
   statefulSet:
-    pod:
-      resources:
-        limits:
-          squat.ai/tun: "1"
+    resources:
+      limits:
+        squat.ai/tun: "1"
