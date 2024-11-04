@@ -4,7 +4,6 @@ kind: Kustomization
 resources:
 - external-secret.yaml
 - namespace.yaml
-- proxy-group.yaml
 
 helmCharts:
 - name: tailscale-operator
