@@ -4,6 +4,9 @@ metadata:
   name: prod
 spec:
   statefulSet:
-    resources:
-      limits:
-        squat.ai/tun: "1"
+    pod:
+      labels:
+        team: eng
+        environment: prod
+      nodeSelector:
+        beta.kubernetes.io/os: "linux"
