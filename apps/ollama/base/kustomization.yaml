@@ -24,6 +24,8 @@ helmCharts:
         value: "9.0.0"
       - name: HCC_AMDGPU_TARGETS
         value: "gfx1035"
+      - name: OLLAMA_MAX_VRAM
+        value: "16106127360"
       - name: OLLAMA_NUM_PARALLEL
         value: "2"
       - name: HSA_ENABLE_SDMA
