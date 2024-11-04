@@ -2,6 +2,8 @@ apiVersion: tailscale.com/v1alpha1
 kind: Connector
 metadata:
   name: ts-home-network
+  labels:
+    tailscale.com/proxy-class: "prod"
 spec:
   hostname: ts-home-network
   subnetRouter:
