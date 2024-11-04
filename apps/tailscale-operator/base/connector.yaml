@@ -5,6 +5,7 @@ metadata:
 spec:
   hostname: ts-home-network
   proxyClass: prod
+  exitNode: true
   subnetRouter:
     advertiseRoutes:
       - "10.0.1.0/24"
