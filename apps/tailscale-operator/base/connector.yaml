@@ -3,9 +3,11 @@ kind: Connector
 metadata:
   name: ts-home-network
 spec:
-  hostname: ts-home-network
+  hostname: k8s-to-home-network
   proxyClass: prod
   exitNode: true
   subnetRouter:
     advertiseRoutes:
       - "10.0.1.0/24"
+      - "10.244.0.0/16"
+      - "10.245.0.0/16"
