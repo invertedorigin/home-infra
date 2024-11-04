@@ -21,7 +21,7 @@ helmCharts:
       - name: OLLAMA_KEEP_ALIVE
         value: "-1"
       - name: HSA_OVERRIDE_GFX_VERSION
-        value: "11.0.0"
+        value: "10.3.0"
       - name: OLLAMA_MAX_VRAM
         value: "16106127360"
       - name: HCC_AMDGPU_TARGETS
@@ -42,7 +42,7 @@ helmCharts:
               values:
               - ollama
           topologyKey: "kubernetes.io/hostname"
-
+    imagePullPolicy: Always
     persistentVolume:
       enabled: true
       existingClaim: ollama
