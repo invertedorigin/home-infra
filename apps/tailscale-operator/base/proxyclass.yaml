@@ -10,7 +10,7 @@ spec:
         environment: prod
       nodeSelector:
         beta.kubernetes.io/os: "linux"
-    tailscaleContainer:
-      requests:
-        limits:
-          squat.ai/tun: "1"
+      tailscaleContainer:
+        resources:
+          limits:
+            squat.ai/tun: "1"
