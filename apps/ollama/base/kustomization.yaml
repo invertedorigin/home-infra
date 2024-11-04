@@ -14,7 +14,7 @@ helmCharts:
   releaseName: ollama
   valuesInLine:
     image:
-      repository: ollama/ollama
+      repository: keatontaylor/ollama:apu
       tag: "0.3.14-rocm"
     replicaCount: 3
     extraEnv:
