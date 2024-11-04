@@ -14,3 +14,12 @@ spec:
         resources:
           limits:
             squat.ai/tun: "1"
+---
+apiVersion: tailscale.com/v1alpha1
+kind: ProxyGroup
+metadata:
+  name: ts-proxies
+spec:
+  proxyClass: prod
+  type: ingress
+  replicas: 3
