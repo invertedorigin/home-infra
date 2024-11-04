@@ -14,8 +14,8 @@ helmCharts:
   releaseName: ollama
   valuesInLine:
     image:
-      repository: keatontaylor/ollama
-      tag: "apu-test2"
+      repository: ollama/ollama
+      tag: "0.3.14-rocm"
     replicaCount: 3
     extraEnv:
       - name: OLLAMA_KEEP_ALIVE
