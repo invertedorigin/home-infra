@@ -25,6 +25,7 @@ helmCharts:
     toolbox:
       enabled: true
     cephClusterSpec:
+      enableRBDStats: true
       network:
         hostNetwork: true
       mgr:
