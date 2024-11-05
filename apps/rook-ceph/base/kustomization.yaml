@@ -70,6 +70,7 @@ helmCharts:
         # see https://github.com/rook/rook/blob/master/Documentation/CRDs/Block-Storage/ceph-block-pool-crd.md#spec for available configuration
         spec:
           failureDomain: host
+          enableRBDStats: true
           replicated:
             size: 3
           # Enables collecting RBD per-image IO statistics by enabling dynamic OSD performance counters. Defaults to false.
