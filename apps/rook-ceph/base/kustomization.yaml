@@ -34,9 +34,6 @@ helmCharts:
           - name: rook # This enables the rook module.
             enabled: true
       dashboard:
-        enabled: true
-        urlPrefix: /
-        ssl: true
         prometheusEndpoint: http://vmsingle-victoria.monitoring.svc.cluster.local:8429
       resources:
         osd:
