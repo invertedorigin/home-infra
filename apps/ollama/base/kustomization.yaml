@@ -14,9 +14,9 @@ helmCharts:
   releaseName: ollama
   valuesInLine:
     image:
-      repository: ollama/ollama
-      tag: "0.4.0-rocm"
-    replicaCount: 3
+      repository: keatontaylor/ollama
+      tag: "apu-test4"
+    replicaCount: 1
     extraEnv:
       - name: OLLAMA_KEEP_ALIVE
         value: "-1"
@@ -25,7 +25,7 @@ helmCharts:
       - name: HCC_AMDGPU_TARGETS
         value: "gfx1035"
       - name: OLLAMA_NUM_PARALLEL
-        value: "2"
+        value: "1"
     podLabels:
       app: ollama
     affinity:
@@ -68,7 +68,7 @@ helmCharts:
 
 - name: open-webui
   repo: https://helm.openwebui.com/
-  version: 3.5.1
+  version: 3.5.0
   releaseName: open-webui
   valuesInLine:
     ollama:
