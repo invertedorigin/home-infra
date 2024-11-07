@@ -26,8 +26,8 @@ helmCharts:
         value: "gfx1035"
       - name: OLLAMA_NUM_PARALLEL
         value: "1"
-      - name: "HSA_ENABLE_SDMA"
-        values: "0"
+      - name: "OLLAMA_MAX_LOADED_MODELS"
+        values: "1"
     podLabels:
       app: ollama
     affinity:
