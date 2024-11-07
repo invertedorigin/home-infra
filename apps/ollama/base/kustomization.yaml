@@ -27,7 +27,7 @@ helmCharts:
       - name: OLLAMA_NUM_PARALLEL
         value: "0"
       - name: "OLLAMA_MAX_LOADED_MODELS"
-        value: "1"
+        value: "0"
     podLabels:
       app: ollama
     affinity:
