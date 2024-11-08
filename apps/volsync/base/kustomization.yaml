@@ -8,7 +8,7 @@ resources:
 helmCharts:
 - name: volsync
   repo: https://backube.github.io/helm-charts/
-  version: 0.10.0
+  version: 0.11.0
   releaseName: volsync
   namespace: kube-system
   valuesInline:
