@@ -13,8 +13,6 @@ helmCharts:
   version: 0.63.1
   releaseName: ollama
   valuesInLine:
-    nodeSelector:
-        kubernetes.io/hostname: node-2
     image:
       repository: ollama/ollama
       tag: "0.3.14-rocm"
