@@ -18,7 +18,7 @@ helmCharts:
     image:
       repository: ollama/ollama
       tag: "0.3.14-rocm"
-    replicaCount: 1
+    replicaCount: 3
     extraEnv:
       - name: OLLAMA_KEEP_ALIVE
         value: "-1"
@@ -27,9 +27,7 @@ helmCharts:
       - name: HCC_AMDGPU_TARGETS
         value: "gfx1035"
       - name: OLLAMA_NUM_PARALLEL
-        value: "0"
-      - name: "OLLAMA_MAX_LOADED_MODELS"
-        value: "0"
+        value: "2"
     podLabels:
       app: ollama
     affinity:
