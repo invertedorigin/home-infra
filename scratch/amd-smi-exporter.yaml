@@ -1,0 +1,73 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: amd-smi-exporter
+spec:
+  selector:
+      matchLabels:
+        app.kubernetes.io/instance: amd-smi-exporter
+        app.kubernetes.io/name: amd-smi-exporter
+        app.kubernetes.io/service: amd-smi-exporter
+  template:
+    metadata:
+      name: amd-smi-exporter
+      labels:
+        app.kubernetes.io/instance: amd-smi-exporter
+        app.kubernetes.io/name: amd-smi-exporter
+        app.kubernetes.io/service: amd-smi-exporter
+    spec:
+      tolerations:
+      - effect: NoSchedule
+        operator: Exists
+      containers:
+      - name: amd-smi-exporter
+        image: "amdih/amd-smi-exporter:0.5"
+        securityContext:
+          privileged: true
+          capabilities:
+            drop: ["ALL"]
+        ports:
+        - containerPort: 2021
+        args:
+          - "-d --name amd-exporter --device=/dev/cpu --device=/dev/kfd --device=/dev/dri --privileged"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app.kubernetes.io/instance: amd-smi-exporter
+    app.kubernetes.io/name: amd-smi-exporter
+    app.kubernetes.io/service: amd-smi-exporter
+  name: amd-smi-exporter
+spec:
+  ports:
+  - name: http
+    port: 2021
+    protocol: TCP
+    targetPort: 2021
+  selector:
+    app.kubernetes.io/name: amd-smi-exporter
+  type: ClusterIP
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  labels:
+    app.kubernetes.io/instance: amd-smi-exporter
+    app.kubernetes.io/name: amd-smi-exporter
+    app.kubernetes.io/service: amd-smi-exporter
+  name: amd-smi-exporter
+spec:
+  endpoints:
+  - interval: 5s
+    path: /metrics
+    port: http
+    scheme: http
+    scrapeTimeout: 30s
+  jobLabel: amd-smi-exporter
+  selector:
+    matchLabels:
+      app.kubernetes.io/instance: amd-smi-exporter
+      app.kubernetes.io/name: amd-smi-exporter
+      app.kubernetes.io/service: amd-smi-exporter
+
