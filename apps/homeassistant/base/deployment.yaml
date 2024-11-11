@@ -33,6 +33,7 @@ spec:
         app.kubernetes.io/name: homeassistant
     spec:
       automountServiceAccountToken: true
+      hostNetwork: true
       containers:
       - env:
         - name: TZ
