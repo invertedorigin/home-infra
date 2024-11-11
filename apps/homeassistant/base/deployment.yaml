@@ -49,6 +49,7 @@ spec:
       dnsPolicy: ClusterFirst
       enableServiceLinks: false
       hostIPC: false
+      privledged: true
       hostNetwork: true
       hostPID: false
       serviceAccountName: default
