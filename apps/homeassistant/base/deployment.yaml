@@ -49,9 +49,7 @@ spec:
       dnsPolicy: ClusterFirst
       enableServiceLinks: false
       hostIPC: false
-      securityContext:
-        privileged: true
-      hostNetwork: true
+      hostNetwork: false
       hostPID: false
       serviceAccountName: default
       volumes:
