@@ -7,9 +7,9 @@ tasks:
       vars: [repo]
     vars:
       resticBaseRepo:
-        sh: doppler secrets get -p invertedorigin -c dev RESTIC_BASE_REPOSITORY --plain
+        sh: doppler secrets get -p invertedorigin -c prd RESTIC_BASE_REPOSITORY --plain
     cmds:
-      - doppler run -p invertedorigin -c dev -- restic snapshots --repo={{.resticBaseRepo}}/{{.repo}}
+      - doppler run -p invertedorigin -c prd -- restic snapshots --repo={{.resticBaseRepo}}/{{.repo}}
 
   restore:
     desc: Restores a snapshot with an id to a specified dest
@@ -17,7 +17,7 @@ tasks:
       vars: [repo, id, dest]
     vars:
       resticBaseRepo:
-        sh: doppler secrets get -p invertedorigin -c dev RESTIC_BASE_REPOSITORY --plain
+        sh: doppler secrets get -p invertedorigin -c prd RESTIC_BASE_REPOSITORY --plain
     cmds:
-      - doppler run -p invertedorigin -c dev -- restic restore \
+      - doppler run -p invertedorigin -c prd -- restic restore \
         --repo={{.resticBaseRepo}}/{{.repo}} {{.id}} --target {{.dest}}
