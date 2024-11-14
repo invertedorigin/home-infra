@@ -1,15 +1,24 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": ["config:base"],
+  "extends": [
+    "config:recommended"
+  ],
   "kubernetes": {
-    "fileMatch": ["\\.yaml$"]
+    "fileMatch": [
+      "\\.yaml$"
+    ]
   },
   "helm-values": {
-    "fileMatch": ["\\.yaml$"]
+    "fileMatch": [
+      "\\.yaml$"
+    ]
   },
-  "regexManagers": [
+  "customManagers": [
     {
-      "fileMatch": ["\\.yaml$"],
+      "customType": "regex",
+      "fileMatch": [
+        "\\.yaml$"
+      ],
       "matchStrings": [
         "datasource=(?<datasource>.*?) depName=(?<depName>.*?)( versioning=(?<versioning>.*?))?\\s  version: (?<currentValue>.*)\\s",
         "datasource=(?<datasource>.*?) depName=(?<depName>.*?)( versioning=(?<versioning>.*?))?\\stalosVersion: (?<currentValue>.*)\\s",
@@ -19,7 +28,10 @@
       "versioningTemplate": "{{#if versioning}}{{{versioning}}}{{else}}semver{{/if}}"
     },
     {
-      "fileMatch": ["\\.yaml$"],
+      "customType": "regex",
+      "fileMatch": [
+        "\\.yaml$"
+      ],
       "matchStrings": [
         "  imageName: (?<depName>ghcr\\.io/cloudnative-pg/postgresql):(?<currentValue>\\d+\\.\\d+)"
       ],
@@ -29,11 +41,15 @@
   ],
   "packageRules": [
     {
-      "matchPackageNames": ["kubernetes/ingress-nginx"],
+      "matchPackageNames": [
+        "kubernetes/ingress-nginx"
+      ],
       "versioning": "regex:^controller-v?(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+)?$"
     },
     {
-      "matchPackageNames": ["koush/scrypted"],
+      "matchPackageNames": [
+        "koush/scrypted"
+      ],
       "versioning": "regex:^18-jammy-full.s6-v?(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+)?$"
     },
     {
@@ -63,6 +79,4 @@
       "groupSlug": "all-k8s-upgrades"
     }
   ]
-
-
 }
