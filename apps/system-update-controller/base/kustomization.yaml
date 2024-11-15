@@ -39,3 +39,5 @@ patches:
             env:
             - name: SYSTEM_UPGRADE_JOB_ACTIVE_DEADLINE_SECONDS
               value: "1800"
+            - name: SYSTEM_UPGRADE_JOB_POD_REPLACEMENT_POLICY
+              value: "Failed"
