@@ -1,7 +1,7 @@
 apiVersion: tailscale.com/v1alpha1
 kind: ProxyClass
 metadata:
-  name: prod
+  name: node-1
 spec:
   statefulSet:
     pod:
@@ -9,7 +9,41 @@ spec:
         team: eng
         environment: prod
       nodeSelector:
-        beta.kubernetes.io/os: "linux"
+        kubernetes.io/hostname: "node-1"
+      tailscaleContainer:
+        resources:
+          limits:
+            squat.ai/tun: "1"
+---
+apiVersion: tailscale.com/v1alpha1
+kind: ProxyClass
+metadata:
+  name: node-2
+spec:
+  statefulSet:
+    pod:
+      labels:
+        team: eng
+        environment: prod
+      nodeSelector:
+        kubernetes.io/hostname: "node-2"
+      tailscaleContainer:
+        resources:
+          limits:
+            squat.ai/tun: "1"
+---
+apiVersion: tailscale.com/v1alpha1
+kind: ProxyClass
+metadata:
+  name: node-3
+spec:
+  statefulSet:
+    pod:
+      labels:
+        team: eng
+        environment: prod
+      nodeSelector:
+        kubernetes.io/hostname: "node-3"
       tailscaleContainer:
         resources:
           limits:

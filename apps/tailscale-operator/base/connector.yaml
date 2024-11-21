@@ -1,10 +1,38 @@
 apiVersion: tailscale.com/v1alpha1
 kind: Connector
 metadata:
-  name: ts-home-network
+  name: ts-home-network-node-1
 spec:
-  hostname: k8s-to-home-network
+  hostname: k8s-to-home-node-1
   proxyClass: prod
+  exitNode: true
+  subnetRouter:
+    advertiseRoutes:
+      - "10.0.1.0/24"
+      - "10.244.0.0/16"
+      - "10.245.0.0/16"
+---
+apiVersion: tailscale.com/v1alpha1
+kind: Connector
+metadata:
+  name: ts-home-network-node-2
+spec:
+  hostname: k8s-to-home-node-2
+  proxyClass: node-1
+  exitNode: true
+  subnetRouter:
+    advertiseRoutes:
+      - "10.0.1.0/24"
+      - "10.244.0.0/16"
+      - "10.245.0.0/16"
+---
+apiVersion: tailscale.com/v1alpha1
+kind: Connector
+metadata:
+  name: ts-home-network-node-3
+spec:
+  hostname: k8s-to-home-node-3
+  proxyClass: node-1
   exitNode: true
   subnetRouter:
     advertiseRoutes:
