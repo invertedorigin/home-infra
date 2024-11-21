@@ -4,7 +4,7 @@ metadata:
   name: ts-home-network-node-1
 spec:
   hostname: k8s-to-home-node-1
-  proxyClass: prod
+  proxyClass: node-1
   exitNode: true
   subnetRouter:
     advertiseRoutes:
@@ -18,7 +18,7 @@ metadata:
   name: ts-home-network-node-2
 spec:
   hostname: k8s-to-home-node-2
-  proxyClass: node-1
+  proxyClass: node-2
   exitNode: true
   subnetRouter:
     advertiseRoutes:
@@ -32,7 +32,7 @@ metadata:
   name: ts-home-network-node-3
 spec:
   hostname: k8s-to-home-node-3
-  proxyClass: node-1
+  proxyClass: node-3
   exitNode: true
   subnetRouter:
     advertiseRoutes:
