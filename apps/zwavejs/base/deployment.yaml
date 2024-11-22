@@ -29,7 +29,7 @@ spec:
       - env:
         - name: TZ
           value: America/Chicago
-        image: ghcr.io/zwave-js/zwave-js-ui:9.27.3
+        image: ghcr.io/zwave-js/zwave-js-ui:9.27.4
         livenessProbe:
           failureThreshold: 3
           httpGet:
