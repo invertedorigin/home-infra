@@ -39,11 +39,6 @@ metadata:
 spec:
   statefulSet:
     pod:
-      dnsPolicy: None
-      dnsConfig:
-        nameservers:
-          - 1.1.1.1
-          - 8.8.8.8
       labels:
         team: eng
         environment: prod
@@ -54,13 +49,17 @@ spec:
               "name": "macvlan-conf-dhcp",
               "namespace": "kube-system",
               "mac": "5a:d2:3c:48:a2:11",
-              "default-route": ["10.0.1.1"],
-              "dns": { "nameservers": ["8.8.8.8", "8.8.4.4"] }
+              "default-route": ["10.0.1.1"]
             }
           ]
       nodeSelector:
         kubernetes.io/hostname: "node-3"
       tailscaleContainer:
+        dnsPolicy: None
+        dnsConfig:
+          nameservers:
+            - 1.1.1.1
+            - 8.8.8.8
         resources:
           limits:
             squat.ai/tun: "1"
