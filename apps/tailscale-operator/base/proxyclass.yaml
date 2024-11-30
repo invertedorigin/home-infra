@@ -39,6 +39,7 @@ metadata:
 spec:
   statefulSet:
     pod:
+      dnsPolicy: None
       labels:
         team: eng
         environment: prod
@@ -55,11 +56,6 @@ spec:
       nodeSelector:
         kubernetes.io/hostname: "node-3"
       tailscaleContainer:
-        dnsPolicy: None
-        dnsConfig:
-          nameservers:
-            - 1.1.1.1
-            - 8.8.8.8
         resources:
           limits:
             squat.ai/tun: "1"
