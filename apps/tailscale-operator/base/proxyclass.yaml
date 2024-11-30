@@ -39,7 +39,6 @@ metadata:
 spec:
   statefulSet:
     pod:
-      dnsPolicy: None
       labels:
         team: eng
         environment: prod
