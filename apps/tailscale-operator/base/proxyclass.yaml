@@ -42,6 +42,15 @@ spec:
       labels:
         team: eng
         environment: prod
+      annotations:
+        k8s.v1.cni.cncf.io/networks: |-
+          [
+            {
+              "name": "macvlan-conf-dhcp",
+              "namespace": "kube-system",
+              "mac": "5a:d2:3c:48:a2:11"
+            }
+          ]
       nodeSelector:
         kubernetes.io/hostname: "node-3"
       tailscaleContainer:
