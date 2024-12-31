@@ -7,8 +7,7 @@ metadata:
     nginx.ingress.kubernetes.io/configuration-snippet: |
       chunked_transfer_encoding off;
     nginx.ingress.kubernetes.io/proxy-body-size: "0"
-    nginx.ingress.kubernetes.io/server-snippet: |
-      client_max_body_size 0;
+    nginx.ingress.kubernetes.io/proxy-body-size: 8m
   labels:
     app.kubernetes.io/instance: paperless
     app.kubernetes.io/name: paperless
