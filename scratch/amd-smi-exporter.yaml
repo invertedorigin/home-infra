@@ -70,4 +70,3 @@ spec:
       app.kubernetes.io/instance: amd-smi-exporter
       app.kubernetes.io/name: amd-smi-exporter
       app.kubernetes.io/service: amd-smi-exporter
-
