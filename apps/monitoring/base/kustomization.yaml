@@ -201,7 +201,7 @@ helmCharts:
 
 - name: victoria-metrics-operator
   repo: https://victoriametrics.github.io/helm-charts/
-  version: 0.40.2
+  version: 0.40.3
   releaseName: victoria-metrics-operator
   namespace: monitoring
   includeCRDs: true
