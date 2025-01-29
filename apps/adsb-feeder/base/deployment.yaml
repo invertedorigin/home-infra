@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app.kubernetes.io/component: main
+    app.kubernetes.io/instance: adsb-feeder
+    app.kubernetes.io/name: adsb-feeder
+  name: adsb-feeder
+  namespace: adsb-feeder
+spec:
+  replicas: 1
+  revisionHistoryLimit: 3
+  selector:
+    matchLabels:
+      app.kubernetes.io/component: main
+      app.kubernetes.io/instance: adsb-feeder
+      app.kubernetes.io/name: adsb-feeder
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/component: main
+        app.kubernetes.io/instance: adsb-feeder
+        app.kubernetes.io/name: adsb-feeder
+    spec:
+      automountServiceAccountToken: true
+      containers:
+      - env:
+        - name: TZ
+          value: America/Chicago
+        image: ghcr.io/sdr-enthusiasts/docker-adsb-ultrafeeder:latest-build-570
+        name: main
+        resources:
+          requests:
+            cpu: 25m
+            memory: 250Mi
+        securityContext:
+          privileged: true
