@@ -8,3 +8,4 @@ resources:
 - deployment.yaml
 - external-secret.yaml
 - nfd-rule.yaml
+- pvc.yaml

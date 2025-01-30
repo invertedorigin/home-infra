@@ -146,3 +146,20 @@ spec:
               value: "true"
           securityContext:
             privileged: true
+          volumeMounts:
+            - name: globe-history
+              mountPath: /var/globe_history
+            - name: graphs1090
+              mountPath: /var/lib/collectd
+            - name: osm-tiles
+              mountPath: /usr/local/share/osm_tiles_offline
+      volumes:
+      - name: globe-history
+        persistentVolumeClaim:
+          claimName: adsb-globe-history-pvc-replicated
+      - name: globe-history
+        persistentVolumeClaim:
+          claimName: adsb-graphs1090-pvc-replicated
+      - name: globe-history
+        persistentVolumeClaim:
+          claimName: adsb-osm-tiles-pvc-replicated
