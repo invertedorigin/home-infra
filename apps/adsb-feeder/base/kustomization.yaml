@@ -7,3 +7,4 @@ resources:
 - namespace.yaml
 - deployment.yaml
 - external-secret.yaml
+- nfd-rule.yaml

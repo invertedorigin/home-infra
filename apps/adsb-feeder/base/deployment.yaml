@@ -25,6 +25,8 @@ spec:
         app.kubernetes.io/name: adsb-feeder
     spec:
       automountServiceAccountToken: true
+      nodeSelector:
+        adsb.feature.node.kubernetes.io/rtlsdr: "true"
       containers:
         - name: adsb-feeder
           image: ghcr.io/sdr-enthusiasts/docker-adsb-ultrafeeder:latest-build-570
