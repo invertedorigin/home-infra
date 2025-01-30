@@ -57,6 +57,8 @@ spec:
               value: "flighty-dream"
             - name: HTTP_ERROR_LOG
               value: "true"
+            - name: UPDATE_TAR1090
+              value: "true"
             - name: TAR1090_PAGETITLE
               value: "flighty-dream"
             - name: TAR1090_MESSAGERATEINTITLE
