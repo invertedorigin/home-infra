@@ -6,3 +6,4 @@ namespace: adsb-feeder
 resources:
 - namespace.yaml
 - deployment.yaml
+- external-secret.yaml
