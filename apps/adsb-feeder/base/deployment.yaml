@@ -68,8 +68,6 @@ spec:
               value: "true"
             - name: TIMELAPSE1090_INTERVAL
               value: "10"
-            - name: TAR1090_ROUTEAPIURL
-              value: "https://adsb.im/api/0/routeset"
             - name: TIMELAPSE1090_CHUNK_SIZE
               value: "240"
             - name: READSB_AUTOGAIN_INITIAL_INTERVAL
