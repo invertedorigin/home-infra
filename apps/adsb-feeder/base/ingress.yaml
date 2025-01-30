@@ -1,0 +1,28 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    cert-manager.io/cluster-issuer: cloudflare-issuer
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/cors-allow-methods: PUT, GET, POST, OPTIONS, HEAD
+  labels:
+    app.kubernetes.io/instance: adsb-feeder
+    app.kubernetes.io/name: adsb-feeder
+  name: adsb-feeder
+  namespace: adsb-feeder
+spec:
+  rules:
+  - host: adsb.invertedorigin.com
+    http:
+      paths:
+      - backend:
+          service:
+            name: adsb-feeder
+            port:
+              number: 80
+        path: /
+        pathType: Prefix
+  tls:
+  - hosts:
+    - adsb.invertedorigin.com
+    secretName: ha-tls-domain

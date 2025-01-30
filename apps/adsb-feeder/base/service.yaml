@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app.kubernetes.io/instance: adbs-feeder
+    app.kubernetes.io/name: adbs-feeder
+    app.kubernetes.io/service: adbs-feeder
+  name: adbs-feeder
+  namespace: adbs-feeder
+spec:
+  ports:
+  - name: http
+    port: 80
+    protocol: TCP
+    targetPort: 80
+  selector:
+    app.kubernetes.io/component: main
+    app.kubernetes.io/instance: adbs-feeder
+    app.kubernetes.io/name: adbs-feeder
+  type: ClusterIP

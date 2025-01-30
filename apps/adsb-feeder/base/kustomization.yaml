@@ -9,3 +9,5 @@ resources:
 - external-secret.yaml
 - nfd-rule.yaml
 - pvc.yaml
+- ingress.yaml
+- service.yaml
