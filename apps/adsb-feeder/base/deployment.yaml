@@ -146,20 +146,3 @@ spec:
               value: "true"
           securityContext:
             privileged: true
-          volumeMounts:
-            - name: globe-history
-              mountPath: /var/globe_history
-            - name: graphs1090
-              mountPath: /var/lib/collectd
-            - name: osm-tiles
-              mountPath: /usr/local/share/osm_tiles_offline
-      volumes:
-        - name: globe-history
-          hostPath:
-            path: /opt/adsb/config/ultrafeeder/globe_history
-        - name: graphs1090
-          hostPath:
-            path: /opt/adsb/config/ultrafeeder/graphs1090
-        - name: osm-tiles
-          hostPath:
-            path: /usr/local/share/osm_tiles_offline
