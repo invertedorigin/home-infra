@@ -157,9 +157,9 @@ spec:
       - name: globe-history
         persistentVolumeClaim:
           claimName: adsb-globe-history-pvc-replicated
-      - name: globe-history
+      - name: graphs1090
         persistentVolumeClaim:
           claimName: adsb-graphs1090-pvc-replicated
-      - name: globe-history
+      - name: osm-tiles
         persistentVolumeClaim:
           claimName: adsb-osm-tiles-pvc-replicated
