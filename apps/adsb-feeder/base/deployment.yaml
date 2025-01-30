@@ -27,6 +27,7 @@ spec:
       automountServiceAccountToken: true
       containers:
         - name: adsb-feeder
+          image: ghcr.io/sdr-enthusiasts/docker-adsb-ultrafeeder:latest-build-570
           env:
             - name: TAR1090_RANGERINGSDISTANCES
               value: "50,100,150,200"
