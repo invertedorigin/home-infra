@@ -25,4 +25,4 @@ spec:
   tls:
   - hosts:
     - adsb.invertedorigin.com
-    secretName: ha-tls-domain
+    secretName: adsb-tls-domain
