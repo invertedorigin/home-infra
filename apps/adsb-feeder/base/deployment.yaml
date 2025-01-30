@@ -26,7 +26,7 @@ spec:
     spec:
       automountServiceAccountToken: true
       containers:
-      - env:
+      env:
         - name: TAR1090_RANGERINGSDISTANCES
           value: "50,100,150,200"
         - name: READSB_LAT
