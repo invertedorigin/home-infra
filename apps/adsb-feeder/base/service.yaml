@@ -16,5 +16,5 @@ spec:
   selector:
     app.kubernetes.io/component: main
     app.kubernetes.io/instance: adsb-feeder
-    app.kubernetes.io/name: adbs-feeder
+    app.kubernetes.io/name: adsb-feeder
   type: ClusterIP
