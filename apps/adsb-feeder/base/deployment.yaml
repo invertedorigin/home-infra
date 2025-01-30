@@ -1,12 +1,12 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
+  name: adsb-feeder
+  namespace: adsb-feeder
   labels:
     app.kubernetes.io/component: main
     app.kubernetes.io/instance: adsb-feeder
     app.kubernetes.io/name: adsb-feeder
-  name: adsb-feeder
-  namespace: adsb-feeder
 spec:
   replicas: 1
   revisionHistoryLimit: 3
@@ -26,116 +26,117 @@ spec:
     spec:
       automountServiceAccountToken: true
       containers:
-      env:
-        - name: TAR1090_RANGERINGSDISTANCES
-          value: "50,100,150,200"
-        - name: READSB_LAT
-          valueFrom:
-            secretKeyRef:
-              name: tar1090-secrets
-              key: READSB_LAT
-        - name: READSB_LON
-          valueFrom:
-            secretKeyRef:
-              name: tar1090-secrets
-              key: READSB_LON
-        - name: READSB_ALT
-          valueFrom:
-            secretKeyRef:
-              name: tar1090-secrets
-              key: READSB_ALT
-        - name: UUID
-          valueFrom:
-            secretKeyRef:
-              name: tar1090-secrets
-              key: READSB_UUID
-        - name: MLAT_USER
-          value: "flighty-dream"
-        - name: HTTP_ERROR_LOG
-          value: "true"
-        - name: TAR1090_PAGETITLE
-          value: "flighty-dream"
-        - name: TAR1090_MESSAGERATEINTITLE
-          value: "true"
-        - name: TAR1090_RANGE_OUTLINE_COLORED_BY_ALTITUDE
-          value: "true"
-        - name: TIMELAPSE1090_INTERVAL
-          value: "10"
-        - name: TAR1090_ROUTEAPIURL
-          value: "https://adsb.im/api/0/routeset"
-        - name: TIMELAPSE1090_CHUNK_SIZE
-          value: "240"
-        - name: READSB_AUTOGAIN_INITIAL_INTERVAL
-          value: "60"
-        - name: TAR1090_PLANECOUNTINTITLE
-          value: "true"
-        - name: READSB_DEVICE_TYPE
-          value: "rtlsdr"
-        - name: TZ
-          value: "America/Chicago"
-        - name: INTERVAL
-          value: "8"
-        - name: GRAPHS1090_DARKMODE
-          value: "true"
-        - name: ENABLE_978
-          value: "False"
-        - name: GRAPHS1090_REDUCE_IO_FLUSH_IVAL
-          value: "21600"
-        - name: BEASTPORT
-          value: "30005"
-        - name: TAR1090_RANGERINGSCOLORS
-          value: "#1A237E,#0D47A1,#42A5F5,#64B5F6"
-        - name: MLATPORT
-          value: "30105"
-        - name: GRAPHS1090_REDUCE_IO
-          value: "true"
-        - name: TAR1090_RANGE_OUTLINE_WIDTH
-          value: "0.7"
-        - name: TAR1090_ENABLE_AC_DB
-          value: "True"
-        - name: READSB_RTLSDR_PPM
-          value: ""
-        - name: ULTRAFEEDER_CONFIG
-          value: ""
-        - name: GZIP_LVL
-          value: "1"
-        - name: READSB_GAIN
-          value: "autogain"
-        - name: TAR1090_FLIGHTAWARELINKS
-          value: "true"
-        - name: TAR1090_USEROUTEAPI
-          value: "1"
-        - name: PTRACKS
-          value: "8"
-        - name: READSB_STATS_RANGE
-          value: "true"
-        - name: READSB_RTLSDR_DEVICE
-          value: "00000001"
-        - name: READSB_AUTOGAIN_INITIAL_GAIN
-          value: "40.2"
-        - name: GITPATH_TIMELAPSE1090
-          value: "/opt/timelapse1090"
-        - name: TIMELAPSE1090_HISTORY
-          value: "24"
-        - name: CHUNK_SIZE
-          value: "60"
-        - name: READSB_NET_BR_OPTIMIZE_FOR_MLAT
-          value: "False"
-        - name: READSB_MODEAC
-          value: "false"
-        - name: MLAT_INPUT_TYPE
-          value: "auto"
-        - name: READSB_MAX_RANGE
-          value: "300"
-        - name: PRIVATE_MLAT
-          value: "false"
-        - name: TAR1090_SITENAME
-          value: "flighty-dream"
-        - name: MLAT_STARTUP_STAGGER
-          value: "1"
-        - name: READSB_RX_LOCATION_ACCURACY
-          value: "2"
-        - name: TAR1090_SITESHOW
-          value: "true"
-        securityContext:
-          privileged: true
+        - name: adsb-feeder
+          env:
+            - name: TAR1090_RANGERINGSDISTANCES
+              value: "50,100,150,200"
+            - name: READSB_LAT
+              valueFrom:
+                secretKeyRef:
+                  name: tar1090-secrets
+                  key: READSB_LAT
+            - name: READSB_LON
+              valueFrom:
+                secretKeyRef:
+                  name: tar1090-secrets
+                  key: READSB_LON
+            - name: READSB_ALT
+              valueFrom:
+                secretKeyRef:
+                  name: tar1090-secrets
+                  key: READSB_ALT
+            - name: UUID
+              valueFrom:
+                secretKeyRef:
+                  name: tar1090-secrets
+                  key: READSB_UUID
+            - name: MLAT_USER
+              value: "flighty-dream"
+            - name: HTTP_ERROR_LOG
+              value: "true"
+            - name: TAR1090_PAGETITLE
+              value: "flighty-dream"
+            - name: TAR1090_MESSAGERATEINTITLE
+              value: "true"
+            - name: TAR1090_RANGE_OUTLINE_COLORED_BY_ALTITUDE
+              value: "true"
+            - name: TIMELAPSE1090_INTERVAL
+              value: "10"
+            - name: TAR1090_ROUTEAPIURL
+              value: "https://adsb.im/api/0/routeset"
+            - name: TIMELAPSE1090_CHUNK_SIZE
+              value: "240"
+            - name: READSB_AUTOGAIN_INITIAL_INTERVAL
+              value: "60"
+            - name: TAR1090_PLANECOUNTINTITLE
+              value: "true"
+            - name: READSB_DEVICE_TYPE
+              value: "rtlsdr"
+            - name: TZ
+              value: "America/Chicago"
+            - name: INTERVAL
+              value: "8"
+            - name: GRAPHS1090_DARKMODE
+              value: "true"
+            - name: ENABLE_978
+              value: "False"
+            - name: GRAPHS1090_REDUCE_IO_FLUSH_IVAL
+              value: "21600"
+            - name: BEASTPORT
+              value: "30005"
+            - name: TAR1090_RANGERINGSCOLORS
+              value: "#1A237E,#0D47A1,#42A5F5,#64B5F6"
+            - name: MLATPORT
+              value: "30105"
+            - name: GRAPHS1090_REDUCE_IO
+              value: "true"
+            - name: TAR1090_RANGE_OUTLINE_WIDTH
+              value: "0.7"
+            - name: TAR1090_ENABLE_AC_DB
+              value: "True"
+            - name: READSB_RTLSDR_PPM
+              value: ""
+            - name: ULTRAFEEDER_CONFIG
+              value: ""
+            - name: GZIP_LVL
+              value: "1"
+            - name: READSB_GAIN
+              value: "autogain"
+            - name: TAR1090_FLIGHTAWARELINKS
+              value: "true"
+            - name: TAR1090_USEROUTEAPI
+              value: "1"
+            - name: PTRACKS
+              value: "8"
+            - name: READSB_STATS_RANGE
+              value: "true"
+            - name: READSB_RTLSDR_DEVICE
+              value: "00000001"
+            - name: READSB_AUTOGAIN_INITIAL_GAIN
+              value: "40.2"
+            - name: GITPATH_TIMELAPSE1090
+              value: "/opt/timelapse1090"
+            - name: TIMELAPSE1090_HISTORY
+              value: "24"
+            - name: CHUNK_SIZE
+              value: "60"
+            - name: READSB_NET_BR_OPTIMIZE_FOR_MLAT
+              value: "False"
+            - name: READSB_MODEAC
+              value: "false"
+            - name: MLAT_INPUT_TYPE
+              value: "auto"
+            - name: READSB_MAX_RANGE
+              value: "300"
+            - name: PRIVATE_MLAT
+              value: "false"
+            - name: TAR1090_SITENAME
+              value: "flighty-dream"
+            - name: MLAT_STARTUP_STAGGER
+              value: "1"
+            - name: READSB_RX_LOCATION_ACCURACY
+              value: "2"
+            - name: TAR1090_SITESHOW
+              value: "true"
+          securityContext:
+            privileged: true
