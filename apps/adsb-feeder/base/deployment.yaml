@@ -108,7 +108,7 @@ spec:
             - name: TAR1090_FLIGHTAWARELINKS
               value: "true"
             - name: TAR1090_USEROUTEAPI
-              value: "1"
+              value: "true"
             - name: PTRACKS
               value: "8"
             - name: READSB_STATS_RANGE
