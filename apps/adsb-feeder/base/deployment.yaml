@@ -90,8 +90,6 @@ spec:
               value: "21600"
             - name: BEASTPORT
               value: "30005"
-            - name: TAR1090_RANGERINGSCOLORS
-              value: "#1A237E,#0D47A1,#42A5F5,#64B5F6"
             - name: MLATPORT
               value: "30105"
             - name: GRAPHS1090_REDUCE_IO
