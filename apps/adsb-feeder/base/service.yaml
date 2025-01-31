@@ -13,6 +13,10 @@ spec:
     port: 80
     protocol: TCP
     targetPort: 80
+  - name: beast
+    port: 30005
+    protocol: TCP
+    targetPort: 30005
   selector:
     app.kubernetes.io/component: main
     app.kubernetes.io/instance: adsb-feeder
