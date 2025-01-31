@@ -196,3 +196,69 @@ spec:
                 secretKeyRef:
                   name: tar1090-secrets
                   key: FR24KEY
+            - name: TZ
+              value: "America/Chicago"
+            - name: LAT
+              valueFrom:
+                secretKeyRef:
+                  name: tar1090-secrets
+                  key: READSB_LAT
+            - name: LONG
+              valueFrom:
+                secretKeyRef:
+                  name: tar1090-secrets
+                  key: READSB_LON
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: flightaware-feeder
+  namespace: flightaware-feeder
+  labels:
+    app.kubernetes.io/component: secondary
+    app.kubernetes.io/instance: flightaware-feeder
+    app.kubernetes.io/name: flightaware-feeder
+spec:
+  replicas: 1
+  revisionHistoryLimit: 3
+  selector:
+    matchLabels:
+      app.kubernetes.io/component: secondary
+      app.kubernetes.io/instance: flightaware-feeder
+      app.kubernetes.io/name: flightaware-feeder
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/component: secondary
+        app.kubernetes.io/instance: flightaware-feeder
+        app.kubernetes.io/name: flightaware-feeder
+    spec:
+      containers:
+        - name: flightaware-feeder
+          image: ghcr.io/sdr-enthusiasts/docker-flightradar24:latest@sha256:92f46110156bebd75b8c800959dbe9294c49c444479af5c4da2e919a113edf01
+          env:
+            - name: BEASTHOST
+              value: adsb-feeder.adsb-feeder.svc.cluster.local
+            - name: FEEDER_ID
+              valueFrom:
+                secretKeyRef:
+                  name: tar1090-secrets
+                  key: FLIGHTAWARE_FEEDER_ID
+            - name: TZ
+              value: "America/Chicago"
+            - name: RECEIVER_TYPE
+              value: "relay"
+            - name: PIAWARE_MINIMAL
+              value: "true"
+            - name: LAT
+              valueFrom:
+                secretKeyRef:
+                  name: tar1090-secrets
+                  key: READSB_LAT
+            - name: LONG
+              valueFrom:
+                secretKeyRef:
+                  name: tar1090-secrets
+                  key: READSB_LON
