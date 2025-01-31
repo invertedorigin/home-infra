@@ -12,4 +12,4 @@ spec:
         # Match if any USB device with serial exists in the system
         - feature: usb.device
           matchExpressions:
-            serial: {op: In, value: ["00000001"]}
+            serial: {op: In, value: ["1090"]}
