@@ -112,7 +112,7 @@ spec:
             - name: READSB_STATS_RANGE
               value: "true"
             - name: READSB_RTLSDR_DEVICE
-              value: "00000001"
+              value: "1090"
             - name: READSB_AUTOGAIN_INITIAL_GAIN
               value: "40.2"
             - name: GITPATH_TIMELAPSE1090
