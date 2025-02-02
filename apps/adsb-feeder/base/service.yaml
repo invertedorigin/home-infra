@@ -22,3 +22,24 @@ spec:
     app.kubernetes.io/instance: adsb-feeder
     app.kubernetes.io/name: adsb-feeder
   type: ClusterIP
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app.kubernetes.io/instance: flightaware-feeder
+    app.kubernetes.io/name: flightaware-feeder
+    app.kubernetes.io/service: flightaware-feeder
+  name: flightaware-feeder
+  namespace: adsb-feeder
+spec:
+  ports:
+  - name: beast
+    port: 30105
+    protocol: TCP
+    targetPort: 30105
+  selector:
+    app.kubernetes.io/component: secondary
+    app.kubernetes.io/instance: flightaware-feeder
+    app.kubernetes.io/name: flightaware-feeder
+  type: ClusterIP

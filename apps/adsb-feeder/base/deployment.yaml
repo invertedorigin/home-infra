@@ -98,7 +98,7 @@ spec:
             - name: READSB_RTLSDR_PPM
               value: ""
             - name: ULTRAFEEDER_CONFIG
-              value: ""
+              value: "mlathub,flightaware-feeder.adsb-feeder.svc.cluster.local,30105,beast_in;"
             - name: GZIP_LVL
               value: "1"
             - name: READSB_GAIN
