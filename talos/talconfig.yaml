@@ -2,7 +2,7 @@
 clusterName: invertedorigin
 
 # renovate: datasource=github-releases depName=siderolabs/talos
-talosVersion: v1.9.2
+talosVersion: v1.9.3
 
 # renovate: datasource=github-releases depName=kubernetes/kubernetes
 kubernetesVersion: v1.32.1
