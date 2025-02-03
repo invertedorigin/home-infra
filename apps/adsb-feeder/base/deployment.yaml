@@ -101,8 +101,6 @@ spec:
               value: "mlathub,flightaware-feeder.adsb-feeder.svc.cluster.local,30105,beast_in;"
             - name: GZIP_LVL
               value: "1"
-            - name: READSB_GAIN
-              value: "autogain"
             - name: TAR1090_FLIGHTAWARELINKS
               value: "true"
             - name: TAR1090_USEROUTEAPI
