@@ -44,7 +44,7 @@ spec:
             secretKeyRef:
               key: yubico-secret-key
               name: vault-warden-secrets
-        image: vaultwarden/server:1.33.0-alpine
+        image: vaultwarden/server:1.33.1-alpine
         name: main
         resources:
           limits:
