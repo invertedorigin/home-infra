@@ -3,7 +3,7 @@ kind: Kustomization
 
 resources:
 - namespace.yaml
-- https://raw.githubusercontent.com/external-secrets/external-secrets/v0.8.1/deploy/crds/bundle.yaml
+- https://raw.githubusercontent.com/external-secrets/external-secrets/v0.14.0/deploy/crds/bundle.yaml
 - secret-store.yaml
 
 helmCharts:
