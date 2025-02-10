@@ -46,6 +46,10 @@ spec:
         volumeMounts:
         - mountPath: /config
           name: media
+        - name: vesync-override
+          mountPath: /usr/local/lib/python3.13/site-packages/pyvesync/vesyncfan.py # Specific file inside the folder
+          subPath: vesyncfan.py  # Avoids overwriting the whole folder
+          readOnly: true
       dnsPolicy: ClusterFirst
       enableServiceLinks: false
       hostIPC: false
@@ -56,3 +60,6 @@ spec:
       - name: media
         persistentVolumeClaim:
           claimName: homeassistant-pvc-replicated
+      - name: vesync-override
+        configMap:
+          name: vesync-override
