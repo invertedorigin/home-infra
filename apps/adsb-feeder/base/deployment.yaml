@@ -235,7 +235,7 @@ spec:
     spec:
       containers:
         - name: flightaware-feeder
-          image: ghcr.io/sdr-enthusiasts/docker-piaware:latest@sha256:6a6b640722d391e267e224c8d89888cd00aa0722781acff5a422b4ceba4d6a7d
+          image: ghcr.io/sdr-enthusiasts/docker-piaware:latest@sha256:5b9a5d2dde4e80fcf8395ccb20acfdba04fc09cfd2af7794519fad154b244a04
           env:
             - name: BEASTHOST
               value: adsb-feeder.adsb-feeder.svc.cluster.local
