@@ -73,9 +73,7 @@
         "ghcr.io/sdr-enthusiasts/docker-adsb-ultrafeeder"
       ],
       "matchUpdateTypes": [
-        "major",
-        "minor",
-        "patch"
+        "digest"
       ],
       "groupName": "all adsb upgrades",
       "groupSlug": "all-adsb-upgrades"
