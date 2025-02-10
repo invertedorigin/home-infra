@@ -68,6 +68,20 @@
     },
     {
       "matchPackageNames": [
+        "ghcr.io/sdr-enthusiasts/docker-piaware",
+        "ghcr.io/sdr-enthusiasts/docker-flightradar24",
+        "ghcr.io/sdr-enthusiasts/docker-adsb-ultrafeeder"
+      ],
+      "matchUpdateTypes": [
+        "major",
+        "minor",
+        "patch"
+      ],
+      "groupName": "all adsb upgrades",
+      "groupSlug": "all-adsb-upgrades"
+    },
+    {
+      "matchPackageNames": [
         "talos/talconfig.yaml"
       ],
       "matchUpdateTypes": [
