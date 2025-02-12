@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: slp-server
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: slp-server
+  template:
+    metadata:
+      labels:
+        app: slp-server
+    spec:
+      containers:
+        - name: slp-server
+          image: spacemeowx2/slp-server-rust:3.0.0
+          ports:
+            - containerPort: 11451
+              protocol: UDP
+            - containerPort: 11451
+              protocol: TCP
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: slp-server
+spec:
+  selector:
+    app: slp-server
+  ports:
+    - name: udp
+      protocol: UDP
+      port: 11451
+      targetPort: 11451
+    - name: tcp
+      protocol: TCP
+      port: 11451
+      targetPort: 11451
