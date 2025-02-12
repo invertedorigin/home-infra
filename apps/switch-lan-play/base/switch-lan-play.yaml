@@ -24,5 +24,5 @@ spec:
               apt update && apt install -y libpcap0.8-dev wget && \
               wget -O /usr/local/bin/lan-play https://github.com/spacemeowx2/switch-lan-play/releases/download/v0.2.3/lan-play-linux && \
               chmod +x /usr/local/bin/lan-play && \
-              /usr/local/bin/lan-play --relay-server-addr slp-server.switch-lan-play.svc.cluster.local:11451
+              /usr/local/bin/lan-play --netif eno1 --relay-server-addr slp-server.switch-lan-play.svc.cluster.local:11451
 
