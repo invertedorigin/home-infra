@@ -12,7 +12,7 @@ spec:
       labels:
         app: switch-lan-play
     spec:
-      hostNetowrk: true
+      hostNetwork: true
       containers:
         - name: switch-lan-play
           image: debian
