@@ -13,6 +13,7 @@ spec:
         app: switch-lan-play
     spec:
       hostNetwork: true
+      dnsPolicy: "ClusterFirstWithHostNet"
       containers:
         - name: switch-lan-play
           image: debian
