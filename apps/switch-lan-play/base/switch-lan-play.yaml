@@ -9,18 +9,10 @@ spec:
       app: switch-lan-play
   template:
     metadata:
-      annotations:
-        k8s.v1.cni.cncf.io/networks: |-
-          [
-            {
-              "name": "macvlan-conf-dhcp",
-              "namespace": "kube-system",
-              "mac": "cf:9e:0e:69:c7:9f"
-            }
-          ]
       labels:
         app: switch-lan-play
     spec:
+      hostNetowrk: true
       containers:
         - name: switch-lan-play
           image: debian
