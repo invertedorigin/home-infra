@@ -54,6 +54,32 @@
     },
     {
       "matchPackageNames": [
+        "ollama/ollama",
+        "open-webui"
+      ],
+      "matchUpdateTypes": [
+        "major",
+        "minor",
+        "patch"
+      ],
+      "groupName": "all ollama upgrades",
+      "groupSlug": "all-ollama-upgrades"
+    },
+    {
+      "matchPackageNames": [
+        "docker.io/victoriametrics/victoria-logs",
+        "kube-prometheus-stack"
+      ],
+      "matchUpdateTypes": [
+        "major",
+        "minor",
+        "patch"
+      ],
+      "groupName": "all monitoring upgrades",
+      "groupSlug": "all-monitoring-upgrades"
+    },
+    {
+      "matchPackageNames": [
         "siderolabs/talos",
         "ghcr.io/siderolabs/talosctl",
         "jtcressy-home/talos-boot-assets"
