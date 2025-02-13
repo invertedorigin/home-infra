@@ -4,7 +4,7 @@ kind: Kustomization
 helmCharts:
 - name: descheduler
   repo: https://kubernetes-sigs.github.io/descheduler
-  version: 0.32.1
+  version: 0.32.2
   releaseName: descheduler
   namespace: kube-system
   valuesInline:
