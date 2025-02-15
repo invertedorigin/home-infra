@@ -55,7 +55,8 @@
     {
       "matchPackageNames": [
         "ollama/ollama",
-        "open-webui"
+        "open-webui",
+        "ollama"
       ],
       "matchUpdateTypes": [
         "major",
