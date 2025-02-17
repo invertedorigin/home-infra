@@ -35,12 +35,11 @@ spec:
           requests:
             cpu: 50m
             memory: 1Gi
+          limits:
+            squat.ai/tun: "1"
         volumeMounts:
           - name: zerotier-data
             mountPath: /var/lib/zerotier-one
-        resources:
-          limits:
-            squat.ai/tun: "1"
         securityContext:
           capabilities:
             add:
