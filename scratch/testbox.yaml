@@ -14,9 +14,8 @@ spec:
         k8s.v1.cni.cncf.io/networks: |
           [
             {
-              "name": "macvlan-conf-dhcp",
-              "namespace": "kube-system",
-              "mac": "e8:d1:44:8d:65:b0"
+              "name": "macvlan-conf-vlan",
+              "namespace": "kube-system"
             }
           ]
       labels:

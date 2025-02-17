@@ -10,10 +10,10 @@ spec:
       "type": "vlan",
       "master": "eno1",
       "mtu": 1500,
-      "vlanId": 500, 
+      "vlanId": 222,
       "linkInContainer": false,
       "ipam": {
         "type": "host-local",
-        "subnet": "10.1.50.0/24"
+        "subnet": "192.168.225.0/24"
       }
     }'
