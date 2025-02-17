@@ -25,3 +25,11 @@ spec:
         - name: debian
           image: debian:latest
           command: ["sleep", "infinity"]
+          resources:
+            limits:
+              squat.ai/tun: "1"
+          securityContext:
+            capabilities:
+              add:
+                - ALL
+
