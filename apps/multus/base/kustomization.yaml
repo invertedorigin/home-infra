@@ -6,6 +6,7 @@ namespace: kube-system
 resources:
 - crd.yaml
 - dhcp-network-attachment.yaml
+- vlan-network-attachment.yaml
 
 images:
 - name: ghcr.io/angelnu/cni-plugins

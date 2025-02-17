@@ -16,7 +16,7 @@ spec:
             {
               "name": "macvlan-conf-dhcp",
               "namespace": "kube-system",
-              "mac": "a9:a6:34:6c:22:93"
+              "mac": "e8:d1:44:8d:65:b0"
             }
           ]
       labels:

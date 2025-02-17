@@ -1,0 +1,19 @@
+apiVersion: "k8s.cni.cncf.io/v1"
+kind: NetworkAttachmentDefinition
+metadata:
+  name: macvlan-conf-vlan
+  namespace: kube-system
+spec:
+  config: '{
+      "name": "vlannetwork",
+      "cniVersion": "0.3.1",
+      "type": "vlan",
+      "master": "eno1",
+      "mtu": 1500,
+      "vlanId": 500, 
+      "linkInContainer": false,
+      "ipam": {
+        "type": "host-local",
+        "subnet": "10.1.50.0/24"
+      }
+    }'
