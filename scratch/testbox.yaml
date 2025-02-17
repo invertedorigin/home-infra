@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: debian-macvlan
+  namespace: kube-system
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: debian-macvlan
+  template:
+    metadata:
+      annotations:
+        k8s.v1.cni.cncf.io/networks: |
+          [
+            {
+              "name": "macvlan-conf-dhcp",
+              "namespace": "kube-system",
+              "mac": "a9:a6:34:6c:22:93"
+            }
+          ]
+      labels:
+        app: debian-macvlan
+    spec:
+      containers:
+        - name: debian
+          image: debian:latest
+          command: ["sleep", "infinity"]
