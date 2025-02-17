@@ -6,4 +6,4 @@ namespace: zerotier-bridge
 resources:
 - namespace.yaml
 - pvc.yaml
-#- deployment.yaml
+- deployment.yaml
