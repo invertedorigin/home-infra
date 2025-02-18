@@ -33,7 +33,7 @@ spec:
           - |
             set -x
             # Start ZeroTier
-            /var/lib/zerotier-one/zerotier-one -d
+            /usr/sbin/zerotier-one -d
             sleep 5
             
             # Create the Linux bridge (br0)
