@@ -42,7 +42,7 @@ nodes:
         vlans:
           - vlanId: 500
             mtu: 1500
-            dhcp: false
+            dhcp: true
             dhcpOptions:
               routeMetric: 4096
     extensionServices:
