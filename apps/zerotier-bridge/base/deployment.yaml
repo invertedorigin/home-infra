@@ -51,16 +51,7 @@ spec:
             /usr/sbin/zerotier-one -d
             sleep 5
 
-            /usr/sbin/zerotier-cli set "$ZT_NETWORK_ID" allowManaged=0
-
-            # Create the Linux bridge (br0)
-            ip link add name br20 type bridge
-            ip link set br20 up
-            ip addr add 192.168.0.252/24 dev br20
-
-            # Add interfaces to the bridge
-            ip link set eth200 master br20
-            ip link set net1 master br20
+            /usr/sbin/zerotier-cli set "$ZT_NETWORK_ID" allowManaged=1
 
             # Keep the container running
             tail -f /dev/null
