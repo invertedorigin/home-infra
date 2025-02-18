@@ -26,7 +26,7 @@ spec:
         k8s.v1.cni.cncf.io/networks: |-
           [
             {
-              "name": "macvlan-conf-vlan",
+              "name": "macvlan-conf-bridge",
               "namespace": "kube-system"
             }
           ]
@@ -53,7 +53,7 @@ spec:
 
             # # Add interfaces to the bridge
             ip link set ztzlgfqxc7 master br0
-            #ip link set net1 master br0
+            # ip link set net1 master br0
 
             # Keep the container running
             tail -f /dev/null
