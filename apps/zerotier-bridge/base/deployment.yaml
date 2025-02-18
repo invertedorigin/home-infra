@@ -31,7 +31,6 @@ spec:
             }
           ]
     spec:
-      hostNetwork: true
       containers:
       - env:
         - name: TZ
