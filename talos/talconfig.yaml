@@ -40,7 +40,7 @@ nodes:
         mtu: 1500
         dhcp: true
         vlans:
-          - vlanId: 500
+          - vlanId: 400
             mtu: 1500
             dhcp: false
             dhcpOptions:
@@ -64,7 +64,7 @@ nodes:
         mtu: 1500
         dhcp: true
         vlans:
-          - vlanId: 500
+          - vlanId: 400
             mtu: 1500
             dhcp: false
             dhcpOptions:
@@ -88,7 +88,7 @@ nodes:
         mtu: 1500
         dhcp: true
         vlans:
-          - vlanId: 500
+          - vlanId: 400
             mtu: 1500
             dhcp: false
             dhcpOptions:
