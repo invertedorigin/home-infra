@@ -51,7 +51,7 @@ spec:
             ip addr add 192.168.0.252/24 dev br20
 
             # Add interfaces to the bridge
-            ip link set ztzlgfqxc7 master br20
+            ip link set eth200 master br20
             # ip link set net1 master br20
 
             # Keep the container running
