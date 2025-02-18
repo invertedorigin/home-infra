@@ -42,7 +42,7 @@ spec:
             set -x
             # Start ZeroTier
             /usr/sbin/zerotier-one -d
-            sleep 5
+            sleep 10
 
             # # Create the Linux bridge (br0)
             # ip link add name br0 type bridge
