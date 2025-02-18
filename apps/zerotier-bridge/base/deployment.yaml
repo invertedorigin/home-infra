@@ -35,7 +35,7 @@ spec:
             # Start ZeroTier
             /usr/sbin/zerotier-one -d
             sleep 5
-            
+
             # Create the Linux bridge (br0)
             ip link add name br0 type bridge
             ip link set br0 up
@@ -43,7 +43,7 @@ spec:
 
             # Add interfaces to the bridge
             ip link set ztzlgfqxc7 master br0
-            
+
             # Keep the container running
             tail -f /dev/null
         name: main
