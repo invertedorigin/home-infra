@@ -8,11 +8,10 @@ spec:
     "type": "macvlan",
     "master": "eno1",
     "mode": "bridge",
-    "vlan": 400,
     "ipam": {
       "type": "host-local",
-      "subnet": "10.0.4.0/24",
-      "rangeStart": "10.0.4.5",
-      "rangeEnd": "10.0.4.10"
+      "subnet": "10.0.`.0/24",
+      "rangeStart": "10.0.1.8",
+      "rangeEnd": "10.0.1.10"
     }
   }'
