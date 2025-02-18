@@ -22,15 +22,8 @@ spec:
         app.kubernetes.io/component: main
         app.kubernetes.io/instance: zerotier-bridge
         app.kubernetes.io/name: zerotier-bridge
-      annotations:
-        k8s.v1.cni.cncf.io/networks: |-
-          [
-            {
-              "name": "macvlan-conf-vlan",
-              "namespace": "kube-system"
-            }
-          ]
     spec:
+      hostNetwork: true
       containers:
       - env:
         - name: TZ
