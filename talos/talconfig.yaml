@@ -35,6 +35,16 @@ nodes:
     disableSearchDomain: false
     nodeLabels:
       topology.kubernetes.io/region: home
+    networkInterfaces:
+      - interface: eno1
+        mtu: 1500
+        dhcp: true
+        vlans:
+          - vlanId: 500
+            mtu: 1500
+            dhcp: false
+            dhcpOptions:
+              routeMetric: 4096
     extensionServices:
     - name: tailscale
       environment:
@@ -49,6 +59,16 @@ nodes:
     disableSearchDomain: false
     nodeLabels:
       topology.kubernetes.io/region: home
+    networkInterfaces:
+      - interface: eno1
+        mtu: 1500
+        dhcp: true
+        vlans:
+          - vlanId: 500
+            mtu: 1500
+            dhcp: false
+            dhcpOptions:
+              routeMetric: 4096
     extensionServices:
     - name: tailscale
       environment:
@@ -63,6 +83,16 @@ nodes:
     disableSearchDomain: false
     nodeLabels:
       topology.kubernetes.io/region: home
+    networkInterfaces:
+      - interface: eno1
+        mtu: 1500
+        dhcp: true
+        vlans:
+          - vlanId: 500
+            mtu: 1500
+            dhcp: false
+            dhcpOptions:
+              routeMetric: 4096
     extensionServices:
     - name: tailscale
       environment:
