@@ -44,6 +44,8 @@ spec:
             /usr/sbin/zerotier-one -d
             sleep 10
 
+            /usr/sbin/zerotier-cli set 93afae5963f6053c allowManaged=0
+
             # # Create the Linux bridge (br0)
             ip link add name br0 type bridge
             ip link set br0 up
