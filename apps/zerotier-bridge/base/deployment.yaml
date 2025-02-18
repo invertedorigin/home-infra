@@ -27,7 +27,7 @@ spec:
           [
             {
               "name": "macvlan-vlan400",
-              "namespace": "kube-system",
+              "namespace": "kube-system"
             }
           ]
     spec:
