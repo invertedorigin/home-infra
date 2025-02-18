@@ -6,5 +6,5 @@ namespace: zerotier-bridgex
 resources:
 - namespace.yaml
 - pvc.yaml
-- deployment.yaml
+#- deployment.yaml
 - external-secret.yaml
