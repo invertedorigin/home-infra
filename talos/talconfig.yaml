@@ -64,11 +64,10 @@ nodes:
         mtu: 1500
         dhcp: true
         vlans:
-          - vlanId: 400
+          - vlanId: 500
             mtu: 1500
-            dhcp: false
-            dhcpOptions:
-              routeMetric: 4096
+            addresses:
+              - "192.168.0.252/24"
     extensionServices:
     - name: tailscale
       environment:
