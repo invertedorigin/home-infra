@@ -5,15 +5,9 @@ metadata:
   namespace: kube-system
 spec:
   config: '{
-      "name": "vlannetwork",
       "cniVersion": "0.3.1",
-      "type": "vlan",
-      "master": "eno1",
-      "mtu": 1500,
-      "vlanId": 222,
-      "linkInContainer": false,
+      "type": "macvlan",
+      "master": "eno1.500",
       "ipam": {
-        "type": "host-local",
-        "subnet": "192.168.225.0/24"
       }
     }'
