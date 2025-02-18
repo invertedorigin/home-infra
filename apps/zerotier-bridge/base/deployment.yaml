@@ -22,14 +22,6 @@ spec:
         app.kubernetes.io/component: main
         app.kubernetes.io/instance: zerotier-bridge
         app.kubernetes.io/name: zerotier-bridge
-      annotations:
-        k8s.v1.cni.cncf.io/networks: |-
-          [
-            {
-              "name": "macvlan-vlan500",
-              "namespace": "kube-system"
-            }
-          ]
     spec:
       containers:
       - env:
@@ -47,12 +39,12 @@ spec:
             /usr/sbin/zerotier-cli set 93afae5963f6053c allowManaged=0
 
             # # Create the Linux bridge (br0)
-            # ip link add name br0 type bridge
-            # ip link set br0 up
-            # ip addr add 192.168.0.252/24 dev br0
+            ip link add name br0 type bridge
+            ip link set br0 up
+            ip addr add 192.168.0.252/24 dev br0
 
             # # Add interfaces to the bridge
-            # ip link set ztzlgfqxc7 master br0
+            ip link set ztzlgfqxc7 master br0
             # ip link set net1 master br0
 
             # Keep the container running
