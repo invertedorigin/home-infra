@@ -26,7 +26,7 @@ spec:
         k8s.v1.cni.cncf.io/networks: |-
           [
             {
-              "name": "macvlan-vlan400",
+              "name": "macvlan-vlan500",
               "namespace": "kube-system"
             }
           ]
