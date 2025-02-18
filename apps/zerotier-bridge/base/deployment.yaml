@@ -37,6 +37,11 @@ spec:
       - env:
         - name: TZ
           value: America/Chicago
+        - name: ZT_NETWORK_ID
+          valueFrom:
+            secretKeyRef:
+              name: zerotier-network-secret
+              key: network-id
         image: zerotier/zerotier:1.14.2
         command: ["/bin/sh", "-c"]
         args:
@@ -46,13 +51,15 @@ spec:
             /usr/sbin/zerotier-one -d
             sleep 5
 
-            # # Create the Linux bridge (br0)
-            # ip link add name br0 type bridge
-            # ip link set br0 up
-            # ip addr add 192.168.0.252/24 dev br0
+            /usr/sbin/zerotier-cli set "$ZT_NETWORK_ID" allowManaged=0
 
-            # # Add interfaces to the bridge
-            # ip link set ztzlgfqxc7 master br0
+            # Create the Linux bridge (br0)
+            ip link add name br0 type bridge
+            ip link set br0 up
+            ip addr add 192.168.0.252/24 dev br0
+
+            # Add interfaces to the bridge
+            ip link set ztzlgfqxc7 master br0
             # ip link set net1 master br0
 
             # Keep the container running
