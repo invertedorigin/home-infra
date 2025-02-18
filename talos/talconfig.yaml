@@ -35,6 +35,10 @@ nodes:
     disableSearchDomain: false
     nodeLabels:
       topology.kubernetes.io/region: home
+    networkInterfaces:
+      - interface: eno1
+        mtu: 1500
+        dhcp: true
     extensionServices:
     - name: tailscale
       environment:
@@ -49,6 +53,10 @@ nodes:
     disableSearchDomain: false
     nodeLabels:
       topology.kubernetes.io/region: home
+    networkInterfaces:
+      - interface: eno1
+        mtu: 1500
+        dhcp: true
     extensionServices:
     - name: tailscale
       environment:
@@ -63,6 +71,10 @@ nodes:
     disableSearchDomain: false
     nodeLabels:
       topology.kubernetes.io/region: home
+    networkInterfaces:
+      - interface: eno1
+        mtu: 1500
+        dhcp: true
     extensionServices:
     - name: tailscale
       environment:
