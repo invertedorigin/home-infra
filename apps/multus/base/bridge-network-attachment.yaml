@@ -8,7 +8,7 @@ spec:
     "type": "macvlan",
     "master": "eno1",
     "mode": "bridge",
-    "vlan": 500,
+    "vlan": 400,
     "ipam": {
       "type": "host-local",
       "subnet": "10.0.4.0/24",
