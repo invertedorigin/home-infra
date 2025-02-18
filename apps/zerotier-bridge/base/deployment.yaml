@@ -28,8 +28,24 @@ spec:
         - name: TZ
           value: America/Chicago
         image: zerotier/zerotier:1.14.2
-        command: ["/bin/sh"]
-        args: ["-c", "tail -f /dev/null"]
+        command: ["/bin/sh", "-c"]
+        args:
+          - |
+            set -x
+            # Start ZeroTier
+            /var/lib/zerotier-one/zerotier-one -d
+            sleep 5
+            
+            # Create the Linux bridge (br0)
+            ip link add name br0 type bridge
+            ip link set br0 up
+            ip addr 192.168.0.252/24 dev br0
+
+            # Add interfaces to the bridge
+            ip link set ztzlgfqxc7 master br0
+            
+            # Keep the container running
+            tail -f /dev/null
         name: main
         resources:
           requests:
