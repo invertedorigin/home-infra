@@ -14,6 +14,7 @@ spec:
       ignoreUpdates: true
   concurrency: 1
   exclusive: true
+  postCompleteDelay: 2m
   drain:
     deleteLocalData: true
     ignoreDaemonSets: true

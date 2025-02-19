@@ -13,6 +13,7 @@ spec:
       ignoreUpdates: true
   concurrency: 1
   exclusive: true
+  postCompleteDelay: 2m
   nodeSelector:
     matchExpressions:
       - { key: node-role.kubernetes.io/control-plane, operator: Exists }
