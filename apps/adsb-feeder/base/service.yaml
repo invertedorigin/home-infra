@@ -13,6 +13,10 @@ spec:
     port: 80
     protocol: TCP
     targetPort: 80
+  - name: re-api
+    port: 30152
+    protocol: TCP
+    targetPort: 30152
   - name: beast
     port: 30005
     protocol: TCP
