@@ -5,9 +5,6 @@ namespace: custom-prom-exporters
 
 resources:
 - namespace.yaml
-- powertochoose-deployment.yaml
-- powertochoose-service-monitor.yaml
-- powertochoose-service.yaml
 - rm520-deployment.yaml
 - rm520-service-monitor.yaml
 - rm520-service.yaml
