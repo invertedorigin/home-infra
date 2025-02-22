@@ -30,6 +30,8 @@ helmCharts:
           cpu: 25m
         limits:
           memory: 600Mi
+      service:
+        externalTrafficPolicy: "Local"
     defaultBackend:
       enabled: true
       image:
