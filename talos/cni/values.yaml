@@ -18,6 +18,7 @@ k8sServicePort: 7445
 kubeProxyReplacement: true
 kubeProxyReplacementHealthzBindAddr: 0.0.0.0:10256
 loadBalancer:
+  mode: dsr
   algorithm: maglev
   l7:
     algorithm: round_robin
