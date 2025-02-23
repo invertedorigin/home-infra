@@ -3,7 +3,6 @@ kind: Ingress
 metadata:
   annotations:
     cert-manager.io/cluster-issuer: cloudflare-issuer
-    kubernetes.io/ingress.class: nginx
     nginx.ingress.kubernetes.io/proxy-body-size: "0"
   labels:
     app.kubernetes.io/instance: paperless
@@ -11,6 +10,7 @@ metadata:
   name: paperless
   namespace: paperless
 spec:
+  ingressClassName: nginx
   rules:
   - host: paperless.invertedorigin.com
     http:

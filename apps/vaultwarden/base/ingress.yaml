@@ -9,7 +9,7 @@ metadata:
   name: vaultwarden
   namespace: vaultwarden
 spec:
-  ingressClassName: cilium
+  ingressClassName: nginx
   rules:
   - host: bw.invertedorigin.com
     http:

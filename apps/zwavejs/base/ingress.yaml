@@ -9,7 +9,7 @@ metadata:
   name: zwavejs
   namespace: zwavejs
 spec:
-  ingressClassName: cilium
+  ingressClassName: nginx
   rules:
   - host: zwavejs.invertedorigin.com
     http:
