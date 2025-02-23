@@ -19,23 +19,18 @@ helmCharts:
       webhook:
         image:
           repository: ghcr.io/kashalls/external-dns-unifi-webhook
-          tag: v0.3.4
+          tag: v0.4.2
         env:
           - name: UNIFI_HOST
             valueFrom:
               secretKeyRef:
                 name: &secret external-dns-unifi-secret
                 key: EXTERNAL_DNS_UNIFI_HOST
-          - name: UNIFI_USER
+          - name: UNIFI_API_KEY
             valueFrom:
               secretKeyRef:
                 name: *secret
-                key: EXTERNAL_DNS_UNIFI_USER
-          - name: UNIFI_PASS
-            valueFrom:
-              secretKeyRef:
-                name: *secret
-                key: EXTERNAL_DNS_UNIFI_PASS
+                key: EXTERNAL_DNS_UNIFI_API_KEY
         livenessProbe:
           httpGet:
             path: /healthz
