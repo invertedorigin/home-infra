@@ -247,6 +247,7 @@ helmCharts:
     - name: grafana-secret
     ingress:
       enabled: true
+      ingressClassName: nginx
       annotations:
         kubernetes.io/ingress.class: "nginx"
         cert-manager.io/cluster-issuer: "cloudflare-issuer"
