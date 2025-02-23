@@ -3,13 +3,13 @@ kind: Ingress
 metadata:
   annotations:
     cert-manager.io/cluster-issuer: cloudflare-issuer
-    kubernetes.io/ingress.class: nginx
   labels:
     app.kubernetes.io/instance: vaultwarden
     app.kubernetes.io/name: vaultwarden
   name: vaultwarden
   namespace: vaultwarden
 spec:
+  ingressClassName: cilium
   rules:
   - host: bw.invertedorigin.com
     http:

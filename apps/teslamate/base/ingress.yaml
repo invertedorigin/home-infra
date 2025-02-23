@@ -3,13 +3,13 @@ kind: Ingress
 metadata:
   annotations:
     cert-manager.io/cluster-issuer: cloudflare-issuer
-    kubernetes.io/ingress.class: nginx
   labels:
     app.kubernetes.io/instance: teslamate
     app.kubernetes.io/name: teslamate
   name: teslamate
   namespace: teslamate
 spec:
+  ingressClassName: cilium
   rules:
   - host: teslamate.invertedorigin.com
     http:
