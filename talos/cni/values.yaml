@@ -17,6 +17,9 @@ k8sServiceHost: localhost
 k8sServicePort: 7445
 kubeProxyReplacement: true
 kubeProxyReplacementHealthzBindAddr: 0.0.0.0:10256
+ingressController:
+  enabled: true
+  loadbalancerMode: shared
 loadBalancer:
   algorithm: maglev
   l7:
