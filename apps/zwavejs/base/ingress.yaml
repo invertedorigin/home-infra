@@ -3,13 +3,13 @@ kind: Ingress
 metadata:
   annotations:
     cert-manager.io/cluster-issuer: cloudflare-issuer
-    kubernetes.io/ingress.class: nginx
   labels:
     app.kubernetes.io/instance: zwavejs
     app.kubernetes.io/name: zwavejs
   name: zwavejs
   namespace: zwavejs
 spec:
+  ingressClassName: cilium
   rules:
   - host: zwavejs.invertedorigin.com
     http:
