@@ -15,7 +15,7 @@ helmCharts:
   valuesInLine:
     image:
       repository: ollama/ollama
-      tag: "0.5.11-rocm"
+      tag: "0.5.12-rocm"
     replicaCount: 3
     extraEnv:
       - name: OLLAMA_KEEP_ALIVE
@@ -68,7 +68,7 @@ helmCharts:
 
 - name: open-webui
   repo: https://helm.openwebui.com/
-  version: 5.13.0
+  version: 5.19.0
   releaseName: open-webui
   valuesInLine:
     ollama:
