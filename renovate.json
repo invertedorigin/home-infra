@@ -70,7 +70,8 @@
       "matchPackageNames": [
         "docker.io/victoriametrics/victoria-logs",
         "kube-prometheus-stack",
-        "grafana"
+        "grafana",
+        "victoria-metrics-operator"
       ],
       "matchUpdateTypes": [
         "major",
