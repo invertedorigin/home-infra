@@ -103,7 +103,6 @@ helmCharts:
           ingressClassName: nginx
           annotations:
             cert-manager.io/cluster-issuer: "cloudflare-issuer"
-            nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
           host:
             name: &host rook-ceph-buckets.invertedorigin.com
           tls:
