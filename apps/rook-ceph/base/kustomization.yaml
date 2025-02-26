@@ -86,7 +86,7 @@ helmCharts:
               limits:
                 memory: "2Gi"
               requests:
-                cpu: "1000m"
+                cpu: "1"
                 memory: "1Gi"
             # securePort: 443
             # sslCertificateRef:
