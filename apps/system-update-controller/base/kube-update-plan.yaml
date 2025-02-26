@@ -16,7 +16,8 @@ spec:
   postCompleteDelay: 2m
   nodeSelector:
     matchExpressions:
-      - { key: node-role.kubernetes.io/control-plane, operator: Exists }
+      - key: node-role.kubernetes.io/control-plane
+        operator: Exists
   prepare: &prepare
     image: ghcr.io/siderolabs/talosctl:v1.9.4
     envs:
