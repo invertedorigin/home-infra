@@ -65,6 +65,53 @@ helmCharts:
               osdsPerDevice: "1"
             devices:
               - name: "/dev/disk/by-id/nvme-WD_BLACK_SN850X_2000GB_24163X803932"
+    cephObjectStores:
+      - name: ceph-objectstore
+        spec:
+          metadataPool:
+            failureDomain: host
+            replicated:
+              size: 3
+          dataPool:
+            failureDomain: host
+            erasureCoded:
+              dataChunks: 2
+              codingChunks: 1
+            parameters:
+              bulk: "true"
+          preservePoolsOnDelete: true
+          gateway:
+            port: 80
+            resources:
+              limits:
+                memory: "2Gi"
+              requests:
+                cpu: "1000m"
+                memory: "1Gi"
+            # securePort: 443
+            # sslCertificateRef:
+            instances: 1
+            priorityClassName: system-cluster-critical
+        storageClass:
+          enabled: true
+          name: ceph-bucket
+          reclaimPolicy: Delete
+          volumeBindingMode: "Immediate"
+          annotations: {}
+          labels: {}
+        ingress:
+          # Enable an ingress for the ceph-objectstore
+          enabled: true
+          ingressClassName: nginx
+          annotations:
+            cert-manager.io/cluster-issuer: "cloudflare-issuer"
+            nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+          host:
+            name: &host rook-ceph-buckets.invertedorigin.com
+          tls:
+          - hosts:
+            - *host
+            secretName: rook-ceph-bucket-tls-domain
     cephBlockPools:
       - name: ceph-blockpool
         # see https://github.com/rook/rook/blob/master/Documentation/CRDs/Block-Storage/ceph-block-pool-crd.md#spec for available configuration

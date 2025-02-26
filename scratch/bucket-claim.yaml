@@ -1,0 +1,7 @@
+apiVersion: objectbucket.io/v1alpha1
+kind: ObjectBucketClaim
+metadata:
+  name: super-cool-buket
+spec:
+  generateBucketName: super-cool-bucket
+  storageClassName: ceph-bucket
