@@ -71,7 +71,8 @@
         "docker.io/victoriametrics/victoria-logs",
         "kube-prometheus-stack",
         "grafana",
-        "victoria-metrics-operator"
+        "victoria-metrics-operator",
+        "victoria-logs-single"
       ],
       "matchUpdateTypes": [
         "major",
