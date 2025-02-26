@@ -66,7 +66,7 @@ helmCharts:
             devices:
               - name: "/dev/disk/by-id/nvme-WD_BLACK_SN850X_2000GB_24163X803932"
     cephObjectStores:
-      - name: ceph-objectstore
+      - name: ceph-objectstore-new
         spec:
           metadataPool:
             failureDomain: host
@@ -88,8 +88,6 @@ helmCharts:
               requests:
                 cpu: "1"
                 memory: "1Gi"
-            # securePort: 443
-            # sslCertificateRef:
             instances: 1
             priorityClassName: system-cluster-critical
         storageClass:
