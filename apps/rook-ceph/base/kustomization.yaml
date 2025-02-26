@@ -65,6 +65,7 @@ helmCharts:
               osdsPerDevice: "1"
             devices:
               - name: "/dev/disk/by-id/nvme-WD_BLACK_SN850X_2000GB_24163X803932"
+    cephObjectStores: []
     cephBlockPools:
       - name: ceph-blockpool
         # see https://github.com/rook/rook/blob/master/Documentation/CRDs/Block-Storage/ceph-block-pool-crd.md#spec for available configuration
