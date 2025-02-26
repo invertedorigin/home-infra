@@ -67,38 +67,6 @@ helmCharts:
               - name: "/dev/disk/by-id/nvme-WD_BLACK_SN850X_2000GB_24163X803932"
     cephObjectStores:
       - name: ceph-objectstore
-        spec:
-          metadataPool:
-            failureDomain: host
-            replicated:
-              size: 3
-          dataPool:
-            failureDomain: host
-            erasureCoded:
-              dataChunks: 2
-              codingChunks: 1
-            parameters:
-              bulk: "true"
-          preservePoolsOnDelete: true
-          gateway:
-            port: 80
-            resources:
-              limits:
-                memory: "2Gi"
-              requests:
-                cpu: "1"
-                memory: "1Gi"
-            # securePort: 443
-            # sslCertificateRef:
-            instances: 1
-            priorityClassName: system-cluster-critical
-        storageClass:
-          enabled: true
-          name: ceph-bucket
-          reclaimPolicy: Delete
-          volumeBindingMode: "Immediate"
-          annotations: {}
-          labels: {}
         ingress:
           # Enable an ingress for the ceph-objectstore
           enabled: true
