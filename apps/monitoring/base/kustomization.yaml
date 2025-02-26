@@ -147,7 +147,7 @@ helmCharts:
 
 - name: victoria-logs-single
   repo: https://victoriametrics.github.io/helm-charts/
-  version: 0.8.16
+  version: 0.9.0
   releaseName: &app victoria-logs
   namespace: monitoring
   includeCRDs: true
