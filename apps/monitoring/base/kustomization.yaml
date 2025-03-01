@@ -43,7 +43,7 @@ patches:
 helmCharts:
 - name: kube-prometheus-stack
   repo: https://prometheus-community.github.io/helm-charts
-  version: 69.5.2
+  version: 69.6.0
   releaseName: kps
   includeCRDs: true
   valuesInline:
@@ -147,7 +147,7 @@ helmCharts:
 
 - name: victoria-logs-single
   repo: https://victoriametrics.github.io/helm-charts/
-  version: 0.8.16
+  version: 0.9.2
   releaseName: &app victoria-logs
   namespace: monitoring
   includeCRDs: true
@@ -156,7 +156,7 @@ helmCharts:
       enabled: true
       image:
         repository: docker.io/victoriametrics/victoria-logs
-        tag: "v1.14.0-victorialogs@sha256:35e19975f20f674be769709aa0625c6b7cd35a28d31756f5b5c0a37197daf552"
+        tag: "v1.15.0-victorialogs@sha256:d7435244eb1953ed503fb629705c9c093c4b62975865d8a0028a72ad5c0280f8"
         pullPolicy: IfNotPresent
       retentionPeriod: 1 # months
       persistentVolume:
