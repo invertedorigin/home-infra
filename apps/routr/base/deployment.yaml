@@ -37,8 +37,6 @@ spec:
       - env:
         - name: TZ
           value: America/Chicago
-        - name: EXTERNAL_ADDRS
-          value: "10.0.1.10"
         image: fonoster/routr-one:latest
         name: main
         resources:
