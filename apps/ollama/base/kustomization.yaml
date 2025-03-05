@@ -10,12 +10,12 @@ namespace: ollama
 helmCharts:
 - name: ollama
   repo: https://otwld.github.io/ollama-helm/
-  version: 1.7.0
+  version: 1.8.0
   releaseName: ollama
   valuesInLine:
     image:
       repository: ollama/ollama
-      tag: "0.5.12-rocm"
+      tag: "0.5.13-rocm"
     replicaCount: 3
     extraEnv:
       - name: OLLAMA_KEEP_ALIVE
