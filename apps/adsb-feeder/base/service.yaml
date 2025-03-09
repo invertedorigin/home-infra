@@ -55,5 +55,5 @@ metadata:
     tailscale.com/tailnet-ip: 100.88.132.39
   name: external-adsb
 spec:
-  externalName: external-adsb
+  externalName: ts-external-adsb-vkx25.tailscale-operator.svc.cluster.local
   type: ExternalName
