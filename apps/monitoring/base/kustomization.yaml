@@ -147,7 +147,7 @@ helmCharts:
 
 - name: victoria-logs-single
   repo: https://victoriametrics.github.io/helm-charts/
-  version: 0.9.2
+  version: 0.9.3
   releaseName: &app victoria-logs
   namespace: monitoring
   includeCRDs: true
@@ -156,7 +156,7 @@ helmCharts:
       enabled: true
       image:
         repository: docker.io/victoriametrics/victoria-logs
-        tag: "v1.15.0-victorialogs@sha256:d7435244eb1953ed503fb629705c9c093c4b62975865d8a0028a72ad5c0280f8"
+        tag: "v1.16.0-victorialogs@sha256:e34ddd06a7a6be277be3a7aa78a34dceae9abef730109d2cd04db8ef9971a2c8"
         pullPolicy: IfNotPresent
       retentionPeriod: 1 # months
       persistentVolume:
@@ -201,7 +201,7 @@ helmCharts:
 
 - name: victoria-metrics-operator
   repo: https://victoriametrics.github.io/helm-charts/
-  version: 0.42.4
+  version: 0.43.0
   releaseName: victoria-metrics-operator
   namespace: monitoring
   includeCRDs: true
@@ -228,7 +228,7 @@ helmCharts:
 
 - name: grafana
   repo: https://grafana.github.io/helm-charts
-  version: 8.10.1
+  version: 8.10.3
   releaseName: grafana
   valuesInline:
     admin:
