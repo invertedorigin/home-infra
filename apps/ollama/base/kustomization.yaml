@@ -10,12 +10,12 @@ namespace: ollama
 helmCharts:
 - name: ollama
   repo: https://otwld.github.io/ollama-helm/
-  version: 1.9.0
+  version: 1.11.0
   releaseName: ollama
   valuesInLine:
     image:
       repository: ollama/ollama
-      tag: "0.6.1-rocm"
+      tag: "0.6.2-rocm"
     replicaCount: 3
     extraEnv:
       - name: OLLAMA_KEEP_ALIVE
@@ -67,7 +67,7 @@ helmCharts:
 
 - name: open-webui
   repo: https://helm.openwebui.com/
-  version: 5.24.0
+  version: 5.25.0
   releaseName: open-webui
   valuesInLine:
     ollama:
