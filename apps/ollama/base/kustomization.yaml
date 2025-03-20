@@ -42,7 +42,7 @@ helmCharts:
       enabled: true
       existingClaim: ollama
     updateStrategy:
-     type: Recreate
+     type: RollingUpdate
     ollama:
       gpu:
         enabled: true
