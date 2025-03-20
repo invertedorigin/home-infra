@@ -16,7 +16,7 @@ helmCharts:
     image:
       repository: ollama/ollama
       tag: "0.6.1-rocm"
-    replicaCount: 2
+    replicaCount: 3
     extraEnv:
       - name: OLLAMA_KEEP_ALIVE
         value: "-1"
@@ -42,7 +42,10 @@ helmCharts:
       enabled: true
       existingClaim: ollama
     updateStrategy:
-     type: RollingUpdate
+      type: RollingUpdate
+      rollingUpdate:
+        maxSurge: 0
+        maxUnavailable: 1
     ollama:
       gpu:
         enabled: true
