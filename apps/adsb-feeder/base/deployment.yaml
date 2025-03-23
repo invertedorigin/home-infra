@@ -29,7 +29,7 @@ spec:
         adsb.feature.node.kubernetes.io/rtlsdr: "true"
       containers:
         - name: adsb-feeder
-          image: ghcr.io/sdr-enthusiasts/docker-adsb-ultrafeeder:latest@sha256:fded8d9b3d3274d830b3db213ce00de9737a3ac05a703ec7bed4df8135346f1a
+          image: ghcr.io/sdr-enthusiasts/docker-adsb-ultrafeeder:latest@sha256:30e1be13d12413eb9c96e735b39d1a63cc5d0a42ec618ab744aeac67b7c60390
           env:
             - name: TAR1090_RANGERINGSDISTANCES
               value: "50,100,150,200"
