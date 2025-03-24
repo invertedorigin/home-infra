@@ -13,7 +13,7 @@ images:
 - name: ghcr.io/angelnu/cni-plugins
   newTag: 1.6.2
 - name: ghcr.io/k8snetworkplumbingwg/multus-cni
-  newTag: v4.1.4-thick
+  newTag: v4.2.0-thick
 
 helmCharts:
 - name: multus
