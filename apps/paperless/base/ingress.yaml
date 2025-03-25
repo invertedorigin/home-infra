@@ -10,7 +10,7 @@ metadata:
   name: paperless
   namespace: paperless
 spec:
-  ingressClassName: contour
+  ingressClassName: nginx
   rules:
   - host: paperless.invertedorigin.com
     http:
