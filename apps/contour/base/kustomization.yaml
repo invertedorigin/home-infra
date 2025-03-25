@@ -9,6 +9,6 @@ resources:
 helmCharts:
 - name: contour
   repo: https://charts.bitnami.com/bitnami/contour
-  version: 4.12.0
+  version: 19.5.8
   releaseName: contour
   namespace: projectcontour
