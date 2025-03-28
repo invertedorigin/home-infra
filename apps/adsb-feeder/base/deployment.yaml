@@ -29,7 +29,7 @@ spec:
         adsb.feature.node.kubernetes.io/rtlsdr: "true"
       containers:
         - name: adsb-feeder
-          image: ghcr.io/sdr-enthusiasts/docker-adsb-ultrafeeder:latest@sha256:f4654be76e47c1e957ef943f5a9e9653512ff3a945a4af9485b92238cbecc6b2
+          image: ghcr.io/sdr-enthusiasts/docker-adsb-ultrafeeder:latest@sha256:c75caf41c1626bc57112f4abce026a7e0752c9662d03b3c25c259af4891146e0
           env:
             - name: TAR1090_RANGERINGSDISTANCES
               value: "50,100,150,200"
@@ -185,7 +185,7 @@ spec:
     spec:
       containers:
         - name: fr24-feeder
-          image: ghcr.io/sdr-enthusiasts/docker-flightradar24:latest@sha256:fb3d01117f1a690dfc31c21295eb13edd970a98b77e440cb04717bb5f2ac9f52
+          image: ghcr.io/sdr-enthusiasts/docker-flightradar24:latest@sha256:7049091638a68da16c9c97fecd7cefa79da1e0e65211a8f12e4cb5402ff13686
           env:
             - name: BEASTHOST
               value: adsb-feeder.adsb-feeder.svc.cluster.local
