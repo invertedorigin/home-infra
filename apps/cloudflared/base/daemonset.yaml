@@ -39,7 +39,7 @@ spec:
               name: tunnel-credentials
         - name: TUNNEL_TRANSPORT_PROTOCOL
           value: http2
-        image: docker.io/cloudflare/cloudflared:2025.2.1
+        image: docker.io/cloudflare/cloudflared:2025.4.0
         name: main
         resources:
           limits:
