@@ -9,6 +9,6 @@ resources:
 helmCharts:
 - name: contour
   repo: oci://registry-1.docker.io/bitnamicharts
-  version: 19.5.9
+  version: 19.5.10
   releaseName: contour
   namespace: projectcontour
