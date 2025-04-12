@@ -5,9 +5,6 @@ namespace: custom-prom-exporters
 
 resources:
 - namespace.yaml
-- rm520-deployment.yaml
-- rm520-service-monitor.yaml
-- rm520-service.yaml
 - royalcaribbean-deployment.yaml
 - royalcaribbean-service-monitor.yaml
 - royalcaribbean-service.yaml
