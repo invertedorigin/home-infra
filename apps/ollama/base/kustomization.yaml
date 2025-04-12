@@ -14,8 +14,8 @@ helmCharts:
   releaseName: ollama
   valuesInLine:
     image:
-      repository: ghcr.io/tecncr/ollama-gtt
-      tag: "0.6.3"
+      repository: ollama/ollama
+      tag: "0.6.5-rocm"
     replicaCount: 3
     extraEnv:
       - name: OLLAMA_KEEP_ALIVE
