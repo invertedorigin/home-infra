@@ -185,7 +185,7 @@ spec:
     spec:
       containers:
         - name: fr24-feeder
-          image: ghcr.io/sdr-enthusiasts/docker-flightradar24:latest@sha256:7049091638a68da16c9c97fecd7cefa79da1e0e65211a8f12e4cb5402ff13686
+          image: ghcr.io/sdr-enthusiasts/docker-flightradar24:latest@sha256:0cadcbe96e9be6ca5be5cbf084c16577b710c2459b27a762fe29152e755d50ab
           env:
             - name: BEASTHOST
               value: adsb-feeder.adsb-feeder.svc.cluster.local
