@@ -3,7 +3,6 @@ kind: Kustomization
 
 resources:
 - namespace.yaml
-- https://raw.githubusercontent.com/external-secrets/external-secrets/v0.15.0/deploy/crds/bundle.yaml
 - secret-store.yaml
 
 helmCharts:
@@ -12,9 +11,9 @@ helmCharts:
   version: "0.16.0"
   releaseName: external-secrets
   namespace: external-secrets
-  includeCRDs: false
+  includeCRDs: true
   valuesInline:
-    installCRDs: false
+    installCRDs: true
     serviceMonitor:
       enabled: true
       namespace: external-secrets
