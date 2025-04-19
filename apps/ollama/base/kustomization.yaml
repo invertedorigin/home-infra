@@ -15,7 +15,7 @@ helmCharts:
   valuesInLine:
     image:
       repository: ollama/ollama
-      tag: "0.6.5-rocm"
+      tag: "0.6.6-rocm"
     replicaCount: 3
     extraEnv:
       - name: OLLAMA_KEEP_ALIVE
