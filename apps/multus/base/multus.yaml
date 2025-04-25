@@ -113,7 +113,7 @@ spec:
       serviceAccountName: multus
       containers:
         - name: dhcp-daemon
-          image: ghcr.io/angelnu/cni-plugins:1.6.2
+          image: ghcr.io/angelnu/cni-plugins:1.7.1
           command:
             - /plugins/dhcp
           args:

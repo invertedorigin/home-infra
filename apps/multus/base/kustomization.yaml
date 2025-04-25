@@ -11,7 +11,7 @@ resources:
 
 images:
 - name: ghcr.io/angelnu/cni-plugins
-  newTag: 1.6.2
+  newTag: 1.7.1
 - name: ghcr.io/k8snetworkplumbingwg/multus-cni
   newTag: v4.2.0-thick
 
