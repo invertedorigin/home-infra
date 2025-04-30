@@ -6,7 +6,7 @@ metadata:
 data:
   onvif-config-north.yaml: |
     onvif:
-      - name: Garage North
+      - name: Garage-North
         dev: net1
         target:
           hostname: 10.0.1.79
@@ -18,7 +18,7 @@ data:
           snapshot: /a72fd319ac56155c
           width: 1280
           height: 720
-          framerate: 15
+          framerate: 20
           bitrate: 3072
           quality: 4
         ports:
@@ -28,7 +28,7 @@ data:
         mac: 22:c2:8d:28:f2:77
   onvif-config-south.yaml: |
     onvif:
-      - name: Garage South
+      - name: Garage-South
         dev: net1
         target:
           hostname: 10.0.1.79
@@ -40,7 +40,7 @@ data:
           snapshot: /df163b12ac660275
           width: 1280
           height: 720
-          framerate: 15
+          framerate: 20
           bitrate: 3072
           quality: 4
         ports:
