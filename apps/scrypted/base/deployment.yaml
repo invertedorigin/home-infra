@@ -190,7 +190,7 @@ spec:
       initContainers:
         - name: init-config
           image: busybox
-          command: ["/bin/sh", "-c", "cp /config/onvif-config-south.yaml /mnt/onvif-config.yaml"]
+          command: ["/bin/sh", "-c", "cp /config/onvif-config-package.yaml /mnt/onvif-config.yaml"]
           volumeMounts:
             - name: config-volume
               mountPath: /mnt
