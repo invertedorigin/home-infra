@@ -1,0 +1,50 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: onvif-config
+  namespace: default
+data:
+  onvif-config-north.yaml: |
+    onvif:
+      - name: Garage North
+        dev: net1
+        target:
+          hostname: 10.0.1.79
+          ports:
+            rtsp: 33577
+            snapshot: 80
+        highQuality:
+          rtsp: /a72fd319ac56155c
+          snapshot: /a72fd319ac56155c
+          width: 1280
+          height: 720
+          framerate: 15
+          bitrate: 3072
+          quality: 4
+        ports:
+          server: 8081
+          rtsp: 8554
+          snapshot: 8080
+        mac: 22:c2:8d:28:f2:77
+  onvif-config-south.yaml: |
+    onvif:
+      - name: Garage South
+        dev: net1
+        target:
+          hostname: 10.0.1.79
+          ports:
+            rtsp: 45047
+            snapshot: 80
+        highQuality:
+          rtsp: /df163b12ac660275
+          snapshot: /df163b12ac660275
+          width: 1280
+          height: 720
+          framerate: 15
+          bitrate: 3072
+          quality: 4
+        ports:
+          server: 8081
+          rtsp: 8554
+          snapshot: 8080
+        mac: 44:c2:8d:38:f2:77
