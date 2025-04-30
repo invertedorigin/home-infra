@@ -12,10 +12,10 @@ data:
           hostname: 10.0.1.79
           ports:
             rtsp: 33577
-            snapshot: 443
+            snapshot: 80
         highQuality:
           rtsp: /a72fd319ac56155c
-          snapshot: /endpoint/6/public/79bb117c-4fe4-4066-b86c-1277177a98a8.jpeg
+          snapshot: /a72fd319ac56155c
           width: 1280
           height: 720
           framerate: 20
