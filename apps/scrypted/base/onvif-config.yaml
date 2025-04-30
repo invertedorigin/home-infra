@@ -48,3 +48,25 @@ data:
           rtsp: 8554
           snapshot: 8080
         mac: 44:c2:8d:38:f2:77
+  onvif-config-package.yaml: |
+    onvif:
+      - name: Package
+        dev: net1
+        target:
+          hostname: 10.0.1.79
+          ports:
+            rtsp: 35449
+            snapshot: 80
+        highQuality:
+          rtsp: /c696fa35c5760f95
+          snapshot: /c696fa35c5760f95
+          width: 1600
+          height: 1200
+          framerate: 2
+          bitrate: 3072
+          quality: 4
+        ports:
+          server: 8081
+          rtsp: 8554
+          snapshot: 8080
+        mac: 66:c2:8d:38:f2:77
