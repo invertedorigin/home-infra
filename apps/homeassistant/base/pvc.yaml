@@ -24,6 +24,7 @@ spec:
   trigger:
     manual: "restore-once-bootstrap"
   restic:
+    previous: 2
     repository: "volsync-secret"
     copyMethod: "Snapshot"
     storageClassName: "ceph-block"
