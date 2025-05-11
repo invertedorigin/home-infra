@@ -26,5 +26,5 @@ metadata:
     tailscale.com/tailnet-ip: 100.104.213.67
   name: external-rpi2340
 spec:
-  externalName: ts-external-rp2340
+  externalName: ts-external-rpi2340-jn6hp.tailscale-operator.svc.cluster.local
   type: ExternalName
