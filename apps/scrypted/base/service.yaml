@@ -18,13 +18,3 @@ spec:
     app.kubernetes.io/instance: scrypted
     app.kubernetes.io/name: scrypted
   type: ClusterIP
----
-apiVersion: v1
-kind: Service
-metadata:
-  annotations:
-    tailscale.com/tailnet-ip: 100.104.213.67
-  name: external-rpi2340
-spec:
-  externalName: ts-external-rpi2340-jn6hp.tailscale-operator.svc.cluster.local
-  type: ExternalName

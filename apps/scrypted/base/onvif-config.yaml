@@ -48,25 +48,3 @@ data:
           rtsp: 8554
           snapshot: 8080
         mac: 44:c2:8d:38:f2:77
-  onvif-config-2340.yaml: |
-    onvif:
-      - name: 2340-Discovery
-        dev: net1
-        target:
-          hostname: ts-external-rpi2340-jn6hp.tailscale-operator.svc.cluster.local
-          ports:
-            rtsp: 44685
-            snapshot: 80
-        highQuality:
-          rtsp: /e2a3d5ed909bff3f
-          snapshot: /e2a3d5ed909bff3f
-          width: 1920
-          height: 1080
-          framerate: 30
-          bitrate: 3072
-          quality: 4
-        ports:
-          server: 8081
-          rtsp: 8554
-          snapshot: 8080
-        mac: 66:c2:8d:38:f2:77
