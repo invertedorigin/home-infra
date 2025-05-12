@@ -4,9 +4,9 @@ kind: Kustomization
 resources:
 - external-secret.yaml
 - namespace.yaml
-#- connector.yaml
+- connector.yaml
 - generic-device-plugin.yaml
-#- proxyclass.yaml
+- proxyclass.yaml
 
 helmCharts:
 - name: tailscale-operator
