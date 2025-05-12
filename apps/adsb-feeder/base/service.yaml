@@ -47,13 +47,13 @@ spec:
     app.kubernetes.io/instance: flightaware-feeder
     app.kubernetes.io/name: flightaware-feeder
   type: ClusterIP
----
-apiVersion: v1
-kind: Service
-metadata:
-  annotations:
-    tailscale.com/tailnet-ip: 100.88.132.39
-  name: external-adsb
-spec:
-  externalName: ts-external-adsb-vkx25.tailscale-operator.svc.cluster.local
-  type: ExternalName
+# ---
+# apiVersion: v1
+# kind: Service
+# metadata:
+#   annotations:
+#     tailscale.com/tailnet-ip: 100.88.132.39
+#   name: external-adsb
+# spec:
+#   externalName: ts-external-adsb-vkx25.tailscale-operator.svc.cluster.local
+#   type: ExternalName
