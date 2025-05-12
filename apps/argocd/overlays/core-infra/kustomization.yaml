@@ -1,7 +1,7 @@
 namespace: argocd
 
 resources:
-- github.com/argoproj/argo-cd//manifests/cluster-install?ref=v2.14.11
+- github.com/argoproj/argo-cd//manifests/cluster-install?ref=v3.0.0
 - infra-repo.yaml
 - root-application.yaml
 - ingress.yaml
