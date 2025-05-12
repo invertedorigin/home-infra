@@ -1,20 +1,20 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
-#resources:
-# - external-secret.yaml
-# - namespace.yaml
-# - connector.yaml
-# - generic-device-plugin.yaml
-# - proxyclass.yaml
+resources:
+- external-secret.yaml
+- namespace.yaml
+#- connector.yaml
+- generic-device-plugin.yaml
+#- proxyclass.yaml
 
-# helmCharts:
-# - name: tailscale-operator
-#   repo: https://pkgs.tailscale.com/helmcharts
-#   version: 1.82.5
-#   releaseName: tailscale-operator
-#   namespace: tailscale-operator
-#   includeCRDs: true
-#   valuesInline:
-#     apiServerProxyConfig:
-#       mode: "true"
+helmCharts:
+- name: tailscale-operator
+  repo: https://pkgs.tailscale.com/helmcharts
+  version: 1.82.5
+  releaseName: tailscale-operator
+  namespace: tailscale-operator
+  includeCRDs: true
+  valuesInline:
+    apiServerProxyConfig:
+      mode: "true"
