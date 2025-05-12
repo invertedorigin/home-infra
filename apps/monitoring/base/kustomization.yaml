@@ -211,14 +211,14 @@ helmCharts:
     operator:
       enable_converter_ownership: true
       useCustomConfigReloader: true
-      psp_auto_creation_enabled: false
+      psp_auto_creation_enabled: true
     env:
       - name: VM_VMALERTDEFAULT_CONFIGRELOADERCPU
         value: 10m
       - name: VM_VMAGENTDEFAULT_CONFIGRELOADERCPU
         value: 10m
     rbac:
-      pspEnabled: false
+      pspEnabled: true
     resources:
       requests:
         cpu: 20m
