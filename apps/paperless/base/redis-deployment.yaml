@@ -29,7 +29,7 @@ spec:
       - env:
         - name: REDIS_REPLICATION_MODE
           value: master
-        image: public.ecr.aws/docker/library/redis:8.0.0
+        image: public.ecr.aws/docker/library/redis:8.0.1
         name: app
         resources:
           limits:
