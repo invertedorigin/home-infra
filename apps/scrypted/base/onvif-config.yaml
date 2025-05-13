@@ -21,6 +21,14 @@ data:
           framerate: 20
           bitrate: 3072
           quality: 4
+        lowQuality:
+          rtsp: /a72fd319ac56155c
+          snapshot: /a72fd319ac56155c
+          width: 1280
+          height: 720
+          framerate: 20
+          bitrate: 3072
+          quality: 1
         ports:
           server: 8081
           rtsp: 8554
@@ -43,6 +51,14 @@ data:
           framerate: 20
           bitrate: 3072
           quality: 4
+        lowQuality:
+          rtsp: /df163b12ac660275
+          snapshot: /df163b12ac660275
+          width: 1280
+          height: 720
+          framerate: 20
+          bitrate: 3072
+          quality: 1
         ports:
           server: 8081
           rtsp: 8554
