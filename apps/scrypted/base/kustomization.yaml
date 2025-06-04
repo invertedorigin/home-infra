@@ -11,4 +11,4 @@ resources:
 - service.yaml
 - ingress.yaml
 - deployment.yaml
-- onvif-config.yaml
+#- onvif-config.yaml
