@@ -5,7 +5,7 @@ resources:
 - github.com/rancher/system-upgrade-controller?ref=v0.15.2
 - service-account.yaml
 #- talos-update-plan.yaml
-#- kube-update-plan.yaml
+- kube-update-plan.yaml
 
 images:
 - name: rancher/system-upgrade-controller
