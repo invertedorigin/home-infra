@@ -1,0 +1,18 @@
+apiVersion: nfd.k8s-sigs.io/v1alpha1
+kind: NodeFeatureRule
+metadata:
+  name: rtlsdr-rtl2838uhidir
+spec:
+  rules:
+    - name: "rtl2838uhidir.present"
+      labels:
+        "feature.node.kubernetes.io/rtl2838uhidir": "true"
+      matchFeatures:
+        - feature: usb.device
+          matchExpressions:
+            - key: vendor
+              operator: In
+              values: ["0bda"]  # Realtek
+            - key: device
+              operator: In
+              values: ["2838"]  # RTL2838

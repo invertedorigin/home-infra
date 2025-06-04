@@ -103,3 +103,33 @@ spec:
         - name: certs
           secret:
             secretName: xcel-itron2mqtt-certs
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rtl433
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: rtl433
+  template:
+    metadata:
+      labels:
+        app: rtl433
+    spec:
+      containers:
+        - name: rtl433
+          image: hertzg/rtl_433:latest
+          volumeMounts:
+            - name: config
+              mountPath: /etc/rtl_433/rtl_433.conf
+              subPath: rtl433.conf
+          securityContext:
+            privileged: true
+      volumes:
+        - name: config
+          secret:
+            secretName: rtl433-config
+      nodeSelector:
+        eature.node.kubernetes.io/rtl2838uhidir: "true"

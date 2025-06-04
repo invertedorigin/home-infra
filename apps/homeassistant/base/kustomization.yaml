@@ -13,3 +13,4 @@ resources:
 - service.yaml
 - ingress.yaml
 - vesync-override.yaml
+- nfd-rule.yaml
