@@ -110,6 +110,8 @@ metadata:
   name: rtl433
 spec:
   replicas: 1
+  strategy:
+    type: Recreate
   selector:
     matchLabels:
       app: rtl433
