@@ -1,18 +1,15 @@
 apiVersion: nfd.k8s-sigs.io/v1alpha1
 kind: NodeFeatureRule
 metadata:
-  name: rtlsdr-rtl2838uhidir
+  name: rtl_443_dongle
 spec:
   rules:
-    - name: "rtl2838uhidir.present"
+    - name: match-product
       labels:
         "feature.node.kubernetes.io/rtl2838uhidir": "true"
+      # Label is created if all of the rules below match
       matchFeatures:
+        # Match if any USB device with serial exists in the system
         - feature: usb.device
           matchExpressions:
-            - key: vendor
-              operator: In
-              values: ["0bda"]  # Realtek
-            - key: device
-              operator: In
-              values: ["2838"]  # RTL2838
+            dvice: {op: In, value: ["2838"]}

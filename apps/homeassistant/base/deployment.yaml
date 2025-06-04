@@ -132,4 +132,5 @@ spec:
           secret:
             secretName: rtl433-config
       nodeSelector:
-        eature.node.kubernetes.io/rtl2838uhidir: "true"
+        feature.node.kubernetes.io/rtl2838uhidir: "true"
+        
