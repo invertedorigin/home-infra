@@ -121,6 +121,9 @@ spec:
       containers:
         - name: rtl433
           image: hertzg/rtl_433:latest
+          args:
+            - "-c"
+            - "/etc/rtl433/rtl433.conf"
           volumeMounts:
             - name: config
               mountPath: /etc/rtl_433/rtl_433.conf
