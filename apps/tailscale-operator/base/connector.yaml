@@ -4,7 +4,7 @@ metadata:
   name: ts-home-network-node-1
 spec:
   hostname: k8s-to-home-node-1
-  proxyClass: node-1
+  proxyClass: node-ap147
   exitNode: true
   subnetRouter:
     advertiseRoutes:

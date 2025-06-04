@@ -9,7 +9,7 @@ spec:
         team: eng
         environment: prod
       nodeSelector:
-        kubernetes.io/hostname: "node-1"
+        kubernetes.io/hostname: "node-ap147"
       tailscaleContainer:
         resources:
           limits:
