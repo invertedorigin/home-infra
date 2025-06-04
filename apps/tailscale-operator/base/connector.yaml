@@ -1,9 +1,9 @@
 apiVersion: tailscale.com/v1alpha1
 kind: Connector
 metadata:
-  name: ts-home-network-node-1
+  name: ts-home-network-node-ap147
 spec:
-  hostname: k8s-to-home-node-1
+  hostname: k8s-to-home-node-ap147
   proxyClass: node-ap147
   exitNode: true
   subnetRouter:
@@ -15,10 +15,10 @@ spec:
 apiVersion: tailscale.com/v1alpha1
 kind: Connector
 metadata:
-  name: ts-home-network-node-2
+  name: ts-home-network-node-ap427
 spec:
-  hostname: k8s-to-home-node-2
-  proxyClass: node-2
+  hostname: k8s-to-home-node-ap427
+  proxyClass: node-ap427
   exitNode: true
   subnetRouter:
     advertiseRoutes:
@@ -29,10 +29,10 @@ spec:
 apiVersion: tailscale.com/v1alpha1
 kind: Connector
 metadata:
-  name: ts-home-network-node-3
+  name: ts-home-network-node-ap076
 spec:
-  hostname: k8s-to-home-node-3
-  proxyClass: node-3
+  hostname: k8s-to-home-node-ap076
+  proxyClass: node-ap076
   exitNode: true
   subnetRouter:
     advertiseRoutes:

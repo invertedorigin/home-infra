@@ -39,12 +39,12 @@ nodes:
       - interface: eno1
         mtu: 1500
         dhcp: true
-  - hostname: node-2.tail7ebe0.ts.net
-    talosImageURL: factory.talos.dev/installer/859dd30ac3e1f9f0aa5e425e347525e0090e0d2329517ee2f52754c82e680c7f
-    ipAddress: node-2.tail7ebe0.ts.net
+  - hostname: node-ap427
+    talosImageURL: factory.talos.dev/installer/9c1d1b442d73f96dcd04e81463eb20000ab014062d22e1b083e1773336bc1dd5
+    ipAddress: node-ap429
     controlPlane: true
     installDiskSelector:
-      model: KINGSTON OM8PGP4512Q-A0
+      model: WDC  WDS100T1R0A
     disableSearchDomain: false
     nodeLabels:
       topology.kubernetes.io/region: home
@@ -52,12 +52,12 @@ nodes:
       - interface: eno1
         mtu: 1500
         dhcp: true
-  - hostname: node-3.tail7ebe0.ts.net
-    talosImageURL: factory.talos.dev/installer/859dd30ac3e1f9f0aa5e425e347525e0090e0d2329517ee2f52754c82e680c7f
-    ipAddress: node-3.tail7ebe0.ts.net
+  - hostname: node-ap076
+    talosImageURL: factory.talos.dev/installer/9c1d1b442d73f96dcd04e81463eb20000ab014062d22e1b083e1773336bc1dd5
+    ipAddress: node-ap076
     controlPlane: true
     installDiskSelector:
-      model: KINGSTON OM8PGP4512Q-A0
+      model: WDC  WDS100T1R0A
     disableSearchDomain: false
     nodeLabels:
       topology.kubernetes.io/region: home
@@ -65,11 +65,6 @@ nodes:
       - interface: eno1
         mtu: 1500
         dhcp: true
-    extensionServices:
-    - name: tailscale
-      environment:
-        - TS_AUTH_KEY=${TAILSCALE_AUTHKEY}
-        - TS_ACCEPT_DNS=true
 patches:
   - |-
     machine:

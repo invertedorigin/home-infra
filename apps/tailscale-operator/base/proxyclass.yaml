@@ -1,7 +1,7 @@
 apiVersion: tailscale.com/v1alpha1
 kind: ProxyClass
 metadata:
-  name: node-1
+  name: node-ap147
 spec:
   statefulSet:
     pod:
@@ -18,7 +18,7 @@ spec:
 apiVersion: tailscale.com/v1alpha1
 kind: ProxyClass
 metadata:
-  name: node-2
+  name: node-ap427
 spec:
   statefulSet:
     pod:
@@ -26,7 +26,7 @@ spec:
         team: eng
         environment: prod
       nodeSelector:
-        kubernetes.io/hostname: "node-2"
+        kubernetes.io/hostname: "node-ap427"
       tailscaleContainer:
         resources:
           limits:
@@ -35,7 +35,7 @@ spec:
 apiVersion: tailscale.com/v1alpha1
 kind: ProxyClass
 metadata:
-  name: node-3
+  name: node-ap076
 spec:
   statefulSet:
     pod:
@@ -43,7 +43,7 @@ spec:
         team: eng
         environment: prod
       nodeSelector:
-        kubernetes.io/hostname: "node-3"
+        kubernetes.io/hostname: "node-ap076"
       tailscaleContainer:
         resources:
           limits:
