@@ -68,6 +68,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: xcel-itron2mqtt
+  namespace: homeassistant
   labels:
     app: xcel-itron2mqtt
 spec:
