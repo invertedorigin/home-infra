@@ -132,5 +132,5 @@ spec:
           secret:
             secretName: rtl433-config
       nodeSelector:
-        feature.node.kubernetes.io/usb-ff_0bda_2838: "true"
+        feature.node.kubernetes.io/usb-ff_0bda_2838.present: "true"
         
