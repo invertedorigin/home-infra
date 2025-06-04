@@ -120,6 +120,7 @@ spec:
       labels:
         app: rtl433
     spec:
+      hostname: rtl433
       containers:
         - name: rtl433
           image: hertzg/rtl_433:latest
