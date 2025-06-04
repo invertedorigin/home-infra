@@ -7,21 +7,21 @@ spec:
   instances: 3
   imageName: ghcr.io/cloudnative-pg/postgresql:17.5
 
-  bootstrap:
-    initdb:
-      database: teslamate
-      owner: teslamate
-
   # bootstrap:
-  #   recovery:
-  #     source: clusterBackup
-  #     recoveryTarget:
-  #       targetTime: "2024-10-27 00:00:00.00000+00"
+  #   initdb:
+  #     database: teslamate
+  #     owner: teslamate
+
+  bootstrap:
+    recovery:
+      source: clusterBackup
+      recoveryTarget:
+        targetTime: "2025-06-04 00:00:00.00000+00"
 
   externalClusters:
     - name: clusterBackup
       barmanObjectStore:
-        destinationPath: s3://k8s-backups/teslamate
+        destinationPath: s3://k8s-backups/teslamate-joel-new
         endpointURL: https://f92cf6dd20992e652da4b54bae8dbd53.r2.cloudflarestorage.com
         serverName: "teslamate-db-17"
         s3Credentials:
@@ -53,7 +53,7 @@ spec:
 
   backup:
     barmanObjectStore:
-      destinationPath: s3://k8s-backups/teslamate/
+      destinationPath: s3://k8s-backups/teslamate-restored/
       endpointURL: https://f92cf6dd20992e652da4b54bae8dbd53.r2.cloudflarestorage.com
       serverName: "teslamate-db-17"
       s3Credentials:
