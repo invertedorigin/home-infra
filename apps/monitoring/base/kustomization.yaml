@@ -746,15 +746,16 @@ helmCharts:
           allowUiUpdates: true
           options:
             path: /var/lib/grafana/dashboards/default
-        - name: 'teslamate'
+        - name: 'TeslamateCustomDashboards'
           orgId: 1
-          folder: Teslamate
+          folder: TeslaMate Custom Dashboards
+          folderUid: jchmTmCuGrDa
           type: file
           disableDeletion: false
-          # updateIntervalSeconds: -1
           allowUiUpdates: true
+          # updateIntervalSeconds: 86400
           options:
-            path: /var/lib/grafana/dashboards/teslamate
+            path: /var/lib/grafana/dashboards/teslamate-custom
         - name: 'grafana-dashboards-kubernetes'
           orgId: 1
           folder: 'Kubernetes'
@@ -873,6 +874,35 @@ helmCharts:
           url: https://raw.githubusercontent.com/adriankumpf/teslamate/master/grafana/dashboards/internal/charge-details.json
         drive-details:
           url: https://raw.githubusercontent.com/adriankumpf/teslamate/master/grafana/dashboards/internal/drive-details.json
+      teslamate-custom:
+        amortization-tracker:
+          url: https://raw.githubusercontent.com/jheredianet/Teslamate-CustomGrafanaDashboards/refs/heads/main/dashboards/AmortizationTracker.json
+        charging-costs-stats:
+          url: https://raw.githubusercontent.com/jheredianet/Teslamate-CustomGrafanaDashboards/refs/heads/main/dashboards/ChargingCostsStats.json
+        charging-curve-stats:
+          url: https://raw.githubusercontent.com/jheredianet/Teslamate-CustomGrafanaDashboards/refs/heads/main/dashboards/ChargingCurveStats.json
+        continuous-trips:
+          url: https://raw.githubusercontent.com/jheredianet/Teslamate-CustomGrafanaDashboards/refs/heads/main/dashboards/ContinuousTrips.json
+        current-charge-view:
+          url: https://raw.githubusercontent.com/jheredianet/Teslamate-CustomGrafanaDashboards/refs/heads/main/dashboards/CurrentChargeView.json
+        current-drive-view:
+          url: https://raw.githubusercontent.com/jheredianet/Teslamate-CustomGrafanaDashboards/refs/heads/main/dashboards/CurrentDriveView.json
+        current-state:
+          url: https://raw.githubusercontent.com/jheredianet/Teslamate-CustomGrafanaDashboards/refs/heads/main/dashboards/CurrentState.json
+        dc-charging-curves-by-carrier:
+          url: https://raw.githubusercontent.com/jheredianet/Teslamate-CustomGrafanaDashboards/refs/heads/main/dashboards/DCChargingCurvesByCarrier.json
+        incomplete-data:
+          url: https://raw.githubusercontent.com/jheredianet/Teslamate-CustomGrafanaDashboards/refs/heads/main/dashboards/IncompleteData.json
+        mileage-stats:
+          url: https://raw.githubusercontent.com/jheredianet/Teslamate-CustomGrafanaDashboards/refs/heads/main/dashboards/MileageStats.json
+        range-degradation:
+          url: https://raw.githubusercontent.com/jheredianet/Teslamate-CustomGrafanaDashboards/refs/heads/main/dashboards/RangeDegradation.json
+        speed-rates:
+          url: https://raw.githubusercontent.com/jheredianet/Teslamate-CustomGrafanaDashboards/refs/heads/main/dashboards/SpeedRates.json
+        speed-temperature:
+          url: https://raw.githubusercontent.com/jheredianet/Teslamate-CustomGrafanaDashboards/refs/heads/main/dashboards/SpeedTemperature.json
+        tracking-drives:
+          url: https://raw.githubusercontent.com/jheredianet/Teslamate-CustomGrafanaDashboards/refs/heads/main/dashboards/TrackingDrives.json
     sidecar:
       datasources:
         enabled: true
