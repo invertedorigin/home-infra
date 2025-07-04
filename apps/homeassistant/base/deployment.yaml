@@ -37,7 +37,7 @@ spec:
       - env:
         - name: TZ
           value: America/Chicago
-        image: ghcr.io/home-assistant/home-assistant:2025.6.1
+        image: ghcr.io/home-assistant/home-assistant:2025.7.1
         name: main
         resources:
           requests:
