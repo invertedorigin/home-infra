@@ -4,7 +4,7 @@ kind: Kustomization
 resources:
 - github.com/rancher/system-upgrade-controller?ref=v0.15.3
 - service-account.yaml
-#- talos-update-plan.yaml
+- talos-update-plan.yaml
 - kube-update-plan.yaml
 
 images:
