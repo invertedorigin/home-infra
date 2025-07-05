@@ -29,7 +29,7 @@ spec:
         adsb.feature.node.kubernetes.io/rtlsdr: "true"
       containers:
         - name: adsb-feeder
-          image: ghcr.io/sdr-enthusiasts/docker-adsb-ultrafeeder:latest@sha256:7417018c768a9157445e42e56ca614110d656269b2b1e98b6d4447406c1ef57e
+          image: ghcr.io/sdr-enthusiasts/docker-adsb-ultrafeeder:latest@sha256:3ecbb24929ff5a238ef4f31a95eb0f5641586014887e4c11f471a6106b32833c
           env:
             - name: TAR1090_RANGERINGSDISTANCES
               value: "50,100,150,200"
@@ -185,7 +185,7 @@ spec:
     spec:
       containers:
         - name: fr24-feeder
-          image: ghcr.io/sdr-enthusiasts/docker-flightradar24:latest@sha256:616c8b03f6117a3ef1b19e663a9734a318566a2880f3c865c021cf87f65ff641
+          image: ghcr.io/sdr-enthusiasts/docker-flightradar24:latest@sha256:e8f353f24c1ef02e35ae5d0077829054b2698c661a8543753a7ed3e90980cfb7
           env:
             - name: BEASTHOST
               value: adsb-feeder.adsb-feeder.svc.cluster.local
@@ -235,7 +235,7 @@ spec:
     spec:
       containers:
         - name: flightaware-feeder
-          image: ghcr.io/sdr-enthusiasts/docker-piaware:latest@sha256:f0cf9edf172693c819241d0a0cc6969b0217a0b021b84718f3563dfeefdac98d
+          image: ghcr.io/sdr-enthusiasts/docker-piaware:latest@sha256:3e0ff274c5d83ce760d5421fb5c74b0cbb4eec66940ed417bafe4466440d2180
           env:
             - name: BEASTHOST
               value: adsb-feeder.adsb-feeder.svc.cluster.local
