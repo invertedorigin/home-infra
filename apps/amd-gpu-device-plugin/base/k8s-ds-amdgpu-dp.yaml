@@ -19,7 +19,7 @@ spec:
       - key: CriticalAddonsOnly
         operator: Exists
       containers:
-      - image: rocm/k8s-device-plugin:1.31.0.6
+      - image: rocm/k8s-device-plugin:1.31.0.7
         name: amdgpu-dp-cntr
         securityContext:
           allowPrivilegeEscalation: false
