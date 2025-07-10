@@ -47,10 +47,9 @@ spec:
         - mountPath: /config/matter-server
           name: media
       dnsPolicy: ClusterFirst
-      hostNetwork: true
       enableServiceLinks: false
       hostIPC: false
-      hostNetwork: false
+      hostNetwork: true
       hostPID: false
       serviceAccountName: default
       volumes:
