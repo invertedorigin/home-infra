@@ -31,8 +31,6 @@ spec:
           value: America/Chicago
         - name: MATTER_SERVER__INSTANCE_NAME
           value: matter-server
-        - name: MATTER_SERVER__PORT
-          value: 5580
         - name: MATTER_SERVER__APPLICATION_URL
           value: matter-server.invertedorigin.com
         - name: MATTER_SERVER__LOG_LEVEL
