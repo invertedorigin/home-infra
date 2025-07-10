@@ -1,0 +1,32 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: matter-server-pvc-replicated
+  namespace: matter-server
+spec:
+  storageClassName: ceph-block
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+  dataSourceRef:
+    apiGroup: "volsync.backube"
+    kind: "ReplicationDestination"
+    name: "matter-server-data-bootstrap"
+---
+apiVersion: volsync.backube/v1alpha1
+kind: ReplicationDestination
+metadata:
+  name: "matter-server-data-bootstrap"
+  namespace: "matter-server"
+spec:
+  trigger:
+    manual: "restore-once-bootstrap"
+  restic:
+    repository: "volsync-secret"
+    copyMethod: "Snapshot"
+    storageClassName: "ceph-block"
+    volumeSnapshotClassName: csi-ceph-blockpool
+    capacity: "1Gi"
+    accessModes: ["ReadWriteOnce"]

@@ -1,0 +1,27 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    cert-manager.io/cluster-issuer: cloudflare-issuer
+  labels:
+    app.kubernetes.io/instance: matter-server
+    app.kubernetes.io/name: matter-server
+  name: matter-server
+  namespace: matter-server
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: matter-server.invertedorigin.com
+    http:
+      paths:
+      - backend:
+          service:
+            name: matter-server
+            port:
+              number: 5580
+        path: /
+        pathType: Prefix
+  tls:
+  - hosts:
+    - matter-server.invertedorigin.com
+    secretName: matter-server-tls-domain
