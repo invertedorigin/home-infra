@@ -5,9 +5,9 @@ namespace: matter-server
 
 resources:
 - namespace.yaml
-- backup.yaml
-- pvc.yaml
-- external-secret.yaml
-- service.yaml
-- ingress.yaml
-- deployment.yaml
+# - backup.yaml
+# - pvc.yaml
+# - external-secret.yaml
+# - service.yaml
+# - ingress.yaml
+# - deployment.yaml
