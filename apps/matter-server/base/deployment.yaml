@@ -42,8 +42,8 @@ spec:
             cpu: 25m
             memory: 250Mi
         volumeMounts:
-        - mountPath: /config/matter-server
-          name: media
+        - mountPath: /data
+          name: data
       dnsPolicy: ClusterFirst
       enableServiceLinks: false
       hostIPC: false
@@ -51,6 +51,6 @@ spec:
       hostPID: false
       serviceAccountName: default
       volumes:
-      - name: media
+      - name: data
         persistentVolumeClaim:
           claimName: matter-server-pvc-replicated
