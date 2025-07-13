@@ -54,7 +54,7 @@ spec:
             secretKeyRef:
               name: n8n-secret
               key: N8N_ENCRYPTION_KEY
-        image: ghcr.io/n8n-io/n8n:1.102.1
+        image: docker.n8n.io/n8nio/n8n
         name: main
         resources:
           requests:
