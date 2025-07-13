@@ -25,6 +25,12 @@ spec:
         app.kubernetes.io/name: n8n-server
     spec:
       automountServiceAccountToken: true
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+        fsGroupChangePolicy: OnRootMismatch
       containers:
       - env:
         - name: DB_SQLITE_VACUUM_ON_STARTUP
