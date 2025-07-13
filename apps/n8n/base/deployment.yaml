@@ -49,6 +49,8 @@ spec:
           value: "https"
         - name: N8N_PORT
           value: "8080"
+        - name: WEBHOOK_URL
+          value: "https://n8n-server.invertedorigin.com"
         - name: N8N_HOST
           value: "n8n-server.invertedorigin.com"
         - name: N8N_LOG_LEVEL
