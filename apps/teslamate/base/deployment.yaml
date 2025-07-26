@@ -40,7 +40,7 @@ spec:
         envFrom:
         - secretRef:
             name: teslamate-secret
-        image: teslamate/teslamate:2.0.0
+        image: teslamate/teslamate:2.1.0
         name: main
         resources:
           requests:
