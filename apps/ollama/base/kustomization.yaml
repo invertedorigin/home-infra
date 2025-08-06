@@ -26,6 +26,8 @@ helmCharts:
         value: "gfx1035"
       - name: OLLAMA_NUM_PARALLEL
         value: "1"
+      - name: OLLAMA_CONTEXT_LENGTH
+        value: "4092"
     podLabels:
       app: ollama
     affinity:
