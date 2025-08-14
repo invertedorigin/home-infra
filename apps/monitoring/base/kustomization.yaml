@@ -43,7 +43,7 @@ patches:
 helmCharts:
 - name: kube-prometheus-stack
   repo: https://prometheus-community.github.io/helm-charts
-  version: 75.18.1
+  version: 76.3.0
   releaseName: kps
   includeCRDs: true
   valuesInline:
