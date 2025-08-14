@@ -35,7 +35,7 @@ spec:
           value: matter-server.invertedorigin.com
         - name: MATTER_SERVER__LOG_LEVEL
           value: debug
-        image: ghcr.io/home-assistant-libs/python-matter-server:8.0.0
+        image: ghcr.io/home-assistant-libs/python-matter-server:8.1.0
         name: main
         resources:
           requests:
