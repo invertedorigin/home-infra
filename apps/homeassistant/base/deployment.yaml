@@ -92,7 +92,7 @@ spec:
             - name: MQTT_USER
               value: "mqtt"
             - name: METER_IP
-              value: "10.0.3.141"
+              value: "192.168.3.141"
             - name: METER_PORT
               value: "8081"
           volumeMounts:
