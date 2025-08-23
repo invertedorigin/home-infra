@@ -34,8 +34,8 @@ metadata:
     cert-manager.io/cluster-issuer: cloudflare-issuer
     nginx.ingress.kubernetes.io/cors-allow-methods: PUT, GET, POST, OPTIONS, HEAD
   labels:
-    app.kubernetes.io/instance: source
-    app.kubernetes.io/name: source
+    app.kubernetes.io/instance: homeassistant
+    app.kubernetes.io/name: homeassistant
   name: source
   namespace: homeassistant
 spec:
