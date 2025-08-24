@@ -35,7 +35,7 @@ spec:
 apiVersion: tailscale.com/v1alpha1
 kind: ProxyClass
 metadata:
-  name: node-ap076
+  name: node-ap254
 spec:
   statefulSet:
     pod:
@@ -43,7 +43,7 @@ spec:
         team: eng
         environment: prod
       nodeSelector:
-        kubernetes.io/hostname: "node-ap076"
+        kubernetes.io/hostname: "node-ap254"
       tailscaleContainer:
         resources:
           limits:
