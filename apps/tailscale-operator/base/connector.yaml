@@ -29,10 +29,10 @@ spec:
 apiVersion: tailscale.com/v1alpha1
 kind: Connector
 metadata:
-  name: ts-home-network-node-ap076
+  name: ts-home-network-node-ap254
 spec:
-  hostname: k8s-to-home-node-ap076
-  proxyClass: node-ap076
+  hostname: k8s-to-home-node-ap254
+  proxyClass: node-ap254
   exitNode: true
   subnetRouter:
     advertiseRoutes:
