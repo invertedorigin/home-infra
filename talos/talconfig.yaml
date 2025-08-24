@@ -52,9 +52,9 @@ nodes:
       - interface: eno1
         mtu: 1500
         dhcp: true
-  - hostname: node-ap076
+  - hostname: node-ap254
     talosImageURL: factory.talos.dev/installer/9c1d1b442d73f96dcd04e81463eb20000ab014062d22e1b083e1773336bc1dd5
-    ipAddress: node-ap076
+    ipAddress: node-ap254
     controlPlane: true
     installDiskSelector:
       model: WDC  WDS100T1R0A
