@@ -47,24 +47,8 @@ helmCharts:
           limits:
             memory: "4Gi"
       storage:
-        useAllNodes: false
-        useAllDevices: false
-        nodes:
-          - name: node-1
-            config:
-              osdsPerDevice: "1"
-            devices:
-              - name: "/dev/disk/by-id/nvme-WD_BLACK_SN850X_2000GB_24163X803861"
-          - name: node-2
-            config:
-              osdsPerDevice: "1"
-            devices:
-              - name: "/dev/disk/by-id/nvme-WD_BLACK_SN850X_2000GB_24163X803862"
-          - name: node-3
-            config:
-              osdsPerDevice: "1"
-            devices:
-              - name: "/dev/disk/by-id/nvme-WD_BLACK_SN850X_2000GB_24163X803932"
+        useAllNodes: true
+        useAllDevices: true
     cephObjectStores: []
     cephBlockPools:
       - name: ceph-blockpool
