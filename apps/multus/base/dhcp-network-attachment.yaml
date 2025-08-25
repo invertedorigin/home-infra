@@ -30,7 +30,7 @@ spec:
           "provide": [
             {
               "option": "host-name",
-              "fromArg": "K8S_POD_NAME"
+              "fromArg": "DHCP_HOSTNAME"
             }
         ]
       }
