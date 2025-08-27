@@ -19,5 +19,4 @@ tasks:
       resticBaseRepo:
         sh: doppler secrets get -p invertedorigin -c prd RESTIC_BASE_REPOSITORY --plain
     cmds:
-      - doppler run -p invertedorigin -c prd -- restic restore \
-        --repo={{.resticBaseRepo}}/{{.repo}} {{.id}} --target {{.dest}}
+      - doppler run -p invertedorigin -c prd -- restic restore --repo={{.resticBaseRepo}}/{{.repo}} {{.id}} --target {{.dest}}
