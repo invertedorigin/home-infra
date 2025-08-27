@@ -30,8 +30,7 @@ spec:
               "name": "macvlan-conf-dhcp-iot",
               "namespace": "kube-system",
               "mac": "4a:c1:8d:28:f2:99"
-            },
-
+            }
           ]
       labels:
         app.kubernetes.io/component: main
