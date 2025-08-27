@@ -39,6 +39,13 @@ nodes:
       - interface: eno1
         mtu: 1500
         dhcp: true
+        vlans:
+          - vlanId: 3
+            addresses:
+              - "10.0.3.5/32"
+            routes:
+              - network: 10.0.3.1/24
+                gateway: 10.0.3.1
   - hostname: node-ap427
     talosImageURL: factory.talos.dev/installer/9c1d1b442d73f96dcd04e81463eb20000ab014062d22e1b083e1773336bc1dd5
     ipAddress: node-ap429
@@ -52,6 +59,13 @@ nodes:
       - interface: eno1
         mtu: 1500
         dhcp: true
+        vlans:
+          - vlanId: 3
+            addresses:
+              - "10.0.3.4/32"
+            routes:
+              - network: 10.0.3.1/24
+                gateway: 10.0.3.1
   - hostname: node-ap254
     talosImageURL: factory.talos.dev/installer/9c1d1b442d73f96dcd04e81463eb20000ab014062d22e1b083e1773336bc1dd5
     ipAddress: node-ap254
@@ -65,6 +79,13 @@ nodes:
       - interface: eno1
         mtu: 1500
         dhcp: true
+        vlans:
+          - vlanId: 3
+            addresses:
+              - "10.0.3.3/32"
+            routes:
+              - network: 10.0.3.1/24
+                gateway: 10.0.3.1
 patches:
   - |-
     machine:
