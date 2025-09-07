@@ -40,7 +40,7 @@ spec:
           encryption: AES256
 
   storage:
-    size: 20Gi
+    size: 40Gi
     storageClass: ceph-block
 
   monitoring:
