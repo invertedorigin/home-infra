@@ -15,7 +15,7 @@ helmCharts:
   valuesInLine:
     image:
       repository: ghcr.io/rjmalagon/ollama-linux-amd-apu
-      tag: "rocm-6.3.4-latest@sha256:0b592aae6f957536083c8d376780fec4a24990640aa444db24e751eeba199902"
+      tag: "rocm-6.3.4-latest@sha256:0780a5e08e6566d6f80ec903905e4218dd247f611446f0d6a449676a5619cf41"
     replicaCount: 1
     extraEnv:
       - name: OLLAMA_KEEP_ALIVE
