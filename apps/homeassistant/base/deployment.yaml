@@ -19,14 +19,14 @@ spec:
   template:
     metadata:
       annotations:
-        k8s.v1.cni.cncf.io/networks: |-
-          [
-            {
-              "name": "macvlan-conf-dhcp",
-              "namespace": "kube-system",
-              "mac": "4a:c1:8d:28:f2:77"
-            }
-          ]
+        # k8s.v1.cni.cncf.io/networks: |-
+        #   [
+        #     {
+        #       "name": "macvlan-conf-dhcp",
+        #       "namespace": "kube-system",
+        #       "mac": "4a:c1:8d:28:f2:77"
+        #     }
+        #   ]
       labels:
         app.kubernetes.io/component: main
         app.kubernetes.io/instance: homeassistant
@@ -53,7 +53,7 @@ spec:
       dnsPolicy: ClusterFirst
       enableServiceLinks: false
       hostIPC: false
-      hostNetwork: false
+      hostNetwork: true
       hostPID: false
       serviceAccountName: default
       volumes:
