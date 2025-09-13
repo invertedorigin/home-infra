@@ -30,6 +30,20 @@ spec:
       containers:
         - name: adsb-feeder
           image: ghcr.io/sdr-enthusiasts/docker-adsb-ultrafeeder:latest@sha256:8870c6b5830d8f32be40c8f48f87c704357809061c7a2076dd893430e866b21c
+          readinessProbe:
+            tcpSocket:
+              port: 30005
+            initialDelaySeconds: 10
+            periodSeconds: 10
+            timeoutSeconds: 2
+            failureThreshold: 1
+          livenessProbe:
+            tcpSocket:
+              port: 30005
+            initialDelaySeconds: 30
+            periodSeconds: 15
+            timeoutSeconds: 2
+            failureThreshold: 3
           env:
             - name: TAR1090_RANGERINGSDISTANCES
               value: "50,100,150,200"
