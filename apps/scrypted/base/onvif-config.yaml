@@ -4,26 +4,26 @@ metadata:
   name: onvif-config
   namespace: default
 data:
-  onvif-config-north.yaml: |
+  onvif-config-guest.yaml: |
     onvif:
-      - name: Garage-North
+      - name: Guest
         dev: net1
         target:
-          hostname: 10.0.1.79
+          hostname: 10.0.1.98
           ports:
-            rtsp: 33577
+            rtsp: 38999
             snapshot: 80
         highQuality:
-          rtsp: /a72fd319ac56155c
-          snapshot: /a72fd319ac56155c
+          rtsp: /4f4ba643ee950c54
+          snapshot: /4f4ba643ee950c54
           width: 1280
           height: 720
           framerate: 20
           bitrate: 3072
           quality: 4
         lowQuality:
-          rtsp: /a72fd319ac56155c
-          snapshot: /a72fd319ac56155c
+          rtsp: /4f4ba643ee950c54
+          snapshot: /4f4ba643ee950c54
           width: 1280
           height: 720
           framerate: 20
