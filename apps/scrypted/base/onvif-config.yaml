@@ -16,17 +16,17 @@ data:
         highQuality:
           rtsp: /7663ff8cc7c0d962
           snapshot: /7663ff8cc7c0d962
-          width: 1280
-          height: 720
-          framerate: 20
+          width: 1920
+          height: 1080 
+          framerate: 30
           bitrate: 3072
           quality: 4
         lowQuality:
           rtsp: /7663ff8cc7c0d962
           snapshot: /7663ff8cc7c0d962
-          width: 1280
-          height: 720
-          framerate: 20
+          width: 1920
+          height: 1080
+          framerate: 30
           bitrate: 3072
           quality: 1
         ports:
