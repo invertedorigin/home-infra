@@ -11,19 +11,19 @@ data:
         target:
           hostname: 10.0.1.98
           ports:
-            rtsp: 38999
+            rtsp: 35775
             snapshot: 80
         highQuality:
-          rtsp: /4f4ba643ee950c54
-          snapshot: /4f4ba643ee950c54
+          rtsp: /7663ff8cc7c0d962
+          snapshot: /7663ff8cc7c0d962
           width: 1280
           height: 720
           framerate: 20
           bitrate: 3072
           quality: 4
         lowQuality:
-          rtsp: /4f4ba643ee950c54
-          snapshot: /4f4ba643ee950c54
+          rtsp: /7663ff8cc7c0d962
+          snapshot: /7663ff8cc7c0d962
           width: 1280
           height: 720
           framerate: 20
