@@ -17,7 +17,7 @@ data:
           rtsp: /7663ff8cc7c0d962
           snapshot: /7663ff8cc7c0d962
           width: 1920
-          height: 1080 
+          height: 1080
           framerate: 30
           bitrate: 3072
           quality: 4
