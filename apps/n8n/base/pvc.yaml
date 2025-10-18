@@ -10,23 +10,3 @@ spec:
   resources:
     requests:
       storage: 1Gi
-  dataSourceRef:
-    apiGroup: "volsync.backube"
-    kind: "ReplicationDestination"
-    name: "n8n-server-data-bootstrap"
----
-apiVersion: volsync.backube/v1alpha1
-kind: ReplicationDestination
-metadata:
-  name: "n8n-server-data-bootstrap"
-  namespace: "n8n-server"
-spec:
-  trigger:
-    manual: "restore-once-bootstrap"
-  restic:
-    repository: "volsync-secret"
-    copyMethod: "Snapshot"
-    storageClassName: "ceph-block"
-    volumeSnapshotClassName: csi-ceph-blockpool
-    capacity: "1Gi"
-    accessModes: ["ReadWriteOnce"]
