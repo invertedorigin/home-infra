@@ -1,0 +1,27 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    cert-manager.io/cluster-issuer: cloudflare-issuer
+  labels:
+    app.kubernetes.io/instance: n8n-server
+    app.kubernetes.io/name: n8n-server
+  name: n8n-server
+  namespace: n8n-server
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: n8n-server.invertedorigin.com
+    http:
+      paths:
+      - backend:
+          service:
+            name: n8n-server
+            port:
+              number: 8080
+        path: /
+        pathType: Prefix
+  tls:
+  - hosts:
+    - n8n-server.invertedorigin.com
+    secretName: n8n-server-tls-domain
