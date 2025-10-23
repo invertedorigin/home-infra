@@ -4,25 +4,12 @@ metadata:
   name: test-volume-block
   namespace: default
 spec:
-  storageClassName: ceph-block
+  storageClassName: ceph-rbd
   resources:
     requests:
       storage: 100Gi
   accessModes:
     - ReadWriteOnce
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: test-volume-fs
-  namespace: default
-spec:
-  storageClassName: ceph-filesystem
-  resources:
-    requests:
-      storage: 100Gi
-  accessModes:
-    - ReadWriteMany
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -57,13 +44,6 @@ spec:
               fio --name 4krandwrite-volume --filename /volume/test.fio --size=4G --ioengine libaio --direct 1 --rw randwrite --bs 4k --runtime 30s --numjobs 4 --iodepth=32 --group_reporting --rwmixwrite=100 | tee /volume/$NODENAME-fio4krandwrite-volume.log
               fio --name 4krandread-volume --filename /volume/test.fio --size=4G --ioengine libaio --direct 1 --rw randread --bs 4k --runtime 30s --numjobs 4 --iodepth=32 --group_reporting --rwmixread=100 | tee /volume/$NODENAME-fio4krandread-volume.log
 
-              echo "Starting ceph-filesystem test"
-              dd if=/dev/zero of=/volumefs/test.fio bs=4M count=1000 oflag=direct 2>&1 | tee /volumefs/$NODENAME-ddSequentialWrite-volumefs.log
-              dd if=/volumefs/test.fio of=/dev/null bs=4M iflag=direct 2>&1 | tee /volumefs/$NODENAME-ddSequentialRead-volumefs.log
-              fio --name 4krandwrite-volumefs --filename /volumefs/test.fio --size=4G --ioengine libaio --direct 1 --rw randwrite --bs 4k --runtime 30s --numjobs 4 --iodepth=32 --group_reporting --rwmixwrite=100 | tee /volumefs/$NODENAME-fio4krandwrite-volumefs.log
-              fio --name 4krandread-volumefs --filename /volumefs/test.fio --size=4G --ioengine libaio --direct 1 --rw randread --bs 4k --runtime 30s --numjobs 4 --iodepth=32 --group_reporting --rwmixread=100 | tee /volumefs/$NODENAME-fio4krandread-volumefs.log
-
-              # We use this to keep the Pod running after tests are done
               tail -f /dev/null
           env:
             - name: NODENAME
@@ -73,8 +53,6 @@ spec:
           volumeMounts:
             - mountPath: /volume
               name: volume
-            - mountPath: /volumefs
-              name: volume-fs
           resources:
             limits:
               cpu: 2000m
@@ -86,6 +64,3 @@ spec:
         - name: volume
           persistentVolumeClaim:
             claimName: test-volume-block
-        - name: volume-fs
-          persistentVolumeClaim:
-            claimName: test-volume-fs

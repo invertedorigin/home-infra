@@ -5,10 +5,8 @@ metadata:
   namespace: kube-system
 spec:
   blocks:
-    - cidr: "10.0.1.5/32"
-    - cidr: "10.0.1.6/32"
-    - cidr: "10.0.1.7/32"
-    - cidr: "10.0.1.8/32"
+    - cidr: "10.0.1.9/32"
+    - cidr: "10.0.1.10/32"
 ---
 apiVersion: "cilium.io/v2alpha1"
 kind: CiliumL2AnnouncementPolicy
@@ -17,4 +15,4 @@ metadata:
 spec:
   loadBalancerIPs: true
   interfaces:
-    - eno1
+    - ens18

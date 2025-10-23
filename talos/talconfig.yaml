@@ -2,12 +2,12 @@
 clusterName: invertedorigin
 
 # renovate: datasource=github-releases depName=siderolabs/talos
-talosVersion: v1.11.1
+talosVersion: v1.11.3
 
 # renovate: datasource=github-releases depName=kubernetes/kubernetes
 kubernetesVersion: v1.34.1
 
-endpoint: https://node-ap147:6443
+endpoint: https://node-1:6443
 
 allowSchedulingOnMasters: true
 allowSchedulingOnControlPlanes: true
@@ -26,48 +26,39 @@ cniConfig:
 
 nodes:
 ## CORE HOME OFFICE RACK (battery backup) ##
-  - hostname: node-ap147
-    talosImageURL: factory.talos.dev/installer/9c1d1b442d73f96dcd04e81463eb20000ab014062d22e1b083e1773336bc1dd5
-    ipAddress: node-ap147
+  - hostname: node-1
+    talosImageURL: factory.talos.dev/installer/4d2f14467f85468b6b5ff0ba1747f7f0bcb97d351d516db0197885247093d6fd
+    ipAddress: node-1
     controlPlane: true
     installDiskSelector:
-      model: WDC  WDS100T1R0A
+      model: QEMU HARDDISK
     disableSearchDomain: false
     nodeLabels:
       topology.kubernetes.io/region: home
-    networkInterfaces:
-      - interface: eno1
-        mtu: 1500
-        dhcp: true
-  - hostname: node-ap427
-    talosImageURL: factory.talos.dev/installer/9c1d1b442d73f96dcd04e81463eb20000ab014062d22e1b083e1773336bc1dd5
-    ipAddress: node-ap429
+  - hostname: node-2
+    talosImageURL: factory.talos.dev/installer/4d2f14467f85468b6b5ff0ba1747f7f0bcb97d351d516db0197885247093d6fd
+    ipAddress: node-2
     controlPlane: true
     installDiskSelector:
-      model: WDC  WDS100T1R0A
+      model: QEMU HARDDISK
     disableSearchDomain: false
     nodeLabels:
       topology.kubernetes.io/region: home
-    networkInterfaces:
-      - interface: eno1
-        mtu: 1500
-        dhcp: true
-  - hostname: node-ap254
-    talosImageURL: factory.talos.dev/installer/9c1d1b442d73f96dcd04e81463eb20000ab014062d22e1b083e1773336bc1dd5
-    ipAddress: node-ap254
+  - hostname: node-3
+    talosImageURL: factory.talos.dev/installer/4d2f14467f85468b6b5ff0ba1747f7f0bcb97d351d516db0197885247093d6fd
+    ipAddress: node-3
     controlPlane: true
     installDiskSelector:
-      model: WDC  WDS100T1R0A
+      model: QEMU HARDDISK
     disableSearchDomain: false
     nodeLabels:
       topology.kubernetes.io/region: home
-    networkInterfaces:
-      - interface: eno1
-        mtu: 1500
-        dhcp: true
 patches:
   - |-
     machine:
+      kernel:
+        modules:
+          - name: nbd
       features:
         kubernetesTalosAPIAccess:
           enabled: true
@@ -87,12 +78,6 @@ patches:
   - |
     machine:
       files:
-        - content: |
-            TS_AUTHKEY=${TAILSCALE_AUTHKEY}
-            TS_ACCEPT_DNS=true
-          permissions: 0o644
-          path: /var/etc/tailscale/auth.env
-          op: create
         - content: |
             [plugins."io.containerd.grpc.v1.cri"]
               enable_unprivileged_ports = true
