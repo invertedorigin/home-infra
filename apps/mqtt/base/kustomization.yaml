@@ -15,20 +15,17 @@ helmCharts:
   valuesInline:
     config:
       cluster:
-        enabled: true
-        replicas: 3
+        enabled: false
       jetstream:
         enabled: true
         fileStore:
           pvc:
-            storageClassName: ceph-block
+            storageClassName: ceph-rbd
             size: 10Gi
       mqtt:
         enabled: true
     promExporter:
-      enabled: true
-      podMonitor:
-        enabled: true
+      enabled: false
     podTemplate:
       merge:
         spec:

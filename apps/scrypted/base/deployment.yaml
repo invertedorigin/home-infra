@@ -41,12 +41,9 @@ spec:
         image: koush/scrypted:latest@sha256:00356794146a7fd72698fcbef6e0483329c5168a14d055b234753912bf460feb
         name: main
         resources:
-          limits:
-            amd.com/gpu: "1"
           requests:
             cpu: 450m
             memory: 2Gi
-            amd.com/gpu: "1"
         volumeMounts:
         - mountPath: /server/volume
           name: media

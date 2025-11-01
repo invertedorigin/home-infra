@@ -21,9 +21,7 @@ helmCharts:
       admissionWebhooks:
         enabled: false
       metrics:
-        enabled: true
-        serviceMonitor:
-          enabled: true
+        enabled: false
       resources:
         requests:
           memory: 500Mi

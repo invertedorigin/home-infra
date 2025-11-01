@@ -4,7 +4,7 @@ metadata:
   name: adsb-globe-history-pvc-replicated
   namespace: asbd
 spec:
-  storageClassName: ceph-block
+  storageClassName: ceph-rbd
   accessModes:
     - ReadWriteOnce
   resources:
@@ -17,7 +17,7 @@ metadata:
   name: adsb-graphs1090-pvc-replicated
   namespace: asbd
 spec:
-  storageClassName: ceph-block
+  storageClassName: ceph-rbd
   accessModes:
     - ReadWriteOnce
   resources:
@@ -30,7 +30,7 @@ metadata:
   name: adsb-osm-tiles-pvc-replicated
   namespace: asbd
 spec:
-  storageClassName: ceph-block
+  storageClassName: ceph-rbd
   accessModes:
     - ReadWriteOnce
   resources:

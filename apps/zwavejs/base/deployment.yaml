@@ -28,7 +28,7 @@ spec:
       containers:
       - env:
         - name: TZ
-          value: America/Chicago
+          value: America/Denver
         image: ghcr.io/zwave-js/zwave-js-ui:11.3.0
         livenessProbe:
           failureThreshold: 3

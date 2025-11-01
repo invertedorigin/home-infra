@@ -22,5 +22,5 @@ spec:
       monthly: 2
       yearly: 1
     copyMethod: Snapshot
-    storageClassName: ceph-block
-    volumeSnapshotClassName: csi-ceph-blockpool
+    storageClassName: ceph-rbd
+    volumeSnapshotClassName: ceph-rbd-snapshot

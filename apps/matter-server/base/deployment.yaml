@@ -28,7 +28,7 @@ spec:
       containers:
       - env:
         - name: TZ
-          value: America/Chicago
+          value: America/Denver
         - name: MATTER_SERVER__INSTANCE_NAME
           value: matter-server
         - name: MATTER_SERVER__APPLICATION_URL

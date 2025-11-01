@@ -8,7 +8,6 @@ resources:
 - pg-cluster.yaml
 - external-secret.yaml
 - backup.yaml
-- pod-monitor.yaml
 - service.yaml
 - ingress.yaml
 - deployment.yaml

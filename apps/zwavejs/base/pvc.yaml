@@ -4,7 +4,7 @@ metadata:
   name: zwavejs-pvc-replicated
   namespace: zwavejs
 spec:
-  storageClassName: ceph-block
+  storageClassName: ceph-rbd
   accessModes:
     - ReadWriteOnce
   resources:
@@ -26,7 +26,7 @@ spec:
   restic:
     repository: "volsync-secret"
     copyMethod: "Snapshot"
-    storageClassName: "ceph-block"
-    volumeSnapshotClassName: csi-ceph-blockpool
+    storageClassName: "ceph-rbd"
+    volumeSnapshotClassName: ceph-rbd-snapshot
     capacity: "1Gi"
     accessModes: ["ReadWriteOnce"]

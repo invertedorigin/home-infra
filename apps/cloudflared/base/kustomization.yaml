@@ -6,6 +6,5 @@ namespace: cloudflared
 resources:
 - namespace.yaml
 - external-secret.yaml
-- service-monitor.yaml
 - daemonset.yaml
 - service.yaml

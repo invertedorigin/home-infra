@@ -22,4 +22,4 @@ helmCharts:
         namespace: cert-manager
     prometheus:
       servicemonitor:
-        enabled: true
+        enabled: false
