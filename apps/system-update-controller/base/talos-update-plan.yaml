@@ -6,7 +6,7 @@ metadata:
   namespace: system-upgrade
 spec:
   # renovate: datasource=github-releases depName=siderolabs/talos
-  version: v1.11.1
+  version: v1.11.3
   serviceAccountName: system-upgrade
   secrets:
     - name: talos
@@ -32,7 +32,7 @@ spec:
         operator: NotIn
         values:
           # renovate: datasource=github-releases depName=siderolabs/talos
-          - v1.11.1
+          - v1.11.3
   prepare: &prepare
     image: ghcr.io/siderolabs/talosctl
     envs:
@@ -49,6 +49,6 @@ spec:
     args:
       - --nodes=$(NODE_IP)
       - upgrade
-      - "--image=factory.talos.dev/installer/9c1d1b442d73f96dcd04e81463eb20000ab014062d22e1b083e1773336bc1dd5:$(SYSTEM_UPGRADE_PLAN_LATEST_VERSION)"
+      - "--image=factory.talos.dev/installer/4d2f14467f85468b6b5ff0ba1747f7f0bcb97d351d516db0197885247093d6fd:$(SYSTEM_UPGRADE_PLAN_LATEST_VERSION)"
       - --preserve=true
       - --wait=false
