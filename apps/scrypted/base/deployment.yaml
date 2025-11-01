@@ -38,7 +38,7 @@ spec:
       - env:
         - name: TZ
           value: America/Chicago
-        image: koush/scrypted:latest@sha256:00356794146a7fd72698fcbef6e0483329c5168a14d055b234753912bf460feb
+        image: koush/scrypted:latest@sha256:08e427159840345cad59de414d20787b97d5fd1db6f990f27dfd105e04edb5b7
         name: main
         resources:
           requests:
