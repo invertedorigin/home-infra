@@ -4,7 +4,7 @@ metadata:
   name: ollama
   namespace: ollama
 spec:
-  storageClassName: ceph-filesystem
+  storageClassName: ceph-rbd
   accessModes:
     - ReadWriteMany
   resources:
@@ -17,7 +17,7 @@ metadata:
   name: open-webui
   namespace: ollama
 spec:
-  storageClassName: ceph-filesystem
+  storageClassName: ceph-rbd
   accessModes:
     - ReadWriteMany
   resources:
