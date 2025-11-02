@@ -6,7 +6,7 @@ metadata:
 spec:
   storageClassName: ceph-rbd
   accessModes:
-    - ReadWriteMany
+    - ReadWriteOnce
   resources:
     requests:
       storage: 50Gi
@@ -19,7 +19,7 @@ metadata:
 spec:
   storageClassName: ceph-rbd
   accessModes:
-    - ReadWriteMany
+    - ReadWriteOnce
   resources:
     requests:
       storage: 50Gi
