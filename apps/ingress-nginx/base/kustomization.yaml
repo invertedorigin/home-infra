@@ -15,6 +15,7 @@ helmCharts:
   valuesInline:
     controller:
       kind: Deployment
+      terminationGracePeriodSeconds: 30
       replicaCount: 3
       ingressClassResource:
         default: true
