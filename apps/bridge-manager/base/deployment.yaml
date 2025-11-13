@@ -16,14 +16,17 @@ spec:
       containers:
         - name: bridge-manager
           image: ghcr.io/beeper/bridge-manager:8ff78f238554b359e24eb196649eaea0179a700b
-          command: ["sh", "-c", "sleep infinity"]
-          imagePullPolicy: IfNotPresent
+          args: ["sh-discord"]
           env:
-            - name: DATA_DIR
-              value: "/app/data"
+            - name: MATRIX_ACCESS_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: beeper-access-token
+                  key: MATRIX_ACCESS_TOKEN
+          imagePullPolicy: IfNotPresent
           volumeMounts:
             - name: bridge-manager-storage
-              mountPath: /app/data
+              mountPath: /data
       volumes:
         - name: bridge-manager-storage
           persistentVolumeClaim:
