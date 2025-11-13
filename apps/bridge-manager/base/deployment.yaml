@@ -19,8 +19,8 @@ spec:
           command: ["sh", "-c", "sleep infinity"]
           imagePullPolicy: IfNotPresent
           env:
-            - name: BBCTL_CONFIG
-              value: "/app/data/config.json"
+            - name: DATA_DIR
+              value: "/app/data"
           volumeMounts:
             - name: bridge-manager-storage
               mountPath: /app/data
