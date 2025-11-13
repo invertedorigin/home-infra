@@ -18,6 +18,9 @@ spec:
           image: ghcr.io/beeper/bridge-manager:8ff78f238554b359e24eb196649eaea0179a700b
           command: ["sh", "-c", "sleep infinity"]
           imagePullPolicy: IfNotPresent
+          env:
+            - name: BBCTL_CONFIG
+              value: "/app/data/config.json"
           volumeMounts:
             - name: bridge-manager-storage
               mountPath: /app/data
