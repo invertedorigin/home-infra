@@ -1,0 +1,26 @@
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bridge-manager
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: bridge-manager
+  template:
+    metadata:
+      labels:
+        app: bridge-manager
+    spec:
+      containers:
+        - name: bridge-manager
+          image: ghcr.io/matrix-org/bridge-manager:latest
+          imagePullPolicy: IfNotPresent
+          volumeMounts:
+            - name: bridge-manager-storage
+              mountPath: /app/data
+      volumes:
+        - name: bridge-manager-storage
+          persistentVolumeClaim:
+            claimName: bridge-manager-pvc
