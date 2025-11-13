@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: bridge-manager
-          image: ghcr.io/matrix-org/bridge-manager:latest
+          image: ghcr.io/beeper/bridge-manager:8ff78f238554b359e24eb196649eaea0179a700b
           imagePullPolicy: IfNotPresent
           volumeMounts:
             - name: bridge-manager-storage
