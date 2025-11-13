@@ -16,6 +16,7 @@ spec:
       containers:
         - name: bridge-manager
           image: ghcr.io/beeper/bridge-manager:8ff78f238554b359e24eb196649eaea0179a700b
+          command: ["sh", "-c", "sleep infinity"]
           imagePullPolicy: IfNotPresent
           volumeMounts:
             - name: bridge-manager-storage
