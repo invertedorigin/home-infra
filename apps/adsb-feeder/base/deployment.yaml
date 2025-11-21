@@ -29,7 +29,7 @@ spec:
         adsb.feature.node.kubernetes.io/rtlsdr: "true"
       containers:
         - name: adsb-feeder
-          image: ghcr.io/sdr-enthusiasts/docker-adsb-ultrafeeder:latest@sha256:da1326f4fc9b0c34c20156cb03130edbd2052c505e8fd5db22a2550cb828eef0
+          image: ghcr.io/sdr-enthusiasts/docker-adsb-ultrafeeder:latest@sha256:6b29b9d1c3c23f274a036723840cfa7cf25228663530aceb4a0cb048496affbd
           readinessProbe:
             tcpSocket:
               port: 30005
