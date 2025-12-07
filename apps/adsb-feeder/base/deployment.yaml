@@ -29,7 +29,7 @@ spec:
         adsb.feature.node.kubernetes.io/rtlsdr: "true"
       containers:
         - name: adsb-feeder
-          image: ghcr.io/sdr-enthusiasts/docker-adsb-ultrafeeder:latest@sha256:da1326f4fc9b0c34c20156cb03130edbd2052c505e8fd5db22a2550cb828eef0
+          image: ghcr.io/sdr-enthusiasts/docker-adsb-ultrafeeder:latest@sha256:09525931c552a1b5403d978f0d7486dc067079b1baecea3dae6ec166c489fa10
           readinessProbe:
             tcpSocket:
               port: 30005
@@ -199,7 +199,7 @@ spec:
     spec:
       containers:
         - name: fr24-feeder
-          image: ghcr.io/sdr-enthusiasts/docker-flightradar24:latest@sha256:d4d1a259e42bec1ea50f2f468d506ed43eda737da608b2fa18ad7416f7bf9051
+          image: ghcr.io/sdr-enthusiasts/docker-flightradar24:latest@sha256:8746236d8e290a0e8859bff9f5c6e036b672994e620ac2b98f3075c0593962c6
           env:
             - name: BEASTHOST
               value: adsb-feeder.adsb-feeder.svc.cluster.local
@@ -249,7 +249,7 @@ spec:
     spec:
       containers:
         - name: flightaware-feeder
-          image: ghcr.io/sdr-enthusiasts/docker-piaware:latest@sha256:95d6fec59acdf3f5adee7b9b47b8fbb1345198bd86a157f718981056151fb70b
+          image: ghcr.io/sdr-enthusiasts/docker-piaware:latest@sha256:8457d9f74bd568317143f74fe8cb8ee8deda6a4e352185aa088fd37db9cfbbd9
           env:
             - name: BEASTHOST
               value: adsb-feeder.adsb-feeder.svc.cluster.local
