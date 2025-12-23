@@ -112,7 +112,7 @@ spec:
             - name: READSB_RTLSDR_PPM
               value: ""
             - name: ULTRAFEEDER_CONFIG
-              value: "mlathub,flightaware-feeder.adsb-feeder.svc.cluster.local,30105,beast_in;"
+              value: "mlathub,flightaware-feeder.adsb-feeder.svc.cluster.local,30105,beast_in;adsb,feed1.adsbexchange.com,30004,beast_reduce_plus_out;"
             - name: GZIP_LVL
               value: "1"
             - name: TAR1090_FLIGHTAWARELINKS
