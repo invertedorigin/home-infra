@@ -6,7 +6,7 @@ metadata:
   namespace: system-upgrade
 spec:
   # renovate: datasource=github-releases depName=siderolabs/talos
-  version: v1.11.5
+  version: v1.12.2
   serviceAccountName: system-upgrade
   secrets:
     - name: talos
