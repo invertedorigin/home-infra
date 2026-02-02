@@ -5,5 +5,5 @@ namespace: kube-system
 
 resources:
 - crd.yaml
-- dhcp-network-attachment.yaml
-- dhcp-network-attachment-iot.yaml
+# - dhcp-network-attachment.yaml
+# - dhcp-network-attachment-iot.yaml
