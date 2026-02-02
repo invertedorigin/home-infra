@@ -274,3 +274,48 @@ spec:
                 secretKeyRef:
                   name: tar1090-secrets
                   key: READSB_LON
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: planefence
+  namespace: adsb-feeder
+  labels:
+    app.kubernetes.io/component: secondary
+    app.kubernetes.io/instance: planefence
+    app.kubernetes.io/name: planefence
+spec:
+  replicas: 1
+  revisionHistoryLimit: 3
+  selector:
+    matchLabels:
+      app.kubernetes.io/component: secondary
+      app.kubernetes.io/instance: planefence
+      app.kubernetes.io/name: planefence
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/component: secondary
+        app.kubernetes.io/instance: planefence
+        app.kubernetes.io/name: planefence
+    spec:
+      containers:
+        - name: planefence
+          image: ghcr.io/sdr-enthusiasts/docker-planefence:latest@sha256:301be871ee1382408fb4dc8e358daca66421856b9e43d40dbe202b80121299f0
+          env:
+            - name: BEASTHOST
+              value: adsb-feeder.adsb-feeder.svc.cluster.local
+            - name: TZ
+              value: "America/Denver"
+            - name: LAT
+              valueFrom:
+                secretKeyRef:
+                  name: tar1090-secrets
+                  key: READSB_LAT
+            - name: LONG
+              valueFrom:
+                secretKeyRef:
+                  name: tar1090-secrets
+                  key: READSB_LON
