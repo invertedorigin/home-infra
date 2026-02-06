@@ -25,3 +25,31 @@ spec:
   - hosts:
     - zwavejs.invertedorigin.com
     secretName: zwavejs-tls-domain
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    cert-manager.io/cluster-issuer: cloudflare-issuer
+  labels:
+    app.kubernetes.io/instance: zwavejs-ws
+    app.kubernetes.io/name: zwavejs-ws
+  name: zwavejs-ws
+  namespace: zwavejs
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: zwavejs-ws.invertedorigin.com
+    http:
+      paths:
+      - backend:
+          service:
+            name: zwavejs
+            port:
+              number: 3000
+        path: /
+        pathType: Prefix
+  tls:
+  - hosts:
+    - zwavejs-ws.invertedorigin.com
+    secretName: zwavejs-ws-tls-domain
