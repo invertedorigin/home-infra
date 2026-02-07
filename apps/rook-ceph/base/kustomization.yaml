@@ -41,9 +41,10 @@ helmCharts:
   namespace: rook-ceph
   valuesInline:
     operatorNamespace: rook-ceph
+    cephImage:
+      repository: quay.io/ceph/ceph
+      tag: v19.2.3
     cephClusterSpec:
-      cephVersion:
-        image: 'quay.io/ceph/ceph:v19.2.3'
       external:
         enable: true
       crashCollector:
