@@ -1,22 +1,18 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-
   "extends": [
     "config:recommended"
   ],
-
   "kubernetes": {
     "managerFilePatterns": [
       "/\\.yaml$/"
     ]
   },
-
   "helm-values": {
     "managerFilePatterns": [
       "/\\.yaml$/"
     ]
   },
-
   "customManagers": [
     {
       "customType": "regex",
@@ -43,12 +39,18 @@
       "versioningTemplate": "docker"
     }
   ],
-
   "packageRules": [
     {
       "description": "Automerge patch updates for safe application workloads",
-      "matchUpdateTypes": ["patch"],
-      "matchManagers": ["docker", "helm-values", "regex", "kustomize"],
+      "matchUpdateTypes": [
+        "patch"
+      ],
+      "matchManagers": [
+        "docker",
+        "helm-values",
+        "custom.regex",
+        "kustomize"
+      ],
       "matchPackageNames": [
         "ghcr.io/home-assistant/home-assistant",
         "ghcr.io/home-assistant-libs/python-matter-server",
@@ -68,15 +70,17 @@
       "automergeType": "branch",
       "ignoreTests": false
     },
-
     {
       "description": "Do not automerge Docker digest updates",
-      "matchDatasources": ["docker"],
-      "matchUpdateTypes": ["digest"],
+      "matchDatasources": [
+        "docker"
+      ],
+      "matchUpdateTypes": [
+        "digest"
+      ],
       "automerge": false,
       "automergeType": "branch"
     },
-
     {
       "groupName": "monitoring patch upgrades",
       "groupSlug": "monitoring-patch",
@@ -86,11 +90,12 @@
         "victoria-logs-single",
         "victoria-metrics-operator"
       ],
-      "matchUpdateTypes": ["patch"],
+      "matchUpdateTypes": [
+        "patch"
+      ],
       "automerge": true,
       "automergeType": "branch"
     },
-
     {
       "description": "Never automerge cluster-critical components",
       "matchPackageNames": [
@@ -110,32 +115,32 @@
       ],
       "automerge": false
     },
-
     {
       "matchPackageNames": [
         "kubernetes/ingress-nginx"
       ],
       "versioning": "regex:^controller-v?(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+)?$"
     },
-
     {
       "matchPackageNames": [
         "koush/scrypted"
       ],
       "versioning": "regex:^18-jammy-full.s6-v?(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+)?$"
     },
-
     {
       "matchPackageNames": [
         "ollama/ollama",
         "open-webui",
         "ollama"
       ],
-      "matchUpdateTypes": ["major", "minor", "patch"],
+      "matchUpdateTypes": [
+        "major",
+        "minor",
+        "patch"
+      ],
       "groupName": "all ollama upgrades",
       "groupSlug": "all-ollama-upgrades"
     },
-
     {
       "matchPackageNames": [
         "docker.io/victoriametrics/victoria-logs",
@@ -144,38 +149,49 @@
         "victoria-metrics-operator",
         "victoria-logs-single"
       ],
-      "matchUpdateTypes": ["major", "minor", "patch"],
+      "matchUpdateTypes": [
+        "major",
+        "minor",
+        "patch"
+      ],
       "groupName": "all monitoring upgrades",
       "groupSlug": "all-monitoring-upgrades"
     },
-
     {
       "matchPackageNames": [
         "siderolabs/talos",
         "ghcr.io/siderolabs/talosctl",
         "jtcressy-home/talos-boot-assets"
       ],
-      "matchUpdateTypes": ["major", "minor", "patch"],
+      "matchUpdateTypes": [
+        "major",
+        "minor",
+        "patch"
+      ],
       "groupName": "all talos upgrades",
       "groupSlug": "all-talos-upgrades"
     },
-
     {
       "matchPackageNames": [
         "ghcr.io/sdr-enthusiasts/docker-piaware",
         "ghcr.io/sdr-enthusiasts/docker-flightradar24",
         "ghcr.io/sdr-enthusiasts/docker-adsb-ultrafeeder"
       ],
-      "matchUpdateTypes": ["digest"],
+      "matchUpdateTypes": [
+        "digest"
+      ],
       "groupName": "all adsb upgrades",
       "groupSlug": "all-adsb-upgrades"
     },
-
     {
       "matchPackageNames": [
         "talos/talconfig.yaml"
       ],
-      "matchUpdateTypes": ["major", "minor", "patch"],
+      "matchUpdateTypes": [
+        "major",
+        "minor",
+        "patch"
+      ],
       "groupName": "all kube upgrades",
       "groupSlug": "all-k8s-upgrades"
     }
