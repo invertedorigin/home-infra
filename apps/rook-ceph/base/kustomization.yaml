@@ -9,7 +9,7 @@ namespace: rook-ceph
 helmCharts:
 - name: rook-ceph
   repo: https://charts.rook.io/release
-  version: v1.18.8
+  version: v1.19.1
   releaseName: rook-ceph-operator
   namespace: rook-ceph
   valuesInline:
