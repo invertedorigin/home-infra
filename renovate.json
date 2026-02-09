@@ -67,7 +67,7 @@
         "docker.io/victoriametrics/victoria-logs"
       ],
       "automerge": true,
-      "automergeType": "branch",
+      "automergeType": "pr",
       "ignoreTests": false
     },
     {
@@ -79,7 +79,7 @@
         "digest"
       ],
       "automerge": false,
-      "automergeType": "branch"
+      "automergeType": "pr"
     },
     {
       "groupName": "monitoring patch upgrades",
@@ -94,7 +94,7 @@
         "patch"
       ],
       "automerge": true,
-      "automergeType": "branch"
+      "automergeType": "pr"
     },
     {
       "description": "Never automerge cluster-critical components",
