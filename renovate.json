@@ -49,7 +49,8 @@
         "docker",
         "helm-values",
         "custom.regex",
-        "kustomize"
+        "kustomize",
+        "kubernetes"
       ],
       "matchPackageNames": [
         "ghcr.io/home-assistant/home-assistant",
