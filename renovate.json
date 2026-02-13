@@ -65,7 +65,8 @@
         "grafana",
         "victoria-logs-single",
         "victoria-metrics-operator",
-        "docker.io/victoriametrics/victoria-logs"
+        "docker.io/victoriametrics/victoria-logs",
+        "tailscale-operator"
       ],
       "automerge": true,
       "automergeType": "pr",
