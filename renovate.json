@@ -142,7 +142,8 @@
       ],
       "groupName": "all ollama upgrades",
       "groupSlug": "all-ollama-upgrades",
-      "separateMajorMinor": false
+      "automerge": true,
+      "automergeType": "pr"
     },
     {
       "matchPackageNames": [
