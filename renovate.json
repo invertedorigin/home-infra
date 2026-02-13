@@ -135,20 +135,14 @@
         "open-webui",
         "ollama"
       ],
-      "matchManagers": [
-        "docker",
-        "helm-values",
-        "custom.regex",
-        "kustomize",
-        "kubernetes"
-      ],
       "matchUpdateTypes": [
         "major",
         "minor",
         "patch"
       ],
       "groupName": "all ollama upgrades",
-      "groupSlug": "all-ollama-upgrades"
+      "groupSlug": "all-ollama-upgrades",
+      "separateMajorMinor": false
     },
     {
       "matchPackageNames": [
