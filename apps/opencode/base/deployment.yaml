@@ -28,16 +28,10 @@ spec:
       - env:
         - name: TZ
           value: America/Denver
-        - name: GH_TOKEN
-          valueFrom:
-            secretKeyRef:
-              name: opencode-secrets
-              key: GH_TOKEN
-              optional: true
         image: ghcr.io/anomalyco/opencode:latest
         name: main
-        command: ["/bin/sh"]
-        args: ["-c", "sleep infinity"]
+        command: ["opencode"]
+        args: ["web"]
         resources:
           requests:
             cpu: 100m
