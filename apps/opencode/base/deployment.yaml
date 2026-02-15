@@ -31,7 +31,7 @@ spec:
         image: ghcr.io/anomalyco/opencode:latest
         name: opencode
         command: ["opencode"]
-        args: ["web"]
+        args: ["web", "--hostname", "0.0.0.0", "--port", "4096"]
         resources:
           requests:
             cpu: 100m
