@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app.kubernetes.io/instance: opencode
+    app.kubernetes.io/name: opencode
+    app.kubernetes.io/service: opencode
+  name: opencode
+  namespace: opencode
+spec:
+  ports:
+  - name: http
+    port: 8080
+    protocol: TCP
+    targetPort: 8080
+  selector:
+    app.kubernetes.io/component: main
+    app.kubernetes.io/instance: opencode
+    app.kubernetes.io/name: opencode
+  type: ClusterIP

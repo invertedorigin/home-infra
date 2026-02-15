@@ -1,0 +1,28 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    cert-manager.io/cluster-issuer: cloudflare-issuer
+    nginx.ingress.kubernetes.io/cors-allow-methods: PUT, GET, POST, OPTIONS, HEAD
+  labels:
+    app.kubernetes.io/instance: opencode
+    app.kubernetes.io/name: opencode
+  name: opencode
+  namespace: opencode
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: opencode.invertedorigin.com
+    http:
+      paths:
+      - backend:
+          service:
+            name: opencode
+            port:
+              number: 8080
+        path: /
+        pathType: Prefix
+  tls:
+  - hosts:
+    - opencode.invertedorigin.com
+    secretName: opencode-tls-domain

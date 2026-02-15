@@ -1,0 +1,67 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app.kubernetes.io/component: main
+    app.kubernetes.io/instance: opencode
+    app.kubernetes.io/name: opencode
+  name: opencode
+  namespace: opencode
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/component: main
+      app.kubernetes.io/instance: opencode
+      app.kubernetes.io/name: opencode
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/component: main
+        app.kubernetes.io/instance: opencode
+        app.kubernetes.io/name: opencode
+    spec:
+      automountServiceAccountToken: true
+      containers:
+      - env:
+        - name: TZ
+          value: America/Denver
+        - name: GH_TOKEN
+          valueFrom:
+            secretKeyRef:
+              name: opencode-secrets
+              key: GH_TOKEN
+              optional: true
+        image: ghcr.io/anomalyco/opencode:latest
+        name: main
+        command: ["/bin/sh"]
+        args: ["-c", "sleep infinity"]
+        resources:
+          requests:
+            cpu: 100m
+            memory: 512Mi
+        volumeMounts:
+        - mountPath: /root/.config/opencode
+          name: config
+        - mountPath: /root/.local/share/opencode
+          name: data
+        - mountPath: /workspace
+          name: workspace
+        stdin: true
+        tty: true
+      dnsPolicy: ClusterFirst
+      enableServiceLinks: false
+      hostIPC: false
+      hostNetwork: false
+      hostPID: false
+      serviceAccountName: default
+      volumes:
+      - name: config
+        persistentVolumeClaim:
+          claimName: opencode-pvc-replicated
+      - name: data
+        emptyDir: {}
+      - name: workspace
+        emptyDir: {}
