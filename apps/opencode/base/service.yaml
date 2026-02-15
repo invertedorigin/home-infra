@@ -10,9 +10,9 @@ metadata:
 spec:
   ports:
   - name: http
-    port: 8080
+    port: 4096
     protocol: TCP
-    targetPort: 8080
+    targetPort: 4096
   selector:
     app.kubernetes.io/component: main
     app.kubernetes.io/instance: opencode

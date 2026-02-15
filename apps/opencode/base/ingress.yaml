@@ -19,7 +19,7 @@ spec:
           service:
             name: opencode
             port:
-              number: 8080
+              number: 4096
         path: /
         pathType: Prefix
   tls:
