@@ -8,6 +8,16 @@ resources:
 - generic-device-plugin.yaml
 - proxyclass.yaml
 
+patches:
+- target:
+    group: apiextensions.k8s.io
+    version: v1
+    kind: CustomResourceDefinition
+  patch: |-
+    - op: add
+      path: /metadata/annotations/argocd.argoproj.io~1sync-options
+      value: ServerSideApply=true
+
 helmCharts:
 - name: tailscale-operator
   repo: https://pkgs.tailscale.com/helmcharts

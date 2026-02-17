@@ -5,6 +5,16 @@ resources:
 - namespace.yaml
 - secret-store.yaml
 
+patches:
+- target:
+    group: apiextensions.k8s.io
+    version: v1
+    kind: CustomResourceDefinition
+  patch: |-
+    - op: add
+      path: /metadata/annotations/argocd.argoproj.io~1sync-options
+      value: ServerSideApply=true
+
 helmCharts:
 - name: external-secrets
   repo: https://charts.external-secrets.io
