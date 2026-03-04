@@ -31,6 +31,7 @@ data:
             device_class: energy
             unit_of_measurement: Wh
             state_class: total
+
     - Voltage:
         url: '/upt/1/mr/12/r'
         tags:
@@ -39,6 +40,7 @@ data:
             device_class: voltage
             unit_of_measurement: V
             state_class: measurement
+
     - Current Summation Delivered:
         url: '/upt/1/mr/3/r'
         tags:
