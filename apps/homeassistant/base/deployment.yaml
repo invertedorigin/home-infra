@@ -83,10 +83,18 @@ spec:
             - name: certs
               mountPath: /opt/xcel_itron2mqtt/certs
               readOnly: true
+            - name: meter-config
+              mountPath: /opt/xcel_itron2mqtt/configs/meters.yaml
+              subPath: meters.yaml
+              readOnly: true
+
       volumes:
         - name: certs
           secret:
             secretName: xcel-itron2mqtt-certs
+        - name: meter-config
+          configMap:
+            name: energy-meter-config
 ---
 apiVersion: apps/v1
 kind: Deployment

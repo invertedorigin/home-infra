@@ -1,0 +1,109 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: energy-meter-config
+data:
+  endpoints_default.yaml: |
+    - Instantaneous Demand:
+        url: '/upt/1/mr/1/r'
+        tags:
+          value:
+            entity_type: sensor
+            device_class: power
+            unit_of_measurement: W
+            state_class: measurement
+
+    - Current Summation Received:
+        url: '/upt/1/mr/2/r'
+        tags:
+          timePeriod:
+            - duration:
+                entity_type: sensor
+                device_class: duration
+                value_template: '{{ value }}'
+                unit_of_measurement: s
+            - start:
+                entity_type: sensor
+                device_class: timestamp
+                value_template: '{{ as_datetime( value ) }}'
+          value:
+            entity_type: sensor
+            device_class: energy
+            unit_of_measurement: Wh
+            state_class: total
+
+    - Current Summation Delivered:
+        url: '/upt/1/mr/3/r'
+        tags:
+          timePeriod:
+            - duration:
+                entity_type: sensor
+                device_class: duration
+                value_template: '{{ value }}'
+                unit_of_measurement: s
+            - start:
+                entity_type: sensor
+                device_class: timestamp
+                value_template: '{{ as_datetime( value ) }}'
+          value:
+            entity_type: sensor
+            device_class: energy
+            unit_of_measurement: Wh
+            state_class: total
+
+    - TOU WH Delivered Tier 1:
+        url: '/upt/1/mr/9/rs/1/r/2'
+        tags:
+          timePeriod:
+            - duration:
+                entity_type: sensor
+                device_class: duration
+                value_template: '{{ value }}'
+                unit_of_measurement: s
+            - start:
+                entity_type: sensor
+                device_class: timestamp
+                value_template: '{{ as_datetime( value ) }}'
+          value:
+            entity_type: sensor
+            device_class: energy
+            unit_of_measurement: Wh
+            state_class: total
+
+    - TOU WH Delivered Tier 2:
+        url: '/upt/1/mr/9/rs/1/r/3'
+        tags:
+          timePeriod:
+            - duration:
+                entity_type: sensor
+                device_class: duration
+                value_template: '{{ value }}'
+                unit_of_measurement: s
+            - start:
+                entity_type: sensor
+                device_class: timestamp
+                value_template: '{{ as_datetime( value ) }}'
+          value:
+            entity_type: sensor
+            device_class: energy
+            unit_of_measurement: Wh
+            state_class: total
+
+    - TOU WH Delivered Tier 3:
+        url: '/upt/1/mr/9/rs/1/r/4'
+        tags:
+          timePeriod:
+            - duration:
+                entity_type: sensor
+                device_class: duration
+                value_template: '{{ value }}'
+                unit_of_measurement: s
+            - start:
+                entity_type: sensor
+                device_class: timestamp
+                value_template: '{{ as_datetime( value ) }}'
+          value:
+            entity_type: sensor
+            device_class: energy
+            unit_of_measurement: Wh
+            state_class: total
