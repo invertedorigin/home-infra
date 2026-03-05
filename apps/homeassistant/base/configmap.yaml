@@ -121,6 +121,26 @@ data:
             device_class: energy
             unit_of_measurement: Wh
             state_class: total
+
+    - TOU WH Delivered Tier 4:
+        url: '/upt/1/mr/9/rs/1/r/5'
+        tags:
+          timePeriod:
+            - duration:
+                entity_type: sensor
+                device_class: duration
+                value_template: '{{ value }}'
+                unit_of_measurement: s
+            - start:
+                entity_type: sensor
+                device_class: timestamp
+                value_template: '{{ as_datetime( value ) }}'
+          value:
+            entity_type: sensor
+            device_class: energy
+            unit_of_measurement: Wh
+            state_class: total
+
     - Max Demand Delivered:
         url: '/upt/1/mr/18/r'
         tags:
