@@ -87,6 +87,10 @@ spec:
               mountPath: /opt/xcel_itron2mqtt/configs/endpoints_default.yaml
               subPath: endpoints_default.yaml
               readOnly: true
+            - name: meter-config
+              mountPath: /opt/xcel_itron2mqtt/configs/endpoints_3_2_39.yaml
+              subPath: endpoints_default.yaml
+              readOnly: true
 
       volumes:
         - name: certs
