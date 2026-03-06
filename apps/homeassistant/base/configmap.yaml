@@ -16,28 +16,12 @@ data:
     - Current Summation Delivered:
         url: '/upt/1/mr/3/rs/1/r/1'
         tags:
-          timePeriod:
-            - duration:
-                entity_type: sensor
-                device_class: duration
-                value_template: '{{ value }}'
-                unit_of_measurement: s
-            - start:
-                entity_type: sensor
-                device_class: timestamp
-                value_template: '{{ as_datetime( value ) }}'
-          touTier:
-            entity_type: sensor
           value:
             entity_type: sensor
             device_class: energy
             unit_of_measurement: Wh
             state_class: total
             enabled_by_default: true
-          qualityFlags:
-            entity_type: sensor
-            state_class: measurement
-            enabled_by_default: false
 
     - Max Demand Delivered:
         url: '/upt/1/mr/18/r'
@@ -48,17 +32,3 @@ data:
             unit_of_measurement: W
             state_class: measurement
             enabled_by_default: true
-          qualityFlags:
-            entity_type: sensor
-            state_class: measurement
-            enabled_by_default: false
-          timePeriod:
-            - duration:
-                entity_type: sensor
-                device_class: duration
-                value_template: '{{ value }}'
-                unit_of_measurement: s
-            - start:
-                entity_type: sensor
-                device_class: timestamp
-                value_template: '{{ as_datetime( value ) }}'
