@@ -43,7 +43,7 @@ patches:
 helmCharts:
 - name: kube-prometheus-stack
   repo: https://prometheus-community.github.io/helm-charts
-  version: 82.4.3
+  version: 82.10.3
   releaseName: kps
   includeCRDs: true
   valuesInline:
@@ -147,7 +147,7 @@ helmCharts:
 
 - name: victoria-logs-single
   repo: https://victoriametrics.github.io/helm-charts/
-  version: 0.11.28
+  version: 0.11.29
   releaseName: &app victoria-logs
   namespace: monitoring
   includeCRDs: true
@@ -201,7 +201,7 @@ helmCharts:
 
 - name: victoria-metrics-operator
   repo: https://victoriametrics.github.io/helm-charts/
-  version: 0.59.1
+  version: 0.59.2
   releaseName: victoria-metrics-operator
   namespace: monitoring
   includeCRDs: true
