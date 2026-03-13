@@ -25,11 +25,8 @@ helmCharts:
   includeCRDs: true
   valuesInline:
     installCRDs: true
-    podDnsPolicy: "None"
-    podDnsConfig:
-      nameservers:
-      - "1.1.1.1"
-      - "8.8.8.8"
+    dns01RecursiveNameservers: "1.1.1.1:53,8.8.8.8:53"
+    dns01RecursiveNameserversOnly: true
     global:
       leaderElection:
         namespace: cert-manager
