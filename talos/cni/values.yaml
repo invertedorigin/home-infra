@@ -20,6 +20,8 @@ kubeProxyReplacementHealthzBindAddr: 0.0.0.0:10256
 ingressController:
   enabled: true
   loadbalancerMode: shared
+  service:
+    externalTrafficPolicy: Local
 loadBalancer:
   algorithm: maglev
   l7:
