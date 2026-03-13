@@ -10,7 +10,7 @@ metadata:
   name: scrypted
   namespace: scrypted
 spec:
-  ingressClassName: nginx
+  ingressClassName: cilium
   rules:
   - host: scrypted.invertedorigin.com
     http:
