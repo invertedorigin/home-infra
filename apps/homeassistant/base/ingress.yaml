@@ -10,7 +10,7 @@ metadata:
   name: homeassistant
   namespace: homeassistant
 spec:
-  ingressClassName: nginx
+  ingressClassName: cilium
   rules:
   - host: ha.invertedorigin.com
     http:
@@ -39,7 +39,7 @@ metadata:
   name: source
   namespace: homeassistant
 spec:
-  ingressClassName: nginx
+  ingressClassName: cilium
   rules:
   - host: source.invertedorigin.com
     http:
@@ -68,7 +68,7 @@ metadata:
   name: sat
   namespace: homeassistant
 spec:
-  ingressClassName: nginx
+  ingressClassName: cilium
   rules:
   - host: sat.invertedorigin.com
     http:
