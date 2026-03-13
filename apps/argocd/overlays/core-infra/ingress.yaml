@@ -4,10 +4,9 @@ metadata:
   name: ssl-argocd-ingress
   namespace: argocd
   annotations:
-    nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
     cert-manager.io/cluster-issuer: "cloudflare-issuer"
 spec:
-  ingressClassName: nginx
+  ingressClassName: cilium
   tls:
   - hosts:
     - argocd.invertedorigin.com
@@ -22,4 +21,4 @@ spec:
           service:
             name: argocd-server
             port:
-              number: 443
+              number: 80
