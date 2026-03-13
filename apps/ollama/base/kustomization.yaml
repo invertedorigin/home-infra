@@ -10,7 +10,7 @@ namespace: ollama
 helmCharts:
 - name: ollama
   repo: https://otwld.github.io/ollama-helm/
-  version: 1.49.0
+  version: 1.50.0
   releaseName: ollama
   valuesInLine:
     image:
@@ -68,7 +68,7 @@ helmCharts:
 
 - name: open-webui
   repo: https://helm.openwebui.com/
-  version: 12.8.1
+  version: 12.10.0
   releaseName: open-webui
   valuesInLine:
     ollama:
