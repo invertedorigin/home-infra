@@ -51,7 +51,7 @@ helmCharts:
         enabled: false
     ingress:
       enabled: true
-      className: nginx
+      className: cilium
       annotations:
         cert-manager.io/cluster-issuer: "cloudflare-issuer"
         nginx.ingress.kubernetes.io/proxy-body-size: "600m"
@@ -81,7 +81,7 @@ helmCharts:
     ollamaUrls: ["http://ollama.ollama.svc.cluster.local:11434"]
     ingress:
       enabled: true
-      class: "nginx"
+      class: "cilium"
       annotations:
         cert-manager.io/cluster-issuer: "cloudflare-issuer"
         nginx.ingress.kubernetes.io/proxy-body-size: "600m"

@@ -167,7 +167,7 @@ helmCharts:
         syslog.listenAddr.tcp: ":9514"
       ingress:
         enabled: true
-        ingressClassName: nginx
+        ingressClassName: cilium
         annotations:
           cert-manager.io/cluster-issuer: cloudflare-issuer
         pathType: Prefix
@@ -247,7 +247,7 @@ helmCharts:
     - name: grafana-secret
     ingress:
       enabled: true
-      ingressClassName: nginx
+      ingressClassName: cilium
       annotations:
         cert-manager.io/cluster-issuer: "cloudflare-issuer"
       hosts: [grafana.invertedorigin.com]

@@ -9,7 +9,7 @@ metadata:
   name: matter-server
   namespace: matter-server
 spec:
-  ingressClassName: nginx
+  ingressClassName: cilium
   rules:
   - host: matter-server.invertedorigin.com
     http:

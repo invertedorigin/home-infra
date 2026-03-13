@@ -10,7 +10,7 @@ metadata:
   name: opencode
   namespace: opencode
 spec:
-  ingressClassName: nginx
+  ingressClassName: cilium
   rules:
   - host: opencode.invertedorigin.com
     http:

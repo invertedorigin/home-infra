@@ -9,7 +9,7 @@ metadata:
   name: teslamate
   namespace: teslamate
 spec:
-  ingressClassName: nginx
+  ingressClassName: cilium
   rules:
   - host: teslamate.invertedorigin.com
     http:
