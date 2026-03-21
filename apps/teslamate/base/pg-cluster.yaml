@@ -80,7 +80,7 @@ spec:
     recovery:
       source: clusterBackup
       recoveryTarget:
-        backupID: "20260321172212"
+        backupID: "20260321T172212"
 
   externalClusters:
     - name: clusterBackup
