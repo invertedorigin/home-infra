@@ -6,225 +6,225 @@ namespace: monitoring
 resources:
 - namespace.yaml
 - external-secret.yaml
-- vmsingle.yaml
-- vmagent.yaml
+# - vmsingle.yaml
+# - vmagent.yaml
 
-patches:
-- target:
-    group: apiextensions.k8s.io
-    version: v1
-    kind: CustomResourceDefinition
-  patch: |-
-    - op: add
-      path: /metadata/annotations/argocd.argoproj.io~1sync-options
-      value: ServerSideApply=true
-- target:
-    version: v1
-    kind: ConfigMap
-    labelSelector: grafana_dashboard in (1)
-  patch: |-
-    apiVersion: v1
-    kind: ConfigMap
-    metadata:
-      name: not-used
-      namespace: not-used
-      annotations:
-        grafana_folder: Kubernetes
-- target:
-    group: monitoring.coreos.com
-    version: v1
-    kind: ServiceMonitor
-    name: kps-kube-etcd
-  patch: |-
-    - op: add
-      path: /spec/endpoints/0/interval
-      value: 5s
+# patches:
+# - target:
+#     group: apiextensions.k8s.io
+#     version: v1
+#     kind: CustomResourceDefinition
+#   patch: |-
+#     - op: add
+#       path: /metadata/annotations/argocd.argoproj.io~1sync-options
+#       value: ServerSideApply=true
+# - target:
+#     version: v1
+#     kind: ConfigMap
+#     labelSelector: grafana_dashboard in (1)
+#   patch: |-
+#     apiVersion: v1
+#     kind: ConfigMap
+#     metadata:
+#       name: not-used
+#       namespace: not-used
+#       annotations:
+#         grafana_folder: Kubernetes
+# - target:
+#     group: monitoring.coreos.com
+#     version: v1
+#     kind: ServiceMonitor
+#     name: kps-kube-etcd
+#   patch: |-
+#     - op: add
+#       path: /spec/endpoints/0/interval
+#       value: 5s
 
 helmCharts:
-- name: kube-prometheus-stack
-  repo: https://prometheus-community.github.io/helm-charts
-  version: 82.13.1
-  releaseName: kps
-  includeCRDs: true
-  valuesInline:
-    crds:
-      enabled: true
-    fullnameOverride: "kps"
-    cleanPrometheusOperatorObjectNames: true
-    namespaceOverride: monitoring
-    alertmanager:
-      enabled: false
-    grafana:
-      enabled: false
-      forceDeployDashboards: false
-    prometheusOperator:
-      enabled: false
+# - name: kube-prometheus-stack
+#   repo: https://prometheus-community.github.io/helm-charts
+#   version: 82.13.1
+#   releaseName: kps
+#   includeCRDs: true
+#   valuesInline:
+#     crds:
+#       enabled: true
+#     fullnameOverride: "kps"
+#     cleanPrometheusOperatorObjectNames: true
+#     namespaceOverride: monitoring
+#     alertmanager:
+#       enabled: false
+#     grafana:
+#       enabled: false
+#       forceDeployDashboards: false
+#     prometheusOperator:
+#       enabled: false
 
-    prometheus:
-      enabled: false
-      ingress:
-        enabled: false
+#     prometheus:
+#       enabled: false
+#       ingress:
+#         enabled: false
 
-    kubeApiServer:
-      enabled: true
-      serviceMonitor:
-        metricRelabelings:
-          # Drop high cardinality labels
-          - &dropDuration
-            action: drop
-            sourceLabels: ["__name__"]
-            regex: (apiserver|etcd|rest_client)_request(|_sli|_slo)_duration_seconds_bucket
-          - action: drop
-            sourceLabels: ["__name__"]
-            regex: (apiserver_response_sizes_bucket|apiserver_watch_events_sizes_bucket|apiserver_request_body_size_bytes_bucket)
-    kubeScheduler:
-      enabled: true
-      service:
-        selector:
-          k8s-app: kube-scheduler
-          tier: control-plane
-    kubeControllerManager:
-      enabled: true
-      service:
-        selector:
-          k8s-app: kube-controller-manager
-          tier: control-plane
-    kubeEtcd:
-      enabled: true
-      service:
-        port: 2381
-        targetPort: 2381
-        selector:
-          k8s-app: kube-apiserver
-          tier: control-plane
-      serviceMonitor:
-        metricRelabelings:
-          - *dropDuration
-    kubelet:
-      enabled: true
-      serviceMonitor:
-        attachMetadata:
-          node: true
-        metricRelabelings:
-          # replaces other node identifiers with hostname
-          - sourceLabels: ["node"]
-            targetLabel: instance
-            action: replace
-          # Drop high cardinality labels
-          - action: labeldrop
-            regex: (uid)
-          - action: labeldrop
-            regex: (id|name)
-          - action: drop
-            sourceLabels: ["__name__"]
-            regex: (rest_client_request_duration_seconds_bucket|rest_client_request_duration_seconds_sum|rest_client_request_duration_seconds_count|apiserver_request_body_size_bytes_bucket)
-          - *dropDuration
-    kubeProxy:
-      enabled: false # Disabled due to eBPF
-    kubeStateMetrics:
-      enabled: true
-    kube-state-metrics:
-      metricLabelsAllowlist:
-        - "deployments=[*]"
-        - "persistentvolumeclaims=[*]"
-        - "pods=[*]"
-      prometheus:
-        monitor:
-          enabled: true
-          relabelings:
-            # replaces other node identifiers with hostname
-            - action: replace
-              sourceLabels: ["__meta_kubernetes_pod_node_name"]
-              regex: ^(.*)$
-              replacement: $1
-              targetLabel: kubernetes_node
-      resources:
-        requests:
-          cpu: 15m
-          memory: 128Mi
-        limits:
-          memory: 500Mi
+#     kubeApiServer:
+#       enabled: true
+#       serviceMonitor:
+#         metricRelabelings:
+#           # Drop high cardinality labels
+#           - &dropDuration
+#             action: drop
+#             sourceLabels: ["__name__"]
+#             regex: (apiserver|etcd|rest_client)_request(|_sli|_slo)_duration_seconds_bucket
+#           - action: drop
+#             sourceLabels: ["__name__"]
+#             regex: (apiserver_response_sizes_bucket|apiserver_watch_events_sizes_bucket|apiserver_request_body_size_bytes_bucket)
+#     kubeScheduler:
+#       enabled: true
+#       service:
+#         selector:
+#           k8s-app: kube-scheduler
+#           tier: control-plane
+#     kubeControllerManager:
+#       enabled: true
+#       service:
+#         selector:
+#           k8s-app: kube-controller-manager
+#           tier: control-plane
+#     kubeEtcd:
+#       enabled: true
+#       service:
+#         port: 2381
+#         targetPort: 2381
+#         selector:
+#           k8s-app: kube-apiserver
+#           tier: control-plane
+#       serviceMonitor:
+#         metricRelabelings:
+#           - *dropDuration
+#     kubelet:
+#       enabled: true
+#       serviceMonitor:
+#         attachMetadata:
+#           node: true
+#         metricRelabelings:
+#           # replaces other node identifiers with hostname
+#           - sourceLabels: ["node"]
+#             targetLabel: instance
+#             action: replace
+#           # Drop high cardinality labels
+#           - action: labeldrop
+#             regex: (uid)
+#           - action: labeldrop
+#             regex: (id|name)
+#           - action: drop
+#             sourceLabels: ["__name__"]
+#             regex: (rest_client_request_duration_seconds_bucket|rest_client_request_duration_seconds_sum|rest_client_request_duration_seconds_count|apiserver_request_body_size_bytes_bucket)
+#           - *dropDuration
+#     kubeProxy:
+#       enabled: false # Disabled due to eBPF
+#     kubeStateMetrics:
+#       enabled: true
+#     kube-state-metrics:
+#       metricLabelsAllowlist:
+#         - "deployments=[*]"
+#         - "persistentvolumeclaims=[*]"
+#         - "pods=[*]"
+#       prometheus:
+#         monitor:
+#           enabled: true
+#           relabelings:
+#             # replaces other node identifiers with hostname
+#             - action: replace
+#               sourceLabels: ["__meta_kubernetes_pod_node_name"]
+#               regex: ^(.*)$
+#               replacement: $1
+#               targetLabel: kubernetes_node
+#       resources:
+#         requests:
+#           cpu: 15m
+#           memory: 128Mi
+#         limits:
+#           memory: 500Mi
 
-- name: victoria-logs-single
-  repo: https://victoriametrics.github.io/helm-charts/
-  version: 0.11.30
-  releaseName: &app victoria-logs
-  namespace: monitoring
-  includeCRDs: true
-  valuesInline:
-    server:
-      enabled: true
-      image:
-        repository: docker.io/victoriametrics/victoria-logs
-        tag: "v1.24.0-victorialogs@sha256:1ec31ddccc39dc9ead2607cddbf2829be1eb5ad39890e72bba26b359be20801d"
-        pullPolicy: IfNotPresent
-      retentionPeriod: 1 # months
-      persistentVolume:
-        enabled: true
-        storageClassName: "ceph-block"
-        size: 30Gi
-      extraArgs:
-        syslog.listenAddr.tcp: ":9514"
-      ingress:
-        enabled: true
-        ingressClassName: cilium
-        annotations:
-          cert-manager.io/cluster-issuer: cloudflare-issuer
-        pathType: Prefix
-        hosts:
-          - name: &host vmlogs.invertedorigin.com
-            path: /
-            port: http
-        tls:
-          - hosts: [*host]
-            secretName: vmlogs-tls-domain
-      resources: # TODO: tune
-        requests:
-          cpu: 10m
-          memory: 512Mi
-        limits:
-          cpu: 3000m
-          memory: 4Gi
-      statefulSet:
-        enabled: false
-      serviceMonitor:
-        enabled: true
-      affinity: {}
-    fluent-bit:
-      enabled: false
-    extraObjects: []
-    global:
-      nameOverride: *app
-      victoriaLogs:
-        server:
-          fullnameOverride: *app
+# - name: victoria-logs-single
+#   repo: https://victoriametrics.github.io/helm-charts/
+#   version: 0.11.30
+#   releaseName: &app victoria-logs
+#   namespace: monitoring
+#   includeCRDs: true
+#   valuesInline:
+#     server:
+#       enabled: true
+#       image:
+#         repository: docker.io/victoriametrics/victoria-logs
+#         tag: "v1.24.0-victorialogs@sha256:1ec31ddccc39dc9ead2607cddbf2829be1eb5ad39890e72bba26b359be20801d"
+#         pullPolicy: IfNotPresent
+#       retentionPeriod: 1 # months
+#       persistentVolume:
+#         enabled: true
+#         storageClassName: "ceph-block"
+#         size: 30Gi
+#       extraArgs:
+#         syslog.listenAddr.tcp: ":9514"
+#       ingress:
+#         enabled: true
+#         ingressClassName: cilium
+#         annotations:
+#           cert-manager.io/cluster-issuer: cloudflare-issuer
+#         pathType: Prefix
+#         hosts:
+#           - name: &host vmlogs.invertedorigin.com
+#             path: /
+#             port: http
+#         tls:
+#           - hosts: [*host]
+#             secretName: vmlogs-tls-domain
+#       resources: # TODO: tune
+#         requests:
+#           cpu: 10m
+#           memory: 512Mi
+#         limits:
+#           cpu: 3000m
+#           memory: 4Gi
+#       statefulSet:
+#         enabled: false
+#       serviceMonitor:
+#         enabled: true
+#       affinity: {}
+#     fluent-bit:
+#       enabled: false
+#     extraObjects: []
+#     global:
+#       nameOverride: *app
+#       victoriaLogs:
+#         server:
+#           fullnameOverride: *app
 
-- name: victoria-metrics-operator
-  repo: https://victoriametrics.github.io/helm-charts/
-  version: 0.59.3
-  releaseName: victoria-metrics-operator
-  namespace: monitoring
-  includeCRDs: true
-  valuesInline:
-    crd:
-      create: true
-    operator:
-      enable_converter_ownership: true
-      useCustomConfigReloader: true
-      psp_auto_creation_enabled: true
-    env:
-      - name: VM_VMALERTDEFAULT_CONFIGRELOADERCPU
-        value: 10m
-      - name: VM_VMAGENTDEFAULT_CONFIGRELOADERCPU
-        value: 10m
-    rbac:
-      pspEnabled: true
-    resources:
-      requests:
-        cpu: 20m
-      limits:
-        cpu: 1000m
-        memory: 200Mi
+# - name: victoria-metrics-operator
+#   repo: https://victoriametrics.github.io/helm-charts/
+#   version: 0.59.3
+#   releaseName: victoria-metrics-operator
+#   namespace: monitoring
+#   includeCRDs: true
+#   valuesInline:
+#     crd:
+#       create: true
+#     operator:
+#       enable_converter_ownership: true
+#       useCustomConfigReloader: true
+#       psp_auto_creation_enabled: true
+#     env:
+#       - name: VM_VMALERTDEFAULT_CONFIGRELOADERCPU
+#         value: 10m
+#       - name: VM_VMAGENTDEFAULT_CONFIGRELOADERCPU
+#         value: 10m
+#     rbac:
+#       pspEnabled: true
+#     resources:
+#       requests:
+#         cpu: 20m
+#       limits:
+#         cpu: 1000m
+#         memory: 200Mi
 
 - name: grafana
   repo: https://grafana.github.io/helm-charts
@@ -265,475 +265,9 @@ helmCharts:
     - grafana-worldmap-panel
     - natel-discrete-panel
     serviceMonitor:
-      enabled: true
+      enabled: false
     serviceAccount:
       autoMount: true
-    alerting:
-      contactpoints.yaml:
-        apiVersion: 1
-        contactPoints:
-        - orgId: 1
-          name: telegram
-          receivers:
-          - uid: telegram-chat
-            type: telegram
-            settings:
-              bottoken: "$TELEGRAM_BOT_TOKEN"
-              chatid: "-4090891633"
-              message: |
-                {{ `{{ with index .Alerts 0 }}
-                    - Alert Name: {{ .Labels.alertname }}
-                    - New Price: {{ .Values.A }}
-                    - Cruise ID: {{ .Labels.cruiseid }}
-                    - Date Label: {{ .Labels.datelabel }}
-                    - Days: {{ .Labels.days }}
-                    - Departure Port: {{ .Labels.departureport }}
-                    - Destination Code: {{ .Labels.destinationcode }}
-                    - Itinerary: {{ .Labels.itinerary }}
-                    - Ship: {{ .Labels.ship }}
-                    - Stateroom Class: {{ .Labels.stateroomclass }}
-                    - Stateroom Detail Class: {{ .Labels.stateroomdetailclass }}
-                    - URL: https://www.royalcaribbean.com/booking/category?cabinClassType={{ .Labels.stateroomclass }}&destinationCode={{ .Labels.destinationcode }}&groupId={{ .Labels.cruiseid }}&packageCode={{ .Labels.itinerary }}&roomIndex=1&sailDate={{ .Labels.datelabel}}&selectedCurrencyCode=USD&shipCode={{ .Labels.shipcode}}
-                  {{end}} `}}
-            disableResolveMessage: true
-        - orgId: 1
-          name: telegram-k8s-alerts
-          receivers:
-            - uid: telegram-k8s-alerts
-              type: telegram
-              settings:
-                bottoken: "$TELEGRAM_BOT_TOKEN"
-                chatid: "-4117494457"
-                disable_notification: false
-                disable_web_page_preview: false
-                protect_content: false
-              disableResolveMessage: false
-      notification-policies.yaml:
-        apiVersion: 1
-        policies:
-            - orgId: 1
-              receiver: grafana-default-email
-              group_by:
-                - grafana_folder
-                - alertname
-              routes:
-                - receiver: telegram
-                  object_matchers:
-                    - - cruise
-                      - =
-                      - cruise
-                - receiver: telegram-k8s-alerts
-                  object_matchers:
-                    - - k8s
-                      - =
-                      - alert
-      rules.yaml:
-        apiVersion: 1
-        groups:
-            - orgId: 1
-              name: Cruise
-              folder: Kubernetes
-              interval: 5m
-              rules:
-                - uid: b990cdc2-3d0c-44cb-8d40-024fe67887e0
-                  title: Galveston Cruise
-                  condition: C
-                  data:
-                    - refId: A
-                      relativeTimeRange:
-                        from: 600
-                        to: 0
-                      datasourceUid: PBFA97CFB590B2093
-                      model:
-                        editorMode: code
-                        expr: royal_detail_price{cruiseid="HM07GAL-3851841455", datelabel="2024-05-05", stateroomdetailclass="Ocean View with Large Balcony"}
-                        instant: true
-                        intervalMs: 1000
-                        legendFormat: __auto
-                        maxDataPoints: 43200
-                        range: false
-                        refId: A
-                    - refId: B
-                      relativeTimeRange:
-                        from: 600
-                        to: 0
-                      datasourceUid: __expr__
-                      model:
-                        conditions:
-                            - evaluator:
-                                params: []
-                                type: gt
-                              operator:
-                                type: and
-                              query:
-                                params:
-                                    - B
-                              reducer:
-                                params: []
-                                type: last
-                              type: query
-                        datasource:
-                            type: __expr__
-                            uid: __expr__
-                        expression: A
-                        intervalMs: 1000
-                        maxDataPoints: 43200
-                        reducer: last
-                        refId: B
-                        type: reduce
-                    - refId: C
-                      relativeTimeRange:
-                        from: 600
-                        to: 0
-                      datasourceUid: __expr__
-                      model:
-                        conditions:
-                            - evaluator:
-                                params:
-                                    - 2000
-                                type: lt
-                              operator:
-                                type: and
-                              query:
-                                params:
-                                    - C
-                              reducer:
-                                params: []
-                                type: last
-                              type: query
-                        datasource:
-                            type: __expr__
-                            uid: __expr__
-                        expression: B
-                        intervalMs: 1000
-                        maxDataPoints: 43200
-                        refId: C
-                        type: threshold
-                  noDataState: OK
-                  execErrState: OK
-                  for: 5m
-                  labels:
-                    cruise: cruise
-                  isPaused: false
-            - orgId: 1
-              name: Cruise
-              folder: Kubernetes
-              interval: 5m
-              rules:
-                - uid: f8251df5-69e9-4fa2-b5a3-a349d2a0231e
-                  title: New Zealand Cruise (copy)
-                  condition: B
-                  data:
-                    - refId: D
-                      relativeTimeRange:
-                        from: 600
-                        to: 0
-                      datasourceUid: PBFA97CFB590B2093
-                      model:
-                        editorMode: code
-                        expr: royal_detail_price{cruiseid="OV10SYD-3603065252", datelabel="2024-11-28", stateroomdetailclass="Ocean View Balcony"}
-                        instant: true
-                        intervalMs: 1000
-                        legendFormat: __auto
-                        maxDataPoints: 43200
-                        range: false
-                        refId: D
-                    - refId: A
-                      relativeTimeRange:
-                        from: 2592000
-                        to: 0
-                      datasourceUid: PBFA97CFB590B2093
-                      model:
-                        disableTextWrap: false
-                        editorMode: code
-                        exemplar: false
-                        expr: min(min_over_time(royal_detail_price{cruiseid="OV10SYD-3603065252", datelabel="2024-11-28", stateroomdetailclass="Ocean View Balcony"}[30d]))
-                        format: time_series
-                        fullMetaSearch: false
-                        includeNullMetadata: true
-                        instant: true
-                        intervalMs: 1000
-                        legendFormat: __auto
-                        maxDataPoints: 43200
-                        range: false
-                        refId: A
-                        useBackend: false
-                    - refId: B
-                      datasourceUid: __expr__
-                      model:
-                        conditions:
-                            - evaluator:
-                                params:
-                                    - 0
-                                    - 0
-                                type: gt
-                              operator:
-                                type: and
-                              query:
-                                params: []
-                              reducer:
-                                params: []
-                                type: avg
-                              type: query
-                        datasource:
-                            name: Expression
-                            type: __expr__
-                            uid: __expr__
-                        expression: $A - $D > 0
-                        intervalMs: 1000
-                        maxDataPoints: 43200
-                        refId: B
-                        type: math
-                  noDataState: OK
-                  execErrState: OK
-                  for: 5m
-                  labels:
-                    cruise: cruise
-                  isPaused: false
-            - orgId: 1
-              name: Grafana
-              folder: Kubernetes
-              interval: 5m
-              rules:
-                - uid: vaultwarden-backup-check
-                  title: Vault Warden Backup Check
-                  condition: C
-                  data:
-                    - refId: A
-                      relativeTimeRange:
-                        from: 600
-                        to: 0
-                      datasourceUid: PBFA97CFB590B2093
-                      model:
-                        disableTextWrap: false
-                        editorMode: code
-                        expr: volsync_volume_out_of_sync{obj_name="vaultwarden-backup"}
-                        fullMetaSearch: false
-                        includeNullMetadata: true
-                        instant: true
-                        intervalMs: 1000
-                        legendFormat: __auto
-                        maxDataPoints: 43200
-                        range: false
-                        refId: A
-                        useBackend: false
-                    - refId: C
-                      relativeTimeRange:
-                        from: 600
-                        to: 0
-                      datasourceUid: __expr__
-                      model:
-                        conditions:
-                            - evaluator:
-                                params:
-                                    - 0
-                                type: gt
-                              operator:
-                                type: and
-                              query:
-                                params:
-                                    - C
-                              reducer:
-                                params: []
-                                type: last
-                              type: query
-                        datasource:
-                            type: __expr__
-                            uid: __expr__
-                        expression: A
-                        intervalMs: 1000
-                        maxDataPoints: 43200
-                        refId: C
-                        type: threshold
-                  noDataState: NoData
-                  execErrState: Error
-                  for: 5m
-                  labels:
-                    k8s: alert
-                  isPaused: false
-            - orgId: 1
-              name: Grafana
-              folder: Kubernetes
-              interval: 5m
-              rules:
-                - uid: ha-backup-check
-                  title: Home Assistant Backup Check
-                  condition: C
-                  data:
-                    - refId: A
-                      relativeTimeRange:
-                        from: 600
-                        to: 0
-                      datasourceUid: PBFA97CFB590B2093
-                      model:
-                        disableTextWrap: false
-                        editorMode: code
-                        expr: volsync_volume_out_of_sync{obj_name="homeassistant-backup"}
-                        fullMetaSearch: false
-                        includeNullMetadata: true
-                        instant: true
-                        intervalMs: 1000
-                        legendFormat: __auto
-                        maxDataPoints: 43200
-                        range: false
-                        refId: A
-                        useBackend: false
-                    - refId: C
-                      relativeTimeRange:
-                        from: 600
-                        to: 0
-                      datasourceUid: __expr__
-                      model:
-                        conditions:
-                            - evaluator:
-                                params:
-                                    - 0
-                                type: gt
-                              operator:
-                                type: and
-                              query:
-                                params:
-                                    - C
-                              reducer:
-                                params: []
-                                type: last
-                              type: query
-                        datasource:
-                            type: __expr__
-                            uid: __expr__
-                        expression: A
-                        intervalMs: 1000
-                        maxDataPoints: 43200
-                        refId: C
-                        type: threshold
-                  noDataState: NoData
-                  execErrState: Error
-                  for: 5m
-                  labels:
-                    k8s: alert
-                  isPaused: false
-            - orgId: 1
-              name: Grafana
-              folder: Kubernetes
-              interval: 5m
-              rules:
-                - uid: scrypted-backup-check
-                  title: Scrypted Backup Check
-                  condition: C
-                  data:
-                    - refId: A
-                      relativeTimeRange:
-                        from: 600
-                        to: 0
-                      datasourceUid: PBFA97CFB590B2093
-                      model:
-                        disableTextWrap: false
-                        editorMode: code
-                        expr: volsync_volume_out_of_sync{obj_name="scrypted-backup"}
-                        fullMetaSearch: false
-                        includeNullMetadata: true
-                        instant: true
-                        intervalMs: 1000
-                        legendFormat: __auto
-                        maxDataPoints: 43200
-                        range: false
-                        refId: A
-                        useBackend: false
-                    - refId: C
-                      relativeTimeRange:
-                        from: 600
-                        to: 0
-                      datasourceUid: __expr__
-                      model:
-                        conditions:
-                            - evaluator:
-                                params:
-                                    - 0
-                                type: gt
-                              operator:
-                                type: and
-                              query:
-                                params:
-                                    - C
-                              reducer:
-                                params: []
-                                type: last
-                              type: query
-                        datasource:
-                            type: __expr__
-                            uid: __expr__
-                        expression: A
-                        intervalMs: 1000
-                        maxDataPoints: 43200
-                        refId: C
-                        type: threshold
-                  noDataState: NoData
-                  execErrState: Error
-                  for: 5m
-                  labels:
-                    k8s: alert
-                  isPaused: false
-            - orgId: 1
-              name: Grafana
-              folder: Kubernetes
-              interval: 5m
-              rules:
-                - uid: zwavejs-backup-check
-                  title: ZWaveJS Backup Check
-                  condition: C
-                  data:
-                    - refId: A
-                      relativeTimeRange:
-                        from: 600
-                        to: 0
-                      datasourceUid: PBFA97CFB590B2093
-                      model:
-                        disableTextWrap: false
-                        editorMode: code
-                        expr: volsync_volume_out_of_sync{obj_name="zwavejs-backup"}
-                        fullMetaSearch: false
-                        includeNullMetadata: true
-                        instant: true
-                        intervalMs: 1000
-                        legendFormat: __auto
-                        maxDataPoints: 43200
-                        range: false
-                        refId: A
-                        useBackend: false
-                    - refId: C
-                      relativeTimeRange:
-                        from: 600
-                        to: 0
-                      datasourceUid: __expr__
-                      model:
-                        conditions:
-                            - evaluator:
-                                params:
-                                    - 0
-                                type: gt
-                              operator:
-                                type: and
-                              query:
-                                params:
-                                    - C
-                              reducer:
-                                params: []
-                                type: last
-                              type: query
-                        datasource:
-                            type: __expr__
-                            uid: __expr__
-                        expression: A
-                        intervalMs: 1000
-                        maxDataPoints: 43200
-                        refId: C
-                        type: threshold
-                  noDataState: NoData
-                  execErrState: Error
-                  for: 5m
-                  labels:
-                    k8s: alert
-                  isPaused: false
     dashboardProviders:
       dashboardproviders.yaml:
         apiVersion: 1
@@ -765,66 +299,7 @@ helmCharts:
           # updateIntervalSeconds: 86400
           options:
             path: /var/lib/grafana/dashboards/teslamate-custom
-        - name: 'grafana-dashboards-kubernetes'
-          orgId: 1
-          folder: 'Kubernetes'
-          type: file
-          disableDeletion: true
-          editable: true
-          options:
-            path: /var/lib/grafana/dashboards/grafana-dashboards-kubernetes
     dashboards:
-      default:
-        nats-jetstream:
-          url: https://raw.githubusercontent.com/nats-io/prometheus-nats-exporter/main/walkthrough/grafana-jetstream-dash-helm.json
-          datasource: Prometheus
-        cert-manager:
-          url: https://raw.githubusercontent.com/monitoring-mixins/website/master/assets/cert-manager/dashboards/cert-manager.json
-          datasource: Prometheus
-        cellular:
-          url: https://raw.githubusercontent.com/invertedorigin/home-infra/main/apps/monitoring/cellular_dashboard.json
-          datasource: Prometheus
-        royal:
-          url: https://raw.githubusercontent.com/invertedorigin/home-infra/main/apps/monitoring/royal_dashboard.json
-          datasource: Prometheus
-        royal-detailed:
-          url: https://raw.githubusercontent.com/invertedorigin/home-infra/main/apps/monitoring/royal_dashboard_detailed.json
-          datasource: Prometheus
-        powertochoose:
-          url: https://raw.githubusercontent.com/invertedorigin/home-infra/main/apps/monitoring/powertochoose_dashboard.json
-          datasource: Prometheus
-        cloudnative-pg:
-          url: https://raw.githubusercontent.com/cloudnative-pg/cloudnative-pg/main/docs/src/samples/monitoring/grafana-dashboard.json
-          datasource: Prometheus
-        home-assistant:
-          url: https://raw.githubusercontent.com/billimek/k8s-gitops/master/monitoring/grafana/dashboards/home_assistant.json
-          datasource: home_assistant
-        nginx-dashboard:
-          url: https://raw.githubusercontent.com/kubernetes/ingress-nginx/master/deploy/grafana/dashboards/nginx.json
-          datasource: Prometheus
-        node-exporter-full:
-          gnetId: 1860
-          revision: 31
-          datasource: Prometheus
-      grafana-dashboards-kubernetes:
-        k8s-system-api-server:
-          url: https://raw.githubusercontent.com/dotdc/grafana-dashboards-kubernetes/master/dashboards/k8s-system-api-server.json
-          token: ''
-        k8s-system-coredns:
-          url: https://raw.githubusercontent.com/dotdc/grafana-dashboards-kubernetes/master/dashboards/k8s-system-coredns.json
-          token: ''
-        k8s-views-global:
-          url: https://raw.githubusercontent.com/dotdc/grafana-dashboards-kubernetes/master/dashboards/k8s-views-global.json
-          token: ''
-        k8s-views-namespaces:
-          url: https://raw.githubusercontent.com/dotdc/grafana-dashboards-kubernetes/master/dashboards/k8s-views-namespaces.json
-          token: ''
-        k8s-views-nodes:
-          url: https://raw.githubusercontent.com/dotdc/grafana-dashboards-kubernetes/master/dashboards/k8s-views-nodes.json
-          token: ''
-        k8s-views-pods:
-          url: https://raw.githubusercontent.com/dotdc/grafana-dashboards-kubernetes/master/dashboards/k8s-views-pods.json
-          token: ''
       teslamate:
         battery-health:
           url: https://raw.githubusercontent.com/teslamate-org/teslamate/v1.27.4/grafana/dashboards/battery-health.json
@@ -927,15 +402,10 @@ helmCharts:
         - name: Loki
           orgId: 1
         datasources:
-        - name: Prometheus
-          type: prometheus
-          access: proxy
-          url: http://vmsingle-victoria.monitoring.svc.cluster.local:8429
-          isDefault: true
         - name: TeslaMate
           type: postgres
           access: proxy
-          url: teslamate-db-17-rw.teslamate.svc.cluster.local
+          url: teslamate-db-main-rw.teslamate.svc.cluster.local
           database: teslamate
           user: teslamate
           secureJsonData:
