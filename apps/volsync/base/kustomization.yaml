@@ -8,6 +8,7 @@ helmCharts:
   repo: https://backube.github.io/helm-charts/
   version: 0.15.0
   releaseName: volsync
+  nammespace: kube-system
   valuesInline:
     metrics:
       disableAuth: true
