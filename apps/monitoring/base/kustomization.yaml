@@ -410,11 +410,11 @@ helmCharts:
         - name: TeslaMate
           type: postgres
           access: proxy
-          url: teslamate-db-main-rw.teslamate.svc.cluster.local
-          database: teslamate
+          url: teslamate-db-main-rw.teslamate.svc.cluster.local:5432
           user: teslamate
           secureJsonData:
-            password: "$TESLAMATE_DB_PASSWORD"
+            password: $TESLAMATE_DB_PASSWORD
           jsonData:
-            postgresVersion: 1000
+            database: teslamate
             sslmode: disable
+            postgresVersion: 1000
