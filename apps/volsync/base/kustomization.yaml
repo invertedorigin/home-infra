@@ -12,3 +12,11 @@ helmCharts:
   valuesInline:
     metrics:
       disableAuth: true
+
+patches:
+  - target:
+      kind: (ConfigMap|ServiceAccount|Deployment|Service|Role|RoleBinding)
+    patch: |-
+      - op: add
+        path: /metadata/namespace
+        value: kube-system
