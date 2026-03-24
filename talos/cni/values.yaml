@@ -21,7 +21,7 @@ ingressController:
   enabled: true
   loadbalancerMode: shared
   service:
-    externalTrafficPolicy: Local
+    externalTrafficPolicy: Cluster
 loadBalancer:
   algorithm: maglev
   l7:
