@@ -17,4 +17,4 @@ spec:
     app.kubernetes.io/component: main
     app.kubernetes.io/instance: homeassistant
     app.kubernetes.io/name: homeassistant
-  type: NodePort
+  type: ClusetrIP
