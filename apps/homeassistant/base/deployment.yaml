@@ -28,7 +28,7 @@ spec:
       - env:
         - name: TZ
           value: America/Denver
-        image: ghcr.io/home-assistant/home-assistant:2026.3.3
+        image: ghcr.io/home-assistant/home-assistant:2026.3.4
         name: main
         resources:
           requests:
