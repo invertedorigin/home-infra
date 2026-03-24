@@ -23,6 +23,15 @@ spec:
         app.kubernetes.io/component: main
         app.kubernetes.io/instance: matter-server
         app.kubernetes.io/name: matter-server
+      annotations:
+        k8s.v1.cni.cncf.io/networks: |-
+          [
+            {
+              "name": "macvlan-conf-dhcp-sbr",
+              "namespace": "kube-system",
+              "mac": "1a:c1:8d:38:f3:77"
+            }
+          ]
     spec:
       automountServiceAccountToken: true
       containers:
