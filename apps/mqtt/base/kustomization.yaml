@@ -3,7 +3,6 @@ kind: Kustomization
 
 resources:
 - namespace.yaml
-- ingress.yaml
 
 namespace: mqtt
 
@@ -26,6 +25,27 @@ helmCharts:
             size: 10Gi
       mqtt:
         enabled: true
+      websocket:
+        enabled: true
+        port: 8080
+        tls:
+          enabled: false
+        ingress:
+          enabled: true
+          hosts:
+          - nats-ws.invertedorigin.com
+          path: /
+          pathType: Prefix
+          className: cilium
+          tlsSecretName: nats-ws-tls-domain
+          merge:
+            metadata:
+              annotations:
+                cert-manager.io/cluster-issuer: cloudflare-issuer
+    service:
+      ports:
+        websocket:
+          enabled: true
     promExporter:
       enabled: false
     podTemplate:
@@ -43,82 +63,3 @@ helmCharts:
                 topologyKey: "kubernetes.io/hostname"
     natsBox:
       enabled: true
-
-patches:
-- target:
-    kind: ConfigMap
-    name: nats-config
-  patch: |-
-    apiVersion: v1
-    kind: ConfigMap
-    metadata:
-      name: nats-config
-    data:
-      nats.conf: |
-        {
-          "http_port": 8222,
-          "jetstream": {
-            "max_file_store": 10Gi,
-            "max_memory_store": 0,
-            "store_dir": "/data"
-          },
-          "lame_duck_duration": "30s",
-          "lame_duck_grace_period": "10s",
-          "mqtt": {
-            "port": 1883
-          },
-          "pid_file": "/var/run/nats/nats.pid",
-          "port": 4222,
-          "server_name": $SERVER_NAME,
-          "websocket": {
-            "port": 8080,
-            "no_tls": true
-          }
-        }
-- target:
-    group: apps
-    version: v1
-    kind: StatefulSet
-    name: nats
-  patch: |-
-    apiVersion: apps/v1
-    kind: StatefulSet
-    metadata:
-      name: nats
-    spec:
-      template:
-        spec:
-          containers:
-          - name: nats
-            ports:
-            - containerPort: 4222
-              name: nats
-            - containerPort: 1883
-              name: mqtt
-            - containerPort: 8080
-              name: websocket
-            - containerPort: 8222
-              name: monitor
-- target:
-    version: v1
-    kind: Service
-    name: nats
-  patch: |-
-    apiVersion: v1
-    kind: Service
-    metadata:
-      name: nats
-    spec:
-      ports:
-      - appProtocol: tcp
-        name: nats
-        port: 4222
-        targetPort: nats
-      - appProtocol: tcp
-        name: mqtt
-        port: 1883
-        targetPort: mqtt
-      - appProtocol: http
-        name: websocket
-        port: 8080
-        targetPort: websocket
