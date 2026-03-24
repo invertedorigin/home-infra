@@ -21,7 +21,7 @@ ingressController:
   enabled: true
   loadbalancerMode: shared
   hostNetwork:
-    enabled: false
+    enabled: true
   service:
     externalTrafficPolicy: Cluster
 loadBalancer:
