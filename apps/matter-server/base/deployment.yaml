@@ -34,6 +34,35 @@ spec:
           ]
     spec:
       automountServiceAccountToken: true
+      initContainers:
+      - name: configure-net1-ipv6
+        image: busybox:1.36
+        command:
+        - /bin/sh
+        - -ec
+        - |
+          for _ in $(seq 1 30); do
+            ping6 -c1 -I net1 ff02::2%net1 >/dev/null 2>&1 || true
+            GW="$(ip -6 neigh show dev net1 | awk '/router/ { print $1; exit }')"
+            SRC="$(ip -6 -o addr show dev net1 scope global | awk '{ print $4; exit }')"
+            if [ -n "$GW" ] && [ -n "$SRC" ]; then
+              ip -6 rule add from "$SRC" table 100 2>/dev/null || true
+              ip -6 route replace default via "$GW" dev net1 table 100
+              ip -6 route replace default via "$GW" dev net1 metric 1024
+              exit 0
+            fi
+            sleep 2
+          done
+          echo "failed to discover IPv6 gateway or source on net1" >&2
+          exit 1
+        securityContext:
+          capabilities:
+            add:
+            - NET_ADMIN
+        resources:
+          requests:
+            cpu: 5m
+            memory: 16Mi
       containers:
       - env:
         - name: TZ
