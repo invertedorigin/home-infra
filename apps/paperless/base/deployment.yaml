@@ -118,7 +118,7 @@ spec:
           name: media
       - args:
         - paperless:pass:1000
-        image: ghcr.io/atmoz/sftp/debian:latest@sha256:8d4b8d93f172d826b9b690a3cd34fdd5ea74e27abe2d59cdb319f6b20ff24115
+        image: ghcr.io/atmoz/sftp/debian:latest@sha256:7580f415acb0d1c10a2a488cf4a65cb6e708417b699d5aff21849732aa8d88de
         name: sftp
         volumeMounts:
         - mountPath: /data/local
