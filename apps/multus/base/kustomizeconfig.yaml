@@ -1,0 +1,6 @@
+namespace:
+- group: k8s.cni.cncf.io
+  version: v1
+  kind: NetworkAttachmentDefinition
+  path: metadata/namespace
+  create: true

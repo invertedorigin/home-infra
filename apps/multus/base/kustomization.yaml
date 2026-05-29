@@ -3,6 +3,9 @@ kind: Kustomization
 
 namespace: kube-system
 
+configurations:
+- kustomizeconfig.yaml
+
 resources:
 - crd.yaml
 - dhcp-network-attachment.yaml
