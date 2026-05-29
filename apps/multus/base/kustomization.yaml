@@ -10,9 +10,9 @@ resources:
 
 images:
 - name: ghcr.io/angelnu/cni-plugins
-  newTag: 1.8.0
+  newTag: 1.9.1
 - name: ghcr.io/k8snetworkplumbingwg/multus-cni
-  newTag: v4.2.3-thick
+  newTag: v4.2.4-thick
 
 helmCharts:
 - name: multus
@@ -22,7 +22,7 @@ helmCharts:
   namespace: kube-system
   valuesInline:
     global:
-      createDefaultServiceAccount: false
+      createDefaultServiceAccount: true
     image:
       repository: ghcr.io/k8snetworkplumbingwg/multus-cni
     cni:
