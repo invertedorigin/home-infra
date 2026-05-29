@@ -22,7 +22,7 @@ helmCharts:
   namespace: kube-system
   valuesInline:
     global:
-      createDefaultServiceAccount: true
+      createDefaultServiceAccount: false
     image:
       repository: ghcr.io/k8snetworkplumbingwg/multus-cni
     cni:
