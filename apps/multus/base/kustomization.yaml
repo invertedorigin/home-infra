@@ -21,6 +21,8 @@ helmCharts:
   releaseName: multus
   namespace: kube-system
   valuesInline:
+    global:
+      createDefaultServiceAccount: false
     image:
       repository: ghcr.io/k8snetworkplumbingwg/multus-cni
     cni:
@@ -42,6 +44,9 @@ helmCharts:
           automountServiceAccountToken: true
       test:
         enabled: false
+      uninstall:
+        serviceAccount:
+          identifier: default
     rawResources:
       test:
         enabled: false
