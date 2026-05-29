@@ -3,9 +3,6 @@ kind: Kustomization
 
 namespace: kube-system
 
-configurations:
-- kustomizeconfig.yaml
-
 resources:
 - crd.yaml
 - dhcp-network-attachment.yaml
@@ -41,6 +38,12 @@ helmCharts:
         memory: 64M
     hostPaths:
       netns: /var/run/netns
+    controllers:
+      test:
+        enabled: false
+    rawResources:
+      test:
+        enabled: false
 
 
 patches:
