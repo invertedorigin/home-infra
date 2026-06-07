@@ -13,7 +13,7 @@ spec:
       tailscaleContainer:
         resources:
           limits:
-            squat.ai/tun: "1"
+            devic.es/tun: "1"
 ---
 apiVersion: tailscale.com/v1alpha1
 kind: ProxyClass
@@ -30,7 +30,7 @@ spec:
       tailscaleContainer:
         resources:
           limits:
-            squat.ai/tun: "1"
+            devic.es/tun: "1"
 ---
 apiVersion: tailscale.com/v1alpha1
 kind: ProxyClass
@@ -47,4 +47,4 @@ spec:
       tailscaleContainer:
         resources:
           limits:
-            squat.ai/tun: "1"
+            devic.es/tun: "1"
