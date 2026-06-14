@@ -40,7 +40,7 @@ spec:
         envFrom:
         - secretRef:
             name: teslamate-secret
-        image: teslamate/teslamate:4.0.0
+        image: ghcr.io/teslamate-org/teslamate:pr-5406
         name: main
         resources:
           requests:
