@@ -9,19 +9,16 @@ namespace: rook-ceph
 helmCharts:
 - name: rook-ceph
   repo: https://charts.rook.io/release
-  version: v1.19.6
+  version: v1.20.2
   releaseName: rook-ceph-operator
   namespace: rook-ceph
   valuesInline:
     crds:
       enabled: true
     csi:
-      kubeletDirPath: /var/lib/kubelet
-      enableCSIHostNetwork: true
-      enableGrpcMetrics: true
-      enableCSIEncryption: false
-      csiAddons:
-        enabled: false
+      # v1.20: CSI drivers are managed by the ceph-csi-operator (installed as a
+      # subchart here); driver settings moved to the ceph-csi-drivers chart below
+      installCsiOperator: true
       serviceMonitor:
         enabled: true
     monitoring:
@@ -34,9 +31,43 @@ helmCharts:
         cpu: 1500m
         memory: 512Mi
 
+# Required as of v1.20, creates the Driver CRs consumed by the ceph-csi-operator.
+# Driver names must keep the rook-ceph namespace prefix to match the provisioner
+# names of existing PVs/StorageClasses/VolumeSnapshotClasses.
+- name: ceph-csi-drivers
+  repo: https://ceph.github.io/ceph-csi-operator
+  version: 1.0.4
+  releaseName: ceph-csi-drivers
+  namespace: rook-ceph
+  valuesInline:
+    operatorConfig:
+      namespace: rook-ceph
+      driverSpecDefaults:
+        imageSet:
+          name: rook-csi-operator-image-set-configmap
+        nodePlugin:
+          priorityClassName: system-node-critical
+        controllerPlugin:
+          priorityClassName: system-cluster-critical
+          # preserve pre-v1.20 enableCSIHostNetwork behavior for the external cluster
+          hostNetwork: true
+    drivers:
+      rbd:
+        enabled: true
+        name: rook-ceph.rbd.csi.ceph.com
+      cephfs:
+        enabled: true
+        name: rook-ceph.cephfs.csi.ceph.com
+      nfs:
+        enabled: false
+        name: rook-ceph.nfs.csi.ceph.com
+      nvmeof:
+        enabled: false
+        name: rook-ceph.nvmeof.csi.ceph.com
+
 - name: rook-ceph-cluster
   repo: https://charts.rook.io/release
-  version: v1.19.6
+  version: v1.20.2
   releaseName: rook-ceph-cluster
   namespace: rook-ceph
   valuesInline:
@@ -77,3 +108,13 @@ patches:
     - op: add
       path: /metadata/annotations/argocd.argoproj.io~1sync-options
       value: ServerSideApply=true
+# The Driver CRs ship in the same app as their CRDs (new in v1.20), so the
+# first sync must not dry-run them before the CRDs exist
+- target:
+    group: csi.ceph.io
+    kind: Driver
+  patch: |-
+    - op: add
+      path: /metadata/annotations
+      value:
+        argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
