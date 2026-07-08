@@ -118,3 +118,26 @@ patches:
       path: /metadata/annotations
       value:
         argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
+# kustomize 5.8 (bundled with ArgoCD 3.4) no longer stamps the kustomization
+# namespace onto helm-generated resources that omit metadata.namespace
+# (kubernetes-sigs/kustomize#6058); several ceph-csi RBAC templates omit it
+- target:
+    kind: ServiceAccount
+  patch: |-
+    - op: add
+      path: /metadata/namespace
+      value: rook-ceph
+- target:
+    group: rbac.authorization.k8s.io
+    kind: Role
+  patch: |-
+    - op: add
+      path: /metadata/namespace
+      value: rook-ceph
+- target:
+    group: rbac.authorization.k8s.io
+    kind: RoleBinding
+  patch: |-
+    - op: add
+      path: /metadata/namespace
+      value: rook-ceph
