@@ -198,6 +198,32 @@
       ],
       "groupName": "all kube upgrades",
       "groupSlug": "all-k8s-upgrades"
+    },
+    {
+      "description": "Automerge all cloudflared version updates",
+      "matchPackageNames": [
+        "docker.io/cloudflare/cloudflared"
+      ],
+      "matchUpdateTypes": [
+        "major",
+        "minor",
+        "patch"
+      ],
+      "automerge": true,
+      "automergeType": "pr",
+      "ignoreTests": false
+    },
+    {
+      "description": "Automerge Argo CD patch updates (overrides the cluster-critical rule above; major/minor still require review)",
+      "matchPackageNames": [
+        "argoproj/argo-cd"
+      ],
+      "matchUpdateTypes": [
+        "patch"
+      ],
+      "automerge": true,
+      "automergeType": "pr",
+      "ignoreTests": false
     }
   ]
 }
