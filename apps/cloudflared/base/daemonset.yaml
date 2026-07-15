@@ -37,7 +37,7 @@ spec:
             secretKeyRef:
               key: tunnel-token
               name: tunnel-credentials
-        image: docker.io/cloudflare/cloudflared:2026.7.1
+        image: docker.io/cloudflare/cloudflared:2026.7.2
         name: main
         resources:
           limits:
