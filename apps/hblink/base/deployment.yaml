@@ -1,0 +1,139 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app.kubernetes.io/component: main
+    app.kubernetes.io/instance: hblink
+    app.kubernetes.io/name: hblink
+  name: hblink
+spec:
+  replicas: 1
+  revisionHistoryLimit: 3
+  selector:
+    matchLabels:
+      app.kubernetes.io/component: main
+      app.kubernetes.io/instance: hblink
+      app.kubernetes.io/name: hblink
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/component: main
+        app.kubernetes.io/instance: hblink
+        app.kubernetes.io/name: hblink
+    spec:
+      automountServiceAccountToken: false
+      enableServiceLinks: false
+      initContainers:
+        - args:
+            - |-
+              sysctl -w net.ipv4.conf.all.src_valid_mark=1
+              DEFAULT_GATEWAY="$(ip route show default dev eth0 | awk '{print $3; exit}')"
+              if [ -z "$DEFAULT_GATEWAY" ]; then
+                echo "could not determine the Cilium gateway for eth0" >&2
+                exit 1
+              fi
+              ip route replace 10.0.1.0/24 via "$DEFAULT_GATEWAY" dev eth0
+              mkdir -p /wireguard/wg_confs
+              cp /secrets/wg0.conf /wireguard/wg_confs/wg0.conf
+              chmod 600 /wireguard/wg_confs/wg0.conf
+          command:
+            - /bin/sh
+            - -ec
+          image: busybox:1.37.0@sha256:9532d8c39891ca2ecde4d30d7710e01fb739c87a8b9299685c63704296b16028
+          name: prepare-wireguard
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              add:
+                - NET_ADMIN
+              drop:
+                - ALL
+            runAsNonRoot: false
+            runAsUser: 0
+          volumeMounts:
+            - mountPath: /secrets
+              name: secrets
+              readOnly: true
+            - mountPath: /wireguard
+              name: wireguard-config
+      containers:
+        - args:
+            - |-
+              until ip link show wg0 >/dev/null 2>&1; do
+                sleep 2
+              done
+              exec python /opt/hblink3/bridge.py \
+                -c /opt/hblink3/hblink.cfg \
+                -r /opt/hblink3/rules.py
+          command:
+            - /bin/sh
+            - -ec
+          image: shaymez/hblink3:latest@sha256:616028f9c9fc89c13f62300daf46b04008f9c5915ba6a9e6a5705236207c941a
+          name: hblink
+          ports:
+            - containerPort: 62031
+              name: dmr
+              protocol: UDP
+            - containerPort: 4321
+              name: reports
+              protocol: TCP
+          resources:
+            limits:
+              cpu: 500m
+              memory: 256Mi
+            requests:
+              cpu: 50m
+              memory: 64Mi
+          volumeMounts:
+            - mountPath: /opt/hblink3/hblink.cfg
+              name: secrets
+              readOnly: true
+              subPath: hblink.cfg
+            - mountPath: /opt/hblink3/rules.py
+              name: config
+              readOnly: true
+              subPath: rules.py
+        - env:
+            - name: TZ
+              value: America/Denver
+          image: lscr.io/linuxserver/wireguard:1.0.20260223-r0-ls118@sha256:2868ae5e3dd9065ea3b1e44b4214b33b02b7ce5ebcb9e4f33e1132b75007f39c
+          name: 44net-connect
+          readinessProbe:
+            exec:
+              command:
+                - /bin/sh
+                - -ec
+                - wg show wg0 >/dev/null
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          resources:
+            limits:
+              cpu: 200m
+              memory: 128Mi
+            requests:
+              cpu: 25m
+              memory: 32Mi
+          securityContext:
+            allowPrivilegeEscalation: true
+            capabilities:
+              add:
+                - NET_ADMIN
+              drop:
+                - ALL
+            runAsNonRoot: false
+            runAsUser: 0
+          volumeMounts:
+            - mountPath: /config
+              name: wireguard-config
+      terminationGracePeriodSeconds: 30
+      volumes:
+        - configMap:
+            name: hblink-config
+          name: config
+        - name: secrets
+          secret:
+            secretName: hblink-secrets
+        - emptyDir: {}
+          name: wireguard-config

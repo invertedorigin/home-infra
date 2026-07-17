@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: hblink-config
+data:
+  rules.py: |-
+    # HBLink requires a rules file even when this deployment only repeats
+    # traffic between peers registered to the local master.
+    BRIDGES = {}
+    UNIT = ['MASTER-1']
