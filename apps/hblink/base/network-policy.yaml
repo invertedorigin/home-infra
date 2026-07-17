@@ -1,0 +1,41 @@
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: hblink
+spec:
+  endpointSelector:
+    matchLabels:
+      app.kubernetes.io/component: main
+      app.kubernetes.io/instance: hblink
+      app.kubernetes.io/name: hblink
+  ingress:
+    - toPorts:
+        - ports:
+            - port: "62031"
+              protocol: UDP
+  egress:
+    - toEndpoints:
+        - matchLabels:
+            k8s:io.kubernetes.pod.namespace: kube-system
+            k8s:k8s-app: kube-dns
+      toPorts:
+        - ports:
+            - port: "53"
+              protocol: ANY
+          rules:
+            dns:
+              - matchName: www.radioid.net
+    - toFQDNs:
+        - matchName: www.radioid.net
+      toPorts:
+        - ports:
+            - port: "443"
+              protocol: TCP
+    # The 44Net Connect peer is intentionally duplicated from the WireGuard
+    # configuration so no other direct public egress is permitted on eth0.
+    - toCIDR:
+        - 44.27.224.1/32
+      toPorts:
+        - ports:
+            - port: "44005"
+              protocol: UDP

@@ -25,6 +25,11 @@ spec:
     spec:
       automountServiceAccountToken: false
       enableServiceLinks: false
+      securityContext:
+        fsGroup: 54000
+        fsGroupChangePolicy: OnRootMismatch
+        seccompProfile:
+          type: RuntimeDefault
       initContainers:
         - args:
             - |-
@@ -45,9 +50,11 @@ spec:
           name: prepare-wireguard
           securityContext:
             privileged: true
+            readOnlyRootFilesystem: true
+            runAsUser: 0
           volumeMounts:
             - mountPath: /secrets
-              name: secrets
+              name: wireguard-secret
               readOnly: true
             - mountPath: /wireguard
               name: wireguard-config
@@ -65,13 +72,15 @@ spec:
             - -ec
           image: shaymez/hblink3:latest@sha256:616028f9c9fc89c13f62300daf46b04008f9c5915ba6a9e6a5705236207c941a
           name: hblink
+          env:
+            - name: PYTHONDONTWRITEBYTECODE
+              value: "1"
+            - name: TMPDIR
+              value: /tmp
           ports:
             - containerPort: 62031
               name: dmr
               protocol: UDP
-            - containerPort: 4321
-              name: reports
-              protocol: TCP
           resources:
             limits:
               cpu: 500m
@@ -79,19 +88,59 @@ spec:
             requests:
               cpu: 50m
               memory: 512Mi
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+            readOnlyRootFilesystem: true
+            runAsGroup: 54000
+            runAsNonRoot: true
+            runAsUser: 54000
           volumeMounts:
             - mountPath: /hblink3/hblink.cfg
-              name: secrets
+              name: hblink-secret
               readOnly: true
               subPath: hblink.cfg
             - mountPath: /hblink3/rules.py
               name: config
               readOnly: true
               subPath: rules.py
+            - mountPath: /hblink3/aliases
+              name: aliases
+            - mountPath: /tmp
+              name: hblink-tmp
         - env:
             - name: TZ
               value: America/Denver
           image: lscr.io/linuxserver/wireguard:1.0.20260223-r0-ls118@sha256:2868ae5e3dd9065ea3b1e44b4214b33b02b7ce5ebcb9e4f33e1132b75007f39c
+          lifecycle:
+            postStart:
+              exec:
+                command:
+                  - /bin/sh
+                  - -ec
+                  - |-
+                    until ip link show wg0 >/dev/null 2>&1; do
+                      sleep 1
+                    done
+
+                    iptables -w -N HBLINK_WG_IN 2>/dev/null || true
+                    iptables -w -F HBLINK_WG_IN
+                    iptables -w -A HBLINK_WG_IN -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT
+                    iptables -w -A HBLINK_WG_IN -p udp --dport 62031 -j ACCEPT
+                    iptables -w -A HBLINK_WG_IN -p icmp -m limit --limit 10/second --limit-burst 20 -j ACCEPT
+                    iptables -w -A HBLINK_WG_IN -j DROP
+                    iptables -w -C INPUT -i wg0 -j HBLINK_WG_IN 2>/dev/null || \
+                      iptables -w -I INPUT 1 -i wg0 -j HBLINK_WG_IN
+
+                    ip6tables -w -N HBLINK_WG6_IN 2>/dev/null || true
+                    ip6tables -w -F HBLINK_WG6_IN
+                    ip6tables -w -A HBLINK_WG6_IN -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT
+                    ip6tables -w -A HBLINK_WG6_IN -p ipv6-icmp -m limit --limit 10/second --limit-burst 20 -j ACCEPT
+                    ip6tables -w -A HBLINK_WG6_IN -j DROP
+                    ip6tables -w -C INPUT -i wg0 -j HBLINK_WG6_IN 2>/dev/null || \
+                      ip6tables -w -I INPUT 1 -i wg0 -j HBLINK_WG6_IN
           name: 44net-connect
           readinessProbe:
             exec:
@@ -109,7 +158,7 @@ spec:
               cpu: 25m
               memory: 32Mi
           securityContext:
-            allowPrivilegeEscalation: true
+            allowPrivilegeEscalation: false
             capabilities:
               add:
                 - NET_ADMIN
@@ -125,8 +174,27 @@ spec:
         - configMap:
             name: hblink-config
           name: config
-        - name: secrets
+        - name: hblink-secret
           secret:
+            defaultMode: 0440
+            items:
+              - key: hblink.cfg
+                path: hblink.cfg
             secretName: hblink-secrets
-        - emptyDir: {}
+        - name: wireguard-secret
+          secret:
+            defaultMode: 0400
+            items:
+              - key: wg0.conf
+                path: wg0.conf
+            secretName: hblink-secrets
+        - emptyDir:
+            medium: Memory
+            sizeLimit: 16Mi
           name: wireguard-config
+        - emptyDir:
+            sizeLimit: 256Mi
+          name: aliases
+        - emptyDir:
+            sizeLimit: 32Mi
+          name: hblink-tmp

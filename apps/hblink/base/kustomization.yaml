@@ -8,4 +8,5 @@ resources:
 - configmap.yaml
 - external-secret.yaml
 - service.yaml
+- network-policy.yaml
 - deployment.yaml

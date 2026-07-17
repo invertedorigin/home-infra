@@ -9,9 +9,13 @@ metadata:
     app.kubernetes.io/service: hblink
   name: hblink
 spec:
+  allocateLoadBalancerNodePorts: false
   externalTrafficPolicy: Cluster
+  loadBalancerSourceRanges:
+    - 10.0.1.0/24
   ports:
     - name: dmr
+      nodePort: 0
       port: 62031
       protocol: UDP
       targetPort: dmr
