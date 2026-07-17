@@ -4,7 +4,32 @@ metadata:
   name: hblink-config
 data:
   rules.py: |-
-    # HBLink requires a rules file even when this deployment only repeats
-    # traffic between peers registered to the local master.
-    BRIDGES = {}
+    # TG 9999 on TS2 is bridged to a loopback-only playback master. The
+    # playback port is not exposed by the Service or the WireGuard firewall.
+    BRIDGES = {
+        'PARROT': [
+            {
+                'SYSTEM': 'MASTER-1',
+                'TS': 2,
+                'TGID': 9999,
+                'ACTIVE': True,
+                'TIMEOUT': 0,
+                'TO_TYPE': 'NONE',
+                'ON': [],
+                'OFF': [],
+                'RESET': [],
+            },
+            {
+                'SYSTEM': 'PARROT',
+                'TS': 2,
+                'TGID': 9999,
+                'ACTIVE': True,
+                'TIMEOUT': 0,
+                'TO_TYPE': 'NONE',
+                'ON': [],
+                'OFF': [],
+                'RESET': [],
+            },
+        ],
+    }
     UNIT = ['MASTER-1']

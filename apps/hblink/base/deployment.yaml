@@ -110,6 +110,44 @@ spec:
               name: aliases
             - mountPath: /tmp
               name: hblink-tmp
+        - args:
+            - |-
+              mkdir -p /tmp/parrot-aliases
+              exec python /hblink3/playback.py \
+                -c /hblink3/playback.cfg
+          command:
+            - /bin/sh
+            - -ec
+          env:
+            - name: PYTHONDONTWRITEBYTECODE
+              value: "1"
+            - name: TMPDIR
+              value: /tmp
+          image: shaymez/hblink3:latest@sha256:616028f9c9fc89c13f62300daf46b04008f9c5915ba6a9e6a5705236207c941a
+          name: parrot
+          resources:
+            limits:
+              cpu: 200m
+              memory: 256Mi
+            requests:
+              cpu: 25m
+              memory: 32Mi
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+            readOnlyRootFilesystem: true
+            runAsGroup: 54000
+            runAsNonRoot: true
+            runAsUser: 54000
+          volumeMounts:
+            - mountPath: /hblink3/playback.cfg
+              name: hblink-secret
+              readOnly: true
+              subPath: playback.cfg
+            - mountPath: /tmp
+              name: parrot-tmp
         - env:
             - name: TZ
               value: America/Denver
@@ -180,6 +218,8 @@ spec:
             items:
               - key: hblink.cfg
                 path: hblink.cfg
+              - key: playback.cfg
+                path: playback.cfg
             secretName: hblink-secrets
         - name: wireguard-secret
           secret:
@@ -198,3 +238,6 @@ spec:
         - emptyDir:
             sizeLimit: 32Mi
           name: hblink-tmp
+        - emptyDir:
+            sizeLimit: 32Mi
+          name: parrot-tmp
