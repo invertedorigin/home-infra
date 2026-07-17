@@ -57,9 +57,9 @@ spec:
               until ip link show wg0 >/dev/null 2>&1; do
                 sleep 2
               done
-              exec python /opt/hblink3/bridge.py \
-                -c /opt/hblink3/hblink.cfg \
-                -r /opt/hblink3/rules.py
+              exec python /hblink3/bridge.py \
+                -c /hblink3/hblink.cfg \
+                -r /hblink3/rules.py
           command:
             - /bin/sh
             - -ec
@@ -80,11 +80,11 @@ spec:
               cpu: 50m
               memory: 64Mi
           volumeMounts:
-            - mountPath: /opt/hblink3/hblink.cfg
+            - mountPath: /hblink3/hblink.cfg
               name: secrets
               readOnly: true
               subPath: hblink.cfg
-            - mountPath: /opt/hblink3/rules.py
+            - mountPath: /hblink3/rules.py
               name: config
               readOnly: true
               subPath: rules.py
