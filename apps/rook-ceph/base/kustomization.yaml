@@ -74,7 +74,7 @@ helmCharts:
     operatorNamespace: rook-ceph
     cephImage:
       repository: quay.io/ceph/ceph
-      tag: v19.2.4
+      tag: v21.1.0
     cephClusterSpec:
       external:
         enable: true
