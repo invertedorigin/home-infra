@@ -3,9 +3,12 @@ kind: Ingress
 metadata:
   annotations:
     cert-manager.io/cluster-issuer: cloudflare-issuer
+    external-dns.alpha.kubernetes.io/target: ingress.home.arpa
+    external-dns.alpha.kubernetes.io/ttl: "60"
   labels:
     app.kubernetes.io/instance: vaultwarden
     app.kubernetes.io/name: vaultwarden
+    external-dns.invertedorigin.com/enabled: "true"
   name: vaultwarden
   namespace: vaultwarden
 spec:

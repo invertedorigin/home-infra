@@ -12,3 +12,11 @@ helmCharts:
     releaseName: cilium
     namespace: kube-system
     valuesFile: values.yaml
+
+patches:
+- path: cilium-ingress-service-patch.yaml
+  target:
+    version: v1
+    kind: Service
+    name: cilium-ingress
+    namespace: kube-system

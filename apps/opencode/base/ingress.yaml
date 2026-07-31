@@ -3,10 +3,13 @@ kind: Ingress
 metadata:
   annotations:
     cert-manager.io/cluster-issuer: cloudflare-issuer
+    external-dns.alpha.kubernetes.io/target: ingress.home.arpa
+    external-dns.alpha.kubernetes.io/ttl: "60"
     nginx.ingress.kubernetes.io/cors-allow-methods: PUT, GET, POST, OPTIONS, HEAD
   labels:
     app.kubernetes.io/instance: opencode
     app.kubernetes.io/name: opencode
+    external-dns.invertedorigin.com/enabled: "true"
   name: opencode
   namespace: opencode
 spec:

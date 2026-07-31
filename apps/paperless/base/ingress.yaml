@@ -3,10 +3,13 @@ kind: Ingress
 metadata:
   annotations:
     cert-manager.io/cluster-issuer: cloudflare-issuer
+    external-dns.alpha.kubernetes.io/target: ingress.home.arpa
+    external-dns.alpha.kubernetes.io/ttl: "60"
     nginx.ingress.kubernetes.io/proxy-body-size: "0"
   labels:
     app.kubernetes.io/instance: paperless
     app.kubernetes.io/name: paperless
+    external-dns.invertedorigin.com/enabled: "true"
   name: paperless
   namespace: paperless
 spec:

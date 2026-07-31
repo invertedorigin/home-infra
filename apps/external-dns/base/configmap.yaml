@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: unifi-webhook-config
+  namespace: external-dns
+data:
+  LOG_FORMAT: json
+  LOG_LEVEL: info
+  SERVER_HOST: 127.0.0.1
+  UNIFI_APPLY_WORKERS: "2"
+  UNIFI_RETRY_ATTEMPTS: "3"
+  UNIFI_SITE: default
+  # The UDM Pro normally presents a locally-issued certificate at its IP.
+  # See README.md for the preferred custom-CA configuration.
+  UNIFI_SKIP_TLS_VERIFY: "false"

@@ -3,10 +3,13 @@ kind: Ingress
 metadata:
   annotations:
     cert-manager.io/cluster-issuer: cloudflare-issuer
+    external-dns.alpha.kubernetes.io/target: ingress.home.arpa
+    external-dns.alpha.kubernetes.io/ttl: "60"
     nginx.ingress.kubernetes.io/backend-protocol: HTTPS
   labels:
     app.kubernetes.io/instance: scrypted
     app.kubernetes.io/name: scrypted
+    external-dns.invertedorigin.com/enabled: "true"
   name: scrypted
   namespace: scrypted
 spec:
