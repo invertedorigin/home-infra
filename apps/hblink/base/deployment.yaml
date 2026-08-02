@@ -40,6 +40,8 @@ spec:
                 exit 1
               fi
               ip route replace 10.0.1.0/24 via "$DEFAULT_GATEWAY" dev eth0
+              ip route replace 10.244.0.0/16 via "$DEFAULT_GATEWAY" dev eth0
+              ip route replace 10.245.0.0/16 via "$DEFAULT_GATEWAY" dev eth0
               mkdir -p /wireguard/wg_confs
               cp /secrets/wg0.conf /wireguard/wg_confs/wg0.conf
               chmod 600 /wireguard/wg_confs/wg0.conf
