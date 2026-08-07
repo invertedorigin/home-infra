@@ -25,7 +25,7 @@ spec:
           rules:
             dns:
               - matchName: www.radioid.net
-              - matchName: 3102.master.brandmeister.network
+              - matchName: coloradodigital.duckdns.org
     - toFQDNs:
         - matchName: www.radioid.net
       toPorts:
@@ -33,10 +33,10 @@ spec:
             - port: "443"
               protocol: TCP
     - toFQDNs:
-        - matchName: 3102.master.brandmeister.network
+        - matchName: coloradodigital.duckdns.org
       toPorts:
         - ports:
-            - port: "62031"
+            - port: "62030"
               protocol: UDP
     # The 44Net Connect peer is intentionally duplicated from the WireGuard
     # configuration so no other direct public egress is permitted on eth0.

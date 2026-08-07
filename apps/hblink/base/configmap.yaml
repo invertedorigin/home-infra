@@ -7,10 +7,10 @@ data:
     # TG 9999 on TS2 is bridged to a loopback-only playback master. The
     # playback port is not exposed by the Service or the WireGuard firewall.
     BRIDGES = {
-        # Each BrandMeister peer has one static TS2 subscription. Keep the
-        # talkgroup IDs unchanged while spreading the local master side across
-        # both slots so the feeds can be active concurrently.
-        'BRANDMEISTER-31088': [
+        # XLX303 module D is selected with private call 4004. XLXD carries the
+        # module's DMR audio as TG 9 on TS2, which is exposed locally as
+        # Colorado HD TG 31088 on TS1.
+        'XLX303-D': [
             {
                 'SYSTEM': 'MASTER-1',
                 'TS': 1,
@@ -23,33 +23,9 @@ data:
                 'RESET': [],
             },
             {
-                'SYSTEM': 'BRANDMEISTER-31088',
+                'SYSTEM': 'XLX303-D',
                 'TS': 2,
-                'TGID': 31088,
-                'ACTIVE': True,
-                'TIMEOUT': 0,
-                'TO_TYPE': 'NONE',
-                'ON': [],
-                'OFF': [],
-                'RESET': [],
-            },
-        ],
-        'BRANDMEISTER-3121': [
-            {
-                'SYSTEM': 'MASTER-1',
-                'TS': 2,
-                'TGID': 3121,
-                'ACTIVE': True,
-                'TIMEOUT': 0,
-                'TO_TYPE': 'NONE',
-                'ON': [],
-                'OFF': [],
-                'RESET': [],
-            },
-            {
-                'SYSTEM': 'BRANDMEISTER-3121',
-                'TS': 2,
-                'TGID': 3121,
+                'TGID': 9,
                 'ACTIVE': True,
                 'TIMEOUT': 0,
                 'TO_TYPE': 'NONE',
