@@ -6,6 +6,7 @@ spec:
   hostname: k8s-to-home-node-1
   proxyClass: node-1
   exitNode: true
+  appConnector: {}
   subnetRouter:
     advertiseRoutes:
       - "10.0.1.0/24"
@@ -23,6 +24,7 @@ spec:
   hostname: k8s-to-home-node-2
   proxyClass: node-2
   exitNode: true
+  appConnector: {}
   subnetRouter:
     advertiseRoutes:
       - "10.0.1.0/24"
@@ -40,6 +42,7 @@ spec:
   hostname: k8s-to-home-node-3
   proxyClass: node-3
   exitNode: true
+  appConnector: {}
   subnetRouter:
     advertiseRoutes:
       - "10.0.1.0/24"
