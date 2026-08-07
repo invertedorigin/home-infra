@@ -23,7 +23,7 @@ spec:
         k8s.v1.cni.cncf.io/networks: |-
           [
             {
-              "name": "macvlan-conf-dhcp",
+              "name": "macvlan-conf-dhcp-sbr",
               "namespace": "kube-system",
               "mac": "fa:77:a4:fe:98:91"
             }
@@ -78,7 +78,7 @@ spec:
         k8s.v1.cni.cncf.io/networks: |-
           [
             {
-              "name": "macvlan-conf-dhcp",
+              "name": "macvlan-conf-dhcp-sbr",
               "namespace": "kube-system",
               "mac": "22:c2:8d:28:f2:77"
             }
@@ -128,7 +128,7 @@ spec:
 #         k8s.v1.cni.cncf.io/networks: |-
 #           [
 #             {
-#               "name": "macvlan-conf-dhcp",
+#               "name": "macvlan-conf-dhcp-sbr",
 #               "namespace": "kube-system",
 #               "mac": "44:c2:8d:38:f2:77"
 #             }
