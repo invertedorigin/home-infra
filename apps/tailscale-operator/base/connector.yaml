@@ -52,8 +52,8 @@ spec:
 apiVersion: tailscale.com/v1alpha1
 kind: Connector
 metadata:
-  name: ts-home-network-node-1
+  name: ts-home-network-node-1-app-connector
 spec:
-  hostname: k8s-to-home-node-1
+  hostname: k8s-to-home-node-1-app-connector
   proxyClass: node-1
   appConnector: {}
