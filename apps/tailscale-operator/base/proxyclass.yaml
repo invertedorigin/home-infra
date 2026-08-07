@@ -70,7 +70,7 @@ spec:
           ]
       nodeSelector:
         kubernetes.io/hostname: "node-3"
-    tailscaleContainer:
-      resources:
-        limits:
-          devic.es/tun: "1"
+      tailscaleContainer:
+        resources:
+          limits:
+            devic.es/tun: "1"
