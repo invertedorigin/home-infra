@@ -73,5 +73,5 @@ metadata:
   name: ts-home-network-node-3-app-connector
 spec:
   hostname: k8s-to-home-node-3-app-connector
-  proxyClass: node-3
+  proxyClass: node-3-macvlan
   appConnector: {}
