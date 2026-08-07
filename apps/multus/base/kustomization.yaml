@@ -5,9 +5,7 @@ namespace: kube-system
 
 resources:
 - crd.yaml
-- dhcp-network-attachment.yaml
 - dhcp-network-attachment-sbr.yaml
-- dhcp-network-attachment-default-route.yaml
 
 images:
 - name: ghcr.io/angelnu/cni-plugins

@@ -48,29 +48,3 @@ spec:
         resources:
           limits:
             devic.es/tun: "1"
----
-apiVersion: tailscale.com/v1alpha1
-kind: ProxyClass
-metadata:
-  name: node-3-macvlan
-spec:
-  statefulSet:
-    pod:
-      labels:
-        team: eng
-        environment: prod
-      annotations:
-        k8s.v1.cni.cncf.io/networks: |-
-          [
-            {
-              "name": "macvlan-conf-dhcp-default-route",
-              "namespace": "kube-system",
-              "mac": "7a:3d:91:5c:b2:e4"
-            }
-          ]
-      nodeSelector:
-        kubernetes.io/hostname: "node-3"
-      tailscaleContainer:
-        resources:
-          limits:
-            devic.es/tun: "1"
