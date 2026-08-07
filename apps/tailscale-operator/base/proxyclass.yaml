@@ -63,7 +63,7 @@ spec:
         k8s.v1.cni.cncf.io/networks: |-
           [
             {
-              "name": "macvlan-conf-dhcp-sbr",
+              "name": "macvlan-conf-dhcp-default-route",
               "namespace": "kube-system",
               "mac": "7a:3d:91:5c:b2:e4"
             }
