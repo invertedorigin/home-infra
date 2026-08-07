@@ -57,3 +57,21 @@ spec:
   hostname: k8s-to-home-node-1-app-connector
   proxyClass: node-1
   appConnector: {}
+---
+apiVersion: tailscale.com/v1alpha1
+kind: Connector
+metadata:
+  name: ts-home-network-node-2-app-connector
+spec:
+  hostname: k8s-to-home-node-2-app-connector
+  proxyClass: node-2
+  appConnector: {}
+---
+apiVersion: tailscale.com/v1alpha1
+kind: Connector
+metadata:
+  name: ts-home-network-node-3-app-connector
+spec:
+  hostname: k8s-to-home-node-3-app-connector
+  proxyClass: node-3
+  appConnector: {}
