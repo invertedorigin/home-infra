@@ -6,7 +6,6 @@ namespace: zwavejs
 resources:
 - namespace.yaml
 - backup.yaml
-- nfd-rule.yaml
 - pvc.yaml
 - external-secret.yaml
 - service.yaml

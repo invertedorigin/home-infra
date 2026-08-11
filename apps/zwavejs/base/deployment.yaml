@@ -56,20 +56,13 @@ spec:
         volumeMounts:
         - mountPath: /usr/src/app/store
           name: media
-        - mountPath: /dev/zwave
-          name: usb
       dnsPolicy: ClusterFirst
       enableServiceLinks: false
       hostIPC: false
       hostNetwork: false
       hostPID: false
-      nodeSelector:
-        aeotec.feature.node.kubernetes.io/zwave: "true"
       serviceAccountName: default
       volumes:
       - name: media
         persistentVolumeClaim:
           claimName: zwavejs-pvc-replicated
-      - hostPath:
-          path: /dev/ttyUSB0
-        name: usb
