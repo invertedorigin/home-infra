@@ -7,12 +7,13 @@ talosVersion: v1.13.8
 # renovate: datasource=github-releases depName=kubernetes/kubernetes
 kubernetesVersion: v1.36.3
 
-endpoint: https://node-1:6443
+endpoint: https://10.0.1.10:6443
 
 allowSchedulingOnMasters: true
 allowSchedulingOnControlPlanes: true
 
-additionalApiServerCertSans: []
+additionalApiServerCertSans:
+  - 10.0.1.10
 
 additionalMachineCertSans: []
 
@@ -99,6 +100,11 @@ patches:
           port: 7445
 controlPlane:
   patches:
+    - |
+      apiVersion: v1alpha1
+      kind: Layer2VIPConfig
+      name: 10.0.1.10
+      link: ens18
     - |
       cluster:
         allowSchedulingOnMasters: true
