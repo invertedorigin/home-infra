@@ -55,6 +55,8 @@ helmCharts:
       rbd:
         enabled: true
         name: rook-ceph.rbd.csi.ceph.com
+        # VolSync uses CSI VolumeSnapshots as its copy source.
+        snapshotPolicy: volumeSnapshot
       cephfs:
         enabled: true
         name: rook-ceph.cephfs.csi.ceph.com
