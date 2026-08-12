@@ -46,19 +46,21 @@ spec:
         - /bin/sh
         - -ec
         - |
+          # Thread border routers advertise their OMR prefix as an IPv6 /64
+          # Route Information Option. Accept only /64 RIOs so the kernel can
+          # select another border router when the current next hop disappears.
+          echo 64 > /proc/sys/net/ipv6/conf/net1/accept_ra_rt_info_min_plen
+          echo 64 > /proc/sys/net/ipv6/conf/net1/accept_ra_rt_info_max_plen
+
           for _ in $(seq 1 30); do
             ping6 -c1 -I net1 ff02::2%net1 >/dev/null 2>&1 || true
-            GW="$(ip -6 neigh show dev net1 | awk '/router/ { print $1; exit }')"
             SRC="$(ip -6 -o addr show dev net1 scope global | awk '{ print $4; exit }')"
-            if [ -n "$GW" ] && [ -n "$SRC" ]; then
-              ip -6 rule add from "$SRC" table 100 2>/dev/null || true
-              ip -6 route replace default via "$GW" dev net1 table 100
-              ip -6 route replace default via "$GW" dev net1 metric 1024
+            if [ -n "$SRC" ]; then
               exit 0
             fi
             sleep 2
           done
-          echo "failed to discover IPv6 gateway or source on net1" >&2
+          echo "failed to discover an IPv6 source address on net1" >&2
           exit 1
         securityContext:
           allowPrivilegeEscalation: false
