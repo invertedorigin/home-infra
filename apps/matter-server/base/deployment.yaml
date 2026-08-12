@@ -39,35 +39,6 @@ spec:
         fsGroupChangePolicy: Always
         seccompProfile:
           type: RuntimeDefault
-      initContainers:
-      - name: configure-net1-ipv6
-        image: busybox:1.38
-        command:
-        - /bin/sh
-        - -ec
-        - |
-          for _ in $(seq 1 30); do
-            ping6 -c1 -I net1 ff02::2%net1 >/dev/null 2>&1 || true
-            SRC="$(ip -6 -o addr show dev net1 scope global | awk '{ print $4; exit }')"
-            if [ -n "$SRC" ]; then
-              exit 0
-            fi
-            sleep 2
-          done
-          echo "failed to discover an IPv6 source address on net1" >&2
-          exit 1
-        securityContext:
-          allowPrivilegeEscalation: false
-          capabilities:
-            drop:
-            - ALL
-          runAsGroup: 1000
-          runAsNonRoot: true
-          runAsUser: 1000
-        resources:
-          requests:
-            cpu: 5m
-            memory: 16Mi
       containers:
       - env:
         - name: TZ
