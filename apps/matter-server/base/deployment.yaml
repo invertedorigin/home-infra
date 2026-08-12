@@ -80,6 +80,8 @@ spec:
           value: /data
         - name: LOG_LEVEL
           value: info
+        - name: LISTEN_ADDRESS
+          value: eth0
         - name: PRIMARY_INTERFACE
           value: net1
         - name: PRODUCTION_MODE
