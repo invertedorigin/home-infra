@@ -4,7 +4,7 @@ metadata:
   labels:
     app.kubernetes.io/component: main
     app.kubernetes.io/instance: matter-server
-    app.kubernetes.io/name: zwavematter-serverjs
+    app.kubernetes.io/name: matter-server
   name: matter-server
   namespace: matter-server
 spec:
@@ -33,7 +33,12 @@ spec:
             }
           ]
     spec:
-      automountServiceAccountToken: true
+      automountServiceAccountToken: false
+      securityContext:
+        fsGroup: 1000
+        fsGroupChangePolicy: Always
+        seccompProfile:
+          type: RuntimeDefault
       initContainers:
       - name: configure-net1-ipv6
         image: busybox:1.38
@@ -56,9 +61,13 @@ spec:
           echo "failed to discover IPv6 gateway or source on net1" >&2
           exit 1
         securityContext:
+          allowPrivilegeEscalation: false
           capabilities:
+            drop:
+            - ALL
             add:
             - NET_ADMIN
+          runAsUser: 0
         resources:
           requests:
             cpu: 5m
@@ -67,18 +76,56 @@ spec:
       - env:
         - name: TZ
           value: America/Denver
-        - name: MATTER_SERVER__INSTANCE_NAME
-          value: matter-server
-        - name: MATTER_SERVER__APPLICATION_URL
-          value: matter-server.invertedorigin.com
-        - name: MATTER_SERVER__LOG_LEVEL
-          value: debug
-        image: ghcr.io/home-assistant-libs/python-matter-server:8.1.0
+        - name: STORAGE_PATH
+          value: /data
+        - name: LOG_LEVEL
+          value: info
+        - name: PRIMARY_INTERFACE
+          value: net1
+        - name: PRODUCTION_MODE
+          value: "true"
+        # Match Python Matter Server's defaults so its existing fabric is migrated.
+        - name: FABRIC_ID
+          value: "1"
+        - name: VENDOR_ID
+          value: "65521"
+        image: ghcr.io/matter-js/matterjs-server:1.3.3
         name: main
+        ports:
+        - containerPort: 5580
+          name: websocket
+          protocol: TCP
+        startupProbe:
+          httpGet:
+            path: /health
+            port: websocket
+          failureThreshold: 60
+          periodSeconds: 5
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: websocket
+          periodSeconds: 10
+          timeoutSeconds: 3
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: websocket
+          periodSeconds: 30
+          timeoutSeconds: 3
+          failureThreshold: 3
         resources:
           requests:
             cpu: 25m
             memory: 250Mi
+        securityContext:
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+            - ALL
+          runAsGroup: 1000
+          runAsNonRoot: true
+          runAsUser: 1000
         volumeMounts:
         - mountPath: /data
           name: data
