@@ -61,9 +61,9 @@ spec:
           capabilities:
             drop:
             - ALL
-            add:
-            - NET_ADMIN
-          runAsUser: 0
+          runAsGroup: 1000
+          runAsNonRoot: true
+          runAsUser: 1000
         resources:
           requests:
             cpu: 5m
