@@ -46,12 +46,6 @@ spec:
         - /bin/sh
         - -ec
         - |
-          # Thread border routers advertise their OMR prefix as an IPv6 /64
-          # Route Information Option. Accept only /64 RIOs so the kernel can
-          # select another border router when the current next hop disappears.
-          echo 64 > /proc/sys/net/ipv6/conf/net1/accept_ra_rt_info_min_plen
-          echo 64 > /proc/sys/net/ipv6/conf/net1/accept_ra_rt_info_max_plen
-
           for _ in $(seq 1 30); do
             ping6 -c1 -I net1 ff02::2%net1 >/dev/null 2>&1 || true
             SRC="$(ip -6 -o addr show dev net1 scope global | awk '{ print $4; exit }')"
