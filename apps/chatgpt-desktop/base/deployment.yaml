@@ -26,19 +26,12 @@ spec:
       automountServiceAccountToken: false
       containers:
         - env:
-            - name: CUSTOM_USER
-              value: codex
             - name: DISABLE_DRI3
               value: "true"
             - name: DISABLE_ZINK
               value: "true"
             - name: LIBGL_ALWAYS_SOFTWARE
               value: "true"
-            - name: PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  key: password
-                  name: chatgpt-desktop-secret
             - name: PGID
               value: "1000"
             - name: PUID
