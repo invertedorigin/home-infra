@@ -66,6 +66,11 @@ spec:
       nodeSelector:
         aeotec.feature.node.kubernetes.io/zwave: "true"
       serviceAccountName: default
+      tolerations:
+      - key: hardware.invertedorigin.com/usb
+        operator: Equal
+        value: "true"
+        effect: NoSchedule
       volumes:
       - name: media
         persistentVolumeClaim:
