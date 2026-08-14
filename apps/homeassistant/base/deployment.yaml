@@ -143,3 +143,8 @@ spec:
             secretName: rtl433-config
       nodeSelector:
         feature.node.kubernetes.io/usb-ff_0bda_2838.present: "true"
+      tolerations:
+        - key: hardware.invertedorigin.com/usb
+          operator: Equal
+          value: "true"
+          effect: NoSchedule
