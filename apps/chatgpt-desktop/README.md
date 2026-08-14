@@ -25,6 +25,17 @@ requests read/write permissions.
 ChatGPT starts with Electron's `--no-sandbox` flag because its nested Chromium
 sandbox cannot create a user namespace under Kubernetes' default seccomp
 profile. The container retains the `RuntimeDefault` seccomp profile, SELinux
-confinement, disabled privilege escalation, and no Kubernetes credentials.
-Bootstrap also removes Chromium singleton lock files left behind by a previous
-pod hostname before the desktop session starts.
+confinement and disabled privilege escalation. Bootstrap also removes Chromium
+singleton lock files left behind by a previous pod hostname before the desktop
+session starts.
+
+Webtop's virtual display is capped at 5120x2880 to avoid allocating its default
+16K framebuffer. Multi-screen and session-sharing features are disabled. The
+pod liveness check covers Webtop, ChatGPT, and the bundled Codex app server, so
+the desktop is restarted if the automatically launched application exits and
+does not recover.
+
+The desktop includes pinned, checksum-verified versions of `kubectl` and `k9s`.
+They use a rotating projected token from the `chatgpt-desktop-viewer` service
+account, which is bound cluster-wide to Kubernetes' built-in `view` role. This
+allows resource discovery and pod logs but not Secrets, exec, or mutations.

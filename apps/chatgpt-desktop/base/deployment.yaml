@@ -23,7 +23,7 @@ spec:
         app.kubernetes.io/instance: chatgpt-desktop
         app.kubernetes.io/name: chatgpt-desktop
     spec:
-      automountServiceAccountToken: false
+      automountServiceAccountToken: true
       containers:
         - env:
             - name: DISABLE_DRI3
@@ -39,10 +39,18 @@ spec:
                   name: chatgpt-desktop-github
             - name: LIBGL_ALWAYS_SOFTWARE
               value: "true"
+            - name: KUBECONFIG
+              value: /config/.kube/config
+            - name: MAX_RES
+              value: 5120x2880
             - name: PGID
               value: "1000"
             - name: PUID
               value: "1000"
+            - name: SELKIES_ENABLE_SHARING
+              value: "false|locked"
+            - name: SELKIES_SECOND_SCREEN
+              value: "false"
             - name: START_DOCKER
               value: "false"
             - name: TITLE
@@ -51,11 +59,12 @@ spec:
               value: America/Denver
           image: lscr.io/linuxserver/webtop:ubuntu-xfce@sha256:5079531006cfe3777969da37b3f61f8c82e4112a7a67c23b4e1f12e5976804eb
           livenessProbe:
+            exec:
+              command:
+                - /usr/local/bin/check-chatgpt
             failureThreshold: 6
             periodSeconds: 20
-            tcpSocket:
-              port: http
-            timeoutSeconds: 2
+            timeoutSeconds: 5
           name: desktop
           ports:
             - containerPort: 3000
@@ -86,6 +95,10 @@ spec:
               name: bootstrap
               readOnly: true
               subPath: 10-install-chatgpt
+            - mountPath: /usr/local/bin/check-chatgpt
+              name: bootstrap
+              readOnly: true
+              subPath: check-chatgpt
             - mountPath: /config
               name: config
             - mountPath: /dev/shm
@@ -101,6 +114,7 @@ spec:
         fsGroupChangePolicy: OnRootMismatch
         seccompProfile:
           type: RuntimeDefault
+      serviceAccountName: chatgpt-desktop-viewer
       terminationGracePeriodSeconds: 30
       volumes:
         - configMap:

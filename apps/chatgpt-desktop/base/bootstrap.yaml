@@ -4,6 +4,13 @@ metadata:
   name: chatgpt-desktop-bootstrap
   namespace: chatgpt-desktop
 data:
+  check-chatgpt: |
+    #!/bin/sh
+    set -eu
+
+    curl --fail --silent --output /dev/null http://127.0.0.1:3000/
+    pgrep -f '^/usr/lib/chatgpt/ChatGPT --no-sandbox$' > /dev/null
+    pgrep -f '^/usr/lib/chatgpt/resources/codex .* app-server( |$)' > /dev/null
   10-install-chatgpt: |
     #!/usr/bin/with-contenv bash
     set -euo pipefail
@@ -13,6 +20,15 @@ data:
     readonly package_dir="/config/.cache/chatgpt-packages"
     readonly package_file="${package_dir}/chatgpt_${chatgpt_version}_amd64.deb"
     readonly package_url="https://persistent.oaistatic.com/codex-app-prod/linux/deb/pool/main/c/chatgpt/chatgpt_${chatgpt_version}_amd64.deb"
+    readonly kubectl_version="v1.36.3"
+    readonly kubectl_sha256="ebbd080e7c2e275093b55915722043257eb24004363e20acb3c4d71919f88336"
+    readonly k9s_version="v0.51.0"
+    readonly k9s_sha256="c3752ad51a5a4015a113819c4eeb6e55a4d0e4b8e652494797532f6fc8161dd7"
+    readonly tools_dir="/config/.cache/kubernetes-tools"
+    readonly kubectl_file="${tools_dir}/kubectl-${kubectl_version}-linux-amd64"
+    readonly kubectl_url="https://dl.k8s.io/release/${kubectl_version}/bin/linux/amd64/kubectl"
+    readonly k9s_file="${tools_dir}/k9s-${k9s_version}-Linux-amd64.tar.gz"
+    readonly k9s_url="https://github.com/derailed/k9s/releases/download/${k9s_version}/k9s_Linux_amd64.tar.gz"
 
     install -d -m 0755 "${package_dir}"
 
@@ -39,6 +55,59 @@ data:
     git config --system --replace-all \
       credential.https://github.com.helper \
       '!/usr/bin/gh auth git-credential'
+
+    install -d -m 0755 "${tools_dir}"
+
+    if ! printf '%s  %s\n' "${kubectl_sha256}" "${kubectl_file}" \
+      | sha256sum --check --status; then
+      kubectl_download="${kubectl_file}.download"
+      rm -f "${kubectl_download}"
+      curl --fail --location --retry 3 \
+        --output "${kubectl_download}" \
+        "${kubectl_url}"
+      printf '%s  %s\n' "${kubectl_sha256}" "${kubectl_download}" \
+        | sha256sum --check
+      mv "${kubectl_download}" "${kubectl_file}"
+    fi
+    install -m 0755 "${kubectl_file}" /usr/local/bin/kubectl
+
+    if ! printf '%s  %s\n' "${k9s_sha256}" "${k9s_file}" \
+      | sha256sum --check --status; then
+      k9s_download="${k9s_file}.download"
+      rm -f "${k9s_download}"
+      curl --fail --location --retry 3 \
+        --output "${k9s_download}" \
+        "${k9s_url}"
+      printf '%s  %s\n' "${k9s_sha256}" "${k9s_download}" \
+        | sha256sum --check
+      mv "${k9s_download}" "${k9s_file}"
+    fi
+    tar --extract --gzip --file "${k9s_file}" --directory /usr/local/bin k9s
+    chmod 0755 /usr/local/bin/k9s
+
+    install -d -m 0700 -o abc -g abc /config/.kube
+    printf '%s\n' \
+      'apiVersion: v1' \
+      'kind: Config' \
+      'clusters:' \
+      '- name: in-cluster' \
+      '  cluster:' \
+      '    certificate-authority: /var/run/secrets/kubernetes.io/serviceaccount/ca.crt' \
+      "    server: https://${KUBERNETES_SERVICE_HOST}:${KUBERNETES_SERVICE_PORT_HTTPS}" \
+      'contexts:' \
+      '- name: in-cluster' \
+      '  context:' \
+      '    cluster: in-cluster' \
+      '    namespace: default' \
+      '    user: chatgpt-desktop-viewer' \
+      'current-context: in-cluster' \
+      'users:' \
+      '- name: chatgpt-desktop-viewer' \
+      '  user:' \
+      '    tokenFile: /var/run/secrets/kubernetes.io/serviceaccount/token' \
+      > /config/.kube/config
+    chmod 0600 /config/.kube/config
+    chown abc:abc /config/.kube/config
 
     rm -f \
       /config/.config/Codex/SingletonCookie \
