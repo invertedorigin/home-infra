@@ -6,6 +6,7 @@ namespace: chatgpt-desktop
 resources:
   - namespace.yaml
   - pvc.yaml
+  - external-secret.yaml
   - bootstrap.yaml
   - deployment.yaml
   - service.yaml

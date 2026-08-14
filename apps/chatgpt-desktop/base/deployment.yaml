@@ -30,6 +30,13 @@ spec:
               value: "true"
             - name: DISABLE_ZINK
               value: "true"
+            - name: GH_PROMPT_DISABLED
+              value: "true"
+            - name: GH_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  key: token
+                  name: chatgpt-desktop-github
             - name: LIBGL_ALWAYS_SOFTWARE
               value: "true"
             - name: PGID

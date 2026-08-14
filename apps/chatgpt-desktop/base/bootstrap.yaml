@@ -32,8 +32,13 @@ data:
     DEBIAN_FRONTEND=noninteractive apt-get install \
       --no-install-recommends \
       --yes \
+      gh \
       "${package_file}"
     apt-get clean
+
+    git config --system --replace-all \
+      credential.https://github.com.helper \
+      '!/usr/bin/gh auth git-credential'
 
     rm -f \
       /config/.config/Codex/SingletonCookie \
