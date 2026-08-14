@@ -16,6 +16,12 @@ Desktop state and the ChatGPT login are stored on the 20 Gi config PVC. Project
 files should be kept under `/workspace`, which is backed by a separate 50 Gi
 PVC.
 
+GitHub authentication is supplied by the `CHATGPT_GITHUB_TOKEN` Doppler secret.
+External Secrets exposes it to the desktop as `GH_TOKEN`; the bootstrap installs
+GitHub CLI and configures Git to use its credential helper. The token should be
+fine-grained, limited to this repository, and granted only Contents and Pull
+requests read/write permissions.
+
 ChatGPT starts with Electron's `--no-sandbox` flag because its nested Chromium
 sandbox cannot create a user namespace under Kubernetes' default seccomp
 profile. The container retains the `RuntimeDefault` seccomp profile, SELinux
