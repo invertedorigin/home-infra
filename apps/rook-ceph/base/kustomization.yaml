@@ -55,11 +55,23 @@ helmCharts:
       rbd:
         enabled: true
         name: rook-ceph.rbd.csi.ceph.com
+        nodePlugin:
+          tolerations:
+          - key: hardware.invertedorigin.com/usb
+            operator: Equal
+            value: "true"
+            effect: NoSchedule
         # VolSync uses CSI VolumeSnapshots as its copy source.
         snapshotPolicy: volumeSnapshot
       cephfs:
         enabled: true
         name: rook-ceph.cephfs.csi.ceph.com
+        nodePlugin:
+          tolerations:
+          - key: hardware.invertedorigin.com/usb
+            operator: Equal
+            value: "true"
+            effect: NoSchedule
       nfs:
         enabled: false
         name: rook-ceph.nfs.csi.ceph.com

@@ -23,6 +23,26 @@ patches:
           # I don't plan on running a very large cluster
           # but want more responsiveness to hardware changes
           sleepInterval: 10s
+- target:
+    group: apps
+    version: v1
+    kind: DaemonSet
+    namespace: node-feature-discovery
+    name: nfd-worker
+  patch: |
+    apiVersion: apps/v1
+    kind: DaemonSet
+    metadata:
+      name: nfd-worker
+      namespace: node-feature-discovery
+    spec:
+      template:
+        spec:
+          tolerations:
+          - key: hardware.invertedorigin.com/usb
+            operator: Equal
+            value: "true"
+            effect: NoSchedule
 
 patchesStrategicMerge:
 - |-

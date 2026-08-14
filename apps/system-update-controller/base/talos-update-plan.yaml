@@ -15,6 +15,11 @@ spec:
   concurrency: 1
   exclusive: true
   postCompleteDelay: 5m
+  tolerations:
+    - key: hardware.invertedorigin.com/usb
+      operator: Equal
+      value: "true"
+      effect: NoSchedule
   drain:
     deleteEmptydirData: true
     ignoreDaemonSets: true
@@ -22,8 +27,6 @@ spec:
   cordon: true
   nodeSelector:
     matchExpressions:
-      - key: node-role.kubernetes.io/control-plane
-        operator: Exists
       - key: feature.node.kubernetes.io/system-os_release.ID
         operator: In
         values:

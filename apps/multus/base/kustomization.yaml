@@ -65,6 +65,11 @@ patches:
     spec:
       template:
         spec:
+          tolerations:
+          - key: hardware.invertedorigin.com/usb
+            operator: Equal
+            value: "true"
+            effect: NoSchedule
           initContainers:
           - name: dhcp-cleanup
             image: busybox
