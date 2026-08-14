@@ -1,0 +1,50 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: chatgpt-desktop-bootstrap
+  namespace: chatgpt-desktop
+data:
+  10-install-chatgpt: |
+    #!/usr/bin/with-contenv bash
+    set -euo pipefail
+
+    readonly chatgpt_version="26.810.41047"
+    readonly chatgpt_sha256="78715fa3cd136ff67070daa76819adaecc5b42e99851559659645dce1fbf2af3"
+    readonly package_dir="/config/.cache/chatgpt-packages"
+    readonly package_file="${package_dir}/chatgpt_${chatgpt_version}_amd64.deb"
+    readonly package_url="https://persistent.oaistatic.com/codex-app-prod/linux/deb/pool/main/c/chatgpt/chatgpt_${chatgpt_version}_amd64.deb"
+
+    install -d -m 0755 "${package_dir}"
+
+    if ! printf '%s  %s\n' "${chatgpt_sha256}" "${package_file}" \
+      | sha256sum --check --status; then
+      download_file="${package_file}.download"
+      rm -f "${download_file}"
+      curl --fail --location --retry 3 \
+        --output "${download_file}" \
+        "${package_url}"
+      printf '%s  %s\n' "${chatgpt_sha256}" "${download_file}" \
+        | sha256sum --check
+      mv "${download_file}" "${package_file}"
+    fi
+
+    apt-get update
+    DEBIAN_FRONTEND=noninteractive apt-get install \
+      --no-install-recommends \
+      --yes \
+      "${package_file}"
+    apt-get clean
+
+    install -d -m 0755 -o abc -g abc /config/.config/autostart
+    install -d -m 0755 -o abc -g abc /workspace
+    printf '%s\n' \
+      '[Desktop Entry]' \
+      'Type=Application' \
+      'Name=ChatGPT' \
+      'Comment=ChatGPT and Codex' \
+      'Exec=/usr/bin/chatgpt' \
+      'Terminal=false' \
+      'X-GNOME-Autostart-enabled=true' \
+      > /config/.config/autostart/chatgpt.desktop
+    chown abc:abc /config/.config/autostart/chatgpt.desktop /workspace
+

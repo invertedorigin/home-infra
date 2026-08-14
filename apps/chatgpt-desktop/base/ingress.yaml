@@ -1,0 +1,31 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    cert-manager.io/cluster-issuer: cloudflare-issuer
+    external-dns.alpha.kubernetes.io/target: ingress.home.arpa
+    external-dns.alpha.kubernetes.io/ttl: "60"
+  labels:
+    app.kubernetes.io/instance: chatgpt-desktop
+    app.kubernetes.io/name: chatgpt-desktop
+    external-dns.invertedorigin.com/enabled: "true"
+  name: chatgpt-desktop
+  namespace: chatgpt-desktop
+spec:
+  ingressClassName: cilium
+  rules:
+    - host: codex.invertedorigin.com
+      http:
+        paths:
+          - backend:
+              service:
+                name: chatgpt-desktop
+                port:
+                  number: 3000
+            path: /
+            pathType: Prefix
+  tls:
+    - hosts:
+        - codex.invertedorigin.com
+      secretName: chatgpt-desktop-tls-domain
+
