@@ -16,3 +16,9 @@ Desktop state and the ChatGPT login are stored on the 20 Gi config PVC. Project
 files should be kept under `/workspace`, which is backed by a separate 50 Gi
 PVC.
 
+ChatGPT starts with Electron's `--no-sandbox` flag because its nested Chromium
+sandbox cannot create a user namespace under Kubernetes' default seccomp
+profile. The container retains the `RuntimeDefault` seccomp profile, SELinux
+confinement, disabled privilege escalation, and no Kubernetes credentials.
+Bootstrap also removes Chromium singleton lock files left behind by a previous
+pod hostname before the desktop session starts.

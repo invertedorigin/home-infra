@@ -35,6 +35,11 @@ data:
       "${package_file}"
     apt-get clean
 
+    rm -f \
+      /config/.config/Codex/SingletonCookie \
+      /config/.config/Codex/SingletonLock \
+      /config/.config/Codex/SingletonSocket
+
     install -d -m 0755 -o abc -g abc /config/.config/autostart
     install -d -m 0755 -o abc -g abc /workspace
     printf '%s\n' \
@@ -42,9 +47,8 @@ data:
       'Type=Application' \
       'Name=ChatGPT' \
       'Comment=ChatGPT and Codex' \
-      'Exec=/usr/bin/chatgpt' \
+      'Exec=/usr/bin/chatgpt --no-sandbox' \
       'Terminal=false' \
       'X-GNOME-Autostart-enabled=true' \
       > /config/.config/autostart/chatgpt.desktop
     chown abc:abc /config/.config/autostart/chatgpt.desktop /workspace
-
