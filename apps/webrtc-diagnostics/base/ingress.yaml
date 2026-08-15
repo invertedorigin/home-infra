@@ -1,0 +1,30 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    cert-manager.io/cluster-issuer: cloudflare-issuer
+    external-dns.alpha.kubernetes.io/target: ingress.home.arpa
+    external-dns.alpha.kubernetes.io/ttl: "60"
+  labels:
+    app.kubernetes.io/instance: webrtc-diagnostics
+    app.kubernetes.io/name: webrtc-diagnostics
+    external-dns.invertedorigin.com/enabled: "true"
+  name: webrtc-diagnostics
+  namespace: webrtc-diagnostics
+spec:
+  ingressClassName: cilium
+  rules:
+    - host: webrtc.invertedorigin.com
+      http:
+        paths:
+          - backend:
+              service:
+                name: webrtc-diagnostics
+                port:
+                  number: 8080
+            path: /
+            pathType: Prefix
+  tls:
+    - hosts:
+        - webrtc.invertedorigin.com
+      secretName: webrtc-diagnostics-tls-domain
