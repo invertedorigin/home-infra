@@ -285,14 +285,18 @@ func (a *app) offer(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	gatherComplete := webrtc.GatheringCompletePromise(pc)
+	gatherStarted := time.Now()
 	if err = pc.SetLocalDescription(answer); err != nil {
 		writeJSON(w, http.StatusInternalServerError, map[string]string{"error": "could not set WebRTC answer"})
 		return
 	}
+	gatherTimedOut := false
 	select {
 	case <-gatherComplete:
 	case <-time.After(20 * time.Second):
+		gatherTimedOut = true
 	}
+	gatherDuration := time.Since(gatherStarted)
 	id, err := randomID()
 	if err != nil {
 		writeJSON(w, http.StatusInternalServerError, map[string]string{"error": "could not create session"})
@@ -315,6 +319,11 @@ func (a *app) offer(w http.ResponseWriter, r *http.Request) {
 	writeJSON(w, http.StatusCreated, map[string]any{
 		"answer": pc.LocalDescription(), "serverCandidates": gathered,
 		"sessionId": id, "turnConfigured": config.TURNConfigured,
+		"serverGathering": map[string]any{
+			"durationMs":     gatherDuration.Milliseconds(),
+			"timedOut":       gatherTimedOut,
+			"candidateCount": len(gathered),
+		},
 	})
 }
 
