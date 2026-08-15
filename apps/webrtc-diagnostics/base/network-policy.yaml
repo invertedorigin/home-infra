@@ -1,0 +1,20 @@
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: webrtc-diagnostics
+  namespace: webrtc-diagnostics
+spec:
+  podSelector:
+    matchLabels:
+      app.kubernetes.io/component: diagnostic
+      app.kubernetes.io/instance: webrtc-diagnostics
+      app.kubernetes.io/name: webrtc-diagnostics
+  policyTypes:
+    - Ingress
+  ingress:
+    - ports:
+        - port: 8080
+          protocol: TCP
+        - port: 50000
+          endPort: 50099
+          protocol: UDP

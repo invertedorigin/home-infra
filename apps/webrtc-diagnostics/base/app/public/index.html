@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="dark">
+    <title>WebRTC path diagnostics</title>
+    <link rel="stylesheet" href="/style.css">
+    <script src="/app.js" type="module"></script>
+  </head>
+  <body>
+    <main>
+      <header>
+        <div>
+          <p class="eyebrow">Network diagnostic</p>
+          <h1>WebRTC path</h1>
+          <p class="intro">A real data-channel connection from this browser to the Kubernetes peer.</p>
+        </div>
+        <div class="actions">
+          <button id="run-auto" type="button">Run automatic test</button>
+          <button id="run-relay" class="secondary" type="button">Force TURN test</button>
+        </div>
+      </header>
+
+      <section class="verdict" aria-live="polite">
+        <div id="status-dot" class="status-dot pending"></div>
+        <div>
+          <p id="status-label" class="status-label">Starting diagnostic…</p>
+          <p id="status-detail" class="status-detail">Gathering browser and cluster ICE candidates.</p>
+        </div>
+      </section>
+
+      <section class="cards">
+        <article>
+          <h2>Selected candidate pair</h2>
+          <dl id="pair-details"><dt>Status</dt><dd>Waiting</dd></dl>
+        </article>
+        <article>
+          <h2>Test details</h2>
+          <dl id="test-details"><dt>Mode</dt><dd>Automatic fallback</dd></dl>
+        </article>
+      </section>
+
+      <section class="candidate-section">
+        <div class="section-heading">
+          <div>
+            <h2>ICE candidates</h2>
+            <p>Available candidates are not necessarily used; the nominated pair above is authoritative.</p>
+          </div>
+          <button id="copy-json" class="ghost" type="button" disabled>Copy JSON</button>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Peer</th><th>Type</th><th>Protocol</th><th>Address</th><th>Related address</th><th>ICE server</th></tr></thead>
+            <tbody id="candidate-list"><tr><td colspan="6">Gathering…</td></tr></tbody>
+          </table>
+        </div>
+      </section>
+
+      <p class="footnote">Host candidates may be hidden behind mDNS by the browser. Short-lived TURN credentials are minted by the backend; the Cloudflare API token is never sent to this page.</p>
+    </main>
+  </body>
+</html>
