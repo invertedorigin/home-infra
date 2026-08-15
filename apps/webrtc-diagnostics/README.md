@@ -7,7 +7,9 @@ pair, it builds an evidence-based topology summary covering:
 - browser and cluster host, mapped, and relay addresses;
 - IPv4 and IPv6 availability;
 - observed NAT port preservation or translation;
+- cluster interface correlation and its configured link MTU;
 - direct versus TURN-relayed data paths and round-trip timing;
+- integrity-checked binary payload echoes from 1,200 bytes through 256 KiB;
 - internal-address and mDNS privacy exposure;
 - ICE gathering completion and timeout behavior; and
 - browser reachability to each configured STUN and TURN transport.
@@ -15,6 +17,14 @@ pair, it builds an evidence-based topology summary covering:
 The NAT summary intentionally does not label a network as cone, symmetric, or a
 specific filtering type. A single ICE destination does not provide enough
 evidence for that conclusion.
+
+Browser WebRTC cannot perform classic IP path-MTU discovery because it does not
+expose DF-bit control or ICMP Packet Too Big responses. Reliable SCTP can also
+fragment a large data-channel message before sending it. The payload sweep is
+therefore reported as application-path behavior, while the cluster interface MTU
+is clearly labeled as a local configured value. TCP MSS is likewise unavailable
+through browser socket APIs; the isolated TURN/TCP and TURN/TLS checks establish
+transport reachability, not the negotiated MSS.
 
 The page runs the automatic-path test when loaded. Use **Force TURN test** to
 verify that a restrictive network can reach Cloudflare TURN even when direct ICE

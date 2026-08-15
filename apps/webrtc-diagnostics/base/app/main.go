@@ -9,6 +9,7 @@ import (
 	"fmt"
 	"io"
 	"log"
+	"net"
 	"net/http"
 	"net/url"
 	"os"
@@ -210,6 +211,33 @@ func writeJSON(w http.ResponseWriter, status int, value any) {
 	_ = json.NewEncoder(w).Encode(value)
 }
 
+type networkInterface struct {
+	Name      string   `json:"name"`
+	MTU       int      `json:"mtu"`
+	Flags     string   `json:"flags"`
+	Addresses []string `json:"addresses"`
+}
+
+func localNetworkInterfaces() []networkInterface {
+	interfaces, err := net.Interfaces()
+	if err != nil {
+		return nil
+	}
+	result := make([]networkInterface, 0, len(interfaces))
+	for _, iface := range interfaces {
+		addresses := make([]string, 0)
+		if values, addressErr := iface.Addrs(); addressErr == nil {
+			for _, address := range values {
+				addresses = append(addresses, address.String())
+			}
+		}
+		result = append(result, networkInterface{
+			Name: iface.Name, MTU: iface.MTU, Flags: iface.Flags.String(), Addresses: addresses,
+		})
+	}
+	return result
+}
+
 func (a *app) handler() http.Handler {
 	mux := http.NewServeMux()
 	mux.HandleFunc("GET /healthz", func(w http.ResponseWriter, _ *http.Request) {
@@ -323,6 +351,9 @@ func (a *app) offer(w http.ResponseWriter, r *http.Request) {
 			"durationMs":     gatherDuration.Milliseconds(),
 			"timedOut":       gatherTimedOut,
 			"candidateCount": len(gathered),
+		},
+		"serverNetwork": map[string]any{
+			"interfaces": localNetworkInterfaces(),
 		},
 	})
 }
