@@ -6,6 +6,7 @@ const ui = {
   label: document.querySelector('#status-label'),
   detail: document.querySelector('#status-detail'),
   pair: document.querySelector('#pair-details'),
+  payload: document.querySelector('#payload-details'),
   test: document.querySelector('#test-details'),
   servers: document.querySelector('#ice-server-list'),
   candidates: document.querySelector('#candidate-list'),
@@ -221,7 +222,75 @@ function ping(channel) {
   })
 }
 
+function binaryEcho(channel, size, timeoutMs = 12_000) {
+  return new Promise((resolve, reject) => {
+    const payload = new Uint8Array(size)
+    const marker = crypto.getRandomValues(new Uint32Array(1))[0]
+    new DataView(payload.buffer).setUint32(0, marker)
+    payload[size - 1] = marker & 0xff
+    const started = performance.now()
+    const timer = window.setTimeout(() => finish(new Error(`${size}-byte echo timed out`)), timeoutMs)
+    function finish(error, result) {
+      window.clearTimeout(timer)
+      channel.removeEventListener('message', message)
+      error ? reject(error) : resolve(result)
+    }
+    function message(event) {
+      if (!(event.data instanceof ArrayBuffer) || event.data.byteLength !== size) return
+      const received = new Uint8Array(event.data)
+      if (new DataView(event.data).getUint32(0) !== marker || received[size - 1] !== (marker & 0xff)) return
+      const rttMs = Math.round((performance.now() - started) * 10) / 10
+      const roundTripMbps = rttMs > 0 ? Math.round(((size * 2 * 8) / (rttMs * 1000)) * 100) / 100 : null
+      finish(null, { size, rttMs, roundTripMbps })
+    }
+    channel.addEventListener('message', message)
+    try {
+      channel.send(payload)
+    } catch (error) {
+      finish(error)
+    }
+  })
+}
+
+async function probePayloadSizes(channel, pc) {
+  channel.binaryType = 'arraybuffer'
+  const started = performance.now()
+  const advertisedValue = pc.sctp?.maxMessageSize
+  const advertisedMaxMessageSize = Number.isFinite(advertisedValue) && advertisedValue > 0 ? advertisedValue : null
+  const maximumProbe = Math.min(advertisedMaxMessageSize ?? 262_144, 262_144)
+  const sizes = unique([1_200, 1_400, 1_472, 4_096, 16_384, 65_536, maximumProbe])
+    .filter((size) => Number.isInteger(size) && size >= 1_200 && size <= maximumProbe)
+    .sort((left, right) => left - right)
+  const results = []
+  let failure = null
+  for (const size of sizes) {
+    try {
+      results.push(await binaryEcho(channel, size))
+    } catch (error) {
+      failure = { size, error: error instanceof Error ? error.message : String(error) }
+      break
+    }
+  }
+  return {
+    advertisedMaxMessageSize,
+    probeCapBytes: maximumProbe,
+    largestEchoedBytes: results.at(-1)?.size ?? 0,
+    elapsedMs: Math.round(performance.now() - started),
+    results,
+    failure,
+    interpretation: 'Reliable SCTP/DTLS may fragment these messages; success is not an IP path-MTU measurement.',
+  }
+}
+
+function candidateAttribute(candidate, name) {
+  const tokens = String(candidate ?? '').split(/\s+/)
+  const index = tokens.indexOf(name)
+  return index === -1 ? null : (tokens[index + 1] ?? null)
+}
+
 function candidateFromEvent(candidate, peer) {
+  const networkCostValue = candidateAttribute(candidate.candidate, 'network-cost')
+  const networkCost = networkCostValue == null ? null : Number(networkCostValue)
   return {
     peer,
     foundation: candidate.foundation,
@@ -235,6 +304,8 @@ function candidateFromEvent(candidate, peer) {
     relatedPort: candidate.relatedPort,
     relayProtocol: candidate.relayProtocol,
     tcpType: candidate.tcpType,
+    networkId: candidateAttribute(candidate.candidate, 'network-id'),
+    networkCost: Number.isFinite(networkCost) ? networkCost : null,
     url: candidate.url,
     candidate: candidate.candidate,
   }
@@ -265,6 +336,9 @@ async function selectedPair(pc) {
     relatedAddress: candidate.relatedAddress,
     relatedPort: candidate.relatedPort,
     relayProtocol: candidate.relayProtocol,
+    tcpType: candidate.tcpType,
+    networkType: candidate.networkType,
+    vpn: candidate.vpn,
     url: candidate.url,
   } : null
   return {
@@ -313,7 +387,7 @@ function classifyAddress(address) {
   const [a, b] = octets
   if (a === 0) return { family: 'IPv4', scope: 'unspecified' }
   if (a === 10 || (a === 172 && b >= 16 && b <= 31) || (a === 192 && b === 168)) return { family: 'IPv4', scope: 'private' }
-  if (a === 100 && b >= 64 && b <= 127) return { family: 'IPv4', scope: 'carrier-grade NAT' }
+  if (a === 100 && b >= 64 && b <= 127) return { family: 'IPv4', scope: 'shared CGNAT/overlay range' }
   if (a === 127) return { family: 'IPv4', scope: 'loopback' }
   if (a === 169 && b === 254) return { family: 'IPv4', scope: 'link-local' }
   return { family: 'IPv4', scope: 'public' }
@@ -345,12 +419,19 @@ function peerTopology(candidates, peer) {
   const host = gathered.filter((candidate) => candidate.type === 'host')
   const mapped = gathered.filter((candidate) => ['srflx', 'prflx'].includes(candidate.type))
   const relay = gathered.filter((candidate) => candidate.type === 'relay')
-  const internal = host.filter((candidate) => ['private', 'carrier-grade NAT', 'link-local'].includes(classifyAddress(candidate.address).scope))
+  const internalScopes = ['private', 'shared CGNAT/overlay range', 'link-local']
+  const hostInternal = host.filter((candidate) => internalScopes.includes(classifyAddress(candidate.address).scope))
+  const relatedInternal = mapped
+    .filter((candidate) => internalScopes.includes(classifyAddress(candidate.relatedAddress).scope))
+    .map((candidate) => ({ ...candidate, address: candidate.relatedAddress, port: candidate.relatedPort }))
+  const internal = [...hostInternal, ...relatedInternal]
   const publicHost = host.filter((candidate) => classifyAddress(candidate.address).scope === 'public')
   const maskedCount = host.filter((candidate) => ['masked', 'hidden'].includes(classifyAddress(candidate.address).scope)).length
   const publicMappings = mapped.filter((candidate) => classifyAddress(candidate.address).scope === 'public')
   const directCandidates = [...host, ...mapped]
   const families = unique(directCandidates.map((candidate) => classifyAddress(candidate.address).family).filter((family) => ['IPv4', 'IPv6'].includes(family)))
+  const networkIds = unique(gathered.map((candidate) => candidate.networkId))
+  const networkCosts = unique(gathered.map((candidate) => candidate.networkCost))
   const mappingsWithPorts = mapped.filter((candidate) => Number.isInteger(candidate.relatedPort) && Number.isInteger(candidate.port))
   let portBehavior = 'Not exposed by the browser'
   if (mappingsWithPorts.length > 0) {
@@ -367,17 +448,56 @@ function peerTopology(candidates, peer) {
     publicMappings,
     relay,
     families,
+    networkIds,
+    networkCosts,
     mappingsWithPorts,
     portBehavior,
     rows: [
       ['Internal / host', internalText],
       ['Public mapping', formatCandidateList(publicMappings) ?? 'Not observed'],
       ['Address families', families.join(' + ') || 'Not observed'],
+      ['ICE interface hints', networkIds.length > 0 ? `IDs ${networkIds.join(', ')}${networkCosts.length > 0 ? ` · costs ${networkCosts.join(', ')}` : ''}` : 'Not reported'],
       ['NAT port mapping', portBehavior],
       ['Candidates', candidateCountText(gathered)],
       ['TURN fallback', relay.length > 0 ? `${relay.length} relay candidate${relay.length === 1 ? '' : 's'}` : 'None gathered'],
     ],
   }
+}
+
+function addressWithoutPrefix(address) {
+  const value = String(address ?? '')
+  const slash = value.lastIndexOf('/')
+  return (slash === -1 ? value : value.slice(0, slash)).replace(/^\[|\]$/g, '')
+}
+
+function matchingServerInterface(serverNetwork, clusterTopology) {
+  const candidateAddresses = new Set(clusterTopology.gathered.flatMap((candidate) => [candidate.address, candidate.relatedAddress]).filter(Boolean))
+  for (const iface of serverNetwork?.interfaces ?? []) {
+    if ((iface.addresses ?? []).some((address) => candidateAddresses.has(addressWithoutPrefix(address)))) return iface
+  }
+  return null
+}
+
+function formatBytes(bytes) {
+  if (!Number.isFinite(bytes)) return 'Not reported'
+  if (bytes >= 1_048_576) return `${Math.round((bytes / 1_048_576) * 10) / 10} MiB`
+  if (bytes >= 1_024) return `${Math.round((bytes / 1_024) * 10) / 10} KiB`
+  return `${bytes} B`
+}
+
+function payloadRows(payloadProbe, serverInterface) {
+  if (!payloadProbe) return [['Status', 'Not run']]
+  const smallProbe = payloadProbe.results.find((result) => result.size === 1_200)
+  const largeProbe = [...payloadProbe.results].reverse().find((result) => result.size >= 65_536)
+  return [
+    ['Largest echoed message', formatBytes(payloadProbe.largestEchoedBytes)],
+    ['SCTP advertised maximum', payloadProbe.advertisedMaxMessageSize == null ? 'Not reported' : formatBytes(payloadProbe.advertisedMaxMessageSize)],
+    ['1,200-byte echo', smallProbe ? `${smallProbe.rttMs} ms` : 'Failed or not run'],
+    ['Large-message echo', largeProbe ? `${formatBytes(largeProbe.size)} in ${largeProbe.rttMs} ms${largeProbe.roundTripMbps == null ? '' : ` · ${largeProbe.roundTripMbps} Mbps echo`}` : 'Not demonstrated'],
+    ['Cluster interface MTU', serverInterface ? `${serverInterface.mtu} B on ${serverInterface.name}` : 'Could not correlate'],
+    ['IP path MTU', 'Hidden by browser/WebRTC stack'],
+    ['TCP MSS', 'Not exposed by browser socket APIs'],
+  ]
 }
 
 function browserEnvironment() {
@@ -394,9 +514,13 @@ function browserEnvironment() {
   }
 }
 
-function analyzeNetwork({ candidates, pair, endpoints, endpointChecks, timings, environment }) {
+function analyzeNetwork({ candidates, pair, endpoints, endpointChecks, timings, environment, serverNetwork, payloadProbe }) {
   const browser = peerTopology(candidates, 'browser')
   const cluster = peerTopology(candidates, 'cluster')
+  const serverInterface = matchingServerInterface(serverNetwork, cluster)
+  if (serverInterface) {
+    cluster.rows.splice(1, 0, ['Matched interface', serverInterface.name], ['Configured MTU', `${serverInterface.mtu} B`])
+  }
   const pairTypes = [pair?.local?.type, pair?.remote?.type]
   const relayed = pairTypes.includes('relay')
   const natTraversed = !relayed && pairTypes.some((type) => ['srflx', 'prflx'].includes(type))
@@ -417,11 +541,21 @@ function analyzeNetwork({ candidates, pair, endpoints, endpointChecks, timings, 
   if (classifyAddress(browserEdge?.address).scope === 'public' && classifyAddress(clusterEdge?.address).scope === 'public' && browserEdge.address !== clusterEdge.address) {
     findings.push({ kind: 'info', title: 'Two distinct public network edges', detail: `The browser appeared as ${formatCandidate(browserEdge)} and the cluster as ${formatCandidate(clusterEdge)}.` })
   }
+  if (browser.internal.length > 0) {
+    const scopes = unique(browser.internal.map((candidate) => classifyAddress(candidate.address).scope))
+    findings.push({ kind: 'warn', title: 'Browser local address exposed', detail: `${formatCandidateList(browser.internal)} was visible as a ${scopes.join(' / ')} host candidate. Shared reports should redact it.` })
+  }
   if (browser.maskedCount > 0) {
     findings.push({ kind: 'info', title: 'Browser LAN address protected', detail: `${browser.maskedCount} host candidate${browser.maskedCount === 1 ? ' was' : 's were'} represented by mDNS, so the private subnet cannot be determined.` })
   }
+  if (browser.networkIds.length > 1) {
+    findings.push({ kind: 'info', title: 'Multiple browser ICE interfaces hinted', detail: `Candidate extensions referenced network IDs ${browser.networkIds.join(', ')}. These IDs are browser-local hints and do not identify adapter names.` })
+  }
   if (cluster.internal.length > 0) {
     findings.push({ kind: 'warn', title: 'Cluster internal address exposed', detail: `The peer advertised ${formatCandidateList(cluster.internal)}; this is likely pod or node network topology and should be redacted from shared reports.` })
+  }
+  if (serverInterface) {
+    findings.push({ kind: 'info', title: 'Cluster interface MTU observed', detail: `${serverInterface.name} is configured for ${serverInterface.mtu} bytes. This is a local link MTU, not proof of the end-to-end path MTU.` })
   }
 
   for (const [label, topology] of [['Browser', browser], ['Cluster', cluster]]) {
@@ -462,6 +596,18 @@ function analyzeNetwork({ candidates, pair, endpoints, endpointChecks, timings, 
     const peers = [timings.browserGathering?.timedOut ? 'browser' : null, timings.serverGathering?.timedOut ? 'cluster' : null].filter(Boolean)
     findings.push({ kind: 'warn', title: 'ICE gathering reached its deadline', detail: `${peers.join(' and ')} gathering stopped at the diagnostic timeout; candidates may be incomplete even without an explicit ICE error.` })
   }
+  if (payloadProbe?.largestEchoedBytes > 0) {
+    const largest = payloadProbe.results.at(-1)
+    findings.push({ kind: 'good', title: 'Reliable payload delivery measured', detail: `${formatBytes(largest.size)} echoed intact in ${largest.rttMs} ms. SCTP may fragment it, so this establishes application-level delivery rather than an IP MTU.` })
+  }
+  if (payloadProbe?.failure) {
+    findings.push({ kind: 'warn', title: 'Payload-size probe stopped', detail: `${formatBytes(payloadProbe.failure.size)} failed: ${payloadProbe.failure.error}. Smaller successful messages remain valid evidence.` })
+  }
+  findings.push({
+    kind: 'info',
+    title: 'Raw PMTU and TCP MSS are not browser-visible',
+    detail: 'WebRTC hides DF/ICMP and TCP socket state. TURN/TCP and TURN/TLS checks prove port/transport reachability, but cannot reveal their negotiated MSS.',
+  })
 
   const environmentRows = []
   if (environment.effectiveType) environmentRows.push(['Browser network estimate', `${environment.effectiveType}${environment.downlinkMbps == null ? '' : ` · ${environment.downlinkMbps} Mbps`}${environment.reportedRttMs == null ? '' : ` · ${environment.reportedRttMs} ms RTT`}`])
@@ -477,14 +623,19 @@ function analyzeNetwork({ candidates, pair, endpoints, endpointChecks, timings, 
       ['Browser edge', formatCandidate(pair?.local)],
       ['Cluster edge', formatCandidate(pair?.remote)],
       ['Address family', selectedFamilies.join(' / ') || 'Not reported'],
+      ['Browser interface type', pair?.local?.networkType ?? 'Not reported'],
+      ['VPN flag', pair?.local?.vpn == null ? 'Not reported' : (pair.local.vpn ? 'Yes' : 'No')],
       ['Round trip', pair?.rttMs == null ? 'Not reported' : `${pair.rttMs} ms`],
     ],
+    payloadRows: payloadRows(payloadProbe, serverInterface),
     environmentRows,
     evidence: {
       route,
       selectedFamilies,
-      browser: { families: browser.families, portBehavior: browser.portBehavior, maskedHostCandidates: browser.maskedCount },
-      cluster: { families: cluster.families, portBehavior: cluster.portBehavior, internalAddresses: cluster.internal.map(formatCandidate) },
+      browser: { families: browser.families, portBehavior: browser.portBehavior, localAddresses: browser.internal.map(formatCandidate), maskedHostCandidates: browser.maskedCount, networkIds: browser.networkIds, networkCosts: browser.networkCosts },
+      cluster: { families: cluster.families, portBehavior: cluster.portBehavior, internalAddresses: cluster.internal.map(formatCandidate), matchedInterface: serverInterface },
+      payload: payloadProbe,
+      measurementLimits: { pathMtu: 'not observable through browser WebRTC', tcpMss: 'not exposed by browser socket APIs' },
       endpointReachability: { passed: endpointChecks.filter((check) => check.status === 'passed').length, total: endpointChecks.length },
     },
   }
@@ -494,6 +645,7 @@ function renderAnalysis(analysis) {
   rows(ui.browserTopology, analysis.browser.rows)
   rows(ui.pathTopology, analysis.pathRows)
   rows(ui.clusterTopology, analysis.cluster.rows)
+  rows(ui.payload, analysis.payloadRows)
   ui.findings.replaceChildren()
   for (const finding of analysis.findings) {
     const item = document.createElement('li')
@@ -559,9 +711,12 @@ async function run(policy = 'all') {
   const timings = {}
   let endpoints = []
   let endpointChecks = []
+  let serverNetwork = { interfaces: [] }
+  let payloadProbe = null
   let endpointChecksPromise = Promise.resolve([])
   setStatus('pending', policy === 'relay' ? 'Testing forced TURN…' : 'Testing automatic ICE path…', 'Gathering candidates from both peers.')
   rows(ui.pair, [['Status', 'Negotiating']])
+  rows(ui.payload, [['Status', 'Waiting for data channel']])
   rows(ui.test, [['Mode', policy === 'relay' ? 'Relay only' : 'Automatic fallback'], ['Started', startedAt.toLocaleTimeString()]])
   rows(ui.browserTopology, [['Status', 'Gathering candidates']])
   rows(ui.pathTopology, [['Status', 'Negotiating']])
@@ -626,6 +781,7 @@ async function run(policy = 'all') {
     timings.signalingMs = Math.round(performance.now() - signalingStarted)
     if (!offerResponse.ok) throw new Error(answerBody.error ?? `Offer failed: HTTP ${offerResponse.status}`)
     timings.serverGathering = answerBody.serverGathering ?? null
+    serverNetwork = answerBody.serverNetwork ?? serverNetwork
     active.sessionId = answerBody.sessionId
     for (const candidate of answerBody.serverCandidates ?? []) {
       try { candidates.push(candidateFromSdp(candidate, 'cluster')) } catch { /* retain the connection even if a browser cannot parse one server candidate */ }
@@ -636,6 +792,9 @@ async function run(policy = 'all') {
     await waitForOpen(channel, pc)
     timings.connectionMs = Math.round(performance.now() - connectionStarted)
     const echoRttMs = await ping(channel)
+    rows(ui.payload, [['Status', 'Probing message sizes']])
+    payloadProbe = await probePayloadSizes(channel, pc)
+    timings.payloadProbeMs = payloadProbe.elapsedMs
     await new Promise((resolve) => window.setTimeout(resolve, 200))
     const pair = await selectedPair(pc)
     if (!pair) throw new Error('Connected, but the browser did not expose a selected ICE candidate pair')
@@ -643,7 +802,7 @@ async function run(policy = 'all') {
     renderEndpoints(endpoints, iceErrors, endpointChecks)
     timings.totalMs = Math.round(performance.now() - startedPerf)
     const result = verdict(pair)
-    const analysis = analyzeNetwork({ candidates, pair, endpoints, endpointChecks, timings, environment })
+    const analysis = analyzeNetwork({ candidates, pair, endpoints, endpointChecks, timings, environment, serverNetwork, payloadProbe })
     setStatus(result.kind, result.label, result.detail)
     renderAnalysis(analysis)
     rows(ui.pair, [
@@ -666,6 +825,7 @@ async function run(policy = 'all') {
       ['Browser gathering', `${timings.browserGathering.elapsedMs} ms${timings.browserGathering.timedOut ? ' · timed out' : ''}`],
       ['Cluster gathering', timings.serverGathering ? `${timings.serverGathering.durationMs} ms${timings.serverGathering.timedOut ? ' · timed out' : ''}` : 'Not reported'],
       ['Connection setup', `${timings.connectionMs} ms`],
+      ['Payload probes', `${payloadProbe.results.length} passed in ${payloadProbe.elapsedMs} ms`],
       ['Total diagnostic', `${timings.totalMs} ms`],
       ...analysis.environmentRows,
       ['Completed', new Date().toLocaleTimeString()],
@@ -680,6 +840,8 @@ async function run(policy = 'all') {
       findings: analysis.findings,
       environment,
       timings,
+      serverNetwork,
+      payloadProbe,
       pair,
       echoRttMs,
       candidates,
@@ -693,8 +855,11 @@ async function run(policy = 'all') {
     timings.totalMs = Math.round(performance.now() - startedPerf)
     const browser = peerTopology(candidates, 'browser')
     const cluster = peerTopology(candidates, 'cluster')
+    const serverInterface = matchingServerInterface(serverNetwork, cluster)
+    if (serverInterface) cluster.rows.splice(1, 0, ['Matched interface', serverInterface.name], ['Configured MTU', `${serverInterface.mtu} B`])
     setStatus('failed', 'Diagnostic failed', error instanceof Error ? error.message : String(error))
     rows(ui.pair, [['Status', 'No nominated pair']])
+    rows(ui.payload, payloadProbe ? payloadRows(payloadProbe, serverInterface) : [['Status', 'Not completed']])
     rows(ui.browserTopology, browser.rows)
     rows(ui.pathTopology, [['Status', 'No working path selected']])
     rows(ui.clusterTopology, cluster.rows)
@@ -720,6 +885,8 @@ async function run(policy = 'all') {
       error: error instanceof Error ? error.message : String(error),
       environment,
       timings,
+      serverNetwork,
+      payloadProbe,
       endpoints,
       candidates,
       endpointChecks,

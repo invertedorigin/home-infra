@@ -88,9 +88,9 @@ func TestHTTPSignalingEstablishesEchoDataChannel(t *testing.T) {
 		t.Fatal(err)
 	}
 	opened := make(chan struct{})
-	echoed := make(chan string, 1)
+	echoed := make(chan webrtc.DataChannelMessage, 2)
 	channel.OnOpen(func() { close(opened) })
-	channel.OnMessage(func(message webrtc.DataChannelMessage) { echoed <- string(message.Data) })
+	channel.OnMessage(func(message webrtc.DataChannelMessage) { echoed <- message })
 
 	offer, err := pc.CreateOffer(nil)
 	if err != nil {
@@ -121,12 +121,18 @@ func TestHTTPSignalingEstablishesEchoDataChannel(t *testing.T) {
 			TimedOut       bool  `json:"timedOut"`
 			CandidateCount int   `json:"candidateCount"`
 		} `json:"serverGathering"`
+		ServerNetwork struct {
+			Interfaces []networkInterface `json:"interfaces"`
+		} `json:"serverNetwork"`
 	}
 	if err := json.NewDecoder(response.Body).Decode(&answer); err != nil {
 		t.Fatal(err)
 	}
 	if answer.ServerGathering.TimedOut || answer.ServerGathering.CandidateCount == 0 {
 		t.Fatalf("unexpected server gathering result: %#v", answer.ServerGathering)
+	}
+	if len(answer.ServerNetwork.Interfaces) == 0 || answer.ServerNetwork.Interfaces[0].MTU <= 0 {
+		t.Fatalf("unexpected server interface inventory: %#v", answer.ServerNetwork.Interfaces)
 	}
 	if err := pc.SetRemoteDescription(answer.Answer); err != nil {
 		t.Fatal(err)
@@ -140,11 +146,23 @@ func TestHTTPSignalingEstablishesEchoDataChannel(t *testing.T) {
 		t.Fatal(err)
 	}
 	select {
-	case value := <-echoed:
-		if value != "hello" {
-			t.Fatalf("unexpected echo %q", value)
+	case message := <-echoed:
+		if !message.IsString || string(message.Data) != "hello" {
+			t.Fatalf("unexpected text echo: isString=%v data=%q", message.IsString, message.Data)
 		}
 	case <-time.After(3 * time.Second):
 		t.Fatal("echo did not return")
+	}
+	binary := bytes.Repeat([]byte{0x5a}, 16<<10)
+	if err := channel.Send(binary); err != nil {
+		t.Fatal(err)
+	}
+	select {
+	case message := <-echoed:
+		if message.IsString || !bytes.Equal(message.Data, binary) {
+			t.Fatalf("unexpected binary echo: isString=%v bytes=%d", message.IsString, len(message.Data))
+		}
+	case <-time.After(3 * time.Second):
+		t.Fatal("binary echo did not return")
 	}
 }
