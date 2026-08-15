@@ -1,17 +1,29 @@
-# WebRTC path diagnostics
+# WebRTC network diagnostics
 
 This app establishes a real WebRTC data-channel connection from the browser to a
-peer running in the cluster. It shows every gathered ICE candidate and the
-nominated candidate pair, which distinguishes a direct/STUN-assisted path from a
-Cloudflare TURN relay.
+peer running in the cluster. In addition to the raw candidates and nominated
+pair, it builds an evidence-based topology summary covering:
+
+- browser and cluster host, mapped, and relay addresses;
+- IPv4 and IPv6 availability;
+- observed NAT port preservation or translation;
+- direct versus TURN-relayed data paths and round-trip timing;
+- internal-address and mDNS privacy exposure;
+- ICE gathering completion and timeout behavior; and
+- browser reachability to each configured STUN and TURN transport.
+
+The NAT summary intentionally does not label a network as cone, symmetric, or a
+specific filtering type. A single ICE destination does not provide enough
+evidence for that conclusion.
 
 The page runs the automatic-path test when loaded. Use **Force TURN test** to
 verify that a restrictive network can reach Cloudflare TURN even when direct ICE
 paths are disabled. The configured-endpoints table shows every STUN, TURN/UDP,
 TURN/TCP, and TURN/TLS URL returned with the short-lived credentials, including
-the alternate port 53 endpoints. Browser ICE errors are shown beside the relevant
-URL, while the candidate table contains the candidates that were actually
-gathered.
+the alternate port 53 endpoints. Each URL is tested in its own temporary browser
+peer connection so a gathered candidate can be attributed to that endpoint.
+These checks verify candidate gathering; **Force TURN test** remains the full
+relayed data-channel check.
 
 ## Cloudflare TURN configuration
 

@@ -115,10 +115,18 @@ func TestHTTPSignalingEstablishesEchoDataChannel(t *testing.T) {
 		t.Fatalf("offer returned HTTP %d: %s", response.StatusCode, body)
 	}
 	var answer struct {
-		Answer webrtc.SessionDescription `json:"answer"`
+		Answer          webrtc.SessionDescription `json:"answer"`
+		ServerGathering struct {
+			DurationMS     int64 `json:"durationMs"`
+			TimedOut       bool  `json:"timedOut"`
+			CandidateCount int   `json:"candidateCount"`
+		} `json:"serverGathering"`
 	}
 	if err := json.NewDecoder(response.Body).Decode(&answer); err != nil {
 		t.Fatal(err)
+	}
+	if answer.ServerGathering.TimedOut || answer.ServerGathering.CandidateCount == 0 {
+		t.Fatalf("unexpected server gathering result: %#v", answer.ServerGathering)
 	}
 	if err := pc.SetRemoteDescription(answer.Answer); err != nil {
 		t.Fatal(err)

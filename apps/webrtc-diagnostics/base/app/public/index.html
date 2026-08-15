@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="color-scheme" content="dark">
-    <title>WebRTC path diagnostics</title>
+    <title>WebRTC network diagnostics</title>
     <link rel="stylesheet" href="/style.css">
     <script src="/app.js" type="module"></script>
   </head>
@@ -13,11 +13,11 @@
       <header>
         <div>
           <p class="eyebrow">Network diagnostic</p>
-          <h1>WebRTC path</h1>
-          <p class="intro">A real data-channel connection from this browser to the Kubernetes peer.</p>
+          <h1>Network topology</h1>
+          <p class="intro">A real WebRTC connection that maps the path from this browser to the Kubernetes peer.</p>
         </div>
         <div class="actions">
-          <button id="run-auto" type="button">Run automatic test</button>
+          <button id="run-auto" type="button">Run full diagnostic</button>
           <button id="run-relay" class="secondary" type="button">Force TURN test</button>
         </div>
       </header>
@@ -28,6 +28,39 @@
           <p id="status-label" class="status-label">Starting diagnostic…</p>
           <p id="status-detail" class="status-detail">Gathering browser and cluster ICE candidates.</p>
         </div>
+      </section>
+
+      <section class="topology-section">
+        <div class="section-heading">
+          <div>
+            <h2>Observed topology</h2>
+            <p>Addresses and behavior derived from the gathered candidates and the nominated path.</p>
+          </div>
+        </div>
+        <div class="topology-grid">
+          <article class="topology-node">
+            <p class="node-label">This browser</p>
+            <dl id="browser-topology"><dt>Status</dt><dd>Gathering</dd></dl>
+          </article>
+          <article class="topology-node path-node">
+            <p class="node-label">Selected network path</p>
+            <dl id="path-topology"><dt>Status</dt><dd>Negotiating</dd></dl>
+          </article>
+          <article class="topology-node">
+            <p class="node-label">Kubernetes peer</p>
+            <dl id="cluster-topology"><dt>Status</dt><dd>Gathering</dd></dl>
+          </article>
+        </div>
+      </section>
+
+      <section class="findings-section">
+        <div class="section-heading">
+          <div>
+            <h2>What the test can infer</h2>
+            <p>Findings distinguish measured behavior from topology hints that ICE cannot prove by itself.</p>
+          </div>
+        </div>
+        <ul id="network-findings" class="findings"><li class="finding neutral"><strong>Diagnostic running</strong><span>Waiting for candidate evidence.</span></li></ul>
       </section>
 
       <section class="cards">
@@ -45,12 +78,12 @@
         <div class="section-heading">
           <div>
             <h2>Configured ICE endpoints</h2>
-            <p>Every URL returned with the short-lived credentials. An endpoint can be configured without producing a candidate.</p>
+            <p>Each short-lived endpoint is tested independently from the browser; this verifies candidate gathering, not a full data path through every endpoint.</p>
           </div>
         </div>
         <div class="table-wrap">
           <table>
-            <thead><tr><th>Type</th><th>Transport</th><th>Endpoint</th><th>Browser check</th></tr></thead>
+            <thead><tr><th>Type</th><th>Transport</th><th>Endpoint</th><th>Independent browser check</th></tr></thead>
             <tbody id="ice-server-list"><tr><td colspan="4">Waiting for credentials…</td></tr></tbody>
           </table>
         </div>
@@ -72,7 +105,7 @@
         </div>
       </section>
 
-      <p class="footnote">Host candidates may be hidden behind mDNS by the browser. Short-lived TURN credentials are minted by the backend; the Cloudflare API token is never sent to this page.</p>
+      <p class="footnote">ICE can reveal public and internal addresses but cannot identify an exact NAT type from one destination. Browser host addresses may be hidden by mDNS. Short-lived TURN credentials are minted by the backend; the Cloudflare API token is never sent to this page.</p>
     </main>
   </body>
 </html>
