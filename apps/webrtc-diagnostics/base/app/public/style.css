@@ -29,6 +29,7 @@ button:disabled { opacity: 0.5; cursor: progress; }
 .status-detail { margin-bottom: 0; color: #a8b6c9; }
 .cards { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; margin-bottom: 18px; }
 article, .candidate-section { padding: 22px; border: 1px solid #273952; border-radius: 14px; background: rgba(15, 25, 41, 0.92); }
+.candidate-section + .candidate-section { margin-top: 18px; }
 dl { display: grid; grid-template-columns: minmax(110px, 0.7fr) minmax(0, 1.5fr); gap: 9px 16px; margin: 0; font-size: 0.9rem; }
 dt { color: #8192aa; }
 dd { margin: 0; overflow-wrap: anywhere; color: #f2f6fc; font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; }
@@ -40,6 +41,7 @@ table { width: 100%; border-collapse: collapse; font-size: 0.82rem; }
 th, td { padding: 10px 12px; border-bottom: 1px solid #23344c; text-align: left; white-space: nowrap; }
 th { color: #8192aa; font-size: 0.7rem; letter-spacing: 0.08em; text-transform: uppercase; }
 td { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; }
+td.endpoint-error { color: #ff8b9d; }
 .footnote { margin: 17px 4px 0; font-size: 0.78rem; line-height: 1.55; }
 @keyframes pulse { from { opacity: 0.45; } to { opacity: 1; } }
 @media (max-width: 760px) {

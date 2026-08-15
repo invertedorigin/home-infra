@@ -6,35 +6,32 @@ import (
 	"io"
 	"net/http"
 	"net/http/httptest"
+	"reflect"
 	"testing"
 	"time"
 
 	"github.com/pion/webrtc/v4"
 )
 
-func TestFilterBrowserICEServers(t *testing.T) {
-	servers := filterBrowserICEServers([]iceServer{
+func TestICEProviderPreservesAllCloudflareURLsAndCachesCredentials(t *testing.T) {
+	calls := 0
+	cloudflareServers := []iceServer{
 		{URLs: stringList{"stun:stun.cloudflare.com:3478", "stun:stun.cloudflare.com:53"}},
 		{
-			URLs:     stringList{"turn:turn.cloudflare.com:53?transport=udp", "turns:turn.cloudflare.com:443?transport=tcp"},
+			URLs: stringList{
+				"turn:turn.cloudflare.com:3478?transport=udp",
+				"turn:turn.cloudflare.com:3478?transport=tcp",
+				"turn:turn.cloudflare.com:53?transport=udp",
+				"turn:turn.cloudflare.com:53?transport=tcp",
+				"turns:turn.cloudflare.com:5349?transport=tcp",
+				"turns:turn.cloudflare.com:443?transport=tcp",
+			},
 			Username: "u", Credential: "c",
 		},
-	})
-	if len(servers) != 2 || len(servers[0].URLs) != 1 || len(servers[1].URLs) != 1 {
-		t.Fatalf("unexpected filtered ICE servers: %#v", servers)
 	}
-}
-
-func TestICEProviderCachesCredentials(t *testing.T) {
-	calls := 0
 	cloudflare := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, _ *http.Request) {
 		calls++
-		_ = json.NewEncoder(w).Encode(map[string]any{
-			"iceServers": []iceServer{{
-				URLs:     stringList{"turns:turn.cloudflare.com:443?transport=tcp"},
-				Username: "u", Credential: "c",
-			}},
-		})
+		_ = json.NewEncoder(w).Encode(map[string]any{"iceServers": cloudflareServers})
 	}))
 	defer cloudflare.Close()
 	provider := newICEProvider("key", "token", 900, cloudflare.Client())
@@ -45,6 +42,9 @@ func TestICEProviderCachesCredentials(t *testing.T) {
 	one, two := provider.get(t.Context()), provider.get(t.Context())
 	if calls != 1 || !one.TURNConfigured || !two.TURNConfigured {
 		t.Fatalf("cache failure: calls=%d one=%#v two=%#v", calls, one, two)
+	}
+	if !reflect.DeepEqual(one.ICEServers, cloudflareServers) {
+		t.Fatalf("Cloudflare ICE URLs changed: got %#v want %#v", one.ICEServers, cloudflareServers)
 	}
 }
 
