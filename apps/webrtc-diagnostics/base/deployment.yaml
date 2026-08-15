@@ -27,7 +27,7 @@ spec:
       automountServiceAccountToken: false
       initContainers:
         - name: build-app
-          image: golang:1.25.12-bookworm
+          image: golang:1.26.6-bookworm
           command:
             - /bin/sh
             - -ec
