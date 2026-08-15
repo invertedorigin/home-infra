@@ -7,6 +7,7 @@ const ui = {
   detail: document.querySelector('#status-detail'),
   pair: document.querySelector('#pair-details'),
   test: document.querySelector('#test-details'),
+  servers: document.querySelector('#ice-server-list'),
   candidates: document.querySelector('#candidate-list'),
 }
 
@@ -27,6 +28,53 @@ function rows(target, entries) {
     dt.textContent = key
     dd.textContent = value ?? '—'
     target.append(dt, dd)
+  }
+}
+
+function configuredEndpoints(iceServers = []) {
+  const endpoints = []
+  for (const server of iceServers) {
+    const urls = Array.isArray(server.urls) ? server.urls : [server.urls]
+    for (const url of urls.filter(Boolean)) {
+      const scheme = url.slice(0, url.indexOf(':')).toLowerCase()
+      const explicitTransport = url.match(/[?&]transport=([^&]+)/i)?.[1]
+      endpoints.push({
+        type: scheme === 'turns' ? 'TURN/TLS' : scheme.toUpperCase(),
+        transport: (explicitTransport ?? (scheme.endsWith('s') ? 'tcp' : 'udp')).toUpperCase(),
+        url,
+      })
+    }
+  }
+  return endpoints
+}
+
+function renderEndpoints(endpoints, errors = []) {
+  ui.servers.replaceChildren()
+  if (endpoints.length === 0) {
+    const row = document.createElement('tr')
+    const cell = document.createElement('td')
+    cell.colSpan = 4
+    cell.textContent = 'No ICE endpoints were configured.'
+    row.append(cell)
+    ui.servers.append(row)
+    return
+  }
+  for (const endpoint of endpoints) {
+    const failure = [...errors].reverse().find((error) => error.url === endpoint.url)
+    const row = document.createElement('tr')
+    const values = [
+      endpoint.type,
+      endpoint.transport,
+      endpoint.url,
+      failure ? `${failure.errorCode}: ${failure.errorText}` : 'No error observed',
+    ]
+    for (const [index, value] of values.entries()) {
+      const cell = document.createElement('td')
+      cell.textContent = value
+      if (failure && index === 3) cell.className = 'endpoint-error'
+      row.append(cell)
+    }
+    ui.servers.append(row)
   }
 }
 
@@ -198,9 +246,12 @@ async function run(policy = 'all') {
   lastReport = null
   const startedAt = new Date()
   const candidates = []
+  const iceErrors = []
+  let endpoints = []
   setStatus('pending', policy === 'relay' ? 'Testing forced TURN…' : 'Testing automatic ICE path…', 'Gathering candidates from both peers.')
   rows(ui.pair, [['Status', 'Negotiating']])
   rows(ui.test, [['Mode', policy === 'relay' ? 'Relay only' : 'Automatic fallback'], ['Started', startedAt.toLocaleTimeString()]])
+  renderEndpoints(endpoints, iceErrors)
   renderCandidates(candidates)
 
   let pc
@@ -208,10 +259,22 @@ async function run(policy = 'all') {
     const configResponse = await fetch('/api/config', { cache: 'no-store' })
     if (!configResponse.ok) throw new Error(`ICE configuration failed: HTTP ${configResponse.status}`)
     const config = await configResponse.json()
+    endpoints = configuredEndpoints(config.iceServers)
+    renderEndpoints(endpoints, iceErrors)
     if (policy === 'relay' && !config.turnConfigured) throw new Error('Cloudflare TURN is not configured or credential minting failed')
 
     pc = new RTCPeerConnection({ iceServers: config.iceServers, iceTransportPolicy: policy })
     active = { pc, sessionId: null }
+    pc.addEventListener('icecandidateerror', (event) => {
+      iceErrors.push({
+        url: event.url,
+        address: event.address,
+        port: event.port,
+        errorCode: event.errorCode,
+        errorText: event.errorText,
+      })
+      renderEndpoints(endpoints, iceErrors)
+    })
     pc.addEventListener('icecandidate', (event) => {
       if (!event.candidate) return
       candidates.push(candidateFromEvent(event.candidate, 'browser'))
@@ -256,16 +319,18 @@ async function run(policy = 'all') {
       ['TURN configured', config.turnConfigured ? 'Yes' : 'No — STUN only'],
       ['Peer state', pc.connectionState],
       ['ICE state', pc.iceConnectionState],
+      ['Configured endpoints', String(endpoints.length)],
       ['Candidates', String(candidates.length)],
+      ['ICE server errors', String(iceErrors.length)],
       ['Completed', new Date().toLocaleTimeString()],
     ])
-    lastReport = { startedAt: startedAt.toISOString(), completedAt: new Date().toISOString(), policy, config: { turnConfigured: config.turnConfigured, warning: config.warning }, verdict: result, pair, echoRttMs, candidates }
+    lastReport = { startedAt: startedAt.toISOString(), completedAt: new Date().toISOString(), policy, config: { turnConfigured: config.turnConfigured, warning: config.warning, endpoints }, verdict: result, pair, echoRttMs, candidates, iceErrors }
     ui.copy.disabled = false
   } catch (error) {
     setStatus('failed', 'Diagnostic failed', error instanceof Error ? error.message : String(error))
     rows(ui.pair, [['Status', 'No nominated pair']])
     rows(ui.test, [['Mode', policy === 'relay' ? 'Relay only' : 'Automatic fallback'], ['Error', error instanceof Error ? error.message : String(error)]])
-    lastReport = { startedAt: startedAt.toISOString(), completedAt: new Date().toISOString(), policy, error: error instanceof Error ? error.message : String(error), candidates }
+    lastReport = { startedAt: startedAt.toISOString(), completedAt: new Date().toISOString(), policy, error: error instanceof Error ? error.message : String(error), endpoints, candidates, iceErrors }
     ui.copy.disabled = false
   } finally {
     ui.auto.disabled = false

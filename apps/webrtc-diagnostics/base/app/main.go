@@ -60,26 +60,6 @@ type iceConfig struct {
 	Warning        string      `json:"warning,omitempty"`
 }
 
-func filterBrowserICEServers(servers []iceServer) []iceServer {
-	filtered := make([]iceServer, 0, len(servers))
-	for _, server := range servers {
-		urls := make(stringList, 0, len(server.URLs))
-		for _, value := range server.URLs {
-			lower := strings.ToLower(value)
-			port53 := strings.HasSuffix(lower, ":53") || strings.Contains(lower, ":53?")
-			if port53 && (strings.HasPrefix(lower, "turn:") || strings.HasPrefix(lower, "turns:") || strings.HasPrefix(lower, "stun:")) {
-				continue
-			}
-			urls = append(urls, value)
-		}
-		if len(urls) > 0 {
-			server.URLs = urls
-			filtered = append(filtered, server)
-		}
-	}
-	return filtered
-}
-
 type iceProvider struct {
 	keyID, apiToken string
 	ttl             int
@@ -144,13 +124,16 @@ func (p *iceProvider) mint(ctx context.Context) (iceConfig, error) {
 	if err := json.NewDecoder(response.Body).Decode(&payload); err != nil {
 		return iceConfig{}, fmt.Errorf("decode Cloudflare TURN response: %w", err)
 	}
-	servers := filterBrowserICEServers(payload.ICEServers)
-	if len(servers) == 0 {
+	urlCount := 0
+	for _, server := range payload.ICEServers {
+		urlCount += len(server.URLs)
+	}
+	if urlCount == 0 {
 		return iceConfig{}, errors.New("Cloudflare TURN credential response contained no usable ICE servers")
 	}
 	expires := time.Now().Add(time.Duration(p.ttl) * time.Second).UnixMilli()
-	log.Printf("[ice] minted Cloudflare TURN credentials with %ds TTL", p.ttl)
-	return iceConfig{ICEServers: servers, TURNConfigured: true, ExpiresAt: &expires}, nil
+	log.Printf("[ice] minted Cloudflare TURN credentials with %ds TTL and %d ICE URLs", p.ttl, urlCount)
+	return iceConfig{ICEServers: payload.ICEServers, TURNConfigured: true, ExpiresAt: &expires}, nil
 }
 
 func toPionServers(servers []iceServer) []webrtc.ICEServer {

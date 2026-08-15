@@ -7,7 +7,11 @@ Cloudflare TURN relay.
 
 The page runs the automatic-path test when loaded. Use **Force TURN test** to
 verify that a restrictive network can reach Cloudflare TURN even when direct ICE
-paths are disabled.
+paths are disabled. The configured-endpoints table shows every STUN, TURN/UDP,
+TURN/TCP, and TURN/TLS URL returned with the short-lived credentials, including
+the alternate port 53 endpoints. Browser ICE errors are shown beside the relevant
+URL, while the candidate table contains the candidates that were actually
+gathered.
 
 ## Cloudflare TURN configuration
 
