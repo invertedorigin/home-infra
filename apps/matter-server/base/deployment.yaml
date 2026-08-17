@@ -58,6 +58,8 @@ spec:
           value: "1"
         - name: VENDOR_ID
           value: "65521"
+        - name: ENABLE_TIME_SYNC
+          value: "true"
         image: ghcr.io/matter-js/matterjs-server:1.4.0
         name: main
         ports:
