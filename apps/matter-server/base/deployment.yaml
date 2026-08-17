@@ -42,7 +42,7 @@ spec:
       containers:
       - env:
         - name: TZ
-          value: America/Denver
+          value: "America/Denver"
         - name: STORAGE_PATH
           value: /data
         - name: LOG_LEVEL
@@ -59,7 +59,7 @@ spec:
         - name: VENDOR_ID
           value: "65521"
         - name: ENABLE_TIME_SYNC
-          value: "true"
+          value: 1
         image: ghcr.io/matter-js/matterjs-server:1.4.0
         name: main
         ports:
