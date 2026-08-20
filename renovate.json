@@ -224,6 +224,13 @@
       "automerge": true,
       "automergeType": "pr",
       "ignoreTests": false
+    },
+    {
+      "description": "Temporarily disable all Renovate automerge",
+      "matchPackageNames": [
+        "*"
+      ],
+      "automerge": false
     }
   ]
 }
