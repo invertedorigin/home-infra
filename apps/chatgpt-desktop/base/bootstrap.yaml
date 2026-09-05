@@ -15,6 +15,7 @@ data:
     #!/usr/bin/with-contenv bash
     set -euo pipefail
 
+    # Renovate manages this version and SHA-256 together; keep the assignments adjacent.
     readonly chatgpt_version="26.901.41600"
     readonly chatgpt_sha256="15cf422a77e8f28a7553d3180b8c72784a994438a141784c82d72cde93efca77"
     readonly package_dir="/config/.cache/chatgpt-packages"

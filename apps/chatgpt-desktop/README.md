@@ -9,8 +9,14 @@ built-in HTTP Basic authentication is disabled.
 
 The first startup downloads the pinned ChatGPT package into the config PVC,
 verifies its SHA-256 checksum, and installs it. Later pod restarts reuse the
-cached package. Updating ChatGPT is an explicit change to the version, package
-URL, and checksum in `base/bootstrap.yaml`.
+cached package. Renovate tracks OpenAI's stable Linux amd64 package index and
+opens updates to the version and matching SHA-256 checksum together in
+`base/bootstrap.yaml`; the package URL is derived from that version. Keep the
+two assignments adjacent so Renovate can update them as one dependency. The
+custom datasource in `renovate.json` ignores entries without a valid checksum.
+Updates follow the repository's existing PR and automerge policy. After merging,
+restart the desktop pod to install the new version; changing this ConfigMap alone
+does not trigger a Deployment rollout.
 
 Desktop state and the ChatGPT login are stored on the 20 Gi config PVC. Project
 files should be kept under `/workspace`, which is backed by a separate 50 Gi

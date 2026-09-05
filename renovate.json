@@ -37,6 +37,19 @@
       ],
       "datasourceTemplate": "docker",
       "versioningTemplate": "docker"
+    },
+    {
+      "customType": "regex",
+      "description": "Update the ChatGPT desktop package version and SHA-256 together",
+      "managerFilePatterns": [
+        "/^apps/chatgpt-desktop/base/bootstrap\\.yaml$/"
+      ],
+      "matchStrings": [
+        "readonly chatgpt_version=\"(?<currentValue>[^\"\\s]+)\"\\s+readonly chatgpt_sha256=\"(?<currentDigest>[a-f0-9]{64})\""
+      ],
+      "depNameTemplate": "chatgpt",
+      "datasourceTemplate": "custom.chatgpt-desktop",
+      "versioningTemplate": "deb"
     }
   ],
   "packageRules": [
@@ -232,5 +245,14 @@
       ],
       "automerge": false
     }
-  ]
+  ],
+  "customDatasources": {
+    "chatgpt-desktop": {
+      "defaultRegistryUrlTemplate": "https://persistent.oaistatic.com/codex-app-prod/linux/deb/dists/stable/main/binary-amd64/Packages",
+      "format": "plain",
+      "transformTemplates": [
+        "{\"releases\": [$split($join(releases.version, \"\\n\"), /(?:^|\\n)Package: /)[$substringBefore($, \"\\n\") = \"chatgpt\" and $contains($, /\\nArchitecture: amd64(?:\\n|$)/)].{\"version\": $match($, /\\nVersion: ([^\\n]+)/).groups[0], \"digest\": $match($, /\\nSHA256: ([a-f0-9]{64})(?:\\n|$)/).groups[0]}[$exists(version) and $exists(digest)]], \"homepage\": \"https://developers.openai.com/codex/app\"}"
+      ]
+    }
+  }
 }
