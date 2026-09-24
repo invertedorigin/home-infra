@@ -4,6 +4,7 @@ kind: Kustomization
 
 resources:
 - l2-address-pool.yaml
+- bgp-ingress.yaml
 
 helmCharts:
   - name: cilium

@@ -37,11 +37,10 @@ zero routes exchanged before enabling Cilium BGP. Each node explicitly runs
 DHCPv4 on `ens18`: adding the veth disables Talos's automatic DHCP on physical
 links, so do not remove `DHCPv4Config` without an alternative LAN address.
 
-`cni/values.yaml` enables the Cilium BGP control plane for the next Argo CD
-sync. This change rolls the Cilium agents; it does not advertise a route by
-itself. Wait for the Cilium BGP CRDs and healthy agents before adding
-`cni/bgp-ingress.yaml` to `cni/kustomization.yaml` in a separate sync. That
-manifest allocates only from `10.246.0.0/27` to explicitly labelled Services.
+`cni/values.yaml` enables the Cilium BGP control plane. Its CRDs and agents
+were verified before adding `cni/bgp-ingress.yaml` to `cni/kustomization.yaml`
+for the next Argo CD sync. That manifest allocates only from `10.246.0.0/27`
+to explicitly labelled Services.
 No Service has that label yet. The existing `10.0.1.5-9` L2 pool, L2 policy,
 and Talos API VIP at `10.0.1.10` remain unchanged.
 
