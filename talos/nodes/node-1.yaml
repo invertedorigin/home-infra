@@ -76,3 +76,8 @@ apiVersion: v1alpha1
 kind: HostnameConfig
 hostname: node-1
 auto: "off"
+---
+apiVersion: v1alpha1
+kind: ResolverConfig
+searchDomains:
+  domains: []
