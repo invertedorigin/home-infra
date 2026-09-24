@@ -1,71 +1,103 @@
-# node-2: Talos 1.13.10 control plane overrides
-machine:
-  install:
-    diskSelector:
-      model: QEMU HARDDISK
-  kernel:
-    modules:
-      - name: nbd
-  features:
-    hostDNS:
-      enabled: true
-      forwardKubeDNSToHost: true
-      resolveMemberNames: true
-    kubePrism:
-      enabled: true
-      port: 7445
-    kubernetesTalosAPIAccess:
-      enabled: true
-      allowedRoles:
-        - os:admin
-      allowedKubernetesNamespaces:
-        - system-upgrade
-  sysctls:
-    net.core.rmem_max: "2500000"
-    net.core.wmem_max: "2500000"
-    net.ipv6.conf.all.accept_ra: "2"
-    net.ipv6.conf.default.accept_ra: "2"
-    net.ipv6.conf.ens18.accept_ra_rt_info_max_plen: "64"
-    net.ipv6.conf.all.accept_ra_rt_info_max_plen: "64"
-  files:
-    - content: |
-        [plugins."io.containerd.grpc.v1.cri"]
-          enable_unprivileged_ports = true
-          enable_unprivileged_icmp = true
-      path: /etc/cri/conf.d/20-customization.part
-      op: create
-  kubelet:
-    nodeIP:
-      validSubnets:
-        - 10.0.1.0/24
-  nodeLabels:
-    node.kubernetes.io/exclude-from-external-load-balancers:
-      $patch: delete
-    topology.kubernetes.io/region: home
+# node-2: Talos 1.14.1 control plane overrides
 cluster:
-  network:
-    podSubnets:
-      - 10.244.0.0/16
-    serviceSubnets:
-      - 10.245.0.0/16
-    cni:
-      name: none
-  allowSchedulingOnMasters: true
-  allowSchedulingOnControlPlanes: true
-  apiServer:
-    certSANs:
-      - 10.0.1.10
-  proxy:
-    disabled: true
-  discovery:
-    enabled: true
-    registries:
-      kubernetes:
-        disabled: true
-      service: {}
   etcd:
     advertisedSubnets:
       - 10.0.1.0/24
+---
+apiVersion: v1alpha1
+kind: UnattendedInstallConfig
+provisioning:
+  diskSelector:
+    match: disk.model == "QEMU HARDDISK"
+---
+apiVersion: v1alpha1
+kind: VolumeConfig
+name: EPHEMERAL
+$patch: delete
+---
+apiVersion: v1alpha1
+kind: FilesystemTrimConfig
+$patch: delete
+---
+apiVersion: v1alpha1
+kind: SecurityProfileConfig
+$patch: delete
+---
+apiVersion: v1alpha1
+kind: KernelModuleConfig
+name: nbd
+---
+apiVersion: v1alpha1
+kind: ResolverConfig
+hostDNS:
+  enabled: true
+  forwardKubeDNSToHost: true
+  resolveMemberNames: true
+searchDomains:
+  domains: []
+---
+apiVersion: v1alpha1
+kind: KubePrismConfig
+port: 7445
+---
+apiVersion: v1alpha1
+kind: KubeTalosAPIAccessConfig
+allowedRoles:
+  - os:admin
+allowedKubernetesNamespaces:
+  - system-upgrade
+---
+apiVersion: v1alpha1
+kind: SysctlConfig
+params:
+  net.core.rmem_max: "2500000"
+  net.core.wmem_max: "2500000"
+  net.ipv6.conf.all.accept_ra: "2"
+  net.ipv6.conf.default.accept_ra: "2"
+  net.ipv6.conf.ens18.accept_ra_rt_info_max_plen: "64"
+  net.ipv6.conf.all.accept_ra_rt_info_max_plen: "64"
+---
+apiVersion: v1alpha1
+kind: CRICustomizationConfig
+name: enable-unprivileged
+content: |
+  [plugins."io.containerd.grpc.v1.cri"]
+    enable_unprivileged_ports = true
+    enable_unprivileged_icmp = true
+---
+apiVersion: v1alpha1
+kind: KubeNodeConfig
+nodeIP:
+  validSubnets:
+    - 10.0.1.0/24
+labels:
+  node.kubernetes.io/exclude-from-external-load-balancers:
+    $patch: delete
+  topology.kubernetes.io/region: home
+  network.invertedorigin.com/bgp-speaker: "true"
+taints:
+  node-role.kubernetes.io/control-plane:
+    $patch: delete
+---
+apiVersion: v1alpha1
+kind: KubeNetworkConfig
+podSubnets:
+  - 10.244.0.0/16
+serviceSubnets:
+  - 10.245.0.0/16
+---
+apiVersion: v1alpha1
+kind: KubeFlannelCNIConfig
+$patch: delete
+---
+apiVersion: v1alpha1
+kind: KubeProxyConfig
+enabled: false
+---
+apiVersion: v1alpha1
+kind: KubeAPIServerConfig
+certExtraSANs:
+  - 10.0.1.10
 ---
 apiVersion: v1alpha1
 kind: Layer2VIPConfig
@@ -78,6 +110,47 @@ hostname: node-2
 auto: "off"
 ---
 apiVersion: v1alpha1
-kind: ResolverConfig
-searchDomains:
-  domains: []
+kind: DHCPv4Config
+name: ens18
+---
+apiVersion: v1alpha1
+kind: VethConfig
+name: veth-cilium
+addresses:
+  - address: "fd46:494f:100::/127"
+peer:
+  name: veth-talos
+  addresses:
+    - address: "fd46:494f:100::1/127"
+---
+apiVersion: v1alpha1
+kind: VRFConfig
+name: vrf-cilium
+links:
+  - veth-talos
+table: "88"
+---
+apiVersion: v1alpha1
+kind: BGPInstanceConfig
+name: workload
+vrf: vrf-cilium
+localASN: 64514
+routerID: 10.0.1.103
+installRoutes: false
+neighbors:
+  - address: "fd46:494f:100::"
+    peerASN: 64515
+    passive: true
+---
+apiVersion: v1alpha1
+kind: BGPInstanceConfig
+name: fabric
+localASN: 64513
+routerID: 10.0.1.103
+importRoutes:
+  - bgpInstance: workload
+    prefixes:
+      - 10.246.0.0/27
+neighbors:
+  - address: 10.0.1.1
+    peerASN: 64512

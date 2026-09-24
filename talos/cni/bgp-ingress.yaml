@@ -1,0 +1,62 @@
+# Phase 1: the routed VIP pool coexists with the existing 10.0.1.x L2 pool.
+# Do not add a Service until the Talos and UDM peers and the CIDR are verified.
+apiVersion: cilium.io/v2
+kind: CiliumLoadBalancerIPPool
+metadata:
+  name: bgp-ingress
+spec:
+  blocks:
+    - cidr: 10.246.0.0/27
+  allowFirstLastIPs: "No"
+  serviceSelector:
+    matchLabels:
+      network.invertedorigin.com/bgp-ingress: "true"
+---
+apiVersion: cilium.io/v2
+kind: CiliumBGPAdvertisement
+metadata:
+  name: bgp-ingress
+  labels:
+    network.invertedorigin.com/bgp-advertisement: ingress
+spec:
+  advertisements:
+    - advertisementType: Service
+      service:
+        addresses:
+          - LoadBalancerIP
+      selector:
+        matchLabels:
+          network.invertedorigin.com/bgp-ingress: "true"
+---
+apiVersion: cilium.io/v2
+kind: CiliumBGPPeerConfig
+metadata:
+  name: talos-bgp-workload
+spec:
+  transport:
+    peerPort: 179
+    sourceInterface: veth-cilium
+  families:
+    - afi: ipv4
+      safi: unicast
+      advertisements:
+        matchLabels:
+          network.invertedorigin.com/bgp-advertisement: ingress
+---
+apiVersion: cilium.io/v2
+kind: CiliumBGPClusterConfig
+metadata:
+  name: talos-bgp-workload
+spec:
+  nodeSelector:
+    matchLabels:
+      network.invertedorigin.com/bgp-speaker: "true"
+  bgpInstances:
+    - name: talos-bgp-workload
+      localASN: 64515
+      peers:
+        - name: talos-bgp-workload
+          peerASN: 64514
+          peerAddress: "fd46:494f:100::1"
+          peerConfigRef:
+            name: talos-bgp-workload

@@ -1,8 +1,6 @@
 ---
-bgp:
-  announce:
-    loadbalancerIP: true
-  enabled: false
+bgpControlPlane:
+  enabled: true
 endpointRoutes:
   enabled: true
 hubble:
