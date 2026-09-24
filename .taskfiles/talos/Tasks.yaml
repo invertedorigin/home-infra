@@ -3,18 +3,70 @@ version: "3"
 
 env:
   TALOSCONFIG: "{{.PROJECT_DIR}}/talos/clusterconfig/talosconfig"
-  clusterName: "{{.cluster}}"
+
+vars:
+  clusterName: invertedorigin
+  endpoint: https://10.0.1.10:6443
+  schematicID: 4d2f14467f85468b6b5ff0ba1747f7f0bcb97d351d516db0197885247093d6fd
+  # renovate: datasource=github-releases depName=siderolabs/talos
+  talosVersion: v1.13.10
+  # Match the installer image in the running config for the structural comparison.
+  installerVersion: v1.13.8
+  # renovate: datasource=github-releases depName=kubernetes/kubernetes
+  kubernetesVersion: v1.36.3
 
 tasks:
   genconfig:
-    desc: Generate talos config
+    desc: Generate Talos configs with talosctl
     interactive: true
     dir: "{{.PROJECT_DIR}}/talos"
-    requires:
-      vars: [cluster]
     cmds:
-      - talhelper -v
-      - doppler run -p talos -c prdv2 -- talhelper genconfig
+      - |
+        set -eu
+        work_dir="$(mktemp -d "${TMPDIR:-/tmp}/talos-config.XXXXXX")"
+        trap 'rm -rf -- "$work_dir"' EXIT
+        chmod 700 "$work_dir"
+
+        doppler secrets substitute \
+          --project talos \
+          --config prdv2 \
+          --output "$work_dir/secrets.yaml" \
+          secrets.yaml.tmpl
+        chmod 600 "$work_dir/secrets.yaml"
+
+        talosctl gen config \
+          {{.clusterName}} \
+          {{.endpoint}} \
+          --with-secrets "$work_dir/secrets.yaml" \
+          --talos-version {{.talosVersion}} \
+          --kubernetes-version {{trimPrefix "v" .kubernetesVersion}} \
+          --install-disk '' \
+          --install-image factory.talos.dev/installer/{{.schematicID}}:{{.installerVersion}} \
+          --with-docs=false \
+          --with-examples=false \
+          --output "$work_dir/generated"
+
+        for node in node-1 node-2 node-3; do
+          talosctl machineconfig patch \
+            "$work_dir/generated/controlplane.yaml" \
+            --patch "@nodes/${node}.yaml" \
+            --output "$work_dir/generated/{{.clusterName}}-${node}.yaml"
+        done
+
+        talosctl machineconfig patch \
+          "$work_dir/generated/worker.yaml" \
+          --patch @nodes/usb-node-2.yaml \
+          --output "$work_dir/generated/{{.clusterName}}-usb-node-2.yaml"
+
+        for config in "$work_dir/generated/{{.clusterName}}-"*.yaml; do
+          talosctl validate --config "$config" --mode metal
+        done
+
+        mkdir -p clusterconfig
+        install -m 0600 "$work_dir/generated/talosconfig" clusterconfig/talosconfig
+        for config in "$work_dir/generated/{{.clusterName}}-"*.yaml; do
+          install -m 0600 "$config" "clusterconfig/$(basename "$config")"
+        done
 
   mergeclientconfig:
     desc: Merge cluster talos client config into home directory default talosconfig
