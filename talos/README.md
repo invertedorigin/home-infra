@@ -80,6 +80,16 @@ Side effects of the shared label and nil `loadBalancerClass`:
 
 Test with
 `curl --resolve grafana.invertedorigin.com:443:10.246.0.1 https://grafana.invertedorigin.com`.
+
+Clients on `10.0.1.0/24` reach a routed VIP through the UDM. Without a policy
+rule, the node replies straight to them on-link. The UDM sees only half the
+flow and drops the client's ACK as invalid: the TCP handshake completes, then
+the connection hangs. Each control-plane node therefore has a
+`RoutingRuleConfig`, `from 10.246.0.0/27 to 10.0.1.0/24 lookup 89`, plus a
+`LinkConfig` default route via `10.0.1.1` in table 89, so replies return
+through the UDM. ICMP redirects can't undo this, because
+`net.ipv4.conf.all.accept_redirects` is 0. Ping doesn't work as a test: Cilium
+doesn't answer ICMP on LB VIPs, so pings loop until their TTL expires.
 For a three-next-hop ECMP test, use `externalTrafficPolicy: Cluster` or run a
 ready local backend on all three nodes with `externalTrafficPolicy: Local`;
 otherwise Cilium may correctly advertise from only a subset of nodes.

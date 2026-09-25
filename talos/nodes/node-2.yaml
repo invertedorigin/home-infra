@@ -154,3 +154,21 @@ importRoutes:
 neighbors:
   - address: 10.0.1.1
     peerASN: 64512
+---
+# Send replies from routed VIPs to LAN clients back through the UDM. Without
+# this, a 10.0.1.0/24 client's request arrives via the UDM but the reply goes
+# direct on-link, and the UDM firewall drops the rest of the flow as invalid.
+# Priority 1500 sits after the local (100) and l3mdev (1000) rules.
+apiVersion: v1alpha1
+kind: RoutingRuleConfig
+name: "1500"
+src: 10.246.0.0/27
+dst: 10.0.1.0/24
+table: "89"
+---
+apiVersion: v1alpha1
+kind: LinkConfig
+name: ens18
+routes:
+  - gateway: 10.0.1.1
+    table: "89"
