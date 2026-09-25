@@ -172,3 +172,10 @@ name: ens18
 routes:
   - gateway: 10.0.1.1
     table: "89"
+---
+# Drop non-service traffic to routed VIPs, such as ping. Without this, the node
+# forwards it back to the UDM, which routes it here again until the TTL expires.
+# Cilium steers VIP:80/443 to Envoy via its own rule before main is consulted.
+apiVersion: v1alpha1
+kind: BlackholeRouteConfig
+name: 10.246.0.0/27

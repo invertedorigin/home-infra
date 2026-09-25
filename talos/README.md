@@ -88,7 +88,10 @@ through the UDM. The nodes ignore ICMP redirects, because
 clients a redirect to the node, and clients that obey it will hang: most Linux
 and Windows hosts do by default, macOS doesn't. Turning off `send_redirects` on
 the UDM's LAN bridge fixes that. Ping doesn't work as a test: Cilium
-doesn't answer ICMP on LB VIPs, so pings loop until their TTL expires.
+doesn't answer ICMP on LB VIPs. Anything Cilium doesn't handle itself, such as
+ICMP, falls through to the kernel. Without a `BlackholeRouteConfig` for
+`10.246.0.0/27`, the node forwards it back to the UDM, which routes it to the
+node again until the TTL expires. The blackhole drops it on the first hop.
 For a three-next-hop ECMP test, use `externalTrafficPolicy: Cluster` or run a
 ready local backend on all three nodes with `externalTrafficPolicy: Local`;
 otherwise Cilium may correctly advertise from only a subset of nodes.
