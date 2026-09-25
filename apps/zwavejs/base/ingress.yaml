@@ -3,8 +3,8 @@ kind: Ingress
 metadata:
   annotations:
     cert-manager.io/cluster-issuer: cloudflare-issuer
-    external-dns.alpha.kubernetes.io/target: ingress.home.arpa
-    external-dns.alpha.kubernetes.io/ttl: "60"
+    external-dns.kubernetes.io/target: ingress.home.arpa
+    external-dns.kubernetes.io/ttl: "60"
   labels:
     app.kubernetes.io/instance: zwavejs
     app.kubernetes.io/name: zwavejs
@@ -34,8 +34,8 @@ kind: Ingress
 metadata:
   annotations:
     cert-manager.io/cluster-issuer: cloudflare-issuer
-    external-dns.alpha.kubernetes.io/target: ingress.home.arpa
-    external-dns.alpha.kubernetes.io/ttl: "60"
+    external-dns.kubernetes.io/target: ingress.home.arpa
+    external-dns.kubernetes.io/ttl: "60"
   labels:
     app.kubernetes.io/instance: zwavejs-ws
     app.kubernetes.io/name: zwavejs-ws

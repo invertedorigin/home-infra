@@ -8,8 +8,8 @@ metadata:
     # Selected by the bgp-ingress pool and advertisement.
     network.invertedorigin.com/bgp-ingress: "true"
   annotations:
-    external-dns.alpha.kubernetes.io/hostname: ingress.home.arpa
-    external-dns.alpha.kubernetes.io/ttl: "60"
+    external-dns.kubernetes.io/hostname: ingress.home.arpa
+    external-dns.kubernetes.io/ttl: "60"
     # Routed VIP only. Pinning it keeps the Service off the L2 "pool", which
     # has no Service selector and would otherwise also hand out a 10.0.1.x IP.
     lbipam.cilium.io/ips: 10.246.0.1
