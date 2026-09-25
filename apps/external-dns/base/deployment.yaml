@@ -31,9 +31,6 @@ spec:
         - --service-type-filter=LoadBalancer
         - --provider=webhook
         - --policy=sync
-        # v0.22+ reads only external-dns.kubernetes.io/ annotations. Also read the
-        # legacy alpha prefix for objects outside this repo (e.g. default/fra-stats).
-        - --enable-legacy-annotation-prefix
         - --registry=txt
         - --txt-owner-id=home-cluster
         - --txt-prefix=external-dns-
