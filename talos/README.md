@@ -62,21 +62,17 @@ CIDR has no VLAN, route, VPN, or DHCP use, that the UDM accepts only /32 VIPs
 within it, and that its forwarding table can install up to three equal-cost
 paths. Keep Cilium's VXLAN routing mode for this phase.
 
-The shared `cilium-ingress` Service is the first routed Service. Cilium
-redirects a Service to Envoy by its name, and a second Service can't use the
-shared listener. So `cni/cilium-ingress-service-patch.yaml` gives the one
-Service two VIPs: `lbipam.cilium.io/ips: 10.0.1.7,10.246.0.1` plus the
-`bgp-ingress` label. Every Ingress then answers on both addresses. Keep both
-IPs in the annotation: LB-IPAM releases any allocation it doesn't list.
-Side effects of the shared label and nil `loadBalancerClass`:
-
-- Cilium also advertises `10.0.1.7/32` to the Talos workload peer. It stays in
-  `vrf-cilium` because the fabric instance imports only `10.246.0.0/27`.
-- `l2policy` also answers ARP for `10.246.0.1` on `ens18`. That's harmless
-  because the address is off-subnet.
-- `ingress.home.arpa` is pinned to `10.0.1.7` with the external-dns `target`
-  annotation. Remove it, or point it at `10.246.0.1`, to move clients to the
-  routed path.
+The shared `cilium-ingress` Service is routed-only. Cilium redirects a
+Service to Envoy by its name, so there is one ingress Service for every
+Ingress. `cni/cilium-ingress-service-patch.yaml` gives it the `bgp-ingress`
+label and pins `lbipam.cilium.io/ips: 10.246.0.1`. The pin matters because the
+L2 `pool` has no Service selector: without it, LB-IPAM could also allocate a
+`10.0.1.x` address. external-dns publishes `ingress.home.arpa` as
+`10.246.0.1`. `l2policy` still answers ARP for `10.246.0.1` on `ens18`,
+because the Service's `loadBalancerClass` is nil and can't be changed. That's
+harmless: the address is off-subnet.
+The Tailscale subnet routers in `apps/tailscale-operator` advertise
+`10.246.0.0/27` so tailnet clients can reach it.
 
 Test with
 `curl --resolve grafana.invertedorigin.com:443:10.246.0.1 https://grafana.invertedorigin.com`.
@@ -87,8 +83,11 @@ flow and drops the client's ACK as invalid: the TCP handshake completes, then
 the connection hangs. Each control-plane node therefore has a
 `RoutingRuleConfig`, `from 10.246.0.0/27 to 10.0.1.0/24 lookup 89`, plus a
 `LinkConfig` default route via `10.0.1.1` in table 89, so replies return
-through the UDM. ICMP redirects can't undo this, because
-`net.ipv4.conf.all.accept_redirects` is 0. Ping doesn't work as a test: Cilium
+through the UDM. The nodes ignore ICMP redirects, because
+`net.ipv4.conf.all.accept_redirects` is 0. The UDM still sends same-subnet
+clients a redirect to the node, and clients that obey it will hang: most Linux
+and Windows hosts do by default, macOS doesn't. Turning off `send_redirects` on
+the UDM's LAN bridge fixes that. Ping doesn't work as a test: Cilium
 doesn't answer ICMP on LB VIPs, so pings loop until their TTL expires.
 For a three-next-hop ECMP test, use `externalTrafficPolicy: Cluster` or run a
 ready local backend on all three nodes with `externalTrafficPolicy: Local`;

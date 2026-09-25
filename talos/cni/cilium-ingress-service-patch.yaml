@@ -9,10 +9,7 @@ metadata:
     network.invertedorigin.com/bgp-ingress: "true"
   annotations:
     external-dns.alpha.kubernetes.io/hostname: ingress.home.arpa
-    # Keep DNS on the L2 VIP until the routed path is proven.
-    external-dns.alpha.kubernetes.io/target: 10.0.1.7
     external-dns.alpha.kubernetes.io/ttl: "60"
-    # One shared Envoy listener on both VIPs: 10.0.1.7 from the L2 "pool",
-    # 10.246.0.1 from the BGP "bgp-ingress" pool. Every requested IP must be
-    # listed; LB-IPAM releases any allocation missing from this annotation.
-    lbipam.cilium.io/ips: 10.0.1.7,10.246.0.1
+    # Routed VIP only. Pinning it keeps the Service off the L2 "pool", which
+    # has no Service selector and would otherwise also hand out a 10.0.1.x IP.
+    lbipam.cilium.io/ips: 10.246.0.1
