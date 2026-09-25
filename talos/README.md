@@ -41,8 +41,8 @@ links, so do not remove `DHCPv4Config` without an alternative LAN address.
 were verified before adding `cni/bgp-ingress.yaml` to `cni/kustomization.yaml`
 for the next Argo CD sync. That manifest allocates only from `10.246.0.0/27`
 to explicitly labelled Services.
-No Service has that label yet. The existing `10.0.1.5-9` L2 pool, L2 policy,
-and Talos API VIP at `10.0.1.10` remain unchanged.
+The existing `10.0.1.5-9` L2 pool, L2 policy, and Talos API VIP at
+`10.0.1.10` remain unchanged.
 
 Pilot values:
 
@@ -62,15 +62,24 @@ CIDR has no VLAN, route, VPN, or DHCP use, that the UDM accepts only /32 VIPs
 within it, and that its forwarding table can install up to three equal-cost
 paths. Keep Cilium's VXLAN routing mode for this phase.
 
-For the first test Service, set the label
-`network.invertedorigin.com/bgp-ingress: "true"`, request a specific address
-such as `10.246.0.1` with `lbipam.cilium.io/ips`, and set
-`spec.loadBalancerClass: io.cilium/bgp-control-plane`. The explicit IP is
-important because the existing L2 pool currently has no Service selector.
-The test Service must have a working backend before it is advertised. Do not
-add the `bgp-ingress` label to an existing Service yet: that could advertise
-its current `10.0.1.x` VIP to the Talos workload peer, even though the Talos
-import filter prevents it from reaching the UDM.
+The shared `cilium-ingress` Service is the first routed Service. Cilium
+redirects a Service to Envoy by its name, and a second Service can't use the
+shared listener. So `cni/cilium-ingress-service-patch.yaml` gives the one
+Service two VIPs: `lbipam.cilium.io/ips: 10.0.1.7,10.246.0.1` plus the
+`bgp-ingress` label. Every Ingress then answers on both addresses. Keep both
+IPs in the annotation: LB-IPAM releases any allocation it doesn't list.
+Side effects of the shared label and nil `loadBalancerClass`:
+
+- Cilium also advertises `10.0.1.7/32` to the Talos workload peer. It stays in
+  `vrf-cilium` because the fabric instance imports only `10.246.0.0/27`.
+- `l2policy` also answers ARP for `10.246.0.1` on `ens18`. That's harmless
+  because the address is off-subnet.
+- `ingress.home.arpa` is pinned to `10.0.1.7` with the external-dns `target`
+  annotation. Remove it, or point it at `10.246.0.1`, to move clients to the
+  routed path.
+
+Test with
+`curl --resolve grafana.invertedorigin.com:443:10.246.0.1 https://grafana.invertedorigin.com`.
 For a three-next-hop ECMP test, use `externalTrafficPolicy: Cluster` or run a
 ready local backend on all three nodes with `externalTrafficPolicy: Local`;
 otherwise Cilium may correctly advertise from only a subset of nodes.
