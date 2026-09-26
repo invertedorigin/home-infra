@@ -92,6 +92,31 @@ doesn't answer ICMP on LB VIPs. Anything Cilium doesn't handle itself, such as
 ICMP, falls through to the kernel. Without a `BlackholeRouteConfig` for
 `10.246.0.0/27`, the node forwards it back to the UDM, which routes it to the
 node again until the TTL expires. The blackhole drops it on the first hop.
+## Routed API VIP
+
+`10.246.0.32` is a second Kubernetes API endpoint alongside the Layer 2 VIP
+`10.0.1.10`, which stays the cluster endpoint for now. Each control-plane node
+has an empty `dummy-api` link, and its `fabric` BGP instance advertises
+whatever that link carries (`advertise: [dummy-api]`, the equivalent of
+`redistribute connected`). kube-vip (`apps/kube-vip`) runs on every
+control-plane node in routing-table mode without leader election, with its own
+ARP and BGP off. Every 2 s it checks the local
+`https://127.0.0.1:6443/readyz`. It holds `10.246.0.32/32` on `dummy-api` while
+the check passes and deletes it on the first failure. The UDM therefore
+load-balances across every node with a ready apiserver, and a node leaves the
+ECMP set within a check interval of its apiserver failing or starting a
+graceful shutdown. The BGP sessions stay up throughout. kube-vip reaches the
+API itself through KubePrism (`127.0.0.1:7445`), so it keeps running while the
+local apiserver is down. Routing-table mode also writes the `/32` into table
+198, which nothing reads.
+
+Supporting changes: the return-path rule and the blackhole route cover
+`10.246.0.0/26`, the UDM prefix list and the Tailscale routes accept `/26`,
+and Cilium pins `devices: ens18`. Without that pin, Cilium auto-detection
+would adopt `dummy-api` whenever it holds the VIP, because Cilium counts
+routes in every table, and the datapath would reload each time the VIP is
+added or removed.
+
 For a three-next-hop ECMP test, use `externalTrafficPolicy: Cluster` or run a
 ready local backend on all three nodes with `externalTrafficPolicy: Local`;
 otherwise Cilium may correctly advertise from only a subset of nodes.

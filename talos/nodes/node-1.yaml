@@ -98,6 +98,8 @@ apiVersion: v1alpha1
 kind: KubeAPIServerConfig
 certExtraSANs:
   - 10.0.1.10
+  # Routed API VIP, held on dummy-api by kube-vip (apps/kube-vip).
+  - 10.246.0.32
 ---
 apiVersion: v1alpha1
 kind: Layer2VIPConfig
@@ -147,6 +149,11 @@ kind: BGPInstanceConfig
 name: fabric
 localASN: 64513
 routerID: 10.0.1.223
+# Originate whatever is on dummy-api (like `redistribute connected`): kube-vip
+# adds the API VIP there while this node's apiserver is ready and removes it
+# when it isn't, so each healthy node is one ECMP path at the UDM.
+advertise:
+  - dummy-api
 importRoutes:
   - bgpInstance: workload
     prefixes:
@@ -155,6 +162,12 @@ neighbors:
   - address: 10.0.1.1
     peerASN: 64512
 ---
+# Empty holder for the routed API VIP (10.246.0.32/32); kube-vip manages the
+# address. Talos only removes addresses it configured, so it leaves it alone.
+apiVersion: v1alpha1
+kind: DummyLinkConfig
+name: dummy-api
+---
 # Send replies from routed VIPs to LAN clients back through the UDM. Without
 # this, a 10.0.1.0/24 client's request arrives via the UDM but the reply goes
 # direct on-link, and the UDM firewall drops the rest of the flow as invalid.
@@ -162,7 +175,8 @@ neighbors:
 apiVersion: v1alpha1
 kind: RoutingRuleConfig
 name: "1500"
-src: 10.246.0.0/27
+# /26: Cilium LB pool (.0/27) plus infra VIPs such as the API VIP (.32).
+src: 10.246.0.0/26
 dst: 10.0.1.0/24
 table: "89"
 ---
@@ -178,4 +192,5 @@ routes:
 # Cilium steers VIP:80/443 to Envoy via its own rule before main is consulted.
 apiVersion: v1alpha1
 kind: BlackholeRouteConfig
-name: 10.246.0.0/27
+# The API VIP is a local address on healthy nodes, so the local table still wins.
+name: 10.246.0.0/26

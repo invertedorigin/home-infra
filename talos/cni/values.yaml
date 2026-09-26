@@ -1,6 +1,10 @@
 ---
 bgpControlPlane:
   enabled: true
+# Pin the datapath to the LAN NIC. Auto-detection would also adopt dummy-api
+# while it holds the API VIP, reloading the datapath each time kube-vip adds or
+# removes it.
+devices: ens18
 endpointRoutes:
   enabled: true
 hubble:
