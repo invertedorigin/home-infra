@@ -41,8 +41,7 @@ links, so do not remove `DHCPv4Config` without an alternative LAN address.
 were verified before adding `cni/bgp-ingress.yaml` to `cni/kustomization.yaml`
 for the next Argo CD sync. That manifest allocates only from `10.246.0.0/27`
 to explicitly labelled Services.
-The existing `10.0.1.5-9` L2 pool, L2 policy, and Talos API VIP at
-`10.0.1.10` remain unchanged.
+The existing `10.0.1.5-9` L2 pool and L2 policy remain unchanged.
 
 Pilot values:
 
@@ -94,8 +93,14 @@ ICMP, falls through to the kernel. Without a `BlackholeRouteConfig` for
 node again until the TTL expires. The blackhole drops it on the first hop.
 ## Routed API VIP
 
-`10.246.0.32` is a second Kubernetes API endpoint alongside the Layer 2 VIP
-`10.0.1.10`, which stays the cluster endpoint for now. Each control-plane node
+`10.246.0.32` is the Kubernetes API VIP. The cluster endpoint is
+`https://k8s.home.arpa:6443`: a `DNSEndpoint` in `apps/kube-vip` has
+external-dns publish that name to the UDM, pointing at the VIP. The old Layer
+2 VIP `10.0.1.10` is gone; it stays in `certExtraSANs` until no kubeconfig
+uses it. Node IPs are also in the API certificates, so
+`https://<node-ip>:6443` works as break-glass access. The kubelet and Cilium
+use KubePrism (`127.0.0.1:7445`), which also lists `localhost` and the node
+IPs, so a cold start never waits on the VIP or DNS. Each control-plane node
 has an empty `dummy-api` link, and its `fabric` BGP instance advertises
 whatever that link carries (`advertise: [dummy-api]`, the equivalent of
 `redistribute connected`). kube-vip (`apps/kube-vip`) runs on every
