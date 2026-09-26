@@ -2,21 +2,15 @@ apiVersion: v1
 kind: Service
 metadata:
   annotations:
-    # Routed VIP from the bgp-ingress pool (talos/cni/bgp-ingress.yaml).
-    lbipam.cilium.io/ips: "10.246.0.2"
-    external-dns.kubernetes.io/hostname: dmr.home.arpa
-    external-dns.kubernetes.io/ttl: "60"
+    lbipam.cilium.io/ips: "10.0.1.8"
   labels:
     app.kubernetes.io/instance: hblink
     app.kubernetes.io/name: hblink
     app.kubernetes.io/service: hblink
-    external-dns.invertedorigin.com/enabled: "true"
-    network.invertedorigin.com/bgp-ingress: "true"
   name: hblink
 spec:
   allocateLoadBalancerNodePorts: false
-  # Advertised only from the node running hblink; peers keep their real IPs.
-  externalTrafficPolicy: Local
+  externalTrafficPolicy: Cluster
   loadBalancerSourceRanges:
     - 10.0.1.0/24
   ports:
