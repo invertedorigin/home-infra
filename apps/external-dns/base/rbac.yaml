@@ -19,6 +19,21 @@ rules:
   - get
   - list
   - watch
+# DNSEndpoint source (--source=crd) for records with no Service or Ingress.
+- apiGroups:
+  - externaldns.k8s.io
+  resources:
+  - dnsendpoints
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - externaldns.k8s.io
+  resources:
+  - dnsendpoints/status
+  verbs:
+  - update
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding

@@ -6,3 +6,4 @@ namespace: kube-system
 resources:
 - rbac.yaml
 - daemonset.yaml
+- dnsendpoint.yaml

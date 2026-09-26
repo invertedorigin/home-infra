@@ -5,6 +5,7 @@ namespace: external-dns
 
 resources:
 - namespace.yaml
+- crd-dnsendpoint.yaml
 - serviceaccount.yaml
 - rbac.yaml
 - configmap.yaml

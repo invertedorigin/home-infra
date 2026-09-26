@@ -1,0 +1,18 @@
+# k8s.home.arpa -> the routed API VIP, published to the UDM by external-dns.
+# This is the cluster endpoint (see talos/README.md).
+apiVersion: externaldns.k8s.io/v1alpha1
+kind: DNSEndpoint
+metadata:
+  name: kube-api
+  labels:
+    external-dns.invertedorigin.com/enabled: "true"
+  annotations:
+    # The CRD ships with the external-dns app; don't fail the sync before it exists.
+    argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
+spec:
+  endpoints:
+  - dnsName: k8s.home.arpa
+    recordType: A
+    recordTTL: 60
+    targets:
+    - 10.246.0.32
