@@ -97,14 +97,12 @@ enabled: false
 apiVersion: v1alpha1
 kind: KubeAPIServerConfig
 certExtraSANs:
+  # Former Layer 2 VIP; keep until no kubeconfig points at it.
   - 10.0.1.10
   # Routed API VIP, held on dummy-api by kube-vip (apps/kube-vip).
   - 10.246.0.32
----
-apiVersion: v1alpha1
-kind: Layer2VIPConfig
-name: 10.0.1.10
-link: ens18
+  # Cluster endpoint name; external-dns points it at 10.246.0.32.
+  - k8s.home.arpa
 ---
 apiVersion: v1alpha1
 kind: HostnameConfig

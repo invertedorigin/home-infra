@@ -6,7 +6,8 @@ env:
 
 vars:
   clusterName: invertedorigin
-  endpoint: https://10.0.1.10:6443
+  # k8s.home.arpa resolves to the routed API VIP (10.246.0.32); see talos/README.md.
+  endpoint: https://k8s.home.arpa:6443
   schematicID: 4d2f14467f85468b6b5ff0ba1747f7f0bcb97d351d516db0197885247093d6fd
   # renovate: datasource=github-releases depName=siderolabs/talos
   talosVersion: v1.14.1
