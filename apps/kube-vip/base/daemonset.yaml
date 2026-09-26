@@ -1,0 +1,97 @@
+# Routed Kubernetes API VIP (10.246.0.32), anycast across healthy control-plane
+# nodes. kube-vip runs in routing-table mode without leader election: on each
+# node it adds 10.246.0.32/32 to dummy-api while the local apiserver's /readyz
+# passes and deletes it when it fails. Talos's fabric BGP instance advertises
+# dummy-api, so the UDM load-balances across every ready node. kube-vip speaks
+# neither ARP nor BGP itself. See talos/README.md.
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: kube-vip
+  labels:
+    app.kubernetes.io/name: kube-vip
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: kube-vip
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: kube-vip
+    spec:
+      serviceAccountName: kube-vip
+      hostNetwork: true
+      priorityClassName: system-node-critical
+      nodeSelector:
+        node-role.kubernetes.io/control-plane: ""
+      tolerations:
+      - operator: Exists
+      containers:
+      - name: kube-vip
+        image: ghcr.io/kube-vip/kube-vip:v1.2.4
+        args:
+        - manager
+        env:
+        - name: address
+          value: 10.246.0.32
+        - name: port
+          value: "6443"
+        - name: vip_interface
+          value: dummy-api
+        - name: vip_subnet
+          value: "32"
+        # Dummy links report an "unknown" operstate rather than "up".
+        - name: vip_allow_interface_not_up
+          value: "true"
+        - name: vip_nodename
+          valueFrom:
+            fieldRef:
+              fieldPath: spec.nodeName
+        - name: cp_enable
+          value: "true"
+        - name: cp_namespace
+          value: kube-system
+        # Cilium handles Service load balancers.
+        - name: svc_enable
+          value: "false"
+        # Routing-table mode, no election: every node manages its own copy of
+        # the VIP. (It also writes the /32 to table 198, which nothing reads.)
+        - name: vip_routingtable
+          value: "true"
+        - name: vip_leaderelection
+          value: "false"
+        - name: vip_arp
+          value: "false"
+        - name: bgp_enable
+          value: "false"
+        # Gate the VIP on this node's own apiserver. /readyz fails as soon as a
+        # graceful shutdown starts, so the route leaves before the apiserver
+        # stops. The apiserver's serving cert is signed by the cluster CA and
+        # covers 127.0.0.1.
+        - name: control_plane_health_check_address
+          value: https://127.0.0.1:6443/readyz
+        - name: control_plane_health_check_ca_path
+          value: /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
+        - name: control_plane_health_check_timeout_seconds
+          value: "2"
+        - name: backend_health_check_interval
+          value: "2"
+        # kube-vip's own API calls go through KubePrism, so it keeps running
+        # while the local apiserver is down.
+        - name: KUBERNETES_SERVICE_HOST
+          value: 127.0.0.1
+        - name: KUBERNETES_SERVICE_PORT
+          value: "7445"
+        securityContext:
+          capabilities:
+            drop:
+            - ALL
+            add:
+            - NET_ADMIN
+            - NET_RAW
+        resources:
+          requests:
+            cpu: 10m
+            memory: 32Mi
+          limits:
+            memory: 64Mi
