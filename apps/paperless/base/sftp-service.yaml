@@ -1,13 +1,23 @@
 apiVersion: v1
 kind: Service
 metadata:
+  annotations:
+    # Routed VIP from the bgp-ingress pool (talos/cni/bgp-ingress.yaml).
+    lbipam.cilium.io/ips: "10.246.0.3"
+    external-dns.kubernetes.io/hostname: paperless-sftp.home.arpa
+    external-dns.kubernetes.io/ttl: "60"
   labels:
     app.kubernetes.io/instance: paperless
     app.kubernetes.io/name: paperless
     app.kubernetes.io/service: paperless-sftp
+    external-dns.invertedorigin.com/enabled: "true"
+    network.invertedorigin.com/bgp-ingress: "true"
   name: paperless-sftp
   namespace: paperless
 spec:
+  # Advertised only from the node running paperless; replies leave that node
+  # through the kernel, so the same-subnet return-path rule applies.
+  externalTrafficPolicy: Local
   ports:
   - name: sftp
     port: 22
