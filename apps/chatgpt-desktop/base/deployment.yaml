@@ -57,7 +57,7 @@ spec:
               value: ChatGPT Codex
             - name: TZ
               value: America/Denver
-          image: lscr.io/linuxserver/webtop:ubuntu-xfce@sha256:93c0108202fca74e03859e10f5685668c16013d2dcb73f4eab42da579d241a96
+          image: lscr.io/linuxserver/webtop:ubuntu-xfce@sha256:73f966bd414cd4aef183c96aba8fab37dd98715f41a278b655fee594d36bd804
           livenessProbe:
             exec:
               command:
