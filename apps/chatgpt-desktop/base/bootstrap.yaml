@@ -16,8 +16,8 @@ data:
     set -euo pipefail
 
     # Renovate manages this version and SHA-256 together; keep the assignments adjacent.
-    readonly chatgpt_version="26.924.50649"
-    readonly chatgpt_sha256="a0fcb845c5a1c7a1aee5137287c73a431c3a51c44ecde69b7fa8336dc822886b"
+    readonly chatgpt_version="26.928.21956"
+    readonly chatgpt_sha256="9ac8d0711b4601368d49deddbf50a8fe52358cb61b6d9f7a5c18b41ed4500ad8"
     readonly package_dir="/config/.cache/chatgpt-packages"
     readonly package_file="${package_dir}/chatgpt_${chatgpt_version}_amd64.deb"
     readonly package_url="https://persistent.oaistatic.com/codex-app-prod/linux/deb/pool/main/c/chatgpt/chatgpt_${chatgpt_version}_amd64.deb"
