@@ -11,10 +11,12 @@ operator:
   vulnerabilityScannerEnabled: true
   scannerReportTTL: 24h
   vulnerabilityScannerScanOnlyCurrentRevisions: true
-  # Keep the first rollout modest on this three-node cluster.
-  scanJobsConcurrentLimit: 2
+  # Use the available headroom across the three nodes for faster coverage.
+  scanJobsConcurrentLimit: 10
   scanJobTimeout: 15m
-  scanJobTTL: 1h
+  # Retained completed jobs still count against the scan concurrency limit.
+  # Delete jobs after their reports are saved so the next workloads can scan.
+  scanJobTTL: ""
   exposedSecretScannerEnabled: false
   configAuditScannerEnabled: false
   rbacAssessmentScannerEnabled: false
