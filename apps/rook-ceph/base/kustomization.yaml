@@ -114,6 +114,15 @@ helmCharts:
 
 
 patches:
+# Rook v1.21 still renders this unset value as null. Kubernetes drops it from
+# ConfigMap data, causing perpetual Argo CD drift; omit the empty field.
+- target:
+    version: v1
+    kind: ConfigMap
+    name: rook-ceph-operator-config
+  patch: |-
+    - op: remove
+      path: /data/ROOK_CREATE_CSI_OPERATOR_RESOURCES
 - target:
     group: apiextensions.k8s.io
     version: v1
