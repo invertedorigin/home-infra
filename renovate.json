@@ -29,14 +29,15 @@
     },
     {
       "customType": "regex",
+      "description": "Track CloudNativePG PostgreSQL rolling tags while preserving image flavor and Debian release",
       "managerFilePatterns": [
         "/\\.yaml$/"
       ],
       "matchStrings": [
-        "imageName:\\s*(?<depName>ghcr\\.io/cloudnative-pg/postgresql):(?<currentValue>\\d+\\.\\d+)"
+        "imageName:\\s*[\"']?(?<depName>ghcr\\.io/cloudnative-pg/postgresql):(?<currentValue>\\d+\\.\\d+(?:-(?:minimal|standard|system)-[a-z0-9]+)?)(?:@(?<currentDigest>sha256:[a-f0-9]{64}))?[\"']?(?:\\s|$)"
       ],
       "datasourceTemplate": "docker",
-      "versioningTemplate": "docker"
+      "versioningTemplate": "regex:^(?<major>\\d+)\\.(?<minor>\\d+)(?:-(?<compatibility>(?:minimal|standard|system)-[a-z0-9]+))?$"
     },
     {
       "customType": "regex",
