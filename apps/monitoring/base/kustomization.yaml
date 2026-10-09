@@ -227,7 +227,7 @@ helmCharts:
 #         memory: 200Mi
 
 - name: grafana
-  repo: https://grafana.github.io/helm-charts
+  repo: https://grafana-community.github.io/helm-charts
   version: 10.5.15
   releaseName: grafana
   valuesInline:
