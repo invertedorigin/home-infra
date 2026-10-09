@@ -69,7 +69,13 @@ spec:
           value: "false"
         - name: GITHUB__SERVERCHECKFORUPDATES
           value: "false"
+        # 1.9.0 starts its Prometheus endpoint even when telemetry is disabled.
+        # Keep the local metrics provider enabled to avoid a startup crash.
         - name: OPENTELEMETRY__ENABLED
+          value: "true"
+        - name: OPENTELEMETRY__OTELENDPOINT
+          value: ""
+        - name: OPENTELEMETRY__CONSOLEENABLED
           value: "false"
         ports:
         - name: http

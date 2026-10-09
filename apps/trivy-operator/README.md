@@ -55,6 +55,11 @@ The deployment uses the configuration options and health probes from the
 upstream 1.9.0 chart. History is disabled, so no database or persistent volume
 is needed; this UI displays current findings.
 
+Dashboard 1.9.0 starts its Prometheus endpoint even when OpenTelemetry is
+disabled, which causes a missing `MeterProvider` startup exception. The local
+metrics provider is enabled as a workaround, with no external telemetry
+endpoint and no console exporter. This does not require a metrics backend.
+
 The dashboard has no built-in authentication. It uses a cluster-internal Service
 with no Ingress, LoadBalancer, or public DNS record. After the Argo CD sync:
 
