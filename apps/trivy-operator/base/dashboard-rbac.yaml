@@ -1,0 +1,29 @@
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: trivy-operator-dashboard
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: trivy-operator-dashboard
+rules:
+- apiGroups: [""]
+  resources: [namespaces]
+  verbs: [get, list, watch]
+- apiGroups: [aquasecurity.github.io]
+  resources: [vulnerabilityreports]
+  verbs: [get, list, watch]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: trivy-operator-dashboard
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: trivy-operator-dashboard
+subjects:
+- kind: ServiceAccount
+  name: trivy-operator-dashboard
+  namespace: trivy-system

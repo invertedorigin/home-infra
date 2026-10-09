@@ -1,0 +1,66 @@
+# Empty means every namespace, including kube-system.
+targetNamespaces: ""
+excludeNamespaces: ""
+
+image:
+  registry: mirror.gcr.io
+  repository: aquasec/trivy-operator
+  tag: "0.35.0@sha256:4cdb11af98ff409cfa7af980098203a841a5fe957cc6a0bbb0df7668065eb5fa"
+
+operator:
+  vulnerabilityScannerEnabled: true
+  scannerReportTTL: 24h
+  vulnerabilityScannerScanOnlyCurrentRevisions: true
+  # Keep the first rollout modest on this three-node cluster.
+  scanJobsConcurrentLimit: 2
+  scanJobTimeout: 15m
+  scanJobTTL: 1h
+  exposedSecretScannerEnabled: false
+  configAuditScannerEnabled: false
+  rbacAssessmentScannerEnabled: false
+  infraAssessmentScannerEnabled: false
+  clusterComplianceEnabled: false
+  sbomGenerationEnabled: false
+  clusterSbomCacheEnabled: false
+  metricsFindingsEnabled: true
+  # Detailed findings stay in VulnerabilityReports; avoid per-CVE time series.
+  metricsVulnIdEnabled: false
+
+trivy:
+  image:
+    registry: mirror.gcr.io
+    repository: aquasec/trivy
+    tag: "0.75.0@sha256:af6acf9a6b85dfe389a1941505c0ce9efef52a4719635e1a962f022a3d855daa"
+  command: image
+  severity: UNKNOWN,LOW,MEDIUM,HIGH,CRITICAL
+  # Include findings without an available fix so coverage is not understated.
+  ignoreUnfixed: false
+  timeout: 10m0s
+  slow: true
+  additionalVulnerabilityReportFields: Description,Target,Class,PackageType
+  resources:
+    requests:
+      cpu: 100m
+      memory: 256Mi
+    limits:
+      cpu: "1"
+      memory: 2Gi
+
+resources:
+  requests:
+    cpu: 50m
+    memory: 128Mi
+  limits:
+    memory: 512Mi
+
+service:
+  headless: false
+
+# The current cluster has neither ServiceMonitor nor VMServiceScrape CRDs.
+# Expose metrics without requiring a monitoring operator for installation.
+serviceMonitor:
+  enabled: false
+
+# The chart otherwise renders benchmark definitions even when scans are off.
+compliance:
+  specs: []

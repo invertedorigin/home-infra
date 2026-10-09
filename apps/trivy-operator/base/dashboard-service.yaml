@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: trivy-operator-dashboard
+  labels:
+    app.kubernetes.io/name: trivy-operator-dashboard
+spec:
+  type: ClusterIP
+  selector:
+    app.kubernetes.io/name: trivy-operator-dashboard
+  ports:
+  - name: http
+    port: 8900
+    targetPort: http

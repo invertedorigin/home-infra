@@ -1,0 +1,106 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: trivy-operator-dashboard
+  labels:
+    app.kubernetes.io/name: trivy-operator-dashboard
+spec:
+  replicas: 1
+  revisionHistoryLimit: 3
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: trivy-operator-dashboard
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: trivy-operator-dashboard
+    spec:
+      serviceAccountName: trivy-operator-dashboard
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+        seccompProfile:
+          type: RuntimeDefault
+      containers:
+      - name: dashboard
+        image: ghcr.io/raoulx24/trivy-operator-dashboard:1.9.0@sha256:27c3fbb29edc06d85cc255d1ab483098c4a7e38939941355dee203fb3f7d9460
+        imagePullPolicy: IfNotPresent
+        securityContext:
+          allowPrivilegeEscalation: false
+          readOnlyRootFilesystem: true
+          capabilities:
+            drop: [ALL]
+        # These options match the upstream 1.9.0 chart; expose only the
+        # VulnerabilityReports produced by our CVE-only operator configuration.
+        env:
+        - name: MAINAPPPORT
+          value: "8900"
+        - name: KUBERNETES__USEDEFAULTCONTEXT
+          value: "true"
+        - name: KUBERNETES__NAMESPACELIST
+          value: ""
+        - name: KUBERNETES__TRIVYUSEVULNERABILITYREPORT
+          value: "true"
+        - name: KUBERNETES__TRIVYUSECLUSTERVULNERABILITYREPORT
+          value: "false"
+        - name: KUBERNETES__TRIVYUSECLUSTERCOMPLIANCEREPORT
+          value: "false"
+        - name: KUBERNETES__TRIVYUSECLUSTERINFRAASSESSMENTREPORT
+          value: "false"
+        - name: KUBERNETES__TRIVYUSECLUSTERRBACASSESSMENTREPORT
+          value: "false"
+        - name: KUBERNETES__TRIVYUSECLUSTERSBOMREPORT
+          value: "false"
+        - name: KUBERNETES__TRIVYUSECONFIGAUDITREPORT
+          value: "false"
+        - name: KUBERNETES__TRIVYUSEINFRAASSESSMENTREPORT
+          value: "false"
+        - name: KUBERNETES__TRIVYUSEEXPOSEDSECRETREPORT
+          value: "false"
+        - name: KUBERNETES__TRIVYUSERBACASSESSMENTREPORT
+          value: "false"
+        - name: KUBERNETES__TRIVYUSESBOMREPORT
+          value: "false"
+        - name: FILEREPOSITORY__BASEPATH
+          value: ""
+        - name: HISTORY__ENABLED
+          value: "false"
+        - name: GITHUB__SERVERCHECKFORUPDATES
+          value: "false"
+        - name: OPENTELEMETRY__ENABLED
+          value: "false"
+        ports:
+        - name: http
+          containerPort: 8900
+        startupProbe:
+          httpGet:
+            path: /healthz/ready
+            port: http
+          periodSeconds: 10
+          failureThreshold: 30
+        readinessProbe:
+          httpGet:
+            path: /healthz/ready
+            port: http
+          periodSeconds: 30
+        livenessProbe:
+          httpGet:
+            path: /healthz/live
+            port: http
+          periodSeconds: 30
+        resources:
+          requests:
+            cpu: 100m
+            memory: 384Mi
+          limits:
+            cpu: "1"
+            memory: 1Gi
+        volumeMounts:
+        - name: tmp
+          mountPath: /tmp
+      volumes:
+      - name: tmp
+        emptyDir:
+          sizeLimit: 1Gi

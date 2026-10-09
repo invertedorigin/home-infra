@@ -1,0 +1,29 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: trivy-system
+
+resources:
+- namespace.yaml
+- dashboard-rbac.yaml
+- dashboard-deployment.yaml
+- dashboard-service.yaml
+
+patches:
+- target:
+    group: apiextensions.k8s.io
+    version: v1
+    kind: CustomResourceDefinition
+  patch: |-
+    - op: add
+      path: /metadata/annotations/argocd.argoproj.io~1sync-options
+      value: ServerSideApply=true
+
+helmCharts:
+- name: trivy-operator
+  repo: https://aquasecurity.github.io/helm-charts/
+  version: 0.37.0
+  releaseName: trivy-operator
+  namespace: trivy-system
+  includeCRDs: true
+  valuesFile: values.yaml
