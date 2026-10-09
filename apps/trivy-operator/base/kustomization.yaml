@@ -8,6 +8,7 @@ resources:
 - dashboard-rbac.yaml
 - dashboard-deployment.yaml
 - dashboard-service.yaml
+- dashboard-ingress.yaml
 
 patches:
 - target:

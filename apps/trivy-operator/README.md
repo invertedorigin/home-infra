@@ -60,15 +60,20 @@ disabled, which causes a missing `MeterProvider` startup exception. The local
 metrics provider is enabled as a workaround, with no external telemetry
 endpoint and no console exporter. This does not require a metrics backend.
 
-The dashboard has no built-in authentication. It uses a cluster-internal Service
-with no Ingress, LoadBalancer, or public DNS record. After the Argo CD sync:
+After the Argo CD sync and certificate issuance, open
+[the dashboard](https://trivy.invertedorigin.com). Its Cilium Ingress uses the
+existing `cloudflare-issuer` and external-dns conventions, targeting
+`ingress.home.arpa`. Access relies on the existing local-only ingress or
+Cloudflare mTLS boundary; the dashboard has no built-in login.
+
+Local port-forwarding is also available:
 
 ```sh
 kubectl -n trivy-system rollout status deployment/trivy-operator-dashboard
 kubectl -n trivy-system port-forward service/trivy-operator-dashboard 8900:8900
 ```
 
-Open [the dashboard](http://localhost:8900) while port-forwarding is running.
+Open [the local dashboard](http://localhost:8900) while port-forwarding is running.
 The default binding is localhost. If reports are not visible yet, inspect the
 operator's scan jobs and logs using the commands above.
 
