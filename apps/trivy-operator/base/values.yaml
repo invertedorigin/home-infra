@@ -11,8 +11,8 @@ operator:
   vulnerabilityScannerEnabled: true
   scannerReportTTL: 24h
   vulnerabilityScannerScanOnlyCurrentRevisions: true
-  # Use the available headroom across the three nodes for faster coverage.
-  scanJobsConcurrentLimit: 10
+  # Keep disk pressure low while investigating etcd flush latency.
+  scanJobsConcurrentLimit: 2
   scanJobTimeout: 15m
   # Retained completed jobs still count against the scan concurrency limit.
   # Delete jobs after their reports are saved so the next workloads can scan.

@@ -15,13 +15,18 @@ an absent report does not mean an image has no vulnerabilities.
 
 Configuration audits, exposed-secret scans, RBAC assessments, infrastructure
 assessments, compliance scans, and stored SBOM reports are disabled. Scan jobs
-use registry-based image scanning, with up to ten jobs at once. The scanner
+use registry-based image scanning, with up to two jobs at once. The scanner
 needs outbound access to image registries and vulnerability databases. Existing
 workload image-pull credentials can be used for private images.
 
 Completed scan jobs are deleted after their reports are saved. The operator
 counts retained completed jobs against its concurrency limit, so setting a
 scan-job retention period would stall the queue until those jobs expire.
+
+Concurrency is currently limited while investigating disk stalls on the Talos
+nodes. Increasing it to ten jobs coincided with continued etcd health failures;
+slow disk flushes and API timeouts were already present at the lower limit.
+Check storage latency as well as CPU and memory before increasing scan load.
 
 Image findings do not establish complete Talos OS, Kubernetes advisory, or
 Proxmox host coverage. Those need separate inventory and advisory checks. Mutable
