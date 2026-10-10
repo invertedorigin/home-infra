@@ -6,3 +6,7 @@ namespace: kube-system
 resources:
 - github.com/kubernetes-csi/external-snapshotter//client/config/crd?ref=v8.6.0
 - github.com/kubernetes-csi/external-snapshotter//deploy/kubernetes/snapshot-controller?ref=v8.6.0
+
+images:
+- name: registry.k8s.io/sig-storage/snapshot-controller
+  newTag: v8.6.0
