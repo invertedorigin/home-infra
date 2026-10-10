@@ -1,0 +1,45 @@
+global:
+  domain: argocd.invertedorigin.com
+  imagePullSecrets:
+  - name: dhi-pull-secret
+
+dex:
+  enabled: false
+
+controller:
+  metrics:
+    enabled: true
+
+server:
+  metrics:
+    enabled: true
+
+notifications:
+  metrics:
+    enabled: true
+
+configs:
+  cm:
+    application.resourceTrackingMethod: annotation
+    kustomize.buildOptions: --enable-helm
+    admin.enabled: true
+  params:
+    server.insecure: true
+
+repoServer:
+  # Kustomize's Helm invocation needs registry credentials independently of
+  # Kubernetes image pulls. Helm accepts the existing Docker config format.
+  env:
+  - name: HELM_REGISTRY_CONFIG
+    value: /app/config/dhi/config.json
+  volumes:
+  - name: dhi-registry-config
+    secret:
+      secretName: dhi-pull-secret
+      items:
+      - key: .dockerconfigjson
+        path: config.json
+  volumeMounts:
+  - name: dhi-registry-config
+    mountPath: /app/config/dhi
+    readOnly: true

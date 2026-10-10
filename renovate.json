@@ -3,6 +3,14 @@
   "extends": [
     "config:recommended"
   ],
+  "hostRules": [
+    {
+      "hostType": "docker",
+      "matchHost": "dhi.io",
+      "username": "{{ secrets.DHI_USERNAME }}",
+      "password": "{{ secrets.DHI_RENOVATE_TOKEN }}"
+    }
+  ],
   "kubernetes": {
     "managerFilePatterns": [
       "/\\.yaml$/"
@@ -54,6 +62,13 @@
     }
   ],
   "packageRules": [
+    {
+      "description": "Review Docker Hardened Images Argo CD chart upgrades",
+      "matchPackageNames": [
+        "dhi.io/argocd-chart"
+      ],
+      "automerge": false
+    },
     {
       "description": "Automerge patch updates for safe application workloads",
       "matchUpdateTypes": [

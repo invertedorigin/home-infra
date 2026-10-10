@@ -1,0 +1,21 @@
+# One-time patch for the original cluster-install repo server, before the first
+# sync of the private DHI chart. The chart values maintain this mount afterward.
+spec:
+  template:
+    spec:
+      containers:
+      - name: argocd-repo-server
+        env:
+        - name: HELM_REGISTRY_CONFIG
+          value: /app/config/dhi/config.json
+        volumeMounts:
+        - name: dhi-registry-config
+          mountPath: /app/config/dhi
+          readOnly: true
+      volumes:
+      - name: dhi-registry-config
+        secret:
+          secretName: dhi-pull-secret
+          items:
+          - key: .dockerconfigjson
+            path: config.json

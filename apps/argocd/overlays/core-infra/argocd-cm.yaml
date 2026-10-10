@@ -1,7 +1,0 @@
-apiVersion: v1
-data:
-  application.resourceTrackingMethod: annotation
-  kustomize.buildOptions: --enable-helm
-kind: ConfigMap
-metadata:
-  name: argocd-cm
