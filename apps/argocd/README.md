@@ -57,6 +57,12 @@ field changes again.
 
 The controller metrics Service retains the existing `argocd-metrics` name.
 
+Remote Kustomize Git bases that do not require submodules use
+`&submodules=false` after their version reference. The hardened repo server omits
+`sed`, which Git's submodule shell script requires; Kustomize otherwise invokes
+that script even for repositories without submodules. Keep this flag when
+updating those bases or adding another remote Git base without submodules.
+
 The chart renders `argocd-secret` and `argocd-notifications-secret` without data
 overrides, retaining existing credentials. Its Redis initialization hook reuses
 the existing `argocd-redis` authentication Secret. Argo CD CRDs retain the
