@@ -5,6 +5,7 @@ resources:
 - infra-repo.yaml
 - root-application.yaml
 - ingress.yaml
+- external-secret.yaml
 
 components:
 - ../../components/namespace
