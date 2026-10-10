@@ -60,58 +60,6 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: xcel-itron2mqtt
-  namespace: homeassistant
-  labels:
-    app: xcel-itron2mqtt
-spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: xcel-itron2mqtt
-  template:
-    metadata:
-      labels:
-        app: xcel-itron2mqtt
-    spec:
-      containers:
-        - name: xcel-itron2mqtt
-          image: ghcr.io/zaknye/xcel_itron2mqtt:main
-          env:
-            - name: MQTT_SERVER
-              value: "nats-headless.mqtt.svc.cluster.local"
-            - name: MQTT_PORT
-              value: "1883"
-            - name: MQTT_USER
-              value: "mqtt"
-            - name: METER_IP
-              value: "10.0.3.167"
-            - name: METER_PORT
-              value: "8081"
-          volumeMounts:
-            - name: certs
-              mountPath: /opt/xcel_itron2mqtt/certs
-              readOnly: true
-            - name: meter-config
-              mountPath: /opt/xcel_itron2mqtt/configs/endpoints_default.yaml
-              subPath: endpoints_default.yaml
-              readOnly: true
-            - name: meter-config
-              mountPath: /opt/xcel_itron2mqtt/configs/endpoints_3_2_39.yaml
-              subPath: endpoints_default.yaml
-              readOnly: true
-
-      volumes:
-        - name: certs
-          secret:
-            secretName: xcel-itron2mqtt-certs
-        - name: meter-config
-          configMap:
-            name: energy-meter-config
----
-apiVersion: apps/v1
-kind: Deployment
-metadata:
   name: rtl433
 spec:
   replicas: 0
