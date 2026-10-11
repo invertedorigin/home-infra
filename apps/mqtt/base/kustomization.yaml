@@ -16,12 +16,12 @@ helmCharts:
     namespaceOverride: mqtt
 
     config:
-      reloader:
-        enabled: true
       cluster:
         enabled: false
       jetstream:
         enabled: true
+        reloader:
+          enabled: true
         fileStore:
           pvc:
             storageClassName: ceph-rbd
