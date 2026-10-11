@@ -96,6 +96,12 @@ patches:
               runAsUser: 0
           containers:
           - name: multus
+            # Go's user.Current needs this fallback when UID 0 has no passwd entry.
+            env:
+            - name: USER
+              value: root
+            - name: HOME
+              value: /root
             # DHI defaults to nonroot; Multus must write root-owned host paths.
             securityContext:
               runAsUser: 0
