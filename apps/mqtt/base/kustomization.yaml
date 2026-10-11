@@ -14,14 +14,14 @@ helmCharts:
   namespace: mqtt
   valuesInline:
     namespaceOverride: mqtt
-
+    reloader:
+      enabled: false
     config:
       cluster:
         enabled: false
       jetstream:
         enabled: true
-        reloader:
-          enabled: true
+
         fileStore:
           pvc:
             storageClassName: ceph-rbd
