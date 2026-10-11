@@ -14,9 +14,10 @@ helmCharts:
   namespace: mqtt
   valuesInline:
     namespaceOverride: mqtt
-    reloader:
-      enabled: true
+
     config:
+      reloader:
+        enabled: true
       cluster:
         enabled: false
       jetstream:
