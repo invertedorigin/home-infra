@@ -6,12 +6,13 @@ namespace: kube-system
 resources:
 - crd.yaml
 - dhcp-network-attachment-sbr.yaml
+- external-secret.yaml
 
 images:
 - name: ghcr.io/angelnu/cni-plugins
   newTag: 1.9.1
-- name: ghcr.io/k8snetworkplumbingwg/multus-cni
-  newTag: v4.3.1-thick
+- name: dhi.io/multus-cni
+  newTag: 4.3.1-debian13
 
 helmCharts:
 - name: multus
@@ -22,8 +23,6 @@ helmCharts:
   valuesInline:
     global:
       createDefaultServiceAccount: false
-    image:
-      repository: ghcr.io/k8snetworkplumbingwg/multus-cni
     cni:
       image:
         repository: ghcr.io/angelnu/cni-plugins
@@ -41,6 +40,10 @@ helmCharts:
       multus:
         pod:
           automountServiceAccountToken: true
+        containers:
+          multus:
+            image:
+              repository: dhi.io/multus-cni
       test:
         enabled: false
       uninstall:
@@ -59,12 +62,14 @@ patches:
     name: multus
   patch: |-
     apiVersion: apps/v1
-    kind: Daemonset
+    kind: DaemonSet
     metadata:
       name: multus
     spec:
       template:
         spec:
+          imagePullSecrets:
+          - name: dhi-pull-secret
           tolerations:
           - key: hardware.invertedorigin.com/usb
             operator: Equal
@@ -82,7 +87,18 @@ patches:
               mountPath: /host/run/cni
             - name: multus-shim-bin
               mountPath: /host/opt/cni/bin
+          - name: cni-installer
+          - name: multus-installer
+            # The runtime image supplies a Go installer instead of coreutils cp.
+            command: ["/usr/bin/install_multus"]
+            args: ["-d", "/host/opt/cni/bin", "-t", "thick"]
+            securityContext:
+              runAsUser: 0
           containers:
+          - name: multus
+            # DHI defaults to nonroot; Multus must write root-owned host paths.
+            securityContext:
+              runAsUser: 0
           - name: dhcp-daemon
             image: ghcr.io/angelnu/cni-plugins
             command:
