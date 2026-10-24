@@ -83,7 +83,7 @@ spec:
             - ALL
           readOnlyRootFilesystem: true
       - name: unifi-webhook
-        image: ghcr.io/home-operations/external-dns-unifi-webhook:0.10.12
+        image: ghcr.io/home-operations/external-dns-unifi-webhook:0.10.14
         env:
         - name: UNIFI_API_KEY
           valueFrom:
