@@ -60,7 +60,7 @@ spec:
           value: "65521"
         - name: ENABLE_TIME_SYNC
           value: "true"
-        image: ghcr.io/matter-js/matterjs-server:1.4.0
+        image: ghcr.io/matter-js/matterjs-server:1.5.5
         name: main
         ports:
         - containerPort: 5580
