@@ -126,7 +126,7 @@ spec:
           sed -i '1iHostKeyAlgorithms +ssh-rsa' /etc/ssh/sshd_config
           exec /entrypoint "$@"
         - --
-        image: ghcr.io/atmoz/sftp/debian:latest@sha256:f308cffe27242286d1e93a548dc5a581223b963e9b044d9e452594ef30dd05bd
+        image: ghcr.io/atmoz/sftp/debian:latest@sha256:8650a2a28e2246fc53e684873e6e03204d44a06b4ea7147670ef56cc50a9a513
         name: sftp
         volumeMounts:
         - mountPath: /data/local
