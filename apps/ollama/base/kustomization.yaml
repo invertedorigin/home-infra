@@ -7,6 +7,22 @@ resources:
 
 namespace: ollama
 
+patches:
+- target:
+    group: networking.k8s.io
+    version: v1
+    kind: Ingress
+  patch: |-
+    apiVersion: networking.k8s.io/v1
+    kind: Ingress
+    metadata:
+      name: external-dns-ingress
+      labels:
+        external-dns.invertedorigin.com/enabled: "true"
+      annotations:
+        external-dns.kubernetes.io/target: ingress.home.arpa
+        external-dns.kubernetes.io/ttl: "60"
+
 helmCharts:
 - name: ollama
   repo: https://otwld.github.io/ollama-helm/
