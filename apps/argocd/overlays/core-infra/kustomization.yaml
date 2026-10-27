@@ -13,7 +13,7 @@ components:
 helmCharts:
 - name: argocd-chart
   repo: oci://dhi.io
-  version: 10.11.3
+  version: 10.11.6
   releaseName: argocd
   namespace: argocd
   includeCRDs: true
