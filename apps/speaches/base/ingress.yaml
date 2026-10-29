@@ -12,7 +12,7 @@ metadata:
     external-dns.kubernetes.io/ttl: "60"
     ingress.cilium.io/force-https: enabled
     # CPU transcription can take much longer than a typical HTTP request.
-    ingress.cilium.io/request-timeout: "3600"
+    ingress.cilium.io/request-timeout: "3600s"
 spec:
   ingressClassName: cilium
   rules:
