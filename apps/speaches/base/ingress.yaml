@@ -1,0 +1,46 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: speaches
+  labels:
+    app.kubernetes.io/name: speaches
+    app.kubernetes.io/instance: speaches
+    external-dns.invertedorigin.com/enabled: "true"
+  annotations:
+    cert-manager.io/cluster-issuer: cloudflare-issuer
+    external-dns.kubernetes.io/target: ingress.home.arpa
+    external-dns.kubernetes.io/ttl: "60"
+    ingress.cilium.io/force-https: enabled
+    # CPU transcription can take much longer than a typical HTTP request.
+    ingress.cilium.io/request-timeout: "3600"
+spec:
+  ingressClassName: cilium
+  rules:
+  - host: whisper.invertedorigin.com
+    http:
+      paths:
+      - path: /v1/audio/transcriptions
+        pathType: Exact
+        backend:
+          service:
+            name: speaches
+            port:
+              number: 8000
+      - path: /v1/audio/translations
+        pathType: Exact
+        backend:
+          service:
+            name: speaches
+            port:
+              number: 8000
+      - path: /v1/models
+        pathType: Exact
+        backend:
+          service:
+            name: speaches
+            port:
+              number: 8000
+  tls:
+  - hosts:
+    - whisper.invertedorigin.com
+    secretName: speaches-tls-domain

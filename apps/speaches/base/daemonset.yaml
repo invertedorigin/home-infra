@@ -1,0 +1,122 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: speaches
+  labels:
+    app.kubernetes.io/name: speaches
+    app.kubernetes.io/instance: speaches
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: speaches
+      app.kubernetes.io/instance: speaches
+  updateStrategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: speaches
+        app.kubernetes.io/instance: speaches
+    spec:
+      automountServiceAccountToken: false
+      enableServiceLinks: false
+      nodeSelector:
+        kubernetes.io/os: linux
+        kubernetes.io/arch: amd64
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: kubernetes.io/hostname
+                operator: In
+                values:
+                - node-1
+                - node-2
+                - node-3
+      tolerations:
+      - key: node-role.kubernetes.io/control-plane
+        operator: Exists
+        effect: NoSchedule
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+        seccompProfile:
+          type: RuntimeDefault
+      terminationGracePeriodSeconds: 300
+      containers:
+      - name: speaches
+        image: ghcr.io/speaches-ai/speaches:0.9.0-rc.3-cpu@sha256:2163775b6df5e451a71200e8f675fed68dbd8ab184fc604453d549e486f22fd2
+        ports:
+        - name: http
+          containerPort: 8000
+        env:
+        - name: API_KEY
+          valueFrom:
+            secretKeyRef:
+              name: speaches-api-key
+              key: api-key
+        - name: ENABLE_UI
+          value: "false"
+        - name: LOG_LEVEL
+          value: info
+        - name: WHISPER__INFERENCE_DEVICE
+          value: cpu
+        - name: WHISPER__COMPUTE_TYPE
+          value: int8
+        - name: WHISPER__CPU_THREADS
+          value: "4"
+        - name: WHISPER__NUM_WORKERS
+          value: "1"
+        - name: STT_MODEL_TTL
+          value: "-1"
+        # Download on every pod before it becomes ready; load into RAM on first use.
+        - name: PRELOAD_MODELS
+          value: '["Systran/faster-whisper-small"]'
+        - name: HF_HOME
+          value: /home/ubuntu/.cache/huggingface
+        resources:
+          requests:
+            cpu: 500m
+            memory: 1Gi
+            ephemeral-storage: 2Gi
+          limits:
+            cpu: "4"
+            memory: 4Gi
+            ephemeral-storage: 10Gi
+        securityContext:
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+            - ALL
+        startupProbe:
+          httpGet:
+            path: /health
+            port: http
+          periodSeconds: 10
+          timeoutSeconds: 5
+          failureThreshold: 180
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: http
+          periodSeconds: 10
+          timeoutSeconds: 5
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: http
+          periodSeconds: 30
+          timeoutSeconds: 5
+          failureThreshold: 6
+        volumeMounts:
+        - name: model-cache
+          mountPath: /home/ubuntu/.cache/huggingface
+      volumes:
+      - name: model-cache
+        emptyDir:
+          sizeLimit: 8Gi
