@@ -5,7 +5,7 @@ excludeNamespaces: ""
 image:
   registry: mirror.gcr.io
   repository: aquasec/trivy-operator
-  tag: "0.35.0@sha256:4cdb11af98ff409cfa7af980098203a841a5fe957cc6a0bbb0df7668065eb5fa"
+  tag: "0.36.1@sha256:05191a514247ae644dd5cc71306a94f44faff0a6a3fa817235911b911ecebcb9"
 
 operator:
   vulnerabilityScannerEnabled: true
