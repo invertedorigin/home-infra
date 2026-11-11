@@ -10,7 +10,7 @@ resources:
 
 images:
 - name: ghcr.io/angelnu/cni-plugins
-  newTag: 1.9.1
+  newTag: 1.10.0
 - name: dhi.io/multus-cni
   newTag: 4.3.1-debian13
 
