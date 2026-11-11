@@ -12,7 +12,7 @@ images:
 - name: ghcr.io/angelnu/cni-plugins
   newTag: 1.9.1
 - name: dhi.io/multus-cni
-  newTag: 4.3.1-debian13
+  newTag: 4.3.2-debian13
 
 helmCharts:
 - name: multus
