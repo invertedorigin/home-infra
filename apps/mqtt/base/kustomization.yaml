@@ -25,7 +25,7 @@ patches:
 helmCharts:
 - name: nats
   repo: https://nats-io.github.io/k8s/helm/charts/
-  version: 2.15.1
+  version: 2.15.2
   releaseName: nats
   namespace: mqtt
   valuesInline:
