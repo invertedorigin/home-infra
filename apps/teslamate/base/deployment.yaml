@@ -8,7 +8,7 @@ metadata:
   name: teslamate
   namespace: teslamate
 spec:
-  replicas: 0
+  replicas: 1
   revisionHistoryLimit: 3
   selector:
     matchLabels:
@@ -28,7 +28,7 @@ spec:
       containers:
       - env:
         - name: DATABASE_HOST
-          value: teslamate-db-main-rw.teslamate.svc.cluster.local
+          value: teslamate-db-rw.teslamate.svc.cluster.local
         - name: DISABLE_MQTT
           value: "false"
         - name: MQTT_HOST
