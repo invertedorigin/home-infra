@@ -12,7 +12,7 @@ operator:
   scannerReportTTL: 24h
   vulnerabilityScannerScanOnlyCurrentRevisions: true
   # Keep disk pressure low while investigating etcd flush latency.
-  scanJobsConcurrentLimit: 2
+  scanJobsConcurrentLimit: 1
   scanJobTimeout: 15m
   # Retained completed jobs still count against the scan concurrency limit.
   # Delete jobs after their reports are saved so the next workloads can scan.
