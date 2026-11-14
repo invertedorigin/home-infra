@@ -1,6 +1,12 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
+# Docker Hardened Image; kube-system/dhi-pull-secret is synced by apps/multus.
+images:
+- name: dhi.io/descheduler
+  newTag: 0.37.0-debian13
+  digest: sha256:2fe8ddb238838853ad9e473004d8c6cc20681cf81f2884cf5de39b29aed027f4
+
 helmCharts:
 - name: descheduler
   repo: https://kubernetes-sigs.github.io/descheduler
@@ -9,6 +15,10 @@ helmCharts:
   namespace: kube-system
   valuesInline:
     kind: Deployment
+    image:
+      repository: dhi.io/descheduler
+    imagePullSecrets:
+    - name: dhi-pull-secret
     replicas: 2
     deschedulingInterval: 1m
     deschedulerPolicyAPIVersion: descheduler/v1alpha2
