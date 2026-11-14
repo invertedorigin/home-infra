@@ -15,3 +15,6 @@ spec:
     name: teslamate-db-main
 
   target: "primary"
+  method: plugin
+  pluginConfiguration:
+    name: barman-cloud.cloudnative-pg.io

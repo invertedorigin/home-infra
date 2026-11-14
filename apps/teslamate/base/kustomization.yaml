@@ -5,6 +5,8 @@ namespace: teslamate
 
 resources:
 - namespace.yaml
+- dhi-pull-secret.yaml
+- object-store.yaml
 - pg-cluster.yaml
 - external-secret.yaml
 - backup.yaml

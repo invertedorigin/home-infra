@@ -6,6 +6,9 @@ metadata:
 spec:
   instances: 1
   imageName: ghcr.io/cloudnative-pg/postgresql:18.7-system-trixie
+  # Barman Cloud plugin sidecar is a Docker Hardened Image.
+  imagePullSecrets:
+    - name: dhi-pull-secret
   enablePDB: false
   bootstrap:
     recovery:
@@ -15,24 +18,11 @@ spec:
 
   externalClusters:
     - name: clusterBackup
-      barmanObjectStore:
-        destinationPath: s3://k8s-backups/teslamate-v2-cluster
-        endpointURL: https://f92cf6dd20992e652da4b54bae8dbd53.r2.cloudflarestorage.com
-        serverName: "teslamate-db-18"
-        s3Credentials:
-          accessKeyId:
-            name: cloudflare-r2-secret
-            key: AWS_ACCESS_KEY_ID
-          secretAccessKey:
-            name: cloudflare-r2-secret
-            key: AWS_SECRET_ACCESS_KEY
-        wal:
-          compression: gzip
-          maxParallel: 8
-          encryption: AES256
-        data:
-          compression: gzip
-          encryption: AES256
+      plugin:
+        name: barman-cloud.cloudnative-pg.io
+        parameters:
+          barmanObjectName: teslamate-r2
+          serverName: teslamate-db-18
 
   storage:
     size: 40Gi
@@ -46,23 +36,9 @@ spec:
     podAntiAffinityType: required
     topologyKey: kubernetes.io/hostname
 
-  backup:
-    barmanObjectStore:
-      destinationPath: s3://k8s-backups/teslamate-v2-cluster/
-      endpointURL: https://f92cf6dd20992e652da4b54bae8dbd53.r2.cloudflarestorage.com
-      serverName: "teslamate-db-main-18"
-      s3Credentials:
-        accessKeyId:
-          name: cloudflare-r2-secret
-          key: AWS_ACCESS_KEY_ID
-        secretAccessKey:
-          name: cloudflare-r2-secret
-          key: AWS_SECRET_ACCESS_KEY
-      wal:
-        compression: gzip
-        maxParallel: 8
-        encryption: AES256
-      data:
-        compression: gzip
-        encryption: AES256
-    retentionPolicy: "7d"
+  plugins:
+    - name: barman-cloud.cloudnative-pg.io
+      isWALArchiver: true
+      parameters:
+        barmanObjectName: teslamate-r2
+        serverName: teslamate-db-main-18
