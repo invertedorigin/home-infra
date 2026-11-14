@@ -49,6 +49,18 @@
     },
     {
       "customType": "regex",
+      "description": "Track Docker Hardened Images PostgreSQL tags in CNPG clusters while preserving the Debian release",
+      "managerFilePatterns": [
+        "/\\.yaml$/"
+      ],
+      "matchStrings": [
+        "imageName:\\s*[\"']?(?<depName>dhi\\.io/postgres):(?<currentValue>\\d+\\.\\d+-debian\\d+)(?:@(?<currentDigest>sha256:[a-f0-9]{64}))?[\"']?(?:\\s|$)"
+      ],
+      "datasourceTemplate": "docker",
+      "versioningTemplate": "regex:^(?<major>\\d+)\\.(?<minor>\\d+)-(?<compatibility>debian\\d+)$"
+    },
+    {
+      "customType": "regex",
       "description": "Update the ChatGPT desktop package version and SHA-256 together",
       "managerFilePatterns": [
         "/^apps/chatgpt-desktop/base/bootstrap\\.yaml$/"
@@ -62,6 +74,16 @@
     }
   ],
   "packageRules": [
+    {
+      "description": "PostgreSQL major upgrades need a CNPG major upgrade, not a tag bump",
+      "matchPackageNames": [
+        "dhi.io/postgres"
+      ],
+      "matchUpdateTypes": [
+        "major"
+      ],
+      "enabled": false
+    },
     {
       "description": "Review Docker Hardened Images Argo CD chart upgrades",
       "matchPackageNames": [

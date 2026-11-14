@@ -8,6 +8,7 @@ resources:
 - dhi-pull-secret.yaml
 - object-store.yaml
 - pg-cluster.yaml
+- db-cluster.yaml
 - external-secret.yaml
 - backup.yaml
 - service.yaml

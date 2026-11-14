@@ -1,0 +1,65 @@
+# TeslaMate's Postgres on the Docker Hardened Image (dhi.io/postgres).
+# Restored from teslamate-db-main's Barman Cloud catalog. DHI runs Postgres as
+# UID/GID 70 (CNPG's own images use 26), so this is a new cluster with a fresh
+# volume rather than an in-place image change.
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: teslamate-db
+  namespace: teslamate
+spec:
+  instances: 1
+  imageName: dhi.io/postgres:18.7-debian13@sha256:3fc42f4f36adcc9de711ddd1750c715c960fb842c0947ff3b2cf53f70dff30ad
+  imagePullSecrets:
+    - name: dhi-pull-secret
+  postgresUID: 70
+  postgresGID: 70
+  enablePDB: false
+
+  bootstrap:
+    recovery:
+      source: teslamate-db-main
+
+  externalClusters:
+    - name: teslamate-db-main
+      plugin:
+        name: barman-cloud.cloudnative-pg.io
+        parameters:
+          barmanObjectName: teslamate-r2
+          serverName: teslamate-db-main-18
+
+  storage:
+    size: 40Gi
+    storageClass: ceph-rbd
+
+  monitoring:
+    enablePodMonitor: false
+
+  affinity:
+    enablePodAntiAffinity: true
+    podAntiAffinityType: required
+    topologyKey: kubernetes.io/hostname
+
+  plugins:
+    - name: barman-cloud.cloudnative-pg.io
+      isWALArchiver: true
+      parameters:
+        barmanObjectName: teslamate-r2
+        serverName: teslamate-db-dhi-18
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: ScheduledBackup
+metadata:
+  name: teslamate-db
+  namespace: teslamate
+spec:
+  # Six-field cron: seconds first
+  schedule: "1 0 0 * * *"
+  suspend: false
+  immediate: true
+  cluster:
+    name: teslamate-db
+  target: primary
+  method: plugin
+  pluginConfiguration:
+    name: barman-cloud.cloudnative-pg.io
