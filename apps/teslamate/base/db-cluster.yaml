@@ -1,7 +1,12 @@
 # TeslaMate's Postgres on the Docker Hardened Image (dhi.io/postgres).
-# Restored from teslamate-db-main's Barman Cloud catalog. DHI runs Postgres as
+# Copied from teslamate-db-main with pg_basebackup. DHI runs Postgres as
 # UID/GID 70 (CNPG's own images use 26), so this is a new cluster with a fresh
 # volume rather than an in-place image change.
+#
+# Restoring from Barman Cloud does not work with the DHI sidecar image: it lacks
+# the tar binary barman-cloud-restore needs. For a backup restore, set the
+# plugin's sidecarImage parameter on the recovery source in externalClusters to
+# ghcr.io/cloudnative-pg/plugin-barman-cloud-sidecar at the same version.
 apiVersion: postgresql.cnpg.io/v1
 kind: Cluster
 metadata:
@@ -17,16 +22,25 @@ spec:
   enablePDB: false
 
   bootstrap:
-    recovery:
+    pg_basebackup:
       source: teslamate-db-main
 
   externalClusters:
     - name: teslamate-db-main
-      plugin:
-        name: barman-cloud.cloudnative-pg.io
-        parameters:
-          barmanObjectName: teslamate-r2
-          serverName: teslamate-db-main-18
+      connectionParameters:
+        host: teslamate-db-main-rw.teslamate.svc
+        user: streaming_replica
+        dbname: postgres
+        sslmode: verify-full
+      sslKey:
+        name: teslamate-db-main-replication
+        key: tls.key
+      sslCert:
+        name: teslamate-db-main-replication
+        key: tls.crt
+      sslRootCert:
+        name: teslamate-db-main-ca
+        key: ca.crt
 
   storage:
     size: 40Gi
