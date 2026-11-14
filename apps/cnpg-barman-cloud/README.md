@@ -21,6 +21,27 @@ plugin also lets Postgres run on images without `barman-cloud` (such as
 
 `apps/teslamate` is the first consumer.
 
+## Restores need the upstream sidecar
+
+The DHI sidecar image omits `tar`, which `barman-cloud-restore` needs to unpack
+base backups. Backups and WAL archiving work, but a recovery bootstrap fails with
+`tar command not found`. For a restore, override the sidecar on the recovery
+source only, at the same plugin version, so steady-state pods stay on DHI:
+
+```yaml
+externalClusters:
+  - name: source
+    plugin:
+      name: barman-cloud.cloudnative-pg.io
+      parameters:
+        barmanObjectName: teslamate-r2
+        serverName: teslamate-db-dhi-18
+        sidecarImage: ghcr.io/cloudnative-pg/plugin-barman-cloud-sidecar:v0.16.0
+```
+
+Migrations between live clusters can use `bootstrap.pg_basebackup` instead,
+which needs no sidecar.
+
 ## Rollout order
 
 Argo CD syncs each app independently. Merge this app first and wait for it to be
@@ -37,20 +58,20 @@ After switching a Cluster (this restarts its instances once):
 
 ```sh
 # Sidecar injected and running
-kubectl -n teslamate get pod teslamate-db-main-1 \
+kubectl -n teslamate get pod teslamate-db-1 \
   -o jsonpath='{range .spec.initContainers[*]}{.name} {.image}{"\n"}{end}'
 # WAL archiving healthy
-kubectl -n teslamate get cluster teslamate-db-main \
+kubectl -n teslamate get cluster teslamate-db \
   -o jsonpath='{.status.conditions[?(@.type=="ContinuousArchiving")]}'
 # On-demand base backup through the plugin
 kubectl -n teslamate create -f - <<'EOF'
 apiVersion: postgresql.cnpg.io/v1
 kind: Backup
 metadata:
-  generateName: teslamate-db-main-plugin-
+  generateName: teslamate-db-plugin-
 spec:
   cluster:
-    name: teslamate-db-main
+    name: teslamate-db
   method: plugin
   pluginConfiguration:
     name: barman-cloud.cloudnative-pg.io
