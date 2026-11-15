@@ -4,8 +4,9 @@ metadata:
   name: teslamate-r2
   namespace: teslamate
 spec:
-  # Server names are set per use in the Cluster's plugin parameters, so the
-  # existing catalogs (teslamate-db-main-18, teslamate-db-18) carry over.
+  # Server names are set in each Cluster's plugin parameters. teslamate-db
+  # archives to teslamate-db-dhi-18; the retired teslamate-db-main-18 and
+  # teslamate-db-18 catalogs remain in the bucket and are no longer pruned.
   retentionPolicy: "7d"
   configuration:
     destinationPath: s3://k8s-backups/teslamate-v2-cluster/
