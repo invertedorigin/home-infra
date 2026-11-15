@@ -28,7 +28,7 @@ helmCharts:
     sidecarImage:
       registry: dhi.io
       repository: cloudnative-pg-plugin-barman-cloud-sidecar
-      tag: 0.16.0-debian13@sha256:1c66e7d3c9421060603d39716f2e351fc9902d95f4958d3506ba4271fec09394
+      tag: 0.16.0-debian13@sha256:565037ed682e3d76c3c60719b2bc244c72804e5e0f85bb20dfbe439c692c54f5
     imagePullSecrets:
     - name: dhi-pull-secret
 
