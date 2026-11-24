@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: muse-gateway-config
+  namespace: muse-gateway
+data:
+  # Comma-separated list of secret names the gateway may hand out via
+  # GET /v1/secrets/:name. Empty by default: nothing is retrievable until
+  # Keaton adds a name here AND the matching key to external-secret.yaml.
+  # MUSE_GATEWAY_TOKEN and ANTHROPIC_API_KEY are hard-denied in gateway code
+  # and are never retrievable, even if listed here.
+  ALLOWED_SECRETS: ""
+  # Future agentic services go here as separate containers in the same pod,
+  # sharing /workspace. Codex is deliberately NOT included in v1 — see README.
+  # ENABLED_AGENTS: "claude-code"

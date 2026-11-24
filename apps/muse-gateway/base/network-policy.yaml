@@ -1,0 +1,45 @@
+# Draft network policy for the gateway pod, following the CiliumNetworkPolicy
+# pattern used by hblink. VERIFY LIVE after first deploy: the exact
+# Tailscale proxy pod labels / tailnet CIDR handling should be confirmed
+# against the running cluster before this is treated as the security boundary.
+# The real boundary in v1 is: Tailscale-only exposure + bearer-token auth.
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: muse-gateway
+  namespace: muse-gateway
+spec:
+  endpointSelector:
+    matchLabels:
+      app.kubernetes.io/component: gateway
+      app.kubernetes.io/instance: muse-gateway
+      app.kubernetes.io/name: muse-gateway
+  ingress:
+    - fromCIDR:
+        # Tailnet (100.64.0.0/10) and cluster pod CIDRs, matching the routes
+        # the tailscale-operator subnet routers already advertise.
+        - 100.64.0.0/10
+        - 10.244.0.0/16
+        - 10.245.0.0/16
+      toPorts:
+        - ports:
+            - port: "8080"
+              protocol: TCP
+  egress:
+    - toEndpoints:
+        - matchLabels:
+            k8s:io.kubernetes.pod.namespace: kube-system
+            k8s:k8s-app: kube-dns
+      toPorts:
+        - ports:
+            - port: "53"
+              protocol: ANY
+          rules:
+            dns:
+              - matchName: api.anthropic.com
+    - toFQDNs:
+        - matchName: api.anthropic.com
+      toPorts:
+        - ports:
+            - port: "443"
+              protocol: TCP

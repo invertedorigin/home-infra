@@ -1,0 +1,112 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app.kubernetes.io/component: gateway
+    app.kubernetes.io/instance: muse-gateway
+    app.kubernetes.io/name: muse-gateway
+  name: muse-gateway
+  namespace: muse-gateway
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/component: gateway
+      app.kubernetes.io/instance: muse-gateway
+      app.kubernetes.io/name: muse-gateway
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/component: gateway
+        app.kubernetes.io/instance: muse-gateway
+        app.kubernetes.io/name: muse-gateway
+    spec:
+      automountServiceAccountToken: true
+      serviceAccountName: muse-gateway
+      securityContext:
+        fsGroup: 1000
+        fsGroupChangePolicy: OnRootMismatch
+        seccompProfile:
+          type: RuntimeDefault
+      containers:
+        - name: gateway
+          # Built from image/Dockerfile in this app. Pin to a digest once the
+          # first image is published to ghcr.io/invertedorigin/muse-gateway.
+          # The image does NOT exist yet — building/pushing it is a pre-merge
+          # step, see README.md. Do not merge until ArgoCD can pull it.
+          image: ghcr.io/invertedorigin/muse-gateway:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8080
+              name: http
+              protocol: TCP
+          env:
+            - name: PORT
+              value: "8080"
+            - name: TZ
+              value: America/Denver
+            - name: ANTHROPIC_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  key: anthropic-api-key
+                  name: muse-gateway-secrets
+            - name: ALLOWED_SECRETS
+              valueFrom:
+                configMapKeyRef:
+                  key: ALLOWED_SECRETS
+                  name: muse-gateway-config
+          resources:
+            requests:
+              cpu: 500m
+              memory: 1Gi
+            limits:
+              cpu: "2"
+              memory: 4Gi
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop: ["ALL"]
+            readOnlyRootFilesystem: true
+            runAsNonRoot: true
+            runAsUser: 1000
+          volumeMounts:
+            - mountPath: /secrets
+              name: secrets
+              readOnly: true
+            - mountPath: /home/agent/.claude
+              name: workspace
+              subPath: .claude
+            - mountPath: /workspace
+              name: workspace
+            - mountPath: /tmp
+              name: tmp
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: http
+            periodSeconds: 20
+            failureThreshold: 6
+          readinessProbe:
+            httpGet:
+              path: /healthz
+              port: http
+            periodSeconds: 10
+            failureThreshold: 12
+          stdin: true
+          tty: true
+      dnsPolicy: ClusterFirst
+      enableServiceLinks: false
+      hostIPC: false
+      hostNetwork: false
+      hostPID: false
+      volumes:
+        - name: secrets
+          secret:
+            secretName: muse-gateway-secrets
+        - name: workspace
+          persistentVolumeClaim:
+            claimName: muse-gateway-workspace
+        - name: tmp
+          emptyDir: {}
