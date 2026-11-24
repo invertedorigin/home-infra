@@ -1,0 +1,38 @@
+# Least-privilege RBAC for the gateway pod.
+#
+# v1 is read-only and namespaced to muse-gateway: the gateway's toolchain
+# endpoint only runs `kubectl get/describe` here. There is deliberately no
+# ClusterRole and no write access in v1. Cross-namespace reads or any write
+# operation (kubectl apply, helm upgrade, …) is a separate, reviewed change.
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: muse-gateway
+  namespace: muse-gateway
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: muse-gateway-readonly
+  namespace: muse-gateway
+rules:
+  - apiGroups: [""]
+    resources: [pods, services, configmaps, persistentvolumeclaims]
+    verbs: [get, list, watch]
+  - apiGroups: ["apps"]
+    resources: [deployments, replicasets]
+    verbs: [get, list, watch]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: muse-gateway-readonly
+  namespace: muse-gateway
+subjects:
+  - kind: ServiceAccount
+    name: muse-gateway
+    namespace: muse-gateway
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: muse-gateway-readonly

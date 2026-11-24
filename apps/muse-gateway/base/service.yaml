@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app.kubernetes.io/instance: muse-gateway
+    app.kubernetes.io/name: muse-gateway
+    app.kubernetes.io/service: muse-gateway
+  name: muse-gateway
+  namespace: muse-gateway
+spec:
+  ports:
+    - name: http
+      port: 8080
+      protocol: TCP
+      targetPort: 8080
+  selector:
+    app.kubernetes.io/component: gateway
+    app.kubernetes.io/instance: muse-gateway
+    app.kubernetes.io/name: muse-gateway
+  type: ClusterIP
