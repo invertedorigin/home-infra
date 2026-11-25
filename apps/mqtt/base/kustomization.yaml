@@ -3,6 +3,7 @@ kind: Kustomization
 
 resources:
 - namespace.yaml
+- service-mqtt.yaml
 
 namespace: mqtt
 
