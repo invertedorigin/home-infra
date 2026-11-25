@@ -3,10 +3,9 @@ kind: Service
 metadata:
   name: nats-mqtt
   labels:
-    network.invertedorigin.com/bgp-ingress: "true"
     external-dns.invertedorigin.com/enabled: "true"
   annotations:
-    lbipam.cilium.io/ips: 10.246.0.2
+    lbipam.cilium.io/ips: 10.0.1.9
     external-dns.kubernetes.io/hostname: mqtt.home.arpa
     external-dns.kubernetes.io/ttl: "60"
 spec:
